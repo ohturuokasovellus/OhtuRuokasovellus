@@ -1,13 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import ExampleComponent from './src/components/Example';
+import Router, { Routes, Route } from './src/Router'
 
-export default function Main() {
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Ruokasovellus</Text>
-      <ExampleComponent />
-    </View>
+    <Router>
+      <View style={styles.container}>
+        <Routes>
+          <Route path='/' element={<ExampleComponent />} />
+          <Route path='/test' element={<Text>test</Text>} />
+        </Routes>
+      </View>
+    </Router>
   )
 }
 
@@ -19,3 +24,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
+
+export default App

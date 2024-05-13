@@ -1,8 +1,14 @@
-import { Text } from "react-native"
+import { Text, View } from "react-native"
+import { Link } from '../Router'
 
 const ExampleComponent = () => {
   return (
-    <Text>example component</Text>
+    <View>
+      <Text>example component</Text>
+      <Link to='/test'>
+        <Text>Open test</Text>
+      </Link>
+    </View>
   )
 }
 
