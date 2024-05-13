@@ -22,9 +22,10 @@
       }
     },
     "web": {
-      "bundler": "metro",
+      "bundler": "webpack",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "startUrl": "/"
     },
     "plugins": [
       "expo-router"
