@@ -1,8 +1,7 @@
 require('dotenv').config()
 const express = require('express')
-const { hash } = require('./services/hash')
-const { sql, insertUser } = require('./database')
-const { validatePassword } = require('./services/validator')
+const { sql } = require('./database')
+const registerRouter = require('./routes/register')
 
 const app = express()
 
@@ -12,27 +11,7 @@ app.get('/api', (req, res) => {
   res.send('hello world')
 })
 
-app.post('/api/register', async (req, res) => {
-  const { username, password } = req.body
-
-  // TODO: validate inputs
-  if (!username || !validatePassword(password)) {
-    return res.status(400).json({ errorMessage: 'invalid username or password' })
-  }
-
-  // TODO: check duplicate username
-
-  // insert the user into database
-  const passwordHash = hash(password)   // TODO: salt hashes
-  try {
-    await insertUser(username, passwordHash)
-  } catch (err) {
-    console.error(err)
-    return res.status(500).json({ errorMessage: 'user creation failed' })
-  }
-
-  res.sendStatus(200)
-})
+app.use(registerRouter)
 
 app.get('/api/users', async (req, res) => {
   // FIXME: remove this route later during the development
