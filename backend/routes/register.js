@@ -1,5 +1,5 @@
 const express = require('express')
-const { validatePassword } = require('../services/validator')
+const { isValidUsername, isValidPassword } = require('../../src/utilities/validators')
 const { hash } = require('../services/hash')
 const { insertUser } = require('../database')
 
@@ -9,7 +9,7 @@ router.post('/api/register', async (req, res) => {
   const { username, password } = req.body
 
   // TODO: validate inputs
-  if (!username || !validatePassword(password)) {
+  if (!isValidUsername(username) || !isValidPassword(password)) {
     return res.status(400).json({ errorMessage: 'invalid username or password' })
   }
 

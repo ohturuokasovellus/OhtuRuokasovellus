@@ -1,33 +1,33 @@
-const { validatePassword } = require('../services/validator')
+const { isValidPassword } = require('../../src/utilities/validators')
 
 describe('validator', () => {
   describe('password', () => {
     test('validation succeeds with a valid password', () => {
-      expect(validatePassword('thisISvalidpas$w0rd')).toBe(true)
+      expect(isValidPassword('thisISvalidpas$w0rd')).toBe(true)
     })
 
     test('validation fails with too short password', () => {
-      expect(validatePassword('Sh0rt!!')).toBe(false)
+      expect(isValidPassword('Sh0rt!!')).toBe(false)
     })
 
     test('validation fails with too long password', () => {
-      expect(validatePassword('L0ng!l0ng!l0ng!l0ng!l0ng!l0ng!l0n')).toBe(false)
+      expect(isValidPassword('L0ng!l0ng!l0ng!l0ng!l0ng!l0ng!l0n')).toBe(false)
     })
 
     test('validation fails with no digits', () => {
-      expect(validatePassword('no-Digits-h€re')).toBe(false)
+      expect(isValidPassword('no-Digits-h€re')).toBe(false)
     })
 
     test('validation fails with no special character', () => {
-      expect(validatePassword('no-Special-here')).toBe(false)
+      expect(isValidPassword('no-Special-here')).toBe(false)
     })
 
     test('validation fails with no lowercase character', () => {
-      expect(validatePassword('N0-LOWERCASE-HERE')).toBe(false)
+      expect(isValidPassword('N0-LOWERCASE-HERE')).toBe(false)
     })
 
     test('validation fails with no uppercase character', () => {
-      expect(validatePassword('n0-uppercase-here')).toBe(false)
+      expect(isValidPassword('n0-uppercase-here')).toBe(false)
     })
   })
 })
