@@ -1,16 +1,21 @@
-export function isValidEmail(email) {
+function isValidEmail(email) {
     // TODO: check uniqueness against db
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
 }
 
-export function isValidUsername(username) {
-    // TODO: check uniqueness against db
+function isValidUsername(username) {
     if (!username) return false
     return true
 }
 
-export function isValidPassword(password) {
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/;
+function isValidPassword(password) {
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&€\-_:%#+]).{8,32}$/;
     return passwordPattern.test(password);
+}
+
+module.exports = {
+  isValidEmail,
+  isValidUsername,
+  isValidPassword,
 }

@@ -6,6 +6,10 @@ describe('validator', () => {
       expect(isValidPassword('thisISvalidpas$w0rd')).toBe(true)
     })
 
+    test('another valid password', () => {
+      expect(isValidPassword('h€Ll*-123')).toBe(true)
+    })
+
     test('validation fails with too short password', () => {
       expect(isValidPassword('Sh0rt!!')).toBe(false)
     })
