@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import ExampleComponent from './src/components/Example';
-import Register from './src/components/Register'
+import Register from './src/components/Register';
 import Router, { Routes, Route } from './src/Router'
 
 const App = () => {
