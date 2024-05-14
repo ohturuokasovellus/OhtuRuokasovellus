@@ -4,17 +4,24 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 
 jobs:
     simple_deployment_pipeline:
       runs-on: ubuntu-20.04
       steps:
-        - uses: actions/checkout
-        - uses: actions/setup-node
+        - uses: actions/checkout@v4
+        - uses: actions/setup-node@v4
           with:
             node-version: '20'
+
         - name: Install dependencies 
           run: npm install  
   
         - name: Check style
-          run: npm run eslint
+          run: npm run lint
+
+        - name: Test
+          run: npm run test
