@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Text, TextInput, Pressable, View, Button, StyleSheet } from 'react-native';
-import { useFormik, Formik } from 'formik';
+import React from 'react'
+import { TextInput, View, Button, StyleSheet } from 'react-native';
+import { Formik } from 'formik';
 import * as yup from 'yup';
-
+import axios from 'axios';
 
 const LoginValidationSchema = yup.object().shape({
     username: yup.string()
@@ -11,18 +11,24 @@ const LoginValidationSchema = yup.object().shape({
       .required('Password is required'),
   });
   
-
 const LoginForm = (props) => {
-    const [submitted, setSubmitted] = useState(false); 
+    const handleSubmit = async (values) => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/login', values)
+            console.log(response.data)
+        } catch (error) {
+            console.error(error)
+            console.log("wrong credentials")
+        }
+    }   
     return (
     <Formik
         initialValues={{ username: '', password: '' }}
         onSubmit={(values) => {
-            console.log(values);
-            setSubmitted(true);}}
+            handleSubmit(values);}}
         validationSchema={LoginValidationSchema}
     >
-      {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+      {({ handleChange, handleBlur, handleSubmit, values, errors, isValidating }) => (
         <View style={styles.cont}>
          <TextInput
            style={styles.input}
@@ -31,7 +37,7 @@ const LoginForm = (props) => {
            value={values.username}
            placeholder="Username"
          />
-        {(submitted || touched.username) && errors.username ? <div>{errors.username}</div> : null}
+        {isValidating && errors.username ? <div>{errors.username}</div> : null}
 
          <TextInput
           style={styles.input}
@@ -41,7 +47,7 @@ const LoginForm = (props) => {
            placeholder="Password"
            secureTextEntry
          />
-         {(submitted || touched.password) && errors.password ? <div>{errors.password}</div> : null}
+         {isValidating && errors.password ? <div>{errors.password}</div> : null}
          <Button onPress={handleSubmit} title="Login"/>
        </View>
      )}
