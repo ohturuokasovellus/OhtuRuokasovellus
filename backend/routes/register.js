@@ -1,19 +1,22 @@
 const express = require('express')
-const { isValidUsername, isValidPassword } = require('../../src/utilities/validators')
+const { isValidUsername, isValidPassword } = require('../../src/utilities/validators.js')
 const { hash } = require('../services/hash')
-const { insertUser } = require('../database')
+const { insertUser, doesUsernameExist } = require('../database')
 
 const router = express.Router()
 
 router.post('/api/register', async (req, res) => {
   const { username, password } = req.body
 
-  // TODO: validate inputs
+  // validate inputs
   if (!isValidUsername(username) || !isValidPassword(password)) {
     return res.status(400).json({ errorMessage: 'invalid username or password' })
   }
 
-  // TODO: check duplicate username
+  // check duplicate username
+  if (await doesUsernameExist(username)) {
+    return res.status(400).json({ errorMessage: 'username already exists' })
+  }
 
   // insert the user into database
   const passwordHash = hash(password)   // TODO: salt hashes

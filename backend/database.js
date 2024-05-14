@@ -15,7 +15,21 @@ const insertUser = async (username, passwordHash) => {
   `
 }
 
+/**
+ * @param {string} username 
+ * @returns {boolean} Whether the given username already exists in the database.
+ */
+const doesUsernameExist = async username => {
+  // https://stackoverflow.com/q/8149596
+  const result = await sql`
+    SELECT exists (SELECT 1 FROM users WHERE user_name = ${username} LIMIT 1);
+  `
+  console.log(result.at(0).exists)
+  return result.at(0).exists
+}
+
 module.exports = {
   sql,
   insertUser,
+  doesUsernameExist,
 }
