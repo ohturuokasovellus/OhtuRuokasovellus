@@ -10,6 +10,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<ExampleComponent />} />
           <Route path='/test' element={<Text>test</Text>} />
+          <Route path='/register' element={<Register />} />
         </Routes>
       </View>
     </Router>
