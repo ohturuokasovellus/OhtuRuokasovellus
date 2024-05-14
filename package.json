@@ -8,7 +8,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build": "expo export:web"
+    "build": "expo export:web",
+    "test": "jest backend/tests"
   },
   "jest": {
     "preset": "jest-expo"
