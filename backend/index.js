@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const { hash } = require('./services/hash')
 const { sql, insertUser } = require('./database')
+const { validatePassword } = require('./services/validator')
 
 const app = express()
 
@@ -15,8 +16,8 @@ app.post('/api/register', async (req, res) => {
   const { username, password } = req.body
 
   // TODO: validate inputs
-  if (!username || !password) {
-    return res.status(400).send('username or password missing')
+  if (!username || !validatePassword(password)) {
+    return res.status(400).json({ errorMessage: 'invalid username or password' })
   }
 
   // TODO: check duplicate username
@@ -27,7 +28,7 @@ app.post('/api/register', async (req, res) => {
     await insertUser(username, passwordHash)
   } catch (err) {
     console.error(err)
-    return res.sendStatus(500)
+    return res.status(500).json({ errorMessage: 'user creation failed' })
   }
 
   res.sendStatus(200)
