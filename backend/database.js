@@ -8,4 +8,14 @@ const sql = postgres({
   password: process.env.POSTGRES_PASSWORD,   // Password of database user
 })
 
-module.exports = sql
+const insertUser = async (username, passwordHash) => {
+  await sql`
+    INSERT INTO users (user_name, password_hash)
+    VALUES (${username}, ${passwordHash})
+  `
+}
+
+module.exports = {
+  sql,
+  insertUser,
+}
