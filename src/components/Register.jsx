@@ -1,7 +1,7 @@
 import { Text, View } from "react-native"
 import { Link } from '../Router'
 
-const ExampleComponent = () => {
+const Register = () => {
   return (
     <View>
       <Text>register</Text>
@@ -12,4 +12,4 @@ const ExampleComponent = () => {
   )
 }
 
-export default ExampleComponent
+export default Register
