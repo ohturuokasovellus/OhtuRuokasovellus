@@ -1,11 +1,6 @@
-import { useState } from 'react';
 import { Text, Pressable, View, TextInput } from 'react-native'
 import { useFormik } from 'formik'
-import { Link } from '../Router'
-
-// const [username, setUsername] = useState('');
-// const [email, setEmail] = useState('');
-// const [password, setPassword] = useState('');
+import axios from 'axios';
 
 const initialValues = {
     username: '',
@@ -44,21 +39,18 @@ const RegisterForm = ({ onSubmit }) => {
 };
 
 const Register = () => {
-    const onSubmit = values => {
-        const username = values.username;
-        const email = values.email;
-        const password = values.password;
-        console.log(username, email, password)
+    const onSubmit = async values => {
+        const { username, email, password } = values
+        // TODO: validate second password field
+        
+        try {
+            const response = await axios.post('http://localhost:8080/api/register', { username, email, password })
+            console.log('user created', response)
+        } catch (err) {
+            console.error(err)
+        }
     };
     return <RegisterForm onSubmit={onSubmit} />;
 };
-
-// const Register = () => {
-//     return (
-//       <View>
-//         <Text>moikkelis</Text>
-//       </View>
-//     )
-//   }
 
 export default Register
