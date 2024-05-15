@@ -11,7 +11,7 @@ const LoginValidationSchema = yup.object().shape({
       .required('Password is required'),
   });
   
-const LoginForm = (props) => {
+const LoginForm = () => {
     const handleSubmit = async (values) => {
         try {
             const response = await axios.post('http://localhost:8080/api/login', values)
