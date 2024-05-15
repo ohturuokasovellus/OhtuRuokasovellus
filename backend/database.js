@@ -10,16 +10,16 @@ const postgres = require('postgres')
 
 const sql = postgres(process.env.BACKEND_POSTGRES_URL)
 
-const insertUser = async (username, passwordHash) => {
+const insertUser = async (username, passwordHash, email) => {
   await sql`
-    INSERT INTO users (user_name, password_hash)
-    VALUES (${username}, ${passwordHash})
+    INSERT INTO users (user_name, password_hash, email)
+    VALUES (${username}, ${passwordHash}, ${email})
   `
 }
 
 /**
  * @param {string} username 
- * @returns {boolean} Whether the given username already exists in the database.
+ * @returns {Promise<boolean>} Whether the given username already exists in the database.
  */
 const doesUsernameExist = async username => {
   // https://stackoverflow.com/q/8149596
