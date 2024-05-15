@@ -10,6 +10,8 @@ Production build for web can be built with `npm run build`.
 
 The backend can be started with `npm run start:server` and it appears at localhost:8080.
 
+Tests can be run with `npm test`.
+
 ## Definition of Done:
 
 [DoD](https://github.com/ohturuokasovellus/OhtuRuokasovellus/blob/main/documentation/DoD.md)
