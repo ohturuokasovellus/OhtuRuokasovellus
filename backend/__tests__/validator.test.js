@@ -1,4 +1,4 @@
-const { isValidPassword } = require('../../src/utilities/validators')
+const { isValidPassword, isValidEmail } = require('../../src/utilities/validators')
 
 describe('validator', () => {
   describe('password', () => {
@@ -32,6 +32,26 @@ describe('validator', () => {
 
     test('validation fails with no uppercase character', () => {
       expect(isValidPassword('n0-uppercase-here')).toBe(false)
+    })
+  })
+
+  describe('email', () => {
+    // https://en.wikipedia.org/wiki/Email_address#Local-part
+
+    test('validation succeeds with a valid address', () => {
+      expect(isValidEmail('aB12!#^~+*_hello.world@sub.example-domain123.com')).toBe(true)
+    })
+
+    test('validation fails with leading at', () => {
+      expect(isValidEmail('@example.com')).toBe(false)
+    })
+
+    test('validation fails with multiple at', () => {
+      expect(isValidEmail('hello@test@example.com')).toBe(false)
+    })
+
+    test('validation fails with whitespace', () => {
+      expect(isValidEmail('hello world@example.com')).toBe(false)
     })
   })
 })
