@@ -3,8 +3,12 @@ const express = require('express')
 const { sql } = require('./database')
 const cors = require('cors')
 const registerRouter = require('./routes/register')
+const LoginRouter = require('./routes/login')
+
 
 const app = express()
+app.use(cors());
+app.use(express.json())
 
 app.use(cors())
 app.use(express.json())
@@ -22,6 +26,8 @@ app.get('/api/users', async (req, res) => {
   `
   res.json(users)
 })
+
+app.use(LoginRouter)
 
 app.listen(8080, () => {
   console.log('listening to 8080...')

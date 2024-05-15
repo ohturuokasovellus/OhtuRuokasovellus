@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import ExampleComponent from './src/components/Example';
 import Register from './src/components/Register';
+import LoginForm from './src/components/Login';
 import Router, { Routes, Route } from './src/Router'
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
           <Route path='/' element={<ExampleComponent />} />
           <Route path='/test' element={<Text>test</Text>} />
           <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<LoginForm />} />
         </Routes>
       </View>
     </Router>
