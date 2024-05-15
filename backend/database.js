@@ -10,11 +10,19 @@ const postgres = require('postgres')
 
 const sql = postgres(process.env.BACKEND_POSTGRES_URL)
 
-const insertUser = async (username, passwordHash) => {
+const insertUser = async (username, passwordHash, email) => {
   await sql`
-    INSERT INTO users (user_name, password_hash)
-    VALUES (${username}, ${passwordHash})
+    INSERT INTO users (user_name, password_hash, email)
+    VALUES (${username}, ${passwordHash}, ${email})
   `
+}
+
+const getUser = async (username, passwordHash) => {
+  const result = await sql`
+    SELECT * FROM users WHERE user_name = ${username} and password_hash = ${passwordHash};
+
+  `
+  return result
 }
 
 /**
@@ -34,4 +42,5 @@ module.exports = {
   sql,
   insertUser,
   doesUsernameExist,
+  getUser,
 }

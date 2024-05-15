@@ -1,12 +1,12 @@
 const sql = require('../database')
 const express = require('express')
-
+const { hash } = require('../services/hash')
 const router = express.Router()
+const { getUser } = require('../database')
 
 router.post('/api/login', async (req, res) => {
-    const user = await sql`
-      SELECT * FROM users WHERE user_name = ${req.body.username} and password_hash = ${req.body.password};
-    `
+  const user = await getUser(req.body.username, hash(req.body.password))
+  console.log(user)
     if (user.length > 0) {
       res.status(200).json({ user: user[0].user_name, message: 'Login succesful' });
   
