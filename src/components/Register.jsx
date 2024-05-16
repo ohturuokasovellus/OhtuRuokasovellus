@@ -21,7 +21,7 @@ const validationSchema = yup.object().shape({
         .matches(/[A-Z]/, 'password must contain at least one uppercase letter')
         .matches(/\d/, 'password must contain at least one number')
         .matches(/[@$!%&€\-_:#+]/, 'password must contain at least one special character')
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&€\-_:%#+]).{8,32}/, 'requirements: 8-32, lower&upper, numbers, special')
+        // .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&€\-_:%#+]).{8,32}/, 'requirements: 8-32, lower&upper, numbers, special')
         .required('password is required'),
     confirmPassword: yup
         .string()
@@ -29,11 +29,28 @@ const validationSchema = yup.object().shape({
         .required('password confirmation is required'),
 });
 
-const RegisterForm = ({ onSubmit }) => {
+/**
+ * Render a form for user registration, validate using a yup schema.
+ * On submission, send registration data to the server.
+ * 
+ * @param {Function} onSubmit - handle form submission; args: form values (username, email, password)
+ * 
+ * @returns {React.JSX.Element}
+ */
+
+const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     const formik = useFormik({
         initialValues,
         validationSchema,
-        onSubmit,
+        onSubmit: async values => {
+            try {
+                await onSubmit(values);
+                onSuccess(); // redirect to login pg
+                formik.resetForm(); // clear form
+            } catch (err) {
+                onError(err);
+            }
+        },
     });
 
     return (
@@ -87,19 +104,36 @@ const RegisterForm = ({ onSubmit }) => {
     );
 };
 
+// const Register = () => {
+//     const onSubmit = async values => {
+//         const { username, email, password } = values
+//         try {
+//             const response = await axios.post('http://localhost:8080/api/register', { username, email, password })
+//             console.log('user created', response)
+//         } catch (err) {
+//             console.error(err)
+//         }
+//     };
+//     return <RegisterForm onSubmit={onSubmit} />;
+// };
+
 const Register = () => {
     const onSubmit = async values => {
-        const { username, email, password } = values
-        // TODO: validate second password field
-        
-        try {
-            const response = await axios.post('http://localhost:8080/api/register', { username, email, password })
-            console.log('user created', response)
-        } catch (err) {
-            console.error(err)
-        }
+        const { username, email, password } = values;
+        await axios.post('http://localhost:8080/api/register', { username, email, password });
     };
-    return <RegisterForm onSubmit={onSubmit} />;
+
+    const onSuccess = () => {
+        // TODO: redirect to login pg
+        console.log('registration successful!')
+    };
+
+    const onError = err => {
+        // TODO: user-friendly error msgs/displaying them
+        console.error('Registration error:', err);
+    };
+
+    return <RegisterForm onSubmit={onSubmit} onSuccess={onSuccess} onError={onError} />;
 };
 
 const styles = StyleSheet.create({
@@ -136,4 +170,5 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
 });
+
 export default Register
