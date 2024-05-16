@@ -1,5 +1,6 @@
-import { Text, Pressable, View, TextInput, StyleSheet } from 'react-native'
-import { useFormik } from 'formik'
+import { Text, Pressable, View, TextInput, StyleSheet } from 'react-native';
+import { useNavigate } from "react-router-dom";
+import { useFormik } from 'formik';
 import axios from 'axios';
 import * as yup from 'yup';
 
@@ -46,9 +47,9 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             try {
                 await onSubmit(values);
                 onSuccess(); // redirect to login pg
-                formik.resetForm(); // clear form
             } catch (err) {
                 onError(err);
+                formik.resetForm(); // clear form
             }
         },
     });
@@ -104,30 +105,17 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 
-// const Register = () => {
-//     const onSubmit = async values => {
-//         const { username, email, password } = values
-//         try {
-//             const response = await axios.post('http://localhost:8080/api/register', { username, email, password })
-//             console.log('user created', response)
-//         } catch (err) {
-//             console.error(err)
-//         }
-//     };
-//     return <RegisterForm onSubmit={onSubmit} />;
-// };
-
 const Register = () => {
+    const navigate = useNavigate();
     const onSubmit = async values => {
         const { username, email, password } = values;
         await axios.post('http://localhost:8080/api/register', { username, email, password });
     };
-
     const onSuccess = () => {
         // TODO: redirect to login pg
-        console.log('registration successful!')
+        console.log('registration successful!');
+        navigate('/login')
     };
-
     const onError = err => {
         // TODO: user-friendly error msgs/displaying them
         console.error('Registration error:', err);
