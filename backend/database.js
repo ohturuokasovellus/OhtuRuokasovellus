@@ -8,7 +8,7 @@ const postgres = require('postgres')
 //  password: process.env.POSTGRES_PASSWORD,   // Password of database user
 //})
 
-const sql = postgres(process.env.BACKEND_POSTGRES_URL)
+const sql = postgres(process.env.DATABASE_POSTGRES_URL)
 
 const insertUser = async (username, passwordHash, email) => {
   await sql`
@@ -20,9 +20,8 @@ const insertUser = async (username, passwordHash, email) => {
 const getUser = async (username, passwordHash) => {
   const result = await sql`
     SELECT * FROM users WHERE user_name = ${username} and password_hash = ${passwordHash};
-
   `
-  return result
+  return result[0]
 }
 
 /**
