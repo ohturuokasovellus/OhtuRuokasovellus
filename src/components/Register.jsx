@@ -21,7 +21,7 @@ const validationSchema = yup.object().shape({
         .matches(/[A-Z]/, 'password must contain at least one uppercase letter')
         .matches(/\d/, 'password must contain at least one number')
         .matches(/[@$!%&€\-_:#+]/, 'password must contain at least one special character')
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&€\-_:%#+]).{8,32}/, 'requirements: 8-32, lower&upper, numbers, special')
+        // .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&€\-_:%#+]).{8,32}/, 'requirements: 8-32, lower&upper, numbers, special')
         .required('password is required'),
     confirmPassword: yup
         .string()
