@@ -1,48 +1,33 @@
 import { React, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import HomePage from './src/components/HomePage';
 import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
 import LogoutButton from './src/components/LogoutButton'
 import Router, { Routes, Route } from './src/Router'
-
-const getUser = () => {
-  const loggedUserJSON = window.localStorage.getItem('loggedRuokasovellusUser')
-  return loggedUserJSON
-    ? JSON.parse(loggedUserJSON)
-    : null
-}
+import { styles } from './src/styling/styles'
+import { getSession } from './src/controllers/sessionController'
 
 const App = () => {
-  const [user, setUser] = useState(getUser()) 
+  const [user, setUser] = useState(getSession()) 
   const updateUser = (userData) => {
     setUser(userData)
-    console.log(user)
   }
 
   return (
     <Router>
-      <View style={styles.container}>
+      <View style={styles.app}>
         {user &&
         <LogoutButton updateUser={updateUser}/>
         }
         <Routes>
           <Route path='/' element={<HomePage user={user} />} />
-          <Route path='/register' element={<Register />} />
+          <Route path='/register' element={<Register updateUser={updateUser}/>} />
           <Route path='/login' element={<LoginForm updateUser={updateUser}/>} />
         </Routes>
       </View>
     </Router>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
 
 export default App

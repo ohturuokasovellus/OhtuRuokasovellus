@@ -1,30 +1,22 @@
 import React from 'react'
-import { View, Button, StyleSheet } from 'react-native';
+import { View, Button } from 'react-native';
 import { useNavigate } from '../Router'
+import { deleteSession } from '../controllers/sessionController';
+import { styles } from '../styling/styles'
 
 const LogoutButton = ({ updateUser }) => {
     const navigate = useNavigate();
-
     const handlePress = () => {
-        window.localStorage.removeItem('loggedRuokasovellusUser')
+        deleteSession()
         updateUser(null)
         navigate('/login');
     };
 
     return (
-        <View style={styles.container}>
+        <View style={styles.logout}>
             <Button title="Logout" onPress={handlePress} />
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    margin: 20,
-    },
-});
 
 export default LogoutButton;

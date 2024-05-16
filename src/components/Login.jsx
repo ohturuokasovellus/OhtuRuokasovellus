@@ -1,9 +1,11 @@
 import React from 'react'
-import { TextInput, View, Button, StyleSheet } from 'react-native';
+import { TextInput, View, Button } from 'react-native';
 import { Formik } from 'formik';
-import * as yup from 'yup';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '../Router'
+import { styles } from '../styling/styles'
+import * as yup from 'yup';
+import { createSession } from '../controllers/sessionController'
 
 const LoginValidationSchema = yup.object().shape({
   username: yup.string()
@@ -11,12 +13,6 @@ const LoginValidationSchema = yup.object().shape({
   password: yup.string()
     .required('Password is required'),
 });
-
-const createSession = (userData) => {
-  window.localStorage.setItem(
-    'loggedRuokasovellusUser', JSON.stringify(userData)
-  )
-}
 
 const LoginForm = ({ updateUser }) => {
   const navigate = useNavigate();
@@ -30,16 +26,17 @@ const LoginForm = ({ updateUser }) => {
       } catch (error) {
           console.error(error)
       }
-  }   
+  }
+  
   return (
   <Formik
-      initialValues={{ username: '', password: '' }}
-      onSubmit={(values) => {
-          handleSubmit(values);}}
-      validationSchema={LoginValidationSchema}
+    initialValues={{ username: '', password: '' }}
+    onSubmit={(values) => {
+        handleSubmit(values);}}
+    validationSchema={LoginValidationSchema}
   >
-    {({ handleChange, handleBlur, handleSubmit, values, errors, isValidating }) => (
-      <View style={styles.cont}>
+    {({ handleChange, handleBlur, handleSubmit, values }) => (
+      <View style={styles.login}>
         <TextInput
           style={styles.input}
           onChangeText={handleChange('username')}
@@ -47,8 +44,6 @@ const LoginForm = ({ updateUser }) => {
           value={values.username}
           placeholder="Username"
         />
-      {isValidating && errors.username ? <div>{errors.username}</div> : null}
-
         <TextInput
         style={styles.input}
           onChangeText={handleChange('password')}
@@ -57,29 +52,14 @@ const LoginForm = ({ updateUser }) => {
           placeholder="Password"
           secureTextEntry
         />
-        {isValidating && errors.password ? <div>{errors.password}</div> : null}
         <Button onPress={handleSubmit} title="Login"/>
+        <View style={ styles.register }>
+          <Button title="Register" onPress={() => navigate('/register')} />
+        </View>
       </View>
     )}
   </Formik>
   )
 };
-
-const styles = StyleSheet.create({
-  cont: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      
-  },
-  input: {
-      width: '100%',
-      padding: 10,
-      borderWidth: 1,
-      borderColor: 'gray',
-      borderRadius: 5,
-      marginBottom: 10,
-  },
-});
 
 export default LoginForm;

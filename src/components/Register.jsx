@@ -1,6 +1,8 @@
 import { Text, Pressable, View, TextInput } from 'react-native'
 import { useFormik } from 'formik'
 import axios from 'axios';
+import { deleteSession } from '../controllers/sessionController'
+import { useEffect } from "react";
 
 const initialValues = {
     username: '',
@@ -9,6 +11,7 @@ const initialValues = {
 };
 
 const RegisterForm = ({ onSubmit }) => {
+
     const formik = useFormik({
         initialValues,
         onSubmit,
@@ -38,7 +41,12 @@ const RegisterForm = ({ onSubmit }) => {
     );
 };
 
-const Register = () => {
+const Register = ({ updateUser }) => {
+    useEffect(() => {
+        deleteSession();
+        updateUser(null);
+    }, [])
+
     const onSubmit = async values => {
         const { username, email, password } = values
         // TODO: validate second password field

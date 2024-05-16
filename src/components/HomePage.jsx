@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { Text, View, StyleSheet } from "react-native"
-import { Link, useNavigate } from '../Router'
+import { Text, View } from "react-native"
+import { useNavigate } from '../Router'
+import { styles } from '../styling/styles'
 
 const HomePage = (props) => {
   const navigate = useNavigate();
@@ -18,20 +19,8 @@ const HomePage = (props) => {
           <Text style={styles.welcomeText}>Welcome, {props.user.username}
           </Text>
         }
-        <Link to="/register">
-          <Text>Open register</Text>
-        </Link>
       </View>
     )
 }
-
-const styles = StyleSheet.create({
-  welcomeText: {
-    position: 'flex',
-    top: 0,
-    left: 0,
-    margin: 20,
-    },
-});
 
 export default HomePage
