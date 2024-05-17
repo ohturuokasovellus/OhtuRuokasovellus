@@ -13,7 +13,8 @@ await sql`
 ```
 
 In here the `postgres` is a function that takes connection string as argument and returns a function.
-This `sql` function allows us to execute SQL commands.
+This `sql` function is a [tagged template string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates)
+that allows us to execute SQL commands.
 The first parameter that it receives is an array of the hard-coded SQL command parts,
 and the following parameters are the values passed with `${...}` notation.
 For example, the code above would pass the following three parameters:

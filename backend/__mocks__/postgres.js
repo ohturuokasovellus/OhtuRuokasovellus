@@ -1,6 +1,7 @@
 
 // The code of this file mocks `postgres` module.
 // This allows us to run tests on API without having a real database running.
+// See documentation/databaseMock.md for more information.
 
 /**
  * Array of SQL commands that have been executed with postgres mock. First item was executed first.
@@ -31,15 +32,18 @@ const clearDatabase = () => {
 
 /**
  * Mocks the default behavior of `postgres` module.
- * @param {string} connectionUrl The connection string that the app uses to connect to the database.
- * @returns {Function} Function that returns `sqlResult` when called.
+ * @returns {(sql: string[], values: any[]) => any} Function that mocks a database query.
+ *  This function should be used as a tagged template string.
  */
-const connect = connectionUrl => {
-  // we don't really use the connectionUrl here because we are not really connecting to a database
+const connect = () => {
+  // this `connect` function could take the connection url as an argument
+  // but we don't need the connectionUrl here because we are not really connecting to a database
 
   /**
-   * @param {string[]} sql The SQL command to be run
+   * Execute a database query. Use this function as a tagged template string.
+   * @param {string[]} sql The SQL command to be run.
    * @param {any[]} values Parameters that are passed to the SQL command.
+   * @returns {any} The result of the mock database query.
    */
   return (sql, ...values) => {
     runSqlCommands.push({ sql, values })
@@ -51,6 +55,9 @@ module.exports = connect
 
 module.exports.setSqlResults = setSqlResults
 
+/**
+ * @returns {{ sql: string, values: any[] }[]} Array of commands that have been executed by the mock.
+ */
 module.exports.runSqlCommands = () => runSqlCommands
 
 module.exports.clearDatabase = clearDatabase
