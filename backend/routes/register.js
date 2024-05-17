@@ -14,11 +14,16 @@ router.post('/api/register', async (req, res) => {
   }
 
   // check duplicate username and email
-  if (await doesUsernameExist(username)) {
-    return res.status(400).json({ errorMessage: 'username already exists' })
-  }
-  if (await doesEmailExist(email)) {
-    return res.status(400).json({ errorMessage: 'email already exists' })
+  try {
+    if (await doesUsernameExist(username)) {
+      return res.status(400).json({ errorMessage: 'username already exists' })
+    }
+    if (await doesEmailExist(email)) {
+      return res.status(400).json({ errorMessage: 'email already exists' })
+    }
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json({ errorMessage: 'user creation failed' })
   }
 
   // insert the user into database
