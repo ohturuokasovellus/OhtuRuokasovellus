@@ -4,6 +4,8 @@ const { sql } = require('./database')
 const cors = require('cors')
 const registerRouter = require('./routes/register')
 const LoginRouter = require('./routes/login')
+const path = require('path')
+const fs = require('fs')
 
 const app = express()
 
@@ -24,5 +26,14 @@ app.get('/api/users', async (req, res) => {
   `
   res.json(users)
 })
+
+const webBuildPath = path.join(__dirname, '..', 'web-build')
+if (fs.existsSync(webBuildPath)) {
+  app.use(express.static(webBuildPath))
+
+  app.get('/*', (req, res) => {
+    res.sendFile(path.join(webBuildPath, 'index.html'))
+  })
+}
 
 module.exports = app
