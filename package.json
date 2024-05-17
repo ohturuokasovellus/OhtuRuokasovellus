@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "build": "expo export:web",
     "lint": "eslint ./src/**/*.{js,jsx} App.jsx --no-error-on-unmatched-pattern",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "jest": {
     "preset": "jest-expo",
@@ -19,7 +19,12 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|react-router-native)"
-    ]
+    ],
+    "coverageThreshold": {
+        "global": {
+            "branches": 70
+        }
+    }
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
