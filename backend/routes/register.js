@@ -1,5 +1,5 @@
 const express = require('express')
-const { isValidUsername, isValidPassword, isValidEmail } = require('../../src/utilities/validators.js')
+const { isValidUsername, isValidPassword, isValidEmail } = require('../../src/utils/validators.js')
 const { hash } = require('../services/hash')
 const { insertUser, doesUsernameExist, doesEmailExist } = require('../database')
 
