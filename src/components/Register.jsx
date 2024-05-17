@@ -1,9 +1,9 @@
 import { Text, Pressable, View, TextInput, StyleSheet } from 'react-native';
-import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { Link } from '../Router';
+import { Link, useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import { deleteSession } from '../controllers/sessionController'
+import { useState, useEffect } from "react";
 import * as yup from 'yup';
 
 const initialValues = {
@@ -116,8 +116,13 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 
-const Register = () => {
+const Register = ({ updateUser }) => {
     const navigate = useNavigate();
+    useEffect(() => {
+        deleteSession();
+        updateUser(null);
+    }, [])
+
     const onSubmit = async values => {
         const { username, email, password } = values;
         try {

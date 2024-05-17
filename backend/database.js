@@ -17,6 +17,13 @@ const insertUser = async (username, passwordHash, email) => {
   `
 }
 
+const getUser = async (username, passwordHash) => {
+  const result = await sql`
+    SELECT * FROM users WHERE user_name = ${username} and password_hash = ${passwordHash};
+  `
+  return result[0]
+}
+
 /**
  * @param {string} username 
  * @returns {Promise<boolean>} Whether the given username already exists in the database.
@@ -44,5 +51,6 @@ module.exports = {
   sql,
   insertUser,
   doesUsernameExist,
+  getUser,
   doesEmailExist,
 }
