@@ -36,6 +36,10 @@ const styles = StyleSheet.create({
       left: 0,
       margin: 20,
       },
+      errorText: {
+        color: 'red',
+        marginBottom: 10,
+      },
 });
 
 export { styles }

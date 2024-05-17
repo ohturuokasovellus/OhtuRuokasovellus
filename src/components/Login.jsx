@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextInput, View, Button } from 'react-native';
+import { TextInput, View, Button, Text } from 'react-native';
 import { Formik } from 'formik';
 import axios from 'axios';
 import { useNavigate } from '../Router'
@@ -16,26 +16,29 @@ const LoginValidationSchema = yup.object().shape({
 
 const LoginForm = ({ updateUser }) => {
   const navigate = useNavigate();
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, actions) => {
       try {
           const response = await axios.post('http://localhost:8080/api/login', values)
+          actions.setSubmitting(false);
           const userData = { username: response.data.username, token: response.data.token }
           createSession(userData)
           updateUser(userData)
           navigate('/');
       } catch (error) {
           console.error(error)
+          actions.setFieldError('general', 'Wrong credentials');
+          actions.setSubmitting(false);
       }
   }
   
   return (
   <Formik
     initialValues={{ username: '', password: '' }}
-    onSubmit={(values) => {
-        handleSubmit(values);}}
+    onSubmit={(values, actions) => {
+        handleSubmit(values, actions);}}
     validationSchema={LoginValidationSchema}
   >
-    {({ handleChange, handleBlur, handleSubmit, values }) => (
+    {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
       <View style={styles.login}>
         <TextInput
           style={styles.input}
@@ -44,6 +47,10 @@ const LoginForm = ({ updateUser }) => {
           value={values.username}
           placeholder="Username"
         />
+         {touched.username && errors.username && (
+            <Text style={styles.errorText}>{errors.username}</Text>
+          )}
+
         <TextInput
         style={styles.input}
           onChangeText={handleChange('password')}
@@ -52,7 +59,10 @@ const LoginForm = ({ updateUser }) => {
           placeholder="Password"
           secureTextEntry
         />
-        <Button onPress={handleSubmit} title="Login"/>
+          {touched.password && errors.password && (
+            <Text style={styles.errorText}>{errors.password}</Text>
+          )}
+        <Button onPress={handleSubmit} title="Login" disabled={isSubmitting} />
         <View style={ styles.register }>
           <Button title="Register" onPress={() => navigate('/register')} />
         </View>
