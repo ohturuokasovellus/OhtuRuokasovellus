@@ -1,4 +1,5 @@
 import { Text, Pressable, View, TextInput, StyleSheet } from 'react-native';
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Link } from '../Router';
 import { useFormik } from 'formik';
@@ -40,25 +41,28 @@ const validationSchema = yup.object().shape({
  * @returns {React.JSX.Element}
  */
 
-// TODO: add button to login page!
-
 const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
+    const [formError, setFormError] = useState('');
     const formik = useFormik({
         initialValues,
         validationSchema,
         onSubmit: async values => {
             try {
                 await onSubmit(values);
-                onSuccess(); // redirect to login pg
+                onSuccess();
             } catch (err) {
                 onError(err);
-                formik.resetForm(); // clear form
+                setFormError(err.message);
+                formik.resetForm();
             }
         },
     });
 
     return (
         <View style={styles.container}>
+            {formError ? (
+                <Text style={styles.error}>{formError}</Text>
+            ) : null}
             <TextInput
             style={styles.input}
             placeholder='username'
@@ -116,14 +120,18 @@ const Register = () => {
     const navigate = useNavigate();
     const onSubmit = async values => {
         const { username, email, password } = values;
-        await axios.post('http://localhost:8080/api/register', { username, email, password });
+        try {
+            await axios.post('http://localhost:8080/api/register', { username, email, password });
+        } catch (err) {
+            const errorMessage = err.response?.data?.errorMessage || 'an unexpected error occurred';
+            throw new Error(errorMessage);
+        }
     };
     const onSuccess = () => {
         console.log('registration successful!');
         navigate('/login')
     };
     const onError = err => {
-        // TODO: user-friendly error msgs/displaying them
         console.error('Registration error:', err);
     };
 
