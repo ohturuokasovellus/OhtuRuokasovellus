@@ -11,16 +11,17 @@ const HomePage = (props) => {
     }
   }, [])
 
-  return !props.user
-    ? navigate('/login') 
-    : (
+  if (!props.user) {
+    navigate('/login')
+  }
+  return (
       <View>
         {props.user && 
           <Text style={styles.welcomeText}>Welcome, {props.user.username}
           </Text>
         }
       </View>
-    )
+  )
 }
 
 export default HomePage

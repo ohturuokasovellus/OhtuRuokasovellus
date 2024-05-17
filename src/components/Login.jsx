@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { TextInput, View, Button, Text } from 'react-native';
 import { Formik } from 'formik';
 import axios from 'axios';
@@ -15,6 +15,7 @@ const LoginValidationSchema = yup.object().shape({
 });
 
 const LoginForm = ({ updateUser }) => {
+  const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate();
   const handleSubmit = async (values, actions) => {
       try {
@@ -25,17 +26,18 @@ const LoginForm = ({ updateUser }) => {
           updateUser(userData)
           navigate('/');
       } catch (error) {
-          console.error(error)
+          setErrorMessage('Incorrect username or/and password')
           actions.setFieldError('general', 'Wrong credentials');
           actions.setSubmitting(false);
       }
   }
-  
+
   return (
   <Formik
     initialValues={{ username: '', password: '' }}
     onSubmit={(values, actions) => {
-        handleSubmit(values, actions);}}
+      setErrorMessage('')
+      handleSubmit(values, actions);}}
     validationSchema={LoginValidationSchema}
   >
     {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
@@ -62,6 +64,9 @@ const LoginForm = ({ updateUser }) => {
           {touched.password && errors.password && (
             <Text style={styles.errorText}>{errors.password}</Text>
           )}
+          {errorMessage ? (
+            <Text style={styles.errorText}>{errorMessage}</Text>
+          ) : null}
         <Button onPress={handleSubmit} title="Login" disabled={isSubmitting} />
         <View style={ styles.register }>
           <Button title="Register" onPress={() => navigate('/register')} />
