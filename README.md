@@ -15,6 +15,7 @@ Tests can be run with `npm test`.
 Install browsers needed by Playwright by running `npx playwright install`.
 Make a production build with `npm run build`.
 End-to-end tests can then be run with `npm run test:e2e`.
+Note that you also need to have set the [`E2ETEST_POSTGRES_URL` environment variable](documentation/databaseSetup.md).
 
 ## Definition of Done:
 
