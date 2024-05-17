@@ -30,6 +30,20 @@ describe('register api', () => {
       .expect({ errorMessage: 'username already exists' })
   })
 
+  test('register fails if email already exists', async () => {
+    postgresMock.setSqlResults([
+      [{ exists: false }],    // check if username already exists
+      [{ exists: true }],     // check if email already exists
+    ])
+
+    await request(app)
+      .post('/api/register')
+      .send({ username: 'tester', password: 'Testi-123', email: 'johndoe@example.com' })
+      .set('Content-Type', 'application/json')
+      .expect(400)
+      .expect({ errorMessage: 'email already exists' })
+  })
+
   test('registered user is saved to database', async () => {
     postgresMock.setSqlResults([
       [{ exists: false }],    // check if username already exists
