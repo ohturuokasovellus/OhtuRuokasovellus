@@ -1,5 +1,6 @@
 import { Text, Pressable, View, TextInput, StyleSheet } from 'react-native';
 import { useNavigate } from "react-router-dom";
+import { Link } from '../Router';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import * as yup from 'yup';
@@ -38,6 +39,8 @@ const validationSchema = yup.object().shape({
  * 
  * @returns {React.JSX.Element}
  */
+
+// TODO: add button to login page!
 
 const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     const formik = useFormik({
@@ -101,6 +104,10 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             <Pressable style={styles.button} onPress={formik.handleSubmit}>
                 <Text style={styles.buttonText}>register</Text>
             </Pressable>
+            <Text>already registered?</Text>
+            <Link to='/login'>
+                <Text>login</Text>
+            </Link>
         </View>
     );
 };
@@ -112,7 +119,6 @@ const Register = () => {
         await axios.post('http://localhost:8080/api/register', { username, email, password });
     };
     const onSuccess = () => {
-        // TODO: redirect to login pg
         console.log('registration successful!');
         navigate('/login')
     };
