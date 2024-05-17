@@ -12,6 +12,10 @@ The backend can be started with `npm run start:server` and it appears at localho
 
 Tests can be run with `npm test`.
 
+Install browsers needed by Playwright by running `npx playwright install`.
+Make a production build with `npm run build`.
+End-to-end tests can then be run with `npm run test:e2e`.
+
 ## Definition of Done:
 
 [DoD](https://github.com/ohturuokasovellus/OhtuRuokasovellus/blob/main/documentation/DoD.md)
