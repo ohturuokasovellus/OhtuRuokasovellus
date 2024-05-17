@@ -7,7 +7,7 @@ All of the request bodies must be JSON-formatted.
 
 HTTP method must be POST.
 
-The request body must be JSON-encoded object with `username` and `password` fields.
+The request body must be JSON-encoded object with `username`, `password` and `email` fields.
 
 Status code is responded according to the following table:
 

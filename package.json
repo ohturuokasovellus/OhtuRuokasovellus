@@ -66,6 +66,7 @@
     "jest-expo": "~51.0.1",
     "react-router-dom": "^6.23.1",
     "react-test-renderer": "18.2.0",
+    "supertest": "^7.0.0",
     "typescript": "~5.3.3"
   },
   "overrides": {
