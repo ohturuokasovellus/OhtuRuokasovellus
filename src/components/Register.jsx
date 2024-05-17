@@ -25,7 +25,10 @@ yup.addMethod(yup.string, 'email', function validateEmail(message) {
   });
 
 const validationSchema = yup.object().shape({
-    username: yup.string().required('username is required'),
+    username: yup.string()
+    .min(3, 'username must be at least 3 characters')
+    .max(32, 'username cannot exceed 32 characters')
+    .required('username is required'),
     email: yup.string().email('invalid email').required('email is required'),
     password: yup
         .string()
