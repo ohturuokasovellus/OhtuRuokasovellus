@@ -13,8 +13,22 @@ const initialValues = {
     confirmPassword: ''
 };
 
+// Adds a custom validation method to Yup for validating email addresses.
+// Matches the regex used in backend.
+// https://github.com/jquense/yup#stringemailmessage-string--function-schema
+yup.addMethod(yup.string, 'email', function validateEmail(message) {
+    return this.matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, {
+      message,
+      name: 'email',
+      excludeEmptyString: true,
+    });
+  });
+
 const validationSchema = yup.object().shape({
-    username: yup.string().required('username is required'),
+    username: yup.string()
+    .min(3, 'username must be at least 3 characters')
+    .max(32, 'username cannot exceed 32 characters')
+    .required('username is required'),
     email: yup.string().email('invalid email').required('email is required'),
     password: yup
         .string()
@@ -24,7 +38,6 @@ const validationSchema = yup.object().shape({
         .matches(/[A-Z]/, 'password must contain at least one uppercase letter')
         .matches(/\d/, 'password must contain at least one number')
         .matches(/[@$!%&€\-_:#+]/, 'password must contain at least one special character')
-        // .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&€\-_:%#+]).{8,32}/, 'requirements: 8-32, lower&upper, numbers, special')
         .required('password is required'),
     confirmPassword: yup
         .string()
