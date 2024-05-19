@@ -1,3 +1,4 @@
+require('dotenv').config()
 const postgres = require('postgres')
 
 //const sql = postgres('postgres://username:password@host:port/database', {

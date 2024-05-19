@@ -1,17 +1,11 @@
+import { sql } from '../backend/database'
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
-
-// FIXME: move this to somewhere more appropriate, e.g. global setup?
-// the only reason this is here is me needing a magic fix to get the test db running
-// im just dumb and have zero idea how to config this TT___TT /meri
-require('dotenv').config();
-const postgres = require('postgres')
-const sql = postgres(process.env.E2ETEST_POSTGRES_URL)
 
 const initTestDB = async () => {
     await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
     const user = 'test';
-    const pw= hash('Test123!');
+    const pw = hash('Test123!');
     const email = 'test@test.com';
     await sql`
     INSERT INTO users (user_name, password_hash, email)
@@ -21,7 +15,7 @@ const initTestDB = async () => {
 
 test.describe('registration page', () => {
     test.beforeEach(async ({ page }) => {
-        initTestDB();
+        await initTestDB();
         await page.goto('/register')
     });
 
@@ -114,7 +108,7 @@ test.describe('registration page', () => {
         await expect(page.locator('#root')).toContainText('email is required');
     });
 
-        test('cannot register with an invalid email', async ({ page }) => {
+    test('cannot register with an invalid email', async ({ page }) => {
         await page.getByPlaceholder('username').click();
         await page.getByPlaceholder('username').fill('test2');
         await page.getByPlaceholder('email').click();
