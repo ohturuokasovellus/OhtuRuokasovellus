@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { deleteSession } from '../controllers/sessionController'
 import { TextInput, View, Button, Text } from 'react-native';
 import { Formik } from 'formik';
 import axios from 'axios';
@@ -17,6 +18,11 @@ const LoginValidationSchema = yup.object().shape({
 const LoginForm = ({ updateUser }) => {
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate();
+  useEffect(() => {
+    deleteSession();
+    updateUser(null);
+  }, [])
+  
   const handleSubmit = async (values, actions) => {
       try {
           const response = await axios.post('http://localhost:8080/api/login', values)

@@ -1,50 +1,72 @@
+import { sql } from '../backend/database'
 import { test, expect } from '@playwright/test';
+import { hash } from '../backend/services/hash';
 
+const initTestDB = async () => {
+  await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
+  const user = 'testi';
+  const pw = hash('Testi123@');
+  const email = 'test@test.com';
+  await sql`
+  INSERT INTO users (user_name, password_hash, email)
+  VALUES (${user}, ${pw}, ${email})
+  `;
+};
 
+test.describe('login page', () => {
+  test.beforeEach(async ({ page }) => {
+    await initTestDB();
+    await page.goto('/login')
+  });
 
-test('should display login form and submit successfully', async ({page}) => {
+  test('logins succesfully with correct credentials', async ({page}) => {
   await page.goto('/');
   await expect(page).toHaveURL(/\/login$/);
-  // Assuming you want to fill out the login form and submit it
   await page.fill('input[placeholder="Username"]', 'testi');
   await page.fill('input[placeholder="Password"]', 'Testi123@');
   await page.click('text=Login');
-  
-  // After submission, expect a successful login
-  await expect(page).toHaveURL('/'); // Adjust the URL to the expected one after login
-});
+  await expect(page).toHaveURL('/');
+  });
 
-test('should redirect to registration', async ({page}) => {
+  test('does not login with incorrect credentials', async ({page}) => {
+    await page.goto('/');
+    await expect(page).toHaveURL(/\/login$/);
+    await page.fill('input[placeholder="Username"]', 'Testi');
+    await page.fill('input[placeholder="Password"]', 'Testi123!!!');
+    await page.click('text=Login');
+    await expect(page).toHaveURL('/login');
+    });
+
+
+  test('redirects to registration page', async ({page}) => {
   await page.goto('/');
   await expect(page).toHaveURL(/\/login$/);
-  // Assuming you want to fill out the login form and submit it
-
   await page.click('text=register');
+  await expect(page).toHaveURL('/register');
+  });
 
-  // After submission, expect a successful login
-  await expect(page).toHaveURL('/register'); // Adjust the URL to the expected one after login
-});
-
-test('Password missing', async ({page}) => {
+  test('warns if password is missing', async ({page}) => {
   await page.goto('/');
   await expect(page).toHaveURL(/\/login$/);
-  // Assuming you want to fill out the login form and submit it
   await page.fill('input[placeholder="Username"]', 'testi');
   await page.click('text=login');
-  
-  // After submission, expect "password is required" errorText
   await page.waitForSelector('text="Password is required"');
+  });
 
-});
-
-test('Username missing', async ({page}) => {
+  test('warns if username is missing', async ({page}) => {
   await page.goto('/');
   await expect(page).toHaveURL(/\/login$/);
-  // Assuming you want to fill out the login form and submit it
   await page.fill('input[placeholder="Password"]', 'Testi123@');
   await page.click('text=login');
-  
-  // After submission, expect "password is required" errorText
   await page.waitForSelector('text="Username is required"');
+  });
 
+  test('redirects to login page after pressing logout button', async ({page}) => {
+    await page.goto('/');
+    await page.fill('input[placeholder="Username"]', 'testi');
+    await page.fill('input[placeholder="Password"]', 'Testi123@');
+    await page.click('text=Login');
+    await page.click('text=Logout');
+    await expect(page).toHaveURL('/login');
+    });
 });
