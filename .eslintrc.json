@@ -1,17 +1,31 @@
 {
-    "plugins": ["react", "react-native"],
+    "plugins": [
+        "react",
+        "react-native",
+        "@stylistic/js"
+    ],
     "settings": {
-      "react": {
-        "version": "detect"
-      }
+        "react": {
+            "version": "detect"
+        }
     },
-    "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:jest/recommended"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:jest/recommended"
+    ],
     "parser": "@babel/eslint-parser",
     "env": {
-      "react-native/react-native": true
+        "react-native/react-native": true
     },
     "rules": {
-      "react/prop-types": "off",
-      "react/react-in-jsx-scope": "off"
+        "react/prop-types": "off",
+        "react/react-in-jsx-scope": "off",
+        "@stylistic/js/semi": ["error", "always"],
+        "id-length": ["error", { "min": 3 }],
+        "camelcase": ["error", { "properties": "always" }],
+        "@stylistic/js/indent": ["error", 4],
+        "@stylistic/js/max-len": ["error", { "code": 80 }],
+        "@stylistic/js/quotes": ["error", "single"]
     }
 }

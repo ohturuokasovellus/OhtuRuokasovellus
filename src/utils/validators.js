@@ -5,17 +5,18 @@ function isValidEmail(email) {
 }
 
 function isValidUsername(username) {
-    if (!username) return false
-    return true
+    if (!username) return false;
+    return true;
 }
 
 function isValidPassword(password) {
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&€\-_:%#+]).{8,32}$/;
+    const passwordPattern =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&€\-_:%#+]).{8,32}$/;
     return passwordPattern.test(password);
 }
 
 module.exports = {
-  isValidEmail,
-  isValidUsername,
-  isValidPassword,
-}
+    isValidEmail,
+    isValidUsername,
+    isValidPassword,
+};

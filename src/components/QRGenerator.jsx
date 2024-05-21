@@ -1,5 +1,5 @@
-import React from "react";
-import QRCode from "react-qr-code";
+import React from 'react';
+import QRCode from 'react-qr-code';
 
 /**
  * A function that returns a react component of a QR code
