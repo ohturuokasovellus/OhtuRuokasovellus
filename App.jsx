@@ -8,6 +8,7 @@ import LogoutButton from './src/components/LogoutButton';
 import Router, { Routes, Route } from './src/Router';
 import { styles } from './src/styling/styles';
 import { getSession } from './src/controllers/sessionController';
+import MealList from './src/components/MealList';
 
 const App = () => {
     const [user, setUser] = useState(getSession());
@@ -28,6 +29,12 @@ const App = () => {
                     <Route path='/login'
                         element={<LoginForm updateUser={updateUser}/>} />
                     <Route path='/qr-form' element={<QRForm />} />
+                    <Route path='/meals'element={
+                        <MealList onSelectMeal={
+                            () => console.log('selected meal')
+                        }
+                        />
+                    }/>
                 </Routes>
             </View>
         </Router>
