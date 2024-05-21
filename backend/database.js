@@ -22,7 +22,8 @@ const insertUser = async (username, password, email) => {
 
 const getUser = async (username, password) => {
     const result = await sql`
-        SELECT * FROM users WHERE username = ${username} and password = ${password};
+        SELECT * FROM users
+        WHERE username = ${username} and password = ${password};
     `;
     return result[0];
 };
@@ -35,14 +36,16 @@ const getUser = async (username, password) => {
 const doesUsernameExist = async username => {
     // https://stackoverflow.com/q/8149596
     const result = await sql`
-        SELECT exists (SELECT 1 FROM users WHERE username = ${username} LIMIT 1);
+        SELECT exists
+        (SELECT 1 FROM users WHERE username = ${username} LIMIT 1);
     `;
     return result.at(0).exists;
 };
 
 /**
  * @param {string} email 
- * @returns {Promise<boolean>} Whether the given email already exists in the database.
+ * @returns {Promise<boolean>} Whether the given email
+ *  already exists in the database.
  */
 const doesEmailExist = async email => {
     const result = await sql`
