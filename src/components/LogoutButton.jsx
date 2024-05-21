@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 import { View, Button } from 'react-native';
-import { useNavigate } from '../Router'
+import { useNavigate } from '../Router';
 import { deleteSession } from '../controllers/sessionController';
-import { styles } from '../styling/styles'
+import { styles } from '../styling/styles';
 
 const LogoutButton = ({ updateUser }) => {
     const navigate = useNavigate();
     const handlePress = () => {
-        deleteSession()
-        updateUser(null)
+        deleteSession();
+        updateUser(null);
         navigate('/login');
     };
 

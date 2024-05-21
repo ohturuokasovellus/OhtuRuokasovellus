@@ -3,8 +3,9 @@ import { Link, useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { deleteSession } from '../controllers/sessionController'
-import { useState, useEffect } from "react";
 import { registrationValidationSchema } from '../utils/formValidationSchemas';
+import { deleteSession } from '../controllers/sessionController';
+import { useState, useEffect } from 'react';
 
 const initialValues = {
     username: '',
@@ -19,7 +20,8 @@ const validationSchema = registrationValidationSchema;
  * Render a form for user registration, validate using a yup schema.
  * On submission, send registration data to the server.
  * 
- * @param {Function} onSubmit - handle form submission; args: form values (username, email, password)
+ * @param {Function} onSubmit - handle form submission;
+ *  args: form values (username, email, password)
  * 
  * @returns {React.JSX.Element}
  */
@@ -47,47 +49,49 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 <Text style={styles.error}>{formError}</Text>
             ) : null}
             <TextInput
-            style={styles.input}
-            placeholder='username'
-            value={formik.values.username}
-            onChangeText={formik.handleChange('username')}
-            onBlur={formik.handleBlur('username')}
+                style={styles.input}
+                placeholder='username'
+                value={formik.values.username}
+                onChangeText={formik.handleChange('username')}
+                onBlur={formik.handleBlur('username')}
             />
             {formik.touched.username && formik.errors.username && (
                 <Text style={styles.error}>{formik.errors.username}</Text>
             )}
             <TextInput
-            style={styles.input}
-            placeholder='email'
-            value={formik.values.email}
-            onChangeText={formik.handleChange('email')}
-            onBlur={formik.handleBlur('email')}
+                style={styles.input}
+                placeholder='email'
+                value={formik.values.email}
+                onChangeText={formik.handleChange('email')}
+                onBlur={formik.handleBlur('email')}
             />
             {formik.touched.email && formik.errors.email && (
                 <Text style={styles.error}>{formik.errors.email}</Text>
             )}
             <TextInput
-            style={styles.input}
-            placeholder='password'
-            value={formik.values.password}
-            onChangeText={formik.handleChange('password')}
-            onBlur={formik.handleBlur('password')}
-            secureTextEntry
+                style={styles.input}
+                placeholder='password'
+                value={formik.values.password}
+                onChangeText={formik.handleChange('password')}
+                onBlur={formik.handleBlur('password')}
+                secureTextEntry
             />
             {formik.touched.password && formik.errors.password && (
                 <Text style={styles.error}>{formik.errors.password}</Text>
             )}
             <TextInput
-            style={styles.input}
-            placeholder='confirm password'
-            value={formik.values.confirmPassword}
-            onChangeText={formik.handleChange('confirmPassword')}
-            onBlur={formik.handleBlur('confirmPassword')}
-            secureTextEntry
+                style={styles.input}
+                placeholder='confirm password'
+                value={formik.values.confirmPassword}
+                onChangeText={formik.handleChange('confirmPassword')}
+                onBlur={formik.handleBlur('confirmPassword')}
+                secureTextEntry
             />
-            {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-                <Text style={styles.error}>{formik.errors.confirmPassword}</Text>
-            )}
+            {formik.touched.confirmPassword && formik.errors.confirmPassword &&
+                <Text style={styles.error}>
+                    {formik.errors.confirmPassword}
+                </Text>
+            }
             <Pressable style={styles.button} onPress={formik.handleSubmit}>
                 <Text style={styles.buttonText}>register</Text>
             </Pressable>
@@ -104,26 +108,31 @@ const Register = ({ updateUser }) => {
     useEffect(() => {
         deleteSession();
         updateUser(null);
-    }, [])
+    }, []);
 
     const onSubmit = async values => {
         const { username, email, password } = values;
         try {
-            await axios.post('http://localhost:8080/api/register', { username, email, password });
+            await axios.post(
+                'http://localhost:8080/api/register',
+                { username, email, password }
+            );
         } catch (err) {
-            const errorMessage = err.response?.data?.errorMessage || 'an unexpected error occurred';
+            const errorMessage = err.response?.data?.errorMessage ||
+                'an unexpected error occurred';
             throw new Error(errorMessage);
         }
     };
     const onSuccess = () => {
         console.log('registration successful!');
-        navigate('/login')
+        navigate('/login');
     };
     const onError = err => {
         console.error('Registration error:', err);
     };
 
-    return <RegisterForm onSubmit={onSubmit} onSuccess={onSuccess} onError={onError} />;
+    return <RegisterForm onSubmit={onSubmit}
+        onSuccess={onSuccess} onError={onError} />;
 };
 
 const styles = StyleSheet.create({
@@ -161,4 +170,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Register
+export default Register;
