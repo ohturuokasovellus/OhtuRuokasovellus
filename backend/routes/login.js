@@ -5,17 +5,17 @@ const router = express.Router()
 const { getUser } = require('../database')
 
 router.post('/api/login', async (req, res) => {
-  const { username, password } = req.body
-  const user = await getUser(username, hash(password))
+    const { username, password } = req.body
+    const user = await getUser(username, hash(password))
     if (user) {
-      const token = jwt.sign({ username: user.username, id: user.id }, process.env.SECRET_KEY)
-      res
-        .status(200)
-        .send({ token, username: user.username, message: 'Login succesful' });
+        const token = jwt.sign({ username: user.username, id: user.id }, process.env.SECRET_KEY)
+        res
+            .status(200)
+            .send({ token, username: user.username, message: 'Login succesful' });
     } else {
-      res
-        .status(404)
-        .json({ error: 'Invalid username or password' });
+        res
+            .status(404)
+            .json({ error: 'Invalid username or password' });
     }
 })
 
