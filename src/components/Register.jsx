@@ -3,7 +3,7 @@ import { Link, useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { deleteSession } from '../controllers/sessionController';
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import * as yup from 'yup';
 
 const initialValues = {
