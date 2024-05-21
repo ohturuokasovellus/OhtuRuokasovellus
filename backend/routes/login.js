@@ -9,7 +9,7 @@ router.post('/api/login', async (req, res) => {
     const user = await getUser(username, hash(password));
     if (user) {
         const token = jwt.sign(
-            { username: user.username, userId: user.userId },
+            { username: user.username, userId: user.user_id },
             process.env.SECRET_KEY
         );
         res

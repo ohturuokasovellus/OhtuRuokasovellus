@@ -58,7 +58,8 @@ describe('login api', () => {
             '7b9961d78d9c99ddf6ff0eabded3ebcad6a3c29e5dccdb140423beea82c6593f';
         postgresMock.setSqlResults([
             [{
-                id: 7,
+                // eslint-disable-next-line camelcase
+                user_id: 7,
                 username: 'testi',
                 password,
                 email: 'testi@gmail.com'
