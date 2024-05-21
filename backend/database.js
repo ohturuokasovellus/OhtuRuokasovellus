@@ -1,3 +1,4 @@
+require('dotenv').config()
 const postgres = require('postgres')
 
 //const sql = postgres('postgres://username:password@host:port/database', {
@@ -8,7 +9,9 @@ const postgres = require('postgres')
 //  password: process.env.POSTGRES_PASSWORD,   // Password of database user
 //})
 
-const sql = postgres(process.env.BACKEND_POSTGRES_URL)
+const sql = postgres(process.env.E2ETEST == '1' ?
+  process.env.E2ETEST_POSTGRES_URL :
+  process.env.BACKEND_POSTGRES_URL)
 
 const insertUser = async (username, passwordHash, email) => {
   await sql`
