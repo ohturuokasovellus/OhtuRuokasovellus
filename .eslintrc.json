@@ -25,11 +25,7 @@
         "id-length": ["error", { "min": 3 }],
         "camelcase": ["error", { "properties": "always" }],
         "@stylistic/js/indent": ["error", 4],
-<<<<<<< HEAD
-        "@stylistic/js/max-len": ["error", { "code": 80 }]
-=======
         "@stylistic/js/max-len": ["error", { "code": 80 }],
         "@stylistic/js/quotes": ["error", "single"]
->>>>>>> 393b45766cc9e776c123586eb26b90f6447b6922
     }
 }
