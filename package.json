@@ -22,12 +22,12 @@
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|react-router-native)"
     ],
     "modulePathIgnorePatterns": [
-        "<rootDir>/e2e-tests/"
+      "<rootDir>/e2e-tests/"
     ],
     "coverageThreshold": {
-        "global": {
-            "branches": 70
-        }
+      "global": {
+        "branches": 70
+      }
     }
   },
   "dependencies": {
@@ -67,6 +67,7 @@
     "@babel/eslint-parser": "^7.24.5",
     "@expo/webpack-config": "^19.0.1",
     "@playwright/test": "^1.44.0",
+    "@stylistic/eslint-plugin-js": "^2.1.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.12",
     "@types/react": "~18.2.45",
