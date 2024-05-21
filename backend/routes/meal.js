@@ -6,15 +6,18 @@ const router = express.Router();
 router.post('/api/meals', async (req, res) => {
     // TODO: validate user login
 
-    const { name, image } = req.body;
+    const { mealName, imageUri } = req.body;
 
     // TODO: properly validate name and image
-    if (!name || !image) {
-        return res.status(400).send('invalid name or image');
+    if (!mealName) {
+        return res.status(400).send('invalid meal name');
+    }
+    if (!imageUri) {
+        return res.status(400).send('invalid image');
     }
 
     try {
-        await insertMeal(name, image);
+        await insertMeal(mealName, imageUri);
     } catch (err) {
         console.error(err);
         return res.status(500).send('meal insertion failed');

@@ -2,9 +2,11 @@ import { Text, Pressable, View, TextInput, Image } from 'react-native';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
+import axios from 'axios';
 
 const initialValues = {
-    mealName: ''
+    mealName: '',
+    imageUri: ''
 };
 
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
@@ -45,6 +47,8 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
         }
     };
 
+    formik.values.imageUri = selectedImage;
+
     return (
         <View>
             {selectedImage ? (
@@ -73,9 +77,12 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
 
 const CreateMeal = () => {
     const onSubmit = async values => {
-        const { mealName } = values;
+        const { mealName, imageUri } = values;
         try {
-            console.log('post'+mealName);
+            await axios.post(
+                'http://localhost:8080/api/meals',
+                { mealName, imageUri }
+            );
         } catch (err) {
             const errorMessage = err.response?.data?.errorMessage ||
                 'an unexpected error occurred';

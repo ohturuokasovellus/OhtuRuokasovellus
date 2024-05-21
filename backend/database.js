@@ -62,7 +62,7 @@ const doesEmailExist = async email => {
 const insertMeal = async (name, image) => {
     // TODO: add another parameter for the restaurant id
     await sql`
-        INSERT INTO meals (name, image, restaurant)
+        INSERT INTO meals (name, image, restaurant_id)
         VALUES (${name}, ${image}, 1);
     `;
 };
@@ -75,7 +75,7 @@ const getMeals = async () => {
     // TODO: add parameter for the restaurant id
     //       and filter the results with that
     const result = await sql`
-        SELECT name, image FROM meals WHERE restaurant = 1;
+        SELECT name, image FROM meals WHERE restaurant_id = 1;
     `;
     return result;
 };
