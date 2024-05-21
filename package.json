@@ -21,9 +21,9 @@
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|react-router-native)"
     ],
     "coverageThreshold": {
-        "global": {
-            "branches": 70
-        }
+      "global": {
+        "branches": 70
+      }
     }
   },
   "dependencies": {
@@ -60,6 +60,7 @@
     "@babel/core": "^7.20.0",
     "@babel/eslint-parser": "^7.24.5",
     "@expo/webpack-config": "^19.0.1",
+    "@stylistic/eslint-plugin-js": "^2.1.0",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.2.45",
     "@types/react-test-renderer": "^18.0.7",
