@@ -1,1 +1,0 @@
-src/components/QRForm.jsx uses the QRGenerator() function from the src/components/QRGenerator file. QRGenerator uses the react-qr-code module to form QR-codes from a given url.

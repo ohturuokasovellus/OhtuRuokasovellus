@@ -7,6 +7,10 @@ const initialValues = {
     urlToBeGenerated: ''
 };
 
+/**
+ * React page that shows a form. The form takes a url of type string, and when the form is submitted, the page displays a QR code generated from the url.
+ * @returns {View}
+ */
 const QRForm = () => {
     let [urlView, setUrlView] = useState(null)
     const onSubmit = urlObject => {
