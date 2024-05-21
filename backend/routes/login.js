@@ -1,22 +1,27 @@
-const jwt = require('jsonwebtoken')
-const express = require('express')
-const { hash } = require('../services/hash')
-const router = express.Router()
-const { getUser } = require('../database')
+const jwt = require('jsonwebtoken');
+const express = require('express');
+const { hash } = require('../services/hash');
+const router = express.Router();
+const { getUser } = require('../database');
 
 router.post('/api/login', async (req, res) => {
-    const { username, password } = req.body
-    const user = await getUser(username, hash(password))
+    const { username, password } = req.body;
+    const user = await getUser(username, hash(password));
     if (user) {
-        const token = jwt.sign({ username: user.username, id: user.id }, process.env.SECRET_KEY)
+        const token = jwt.sign(
+            { username: user.username, userId: user.userId },
+            process.env.SECRET_KEY
+        );
         res
             .status(200)
-            .send({ token, username: user.username, message: 'Login succesful' });
+            .send(
+                { token, username: user.username, message: 'Login succesful' }
+            );
     } else {
         res
             .status(404)
             .json({ error: 'Invalid username or password' });
     }
-})
+});
 
-module.exports = router
+module.exports = router;
