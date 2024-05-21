@@ -20,9 +20,9 @@ const insertUser = async (username, password, email) => {
   `
 }
 
-const getUser = async (username, passwordHash) => {
+const getUser = async (username, password) => {
   const result = await sql`
-    SELECT * FROM users WHERE username = ${username} and password = ${passwordHash};
+    SELECT * FROM users WHERE username = ${username} and password = ${password};
   `
   return result[0]
 }
