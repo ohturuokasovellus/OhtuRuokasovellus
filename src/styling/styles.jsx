@@ -2,22 +2,21 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     app: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     welcomeText: {
-      position: 'flex',
-      top: 0,
-      left: 0,
-      margin: 20,
-      },
+        position: 'flex',
+        top: 0,
+        left: 0,
+        margin: 20,
+    },
     login: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        
     },
     input: {
         width: '100%',
@@ -28,18 +27,18 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     register: {
-      margin: 10,
+        margin: 10,
     },
     logout: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      margin: 20,
-      },
-      errorText: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        margin: 20,
+    },
+    errorText: {
         color: 'red',
         marginBottom: 10,
-      },
+    },
 });
 
-export { styles }
+export { styles };
