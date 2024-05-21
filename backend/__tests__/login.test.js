@@ -56,8 +56,8 @@ describe('login api', () => {
     postgresMock.setSqlResults([
       [{
         id: 7,
-        user_name: 'testi',
-        password_hash: '7b9961d78d9c99ddf6ff0eabded3ebcad6a3c29e5dccdb140423beea82c6593f',
+        username: 'testi',
+        password: '7b9961d78d9c99ddf6ff0eabded3ebcad6a3c29e5dccdb140423beea82c6593f',
         email: 'testi@gmail.com'
       }],
     ])

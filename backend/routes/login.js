@@ -11,7 +11,7 @@ router.post('/api/login', async (req, res) => {
       const token = jwt.sign({ username: user.username, id: user.id }, process.env.SECRET_KEY)
       res
         .status(200)
-        .send({ token, username: user.user_name, message: 'Login succesful' });
+        .send({ token, username: user.username, message: 'Login succesful' });
     } else {
       res
         .status(404)

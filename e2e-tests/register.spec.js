@@ -1,4 +1,4 @@
-import { sql } from '../backend/database'
+import { sql } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 
@@ -8,7 +8,7 @@ const initTestDB = async () => {
     const pw = hash('Test123!');
     const email = 'test@test.com';
     await sql`
-    INSERT INTO users (user_name, password_hash, email)
+    INSERT INTO users (username, password, email)
     VALUES (${user}, ${pw}, ${email})
     `;
 };
