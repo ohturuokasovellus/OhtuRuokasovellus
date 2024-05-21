@@ -15,7 +15,7 @@ function isValidPassword(password) {
 }
 
 module.exports = {
-  isValidEmail,
-  isValidUsername,
-  isValidPassword,
-}
+    isValidEmail,
+    isValidUsername,
+    isValidPassword,
+};
