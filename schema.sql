@@ -6,7 +6,8 @@ CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL
+    email TEXT UNIQUE NOT NULL,
+    restaurant_id INT REFERENCES restaurants ON DELETE NULL
 );
 
 CREATE TABLE restaurants (
