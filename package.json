@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build": "expo export:web",
-    "lint": "eslint ./src/**/*.{js,jsx} App.jsx --no-error-on-unmatched-pattern",
+    "lint": "eslint ./{src,backend,e2e-test}/**/*.{js,jsx} App.jsx --no-error-on-unmatched-pattern",
     "test": "jest --coverage",
     "test:e2e": "playwright test"
   },
