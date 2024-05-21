@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import HomePage from './src/components/HomePage';
 import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
+import QRForm from './src/components/QRForm';
 import LogoutButton from './src/components/LogoutButton'
 import Router, { Routes, Route } from './src/Router'
 import { styles } from './src/styling/styles'
@@ -24,6 +25,7 @@ const App = () => {
           <Route path='/' element={<HomePage user={user} />} />
           <Route path='/register' element={<Register updateUser={updateUser}/>} />
           <Route path='/login' element={<LoginForm updateUser={updateUser}/>} />
+          <Route path='/qr-form' element={<QRForm />} />
         </Routes>
       </View>
     </Router>
