@@ -1,6 +1,6 @@
 
 const CreateMeal = () => {
-  return <p>create meal</p>;
+    return <p>create meal</p>;
 };
 
 export default CreateMeal;
