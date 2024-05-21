@@ -9,6 +9,7 @@ import Router, { Routes, Route } from './src/Router';
 import { styles } from './src/styling/styles';
 import { getSession } from './src/controllers/sessionController';
 import MealList from './src/components/MealList';
+import CreateMeal from './src/components/CreateMeal';
 
 const App = () => {
     const [user, setUser] = useState(getSession());
@@ -30,11 +31,9 @@ const App = () => {
                         element={<LoginForm updateUser={updateUser}/>} />
                     <Route path='/qr-form' element={<QRForm />} />
                     <Route path='/meals'element={
-                        <MealList onSelectMeal={
-                            () => console.log('selected meal')
-                        }
-                        />
+                        <MealList />
                     }/>
+                    <Route path='/create-meal' element={<CreateMeal />} />
                 </Routes>
             </View>
         </Router>

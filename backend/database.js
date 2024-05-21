@@ -54,10 +54,38 @@ const doesEmailExist = async email => {
     return result.at(0).exists;
 };
 
+/**
+ * Insert a new meal to the database.
+ * @param {string} name Name of the meal.
+ * @param {string} image Data of the image of the meal.
+ */
+const insertMeal = async (name, image) => {
+    // TODO: add another parameter for the restaurant id
+    await sql`
+        INSERT INTO meals (name, image, restaurant)
+        VALUES (${name}, ${image}, 1);
+    `;
+};
+
+/**
+ * Fetch all meals from the database.
+ * @returns {Promise<{ name: string, image: string }[]>}
+ */
+const getMeals = async () => {
+    // TODO: add parameter for the restaurant id
+    //       and filter the results with that
+    const result = await sql`
+        SELECT name, image FROM meals WHERE restaurant = 1;
+    `;
+    return result;
+};
+
 module.exports = {
     sql,
     insertUser,
     doesUsernameExist,
     getUser,
     doesEmailExist,
+    insertMeal,
+    getMeals,
 };
