@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "build": "expo export:web",
     "lint": "eslint ./src/**/*.{js,jsx} App.jsx --no-error-on-unmatched-pattern",
-    "test": "jest"
+    "test": "jest --coverage",
+    "test:e2e": "playwright test"
   },
   "jest": {
     "preset": "jest-expo",
@@ -19,7 +20,15 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|react-router-native)"
-    ]
+    ],
+    "modulePathIgnorePatterns": [
+        "<rootDir>/e2e-tests/"
+    ],
+    "coverageThreshold": {
+        "global": {
+            "branches": 70
+        }
+    }
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
@@ -38,6 +47,7 @@
     "expo-web-browser": "~13.0.3",
     "express": "^4.19.2",
     "formik": "^2.4.6",
+    "jsonwebtoken": "^9.0.2",
     "postgres": "^3.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -56,7 +66,9 @@
     "@babel/core": "^7.20.0",
     "@babel/eslint-parser": "^7.24.5",
     "@expo/webpack-config": "^19.0.1",
+    "@playwright/test": "^1.44.0",
     "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.12",
     "@types/react": "~18.2.45",
     "@types/react-test-renderer": "^18.0.7",
     "eslint": "^8.57.0",
@@ -67,6 +79,7 @@
     "jest-expo": "~51.0.1",
     "react-router-dom": "^6.23.1",
     "react-test-renderer": "18.2.0",
+    "supertest": "^7.0.0",
     "typescript": "~5.3.3"
   },
   "overrides": {

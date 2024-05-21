@@ -10,6 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 .env
+coverage/
 
 # macOS
 .DS_Store
@@ -19,3 +20,9 @@ web-build/
 
 expo-env.d.ts
 # @end expo-cli
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

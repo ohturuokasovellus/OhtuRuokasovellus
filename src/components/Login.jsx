@@ -1,75 +1,86 @@
-import React from 'react'
-import { TextInput, View, Button, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { deleteSession } from '../controllers/sessionController'
+import { TextInput, View, Button, Text } from 'react-native';
 import { Formik } from 'formik';
-import * as yup from 'yup';
 import axios from 'axios';
+import { useNavigate } from '../Router'
+import { styles } from '../styling/styles'
+import * as yup from 'yup';
+import { createSession } from '../controllers/sessionController'
 
 const LoginValidationSchema = yup.object().shape({
-    username: yup.string()
-      .required('Username is required'),
-    password: yup.string()
-      .required('Password is required'),
-  });
-  
-const LoginForm = () => {
-    const handleSubmit = async (values) => {
-        try {
-            const response = await axios.post('http://localhost:8080/api/login', values)
-            console.log(response.data)
-        } catch (error) {
-            console.error(error)
-            console.log("wrong credentials")
-        }
-    }   
-    return (
-    <Formik
-        initialValues={{ username: '', password: '' }}
-        onSubmit={(values) => {
-            handleSubmit(values);}}
-        validationSchema={LoginValidationSchema}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values, errors, isValidating }) => (
-        <View style={styles.cont}>
-         <TextInput
-           style={styles.input}
-           onChangeText={handleChange('username')}
-           onBlur={handleBlur('username')}
-           value={values.username}
-           placeholder="Username"
-         />
-        {isValidating && errors.username ? <div>{errors.username}</div> : null}
-
-         <TextInput
-          style={styles.input}
-           onChangeText={handleChange('password')}
-           onBlur={handleBlur('password')}
-           value={values.password}
-           placeholder="Password"
-           secureTextEntry
-         />
-         {isValidating && errors.password ? <div>{errors.password}</div> : null}
-         <Button onPress={handleSubmit} title="Login"/>
-       </View>
-     )}
-    </Formik>
-    )
-};
-
-const styles = StyleSheet.create({
-    cont: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        
-    },
-    input: {
-        width: '100%',
-        padding: 10,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 5,
-        marginBottom: 10,
-    },
+  username: yup.string()
+    .required('Username is required'),
+  password: yup.string()
+    .required('Password is required'),
 });
+
+const LoginForm = ({ updateUser }) => {
+  const [errorMessage, setErrorMessage] = useState('')
+  const navigate = useNavigate();
+  useEffect(() => {
+    deleteSession();
+    updateUser(null);
+  }, [])
+  
+  const handleSubmit = async (values, actions) => {
+      try {
+          const response = await axios.post('http://localhost:8080/api/login', values)
+          actions.setSubmitting(false);
+          const userData = { username: response.data.username, token: response.data.token }
+          createSession(userData)
+          updateUser(userData)
+          navigate('/');
+      } catch (error) {
+          setErrorMessage('Incorrect username or/and password')
+          actions.setFieldError('general', 'Wrong credentials');
+          actions.setSubmitting(false);
+      }
+  }
+
+  return (
+  <Formik
+    initialValues={{ username: '', password: '' }}
+    onSubmit={(values, actions) => {
+      setErrorMessage('')
+      handleSubmit(values, actions);}}
+    validationSchema={LoginValidationSchema}
+  >
+    {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
+      <View style={styles.login}>
+        <TextInput
+          style={styles.input}
+          onChangeText={handleChange('username')}
+          onBlur={handleBlur('username')}
+          value={values.username}
+          placeholder="Username"
+        />
+         {touched.username && errors.username && (
+            <Text style={styles.errorText}>{errors.username}</Text>
+          )}
+
+        <TextInput
+        style={styles.input}
+          onChangeText={handleChange('password')}
+          onBlur={handleBlur('password')}
+          value={values.password}
+          placeholder="Password"
+          secureTextEntry
+        />
+          {touched.password && errors.password && (
+            <Text style={styles.errorText}>{errors.password}</Text>
+          )}
+          {errorMessage ? (
+            <Text style={styles.errorText}>{errorMessage}</Text>
+          ) : null}
+        <Button onPress={handleSubmit} title="Login" disabled={isSubmitting} />
+        <View style={ styles.register }>
+          <Button title="Register" onPress={() => navigate('/register')} />
+        </View>
+      </View>
+    )}
+  </Formik>
+  )
+};
 
 export default LoginForm;

@@ -1,17 +1,21 @@
-const sql = require('../database')
+const jwt = require('jsonwebtoken')
 const express = require('express')
-
+const { hash } = require('../services/hash')
 const router = express.Router()
+const { getUser } = require('../database')
 
 router.post('/api/login', async (req, res) => {
-    const user = await sql`
-      SELECT * FROM users WHERE user_name = ${req.body.username} and password_hash = ${req.body.password};
-    `
-    if (user.length > 0) {
-      res.status(200).json({ user: user[0].user_name, message: 'Login succesful' });
-  
+  const { username, password } = req.body
+  const user = await getUser(username, hash(password))
+    if (user) {
+      const token = jwt.sign({ username: user.username, id: user.id }, process.env.SECRET_KEY)
+      res
+        .status(200)
+        .send({ token, username: user.username, message: 'Login succesful' });
     } else {
-      res.status(404).json({ message: 'Invalid username or password' });
+      res
+        .status(404)
+        .json({ error: 'Invalid username or password' });
     }
 })
 
