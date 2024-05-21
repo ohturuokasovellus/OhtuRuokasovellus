@@ -8,7 +8,7 @@ const initTestDB = async () => {
   const pw = hash('Testi123@');
   const email = 'test@test.com';
   await sql`
-  INSERT INTO users (user_name, password_hash, email)
+  INSERT INTO users (username, password, email)
   VALUES (${user}, ${pw}, ${email})
   `;
 };
