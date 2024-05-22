@@ -73,11 +73,14 @@ const insertMeal = async name => {
  * Attach image to the meal.
  * @param {number} mealId
  * @param {Buffer} imageData
+ * @returns {Promise<boolean>} Whether the meal existed
+ *  (and thus the image was successfully added).
  */
 const addMealImage = async (mealId, imageData) => {
-    await sql`
+    const result = await sql`
         UPDATE meals SET image = ${imageData} WHERE meal_id = ${mealId};
     `;
+    return result.count === 1;
 };
 
 /**

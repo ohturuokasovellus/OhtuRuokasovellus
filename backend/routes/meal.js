@@ -35,7 +35,15 @@ router.post('/api/meals/images/:id',
             return res.status(400).send('missing image');
         }
 
-        await addMealImage(mealId, imageData);
+        try {
+            const success = await addMealImage(mealId, imageData);
+            if (!success) {
+                return res.status(404).send('meal not found');
+            }
+        } catch (err) {
+            console.error(err);
+            return res.status(500).send('unexpected internal server error');
+        }
 
         res.sendStatus(200);
     });
