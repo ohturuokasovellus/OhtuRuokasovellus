@@ -24,19 +24,21 @@ router.post('/api/meals', express.json(), async (req, res) => {
     res.json({ mealId });
 });
 
-router.post('/api/meals/images/:id', express.raw({ type: '*/*', limit: 1e7 }), async (req, res) => {
-    const imageData = req.body;
-    const mealId = req.params.id;
+router.post('/api/meals/images/:id',
+    express.raw({ type: '*/*', limit: 1e7 }),
+    async (req, res) => {
+        const imageData = req.body;
+        const mealId = req.params.id;
 
-    // TODO: validate
-    if (!imageData) {
-        return res.status(400).send('missing image');
-    }
+        // TODO: validate
+        if (!imageData) {
+            return res.status(400).send('missing image');
+        }
 
-    await addMealImage(mealId, imageData);
+        await addMealImage(mealId, imageData);
 
-    res.sendStatus(200);
-});
+        res.sendStatus(200);
+    });
 
 router.get('/api/meals/images/:id', async (req, res) => {
     const mealId = req.params.id;

@@ -77,7 +77,7 @@ const insertMeal = async name => {
 const addMealImage = async (mealId, imageData) => {
     await sql`
         UPDATE meals SET image = ${imageData} WHERE meal_id = ${mealId};
-    `
+    `;
 };
 
 /**
