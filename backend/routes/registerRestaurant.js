@@ -1,7 +1,11 @@
 const express = require('express');
-const { isValidUsername, isValidPassword, isValidEmail } = require('../../src/utils/validators.js');
-const { hash } = require('../services/hash');
-const { insertUser, insertRestaurant, doesUsernameExist, doesEmailExist } = require('../database');
+const { isValidUsername, isValidPassword, isValidEmail } = require(
+    '../../src/utils/validators.js'
+);
+const { hash } = require('../services/hash.js');
+const {
+    insertUser, insertRestaurant, doesUsernameExist, doesEmailExist
+} = require('../database.js');
 
 const router = express.Router();
 
@@ -12,15 +16,22 @@ router.post('/api/RestaurantRegistration', async (req, res) => {
         || !isValidPassword(password)
         || !isValidEmail(email)
         || !restaurantName) {
-        return res.status(400).json({ errorMessage: 'Invalid username, password, email, or restaurant name' });
+        return res.status(400).json({
+            errorMessage:
+            'Invalid username, password, email, or restaurant name'
+        });
     }
 
     try {
         if (await doesUsernameExist(username)) {
-            return res.status(400).json({ errorMessage: 'Username already exists' });
+            return res.status(400).json(
+                { errorMessage: 'Username already exists' }
+            );
         }
         if (await doesEmailExist(email)) {
-            return res.status(400).json({ errorMessage: 'Email already exists' });
+            return res.status(400).json(
+                { errorMessage: 'Email already exists' }
+            );
         }
     } catch (err) {
         console.error(err);
