@@ -1,16 +1,17 @@
 import { React, useState, useEffect } from 'react';
 import {
-    View, Text, Pressable, FlatList, StyleSheet, Image
+    View, Text, Pressable, FlatList, Image
 } from 'react-native';
 import axios from 'axios';
 import { useParams } from '../Router';
-
+import { styles } from '../styling/styles';
 
 const MealList = () => {
     const { restId } = useParams();
     const [selectedMeal, setSelectedMeal] = useState(null);
     const [meals, setMeals] = useState([]);
     const [restaurantId, setRestaurantId] = useState(restId);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchMeals = async () => {
@@ -31,10 +32,9 @@ const MealList = () => {
                             image: imageRes.data
                         };
                     }));
-                console.log(updatedMeals);
                 setMeals(updatedMeals);
             } catch (err) {
-                console.log(err);
+                setError(err.response.data);
             }
         };
         fetchMeals();
@@ -44,8 +44,16 @@ const MealList = () => {
         setSelectedMeal(selectedMeal === meal ? null : meal);
     };
 
+    if (error) {
+        return (
+            <View >
+                <Text>{error}</Text>
+            </View>
+        );
+    }
+
     return (
-        <View style={styles.container}>
+        <View style={styles.mealContainer}>
             <Text style={styles.header}>Ateriat</Text>
             <FlatList
                 data={meals}
@@ -60,57 +68,34 @@ const MealList = () => {
                                 styles.pressable
                             ]}
                         >
-                            <Image
-                                source={{
-                                    uri: item.image
-                                }}
-                                style={styles.image}
-                            />
-                            <Text style={styles.item}>{item.name}</Text>
-                        </Pressable>
-                        {selectedMeal === item && (
-                            <View style={styles.additionalInfo}>
-                                <Text>lorem ipsum</Text>
+                            <View style={styles.itemContainer}>
+                                <Image
+                                    source={{
+                                        uri: item.image
+                                    }}
+                                    style={styles.image}
+                                />
+                                <View style={styles.textContainer}>
+                                    <Text style={styles.itemName}>
+                                        {item.name}
+                                    </Text>
+                                    {selectedMeal === item && (
+                                        <Text style={styles.additionalInfo}>
+                                            lorem ipsumlorem ipsumlorem
+                                            ipsumloremipsumlorem ipsumlorem
+                                            ipsumlorem ipsumlore ipsumlorem
+                                            ipsumlorem ipsumlorem ipsumlorem
+                                            ipsumlorem ipsumlorem ipsum
+                                        </Text>
+                                    )}
+                                </View>
                             </View>
-                        )}
+                        </Pressable>
                     </View>
                 )}
             />
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-    },
-    header: {
-        fontSize: 24,
-        marginBottom: 10,
-        textAlign: 'center',
-    },
-    item: {
-        padding: 10,
-        fontSize: 18,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-    },
-    image: {
-        width: 175,
-        height: 175,
-        marginRight: 10,
-        borderRadius: 5,
-    },
-    pressable: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 10,
-    },
-    additionalInfo: {
-        paddingLeft: 60,
-        paddingBottom: 10,
-    },
-});
 
 export default MealList;

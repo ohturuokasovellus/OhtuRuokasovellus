@@ -56,13 +56,12 @@ router.get('/api/meals/images/:id', async (req, res) => {
 });
 
 router.get('/api/meals/:restaurantId', async (req, res) => {
-    let meals;
-    try {
-        meals = await getMeals(req.params.restaurantId);
-    } catch (err) {
+    const result = await getMeals(req.params.restaurantId);
+    
+    if (result.length === 0) {
         return res.status(404).send('Restaurant not found');
     }
-    res.json(meals);
+    res.json(result);
 });
 
 module.exports = router;
