@@ -24,4 +24,8 @@ var filesystem = require('fs');
 const sqlCommand = filesystem.readFileSync('schema.sql').toString();
 const sql = postgres(process.env.E2ETEST_POSTGRES_URL);
 
-await sql`${sqlCommand}`;
+const executeSchema = async () => {
+    await sql`${sqlCommand}`;
+};
+
+executeSchema();
