@@ -80,6 +80,14 @@ const getMeals = async () => {
     return result;
 };
 
+const isRestaurantUser = async userId => {
+    const result = await sql`
+        SELECT exists
+        (SELECT restaurant_id FROM users WHERE user_id = ${userId} LIMIT 1);
+    `;
+    return result.at(0).exists;
+};
+
 module.exports = {
     sql,
     insertUser,
@@ -88,4 +96,5 @@ module.exports = {
     doesEmailExist,
     insertMeal,
     getMeals,
+    isRestaurantUser
 };
