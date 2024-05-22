@@ -29,7 +29,9 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const openImagePicker = () => {
         const options = {
             mediaType: 'photo',
-            includeBase64: false,
+            includeBase64: true,
+            maxWidth: 1024,
+            maxHeight: 1024,
         };
     
         launchImageLibrary(options, handleResponse);
@@ -41,8 +43,11 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
         } else if (response.error) {
             console.log('Image picker error: ', response.error);
         } else {
-            let imageUri = response.uri || response.assets?.[0]?.uri;
+            // length 885764
+            // w h 1920 1080
+            const imageUri = 'data:image/jpeg;base64,' + response.assets[0].base64;
             formik.setFieldValue('imageUri', imageUri);
+            console.log('image picked', imageUri.length, response.assets[0].width, response.assets[0].height);
         }
     };
 
@@ -76,9 +81,18 @@ const CreateMeal = () => {
     const onSubmit = async values => {
         const { mealName, imageUri } = values;
         try {
-            await axios.post(
+            const response = await axios.post(
                 'http://localhost:8080/api/meals',
-                { mealName, imageUri }
+                { mealName, imageUri: 'aa' }
+            );
+            const mealId = response.data.mealId;
+            const form = new FormData();
+            await axios.post(
+                `http://localhost:8080/api/meals/images/${mealId}`,
+                form,
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                },
             );
         } catch (err) {
             const errorMessage = err.response?.data?.errorMessage ||

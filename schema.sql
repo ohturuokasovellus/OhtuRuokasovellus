@@ -18,7 +18,7 @@ CREATE TABLE users (
 CREATE TABLE meals (
     meal_id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-    image BYTEA NOT NULL,
+    image BYTEA,
     -- TODO: change creator type to Restaurant ID
     restaurant_id INT NOT NULL
 );
