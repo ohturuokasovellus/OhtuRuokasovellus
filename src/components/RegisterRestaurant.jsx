@@ -3,7 +3,6 @@ import { Link, useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { deleteSession } from '../controllers/sessionController';
-// Assuming you have a specific validation schema for restaurant registration
 import { restaurantValidationSchema }
     from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';

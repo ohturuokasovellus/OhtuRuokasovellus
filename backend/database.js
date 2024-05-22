@@ -13,7 +13,7 @@ const sql = postgres(process.env.E2ETEST == '1' ?
     process.env.E2ETEST_POSTGRES_URL :
     process.env.BACKEND_POSTGRES_URL);
 
-const insertUser = async (username, password, email, restaurantId = null) => {
+const insertUser = async (username, password, email, restaurantId) => {
     await sql`
         INSERT INTO users (username, password, email, restaurant_id)
         VALUES (${username}, ${password}, ${email}, ${restaurantId})
