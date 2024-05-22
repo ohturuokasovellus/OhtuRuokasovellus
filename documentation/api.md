@@ -31,6 +31,6 @@ Otherwise the status is 400 (missing or invalid request fields) or
 
 ## Meal fetch
 
-Get a list of all meals by sending an HTTP GET request to `/api/meals`.
+Get a list of restaurant specific meals by sending an HTTP GET request to `/api/meals/:restaurantId`.
 
-The response body is a JSON-encoded array of objects that have `name` and `image` keys.
+The response body is a JSON-encoded array of objects that have `meal_id`, `name` and `image` keys.
