@@ -24,6 +24,8 @@ const validationSchema = registrationValidationSchema;
  * 
  * @param {Function} onSubmit - handle form submission;
  *  args: form values (username, email, password)
+ * @param {Function} onSuccess - redirect to login if successful
+ * @param {Function} onError - log error message
  * 
  * @returns {React.JSX.Element}
  */
