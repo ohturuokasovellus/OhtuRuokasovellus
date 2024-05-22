@@ -37,7 +37,7 @@ const LoginForm = ({ updateUser }) => {
             createSession(userData);
             updateUser(userData);
             
-            navigate('/')
+            navigate('/');
 
         } catch (error) {
             setErrorMessage('Incorrect username or/and password');
