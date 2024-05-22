@@ -8,7 +8,7 @@ router.post('/api/meals', express.json(), async (req, res) => {
 
     const { mealName } = req.body;
 
-    // TODO: properly validate name and image
+    // TODO: properly validate name
     if (!mealName) {
         return res.status(400).send('invalid meal name');
     }
@@ -27,6 +27,10 @@ router.post('/api/meals', express.json(), async (req, res) => {
 router.post('/api/meals/images/:id', express.raw({ type: '*/*', limit: 1e7 }), async (req, res) => {
     const imageData = req.body;
     const mealId = req.params.id;
+
+    if (!Buffer.isBuffer(imageData)) {
+        return res.status(400).send('missing image');
+    }
 
     await addMealImage(mealId, imageData);
 
