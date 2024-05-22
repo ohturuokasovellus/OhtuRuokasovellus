@@ -1,15 +1,16 @@
 import { Text, Pressable, View, TextInput, Image } from 'react-native';
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import {launchImageLibrary} from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
+import axios from 'axios';
 
 const initialValues = {
-    mealName: ''
+    mealName: '',
+    imageUri: ''
 };
 
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const [formError, setFormError] = useState('');
-    const [selectedImage, setSelectedImage] = useState(null);
 
     const formik = useFormik({
         initialValues,
@@ -28,31 +29,36 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const openImagePicker = () => {
         const options = {
             mediaType: 'photo',
-            includeBase64: false,
+            includeBase64: true,
+            maxWidth: 1024,
+            maxHeight: 1024,
         };
     
         launchImageLibrary(options, handleResponse);
     };
-        
+
     const handleResponse = (response) => {
         if (response.didCancel) {
             console.log('User cancelled image picker');
         } else if (response.error) {
             console.log('Image picker error: ', response.error);
         } else {
-            let imageUri = response.uri || response.assets?.[0]?.uri;
-            setSelectedImage(imageUri);
+            // length 885764
+            // w h 1920 1080
+            const imageUri = 'data:image/jpeg;base64,' + response.assets[0].base64;
+            formik.setFieldValue('imageUri', imageUri);
+            console.log('image picked', imageUri.length, response.assets[0].width, response.assets[0].height);
         }
     };
 
     return (
         <View>
-            {selectedImage ? (
+            {formik.values.imageUri ? (
                 <Image
-                    source={{ uri: selectedImage }}
+                    source={{ uri: formik.values.imageUri }}
                     style={{ width: 100, height: 100 }}
                 />
-            ): null}
+            ) : null}
             {formError ? (
                 <Text>{formError}</Text>
             ) : null}
@@ -73,9 +79,21 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
 
 const CreateMeal = () => {
     const onSubmit = async values => {
-        const { mealName } = values;
+        const { mealName, imageUri } = values;
         try {
-            console.log('post'+mealName);
+            const response = await axios.post(
+                'http://localhost:8080/api/meals',
+                { mealName, imageUri: 'aa' }
+            );
+            const mealId = response.data.mealId;
+            const form = new FormData();
+            await axios.post(
+                `http://localhost:8080/api/meals/images/${mealId}`,
+                form,
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                },
+            );
         } catch (err) {
             const errorMessage = err.response?.data?.errorMessage ||
                 'an unexpected error occurred';

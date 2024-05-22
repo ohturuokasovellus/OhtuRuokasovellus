@@ -10,7 +10,6 @@ const filesystem = require('fs');
 const app = express();
 
 app.use(cors());
-app.use(express.json());
 
 app.use(registerRouter);
 app.use(LoginRouter);

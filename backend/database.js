@@ -57,14 +57,27 @@ const doesEmailExist = async email => {
 /**
  * Insert a new meal to the database.
  * @param {string} name Name of the meal.
- * @param {string} image Data of the image of the meal.
+ * @returns {Promise<number>} ID of the created meal.
  */
-const insertMeal = async (name, image) => {
+const insertMeal = async name => {
     // TODO: add another parameter for the restaurant id
-    await sql`
-        INSERT INTO meals (name, image, restaurant)
-        VALUES (${name}, ${image}, 1);
+    const result = await sql`
+        INSERT INTO meals (name, restaurant_id)
+        VALUES (${name}, 1)
+        RETURNING meal_id;
     `;
+    return result.at(0).meal_id;
+};
+
+/**
+ * Attach image to the meal.
+ * @param {number} mealId
+ * @param {Buffer} imageData
+ */
+const addMealImage = async (mealId, imageData) => {
+    await sql`
+        UPDATE meals SET image = ${imageData} WHERE meal_id = ${mealId};
+    `
 };
 
 /**
@@ -75,9 +88,17 @@ const getMeals = async () => {
     // TODO: add parameter for the restaurant id
     //       and filter the results with that
     const result = await sql`
-        SELECT name, image FROM meals WHERE restaurant = 1;
+        SELECT name, image FROM meals WHERE restaurant_id = 1;
     `;
     return result;
+};
+
+const isRestaurantUser = async userId => {
+    const result = await sql`
+        SELECT exists
+        (SELECT restaurant_id FROM users WHERE user_id = ${userId} LIMIT 1);
+    `;
+    return result.at(0).exists;
 };
 
 module.exports = {
@@ -87,5 +108,7 @@ module.exports = {
     getUser,
     doesEmailExist,
     insertMeal,
+    addMealImage,
     getMeals,
+    isRestaurantUser
 };

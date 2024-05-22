@@ -1,24 +1,34 @@
 const express = require('express');
-const { insertMeal, getMeals } = require('../database');
+const { insertMeal, addMealImage, getMeals } = require('../database');
 
 const router = express.Router();
 
-router.post('/api/meals', async (req, res) => {
+router.post('/api/meals', express.json(), async (req, res) => {
     // TODO: validate user login
 
-    const { name, image } = req.body;
+    const { mealName } = req.body;
 
     // TODO: properly validate name and image
-    if (!name || !image) {
-        return res.status(400).send('invalid name or image');
+    if (!mealName) {
+        return res.status(400).send('invalid meal name');
     }
 
+    let mealId;
     try {
-        await insertMeal(name, image);
+        mealId = await insertMeal(mealName);
     } catch (err) {
         console.error(err);
         return res.status(500).send('meal insertion failed');
     }
+
+    res.json({ mealId });
+});
+
+router.post('/api/meals/images/:id', express.raw({ type: '*/*', limit: 1e7 }), async (req, res) => {
+    const imageData = req.body;
+    const mealId = req.params.id;
+
+    await addMealImage(mealId, imageData);
 
     res.sendStatus(200);
 });
