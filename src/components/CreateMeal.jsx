@@ -1,7 +1,7 @@
 import { Text, Pressable, View, TextInput, Image } from 'react-native';
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import {launchImageLibrary} from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios';
 
 const initialValues = {
@@ -11,7 +11,6 @@ const initialValues = {
 
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const [formError, setFormError] = useState('');
-    const [selectedImage, setSelectedImage] = useState(null);
 
     const formik = useFormik({
         initialValues,
@@ -35,7 +34,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     
         launchImageLibrary(options, handleResponse);
     };
-        
+
     const handleResponse = (response) => {
         if (response.didCancel) {
             console.log('User cancelled image picker');
@@ -43,20 +42,18 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
             console.log('Image picker error: ', response.error);
         } else {
             let imageUri = response.uri || response.assets?.[0]?.uri;
-            setSelectedImage(imageUri);
+            formik.setFieldValue('imageUri', imageUri);
         }
     };
 
-    formik.values.imageUri = selectedImage;
-
     return (
         <View>
-            {selectedImage ? (
+            {formik.values.imageUri ? (
                 <Image
-                    source={{ uri: selectedImage }}
+                    source={{ uri: formik.values.imageUri }}
                     style={{ width: 100, height: 100 }}
                 />
-            ): null}
+            ) : null}
             {formError ? (
                 <Text>{formError}</Text>
             ) : null}
