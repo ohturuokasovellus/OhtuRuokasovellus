@@ -1,10 +1,15 @@
-import { Text, Pressable, View, TextInput, StyleSheet } from 'react-native';
+import { Text, Pressable, View, TextInput } from 'react-native';
 import { Link, useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { deleteSession } from '../controllers/sessionController';
-import { restaurantRegistrationValidationSchema } from '../utils/formValidationSchemas'; // Assuming you have a specific validation schema for restaurant registration
+// Assuming you have a specific validation schema for restaurant registration
+import { restaurantValidationSchema }
+    from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
+import { stylesRegister } from '../styling/styles';
+
+const styles = stylesRegister;
 
 const initialValues = {
     username: '',
@@ -14,7 +19,7 @@ const initialValues = {
     restaurantName: '',
 };
 
-const validationSchema = restaurantRegistrationValidationSchema;
+const validationSchema = restaurantValidationSchema;
 
 const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     const [formError, setFormError] = useState('');
@@ -130,40 +135,5 @@ const Register = ({ updateUser }) => {
 
     return <RegisterForm onSubmit={onSubmit} onSuccess={onSuccess} onError={onError} />;
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 16,
-        backgroundColor: '#F2D8D5',
-        width: 400,
-    },
-    input: {
-        height: 50,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 8,
-        paddingHorizontal: 10,
-        marginBottom: 12,
-        backgroundColor: '#fff',
-    },
-    button: {
-        height: 50,
-        backgroundColor: '#60AEBF',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8,
-    },
-    buttonText: {
-        color: '#153236',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    error: {
-        color: '#BF5687',
-        marginBottom: 8,
-    },
-});
 
 export default Register;
