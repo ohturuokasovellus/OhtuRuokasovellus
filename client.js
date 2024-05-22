@@ -21,11 +21,14 @@ require('dotenv').config();
 const postgres = require('postgres');
 var filesystem = require('fs');
 
-const sqlCommand = filesystem.readFileSync('schema.sql').toString();
+const sqlCommands = filesystem.readFileSync('schema.sql').toString().split('\n\n');
 const sql = postgres(process.env.E2ETEST_POSTGRES_URL);
 
-const executeSchema = async () => {
-    await sql`${sqlCommand}`;
+const executeSchema = async (command) => {
+    await sql`${command}`;
 };
 
-executeSchema();
+for (let i = 0; i < sqlCommands.length; i++) {
+    console.log(sqlCommands[i]);
+    executeSchema(sqlCommands[i]);
+}
