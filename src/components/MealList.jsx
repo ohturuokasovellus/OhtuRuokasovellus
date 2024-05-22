@@ -1,27 +1,47 @@
-import { React, useState} from 'react';
+import { React, useState, useEffect } from 'react';
 import {
     View, Text, Pressable, FlatList, StyleSheet, Image
 } from 'react-native';
-import { mealImageUri } from '../utils/tempImageUri';
+// import { mealImageUri } from '../utils/tempImageUri';
+import axios from 'axios';
+import { useParams } from '../Router';
 
-let meals;
+
 const MealList = () => {
-    const [selectedMeal, setSelectedMeal] = useState(null);
-    meals = ([
-        {
-            mealId: 1,
-            name: 'Falafeli',
-            image: mealImageUri,
-            restaurant: 1
-        },
-        {
-            mealId: 2,
-            name: 'Kanasalaatti',
-            image: mealImageUri,
-            restaurant: 2
-        },
-    ]);
+    // const tempMeals = ([
+    //     {
+    //         mealId: 1,
+    //         name: 'Falafeli',
+    //         image: mealImageUri,
+    //     },
+    //     {
+    //         mealId: 2,
+    //         name: 'Kanasalaatti',
+    //         image: mealImageUri,
+    //     },
+    // ]);
+    // console.log(tempMeals);
 
+    const { restId } = useParams();
+    const [selectedMeal, setSelectedMeal] = useState(null);
+    const [meals, setMeals] = useState([]);
+    const [restaurantId, setRestaurantId] = useState(restId);
+
+    useEffect(() => {
+        const fetchMeals = async () => {
+            setRestaurantId(restId);
+            try {
+                const response = await axios.get(
+                    `http://localhost:8080/api/meals/${restaurantId}`,
+                );
+                console.log(response.data[0]);
+                setMeals(response.data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchMeals();
+    }, [restaurantId]);
 
     const handlePress = (meal) => {
         setSelectedMeal(selectedMeal === meal ? null : meal);
@@ -32,7 +52,7 @@ const MealList = () => {
             <Text style={styles.header}>Ateriat</Text>
             <FlatList
                 data={meals}
-                keyExtractor={(item) => item.mealId.toString()}
+                keyExtractor={(item) => item.meal_id.toString()}
                 renderItem={({ item }) => (
                     <View>
                         <Pressable onPress={() => handlePress(item)}
@@ -43,23 +63,19 @@ const MealList = () => {
                                 styles.pressable
                             ]}
                         >
-                            <Image
+                            {/* <Image
                                 source={{
-                                    uri: item.image
+                                    uri: `data:image/jpeg;base64,${item.image.data}`;
                                 }}
                                 style={styles.image}
-                            />
+                            /> */}
                             <Text style={styles.item}>{item.name}</Text>
                         </Pressable>
-                        {/*
-                        TODO: displaying additional information when pressing
-                        */}
-                        
-                        {/* {selectedMeal === item && (
+                        {selectedMeal === item && (
                             <View style={styles.additionalInfo}>
                                 <Text>lorem ipsum</Text>
                             </View>
-                        )}; */}
+                        )}
                     </View>
                 )}
             />
@@ -84,8 +100,8 @@ const styles = StyleSheet.create({
         borderBottomColor: '#ccc',
     },
     image: {
-        width: 100,
-        height: 100,
+        width: 175,
+        height: 175,
         marginRight: 10,
         borderRadius: 5,
     },

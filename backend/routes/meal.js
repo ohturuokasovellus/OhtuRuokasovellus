@@ -24,20 +24,24 @@ router.post('/api/meals', express.json(), async (req, res) => {
     res.json({ mealId });
 });
 
-router.post('/api/meals/images/:id', express.raw({ type: '*/*', limit: 1e7 }), async (req, res) => {
-    const imageData = req.body;
-    const mealId = req.params.id;
+router.post('/api/meals/images/:id',
+    express.raw({ type: '*/*', limit: 1e7 }), async (req, res) => {
+        const imageData = req.body;
+        const mealId = req.params.id;
 
-    await addMealImage(mealId, imageData);
+        await addMealImage(mealId, imageData);
 
-    res.sendStatus(200);
-});
+        res.sendStatus(200);
+    }
+);
 
-router.get('/api/meals', async (req, res) => {
-    // TODO: get restaurant id from the request and pass it to `getMeals`
-
-    const meals = await getMeals();
-
+router.get('/api/meals/:restaurantId', async (req, res) => {
+    let meals;
+    try {
+        meals = await getMeals(req.params.restaurantId);
+    } catch (err) {
+        return res.status(404).send('Restaurant not found');
+    }
     res.json(meals);
 });
 

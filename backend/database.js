@@ -77,18 +77,18 @@ const insertMeal = async name => {
 const addMealImage = async (mealId, imageData) => {
     await sql`
         UPDATE meals SET image = ${imageData} WHERE meal_id = ${mealId};
-    `
+    `;
 };
 
 /**
  * Fetch all meals from the database.
  * @returns {Promise<{ name: string, image: string }[]>}
  */
-const getMeals = async () => {
+const getMeals = async (restaurantId) => {
     // TODO: add parameter for the restaurant id
     //       and filter the results with that
     const result = await sql`
-        SELECT name, image FROM meals WHERE restaurant_id = 1;
+        SELECT meal_id, name, image FROM meals WHERE restaurant_id = ${restaurantId};
     `;
     return result;
 };
