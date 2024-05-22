@@ -91,8 +91,8 @@ const LoginForm = ({ updateUser }) => {
                     </View>
 
                     <View style={ styles.register }>
-                        <Button title="Register as Restauraunt User"
-                            onPress={() => navigate('/RestaurantRegistration')} />
+                        <Button title="Register as a Restauraunt User"
+                            onPress={() => navigate('/register-restaurant')} />
                     </View>
                 </View>
             )}

@@ -4,6 +4,7 @@ import HomePage from './src/components/HomePage';
 import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
 import QRForm from './src/components/QRForm';
+import RegisterRestaurant from './src/components/RegisterRestaurant';
 import LogoutButton from './src/components/LogoutButton';
 import Router, { Routes, Route } from './src/Router';
 import { styles } from './src/styling/styles';
@@ -28,6 +29,9 @@ const App = () => {
                     <Route path='/login'
                         element={<LoginForm updateUser={updateUser}/>} />
                     <Route path='/qr-form' element={<QRForm />} />
+                    <Route path='/register-restaurant'
+                        element=
+                            {<RegisterRestaurant updateUser={updateUser}/>} />
                 </Routes>
             </View>
         </Router>

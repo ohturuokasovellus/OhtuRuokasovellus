@@ -9,7 +9,7 @@ const {
 
 const router = express.Router();
 
-router.post('/api/RestaurantRegistration', async (req, res) => {
+router.post('/api/register-restaurant', async (req, res) => {
     const { username, password, email, restaurantName } = req.body;
 
     if (!isValidUsername(username)
@@ -18,24 +18,24 @@ router.post('/api/RestaurantRegistration', async (req, res) => {
         || !restaurantName) {
         return res.status(400).json({
             errorMessage:
-            'Invalid username, password, email, or restaurant name'
+            'invalid username, password, email, or restaurant name'
         });
     }
 
     try {
         if (await doesUsernameExist(username)) {
             return res.status(400).json(
-                { errorMessage: 'Username already exists' }
+                { errorMessage: 'username already exists' }
             );
         }
         if (await doesEmailExist(email)) {
             return res.status(400).json(
-                { errorMessage: 'Email already exists' }
+                { errorMessage: 'email already exists' }
             );
         }
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ errorMessage: 'User creation failed' });
+        return res.status(500).json({ errorMessage: 'user creation failed' });
     }
 
     const passwordHash = hash(password);   // TODO: salt hashes
@@ -44,7 +44,9 @@ router.post('/api/RestaurantRegistration', async (req, res) => {
         await insertUser(username, passwordHash, email, restaurantId);
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ errorMessage: 'User creation failed' });
+        return res.status(500).json(
+            { errorMessage: 'restaurant creation failed' }
+        );
     }
 
     res.sendStatus(200);

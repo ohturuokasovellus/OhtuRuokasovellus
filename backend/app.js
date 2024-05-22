@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const registerRouter = require('./routes/register');
 const LoginRouter = require('./routes/login');
-const restaurantRegisterRouter = require('./routes/RestaurantRegistration');
+const registerRestaurantRouter = require('./routes/registerRestaurant');
 const path = require('path');
 const filesystem = require('fs');
 
@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use(registerRouter);
 app.use(LoginRouter);
-app.use(restaurantRegisterRouter)
+app.use(registerRestaurantRouter);
 
 const webBuildPath = path.join(__dirname, '..', 'web-build');
 if (filesystem.existsSync(webBuildPath)) {

@@ -132,7 +132,7 @@ const RegisterRestaurant = ({ updateUser }) => {
         const { username, email, password, restaurantName } = values;
         try {
             await axios.post(
-                'http://localhost:8080/api/RestaurantRegistration',
+                'http://localhost:8080/api/register-restaurant',
                 { username, email, password, restaurantName }
             );
         } catch (err) {
