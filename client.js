@@ -1,4 +1,4 @@
-const { Client } = require('pg');
+/*const { Client } = require('pg');
 
 const pgclient = new Client({
     host: process.env.POSTGRES_HOST,
@@ -10,8 +10,18 @@ const pgclient = new Client({
 
 pgclient.connect();
 
-const table = 'psql -U postgres -d postgres -a -f schema.sql'
+const table = ' -U postgres -d postgres -a -f schema.sql'
 
 pgclient.query(table, (err, res) => {
     if (err) throw err
 });
+*/
+
+require('dotenv').config();
+const postgres = require('postgres');
+var filesystem = require('fs');
+
+const sqlCommand = filesystem.readFileSync('schema.sql').toString();
+const sql = postgres(process.env.E2ETEST_POSTGRES_URL);
+
+await sql`${sqlCommand}`;
