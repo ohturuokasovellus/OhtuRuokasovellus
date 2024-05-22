@@ -21,6 +21,19 @@ const initialValues = {
 
 const validationSchema = restaurantValidationSchema;
 
+/**
+ * Render a form for restaurant registration, validate using a yup schema.
+ * On submission, send registration data to the server.
+ *
+ * @param {Function} onSubmit - handle form submission;
+ *  args: form values
+ * (username, email, password, confirmPassword, restaurantName)
+ * @param {Function} onSuccess - redirect to login if successful
+ * @param {Function} onError - log error message
+ *
+ * @returns {React.JSX.Element}
+ */
+
 const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     const [formError, setFormError] = useState('');
     const formik = useFormik({
@@ -45,7 +58,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             ) : null}
             <TextInput
                 style={styles.input}
-                placeholder='Username'
+                placeholder='username'
                 value={formik.values.username}
                 onChangeText={formik.handleChange('username')}
                 onBlur={formik.handleBlur('username')}
@@ -55,7 +68,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             )}
             <TextInput
                 style={styles.input}
-                placeholder='Email'
+                placeholder='email'
                 value={formik.values.email}
                 onChangeText={formik.handleChange('email')}
                 onBlur={formik.handleBlur('email')}
@@ -65,7 +78,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             )}
             <TextInput
                 style={styles.input}
-                placeholder='Password'
+                placeholder='password'
                 value={formik.values.password}
                 onChangeText={formik.handleChange('password')}
                 onBlur={formik.handleBlur('password')}
@@ -76,18 +89,20 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             )}
             <TextInput
                 style={styles.input}
-                placeholder='Confirm Password'
+                placeholder='confirm password'
                 value={formik.values.confirmPassword}
                 onChangeText={formik.handleChange('confirmPassword')}
                 onBlur={formik.handleBlur('confirmPassword')}
                 secureTextEntry
             />
-            {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-                <Text style={styles.error}>{formik.errors.confirmPassword}</Text>
-            )}
+            {formik.touched.confirmPassword && formik.errors.confirmPassword &&
+                <Text style={styles.error}>
+                    {formik.errors.confirmPassword}
+                </Text>
+            }
             <TextInput
                 style={styles.input}
-                placeholder='Restaurant Name'
+                placeholder='name of the restaurant'
                 value={formik.values.restaurantName}
                 onChangeText={formik.handleChange('restaurantName')}
                 onBlur={formik.handleBlur('restaurantName')}
@@ -98,7 +113,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             <Pressable style={styles.button} onPress={formik.handleSubmit}>
                 <Text style={styles.buttonText}>Register</Text>
             </Pressable>
-            <Text>Already registered?</Text>
+            <Text>already registered?</Text>
             <Link to='/login'>
                 <Text>Login</Text>
             </Link>
@@ -106,7 +121,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 
-const Register = ({ updateUser }) => {
+const RegisterRestaurant = ({ updateUser }) => {
     const navigate = useNavigate();
     useEffect(() => {
         deleteSession();
@@ -121,7 +136,8 @@ const Register = ({ updateUser }) => {
                 { username, email, password, restaurantName }
             );
         } catch (err) {
-            const errorMessage = err.response?.data?.errorMessage || 'An unexpected error occurred';
+            const errorMessage = err.response?.data?.errorMessage ||
+                'an unexpected error occurred';
             throw new Error(errorMessage);
         }
     };
@@ -133,7 +149,8 @@ const Register = ({ updateUser }) => {
         console.error('Registration error:', err);
     };
 
-    return <RegisterForm onSubmit={onSubmit} onSuccess={onSuccess} onError={onError} />;
+    return <RegisterForm onSubmit={onSubmit}
+        onSuccess={onSuccess} onError={onError} />;
 };
 
-export default Register;
+export default RegisterRestaurant;

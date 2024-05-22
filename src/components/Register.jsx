@@ -2,7 +2,7 @@ import { Text, Pressable, View, TextInput } from 'react-native';
 import { Link, useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import axios from 'axios';
-import { deleteSession } from '../controllers/sessionController'
+import { deleteSession } from '../controllers/sessionController';
 import { registrationValidationSchema } from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
 import { stylesRegister } from '../styling/styles';
@@ -23,7 +23,7 @@ const validationSchema = registrationValidationSchema;
  * On submission, send registration data to the server.
  * 
  * @param {Function} onSubmit - handle form submission;
- *  args: form values (username, email, password)
+ *  args: form values (username, email, password, confirmPassword)
  * @param {Function} onSuccess - redirect to login if successful
  * @param {Function} onError - log error message
  * 
