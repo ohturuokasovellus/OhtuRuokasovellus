@@ -11,22 +11,37 @@ on:
 
 jobs:
     simple_deployment_pipeline:
+      # Containers must run in Linux based operating systems
       runs-on: ubuntu-20.04
+      # Docker Hub image that `container-job` executes in
+      container: node:10.18-jessie
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         BACKEND_POSTGRES_URL: ${{ secrets.BACKEND_POSTGRES_URL }}
+      services:
+        # Label used to access the service container
+        postgres:
+          # Docker Hub image
+          image: postgres
+          # Provide the password for postgres
+          env:
+            POSTGRES_PASSWORD: postgres
+          # Set health checks to wait until postgres has started
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            # Maps tcp port 5432 on service container to the host
+            - 5432:5432
       steps:
-        - uses: actions/checkout@v4
+        - name: Check out repository code
+          uses: actions/checkout@v4
+
         - uses: actions/setup-node@v4
           with:
             node-version: '20'
-        - uses: akanieski/setup-postgres-cli@v0.1.2
-          with:
-            # Password passed to postgres cli
-            password: ${{ secrets.BACKEND_POSTGRES_PASSWORD}}
-            # Actions to take
-            commands: psql -U ${{ secrets.BACKEND_POSTGRES_USERNAME}} -d ${{ secrets.BACKEND_POSTGRES_DATABASE}} -a -f schema.sql
-            
 
         - name: Install dependencies 
           run: npm install  
@@ -36,6 +51,17 @@ jobs:
 
         - name: Test
           run: npm run test
+        
+        - name: Connect to PostgreSQL
+          # Runs a script that creates a PostgreSQL table, populates
+          # the table with data, and then retrieves the data.
+          run: node client.js
+
+          env:
+            # The hostname used to communicate with the PostgreSQL service container
+            POSTGRES_HOST: postgres
+            # The default PostgreSQL port
+            POSTGRES_PORT: 5432
 
         - name: E2E tests
           run: npm run test:e2e
