@@ -82,13 +82,13 @@ const addMealImage = async (mealId, imageData) => {
 
 /**
  * Fetch all meals from the database.
- * @returns {Promise<{ name: string, image: string }[]>}
+ * @returns {Promise<{ name: string }[]>}
  */
 const getMeals = async () => {
     // TODO: add parameter for the restaurant id
     //       and filter the results with that
     const result = await sql`
-        SELECT name, image FROM meals WHERE restaurant_id = 1;
+        SELECT name FROM meals WHERE restaurant_id = 1;
     `;
     return result;
 };

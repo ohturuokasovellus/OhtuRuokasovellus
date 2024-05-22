@@ -10,7 +10,7 @@ describe('meal api', () => {
 
     test('new meal is saved to the database', async () => {
         postgresMock.setSqlResults([
-            [{ meal_id: 3141 }],
+            [{ meal_id: 3141 }],    // eslint-disable-line camelcase
         ]);
 
         const response = await request(app)
@@ -45,7 +45,7 @@ describe('meal api', () => {
 
     // test('meal image creation fails with invalid meal id', async () => {
     //     // meal (with id 1234) was not created before trying to add the image
-    //     const imageData = 'data:image/jpeg;base64,CNsCSUbjG7PyKI0x1lRkKdONzHG';
+    //     const imageData = 'data:image/jpeg;base64,CNsCSUbjG7PyKI0x1lRkKdG';
     //     await request(app)
     //         .post('/api/meals/images/1234')
     //         .send(imageData)
@@ -56,14 +56,10 @@ describe('meal api', () => {
     //     expect(postgresMock.runSqlCommands().length).toBe(1);
     // });
 
-    /*test('meals can be fetched', async () => {
-        const imageData = 'data:image/jpeg;base64,CNsCSUbjG7PyKI0x1lRkKdONzHG';
+    test('meals can be fetched', async () => {
         postgresMock.setSqlResults([
             [
-                { name: 'pasta', image: Buffer.from(imageData) },
-            ],
-            [
-                { image: Buffer.from(imageData) },
+                { name: 'pasta' },
             ],
         ]);
 
@@ -71,16 +67,7 @@ describe('meal api', () => {
             .get('/api/meals')
             .expect(200)
             .expect([
-                { name: 'pasta', image: imageData }},
+                { name: 'pasta' },
             ]);
-
-        expect(postgresMock.runSqlCommands().length).toBe(1);
-
-        await request(app)
-            .get('/api/meals/images/1')
-            .expect(200)
-            .expect(imageData);
-
-        expect(postgresMock.runSqlCommands().length).toBe(2);
-    });*/
+    });
 });
