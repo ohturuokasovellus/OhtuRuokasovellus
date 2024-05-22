@@ -83,15 +83,14 @@ const CreateMeal = () => {
         try {
             const response = await axios.post(
                 'http://localhost:8080/api/meals',
-                { mealName, imageUri: 'aa' }
+                { mealName }
             );
             const mealId = response.data.mealId;
-            const form = new FormData();
             await axios.post(
                 `http://localhost:8080/api/meals/images/${mealId}`,
-                form,
+                imageUri,
                 {
-                    headers: { 'Content-Type': 'multipart/form-data' },
+                    headers: { 'Content-Type': 'image/jpeg' },
                 },
             );
         } catch (err) {

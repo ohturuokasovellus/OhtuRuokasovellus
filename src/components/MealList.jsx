@@ -2,26 +2,11 @@ import { React, useState, useEffect } from 'react';
 import {
     View, Text, Pressable, FlatList, StyleSheet, Image
 } from 'react-native';
-// import { mealImageUri } from '../utils/tempImageUri';
 import axios from 'axios';
 import { useParams } from '../Router';
 
 
 const MealList = () => {
-    // const tempMeals = ([
-    //     {
-    //         mealId: 1,
-    //         name: 'Falafeli',
-    //         image: mealImageUri,
-    //     },
-    //     {
-    //         mealId: 2,
-    //         name: 'Kanasalaatti',
-    //         image: mealImageUri,
-    //     },
-    // ]);
-    // console.log(tempMeals);
-
     const { restId } = useParams();
     const [selectedMeal, setSelectedMeal] = useState(null);
     const [meals, setMeals] = useState([]);
@@ -34,8 +19,20 @@ const MealList = () => {
                 const response = await axios.get(
                     `http://localhost:8080/api/meals/${restaurantId}`,
                 );
-                console.log(response.data[0]);
-                setMeals(response.data);
+                const responseMeals = response.data;
+                const updatedMeals = await Promise.all(
+                    responseMeals.map(async (meal) => {
+                        const imageRes = await axios.get(
+                            `http://localhost:8080/api/meals/images/
+                                ${meal.meal_id}`
+                        );
+                        return {
+                            ...meal,
+                            image: imageRes.data
+                        };
+                    }));
+                console.log(updatedMeals);
+                setMeals(updatedMeals);
             } catch (err) {
                 console.log(err);
             }
@@ -63,12 +60,12 @@ const MealList = () => {
                                 styles.pressable
                             ]}
                         >
-                            {/* <Image
+                            <Image
                                 source={{
-                                    uri: `data:image/jpeg;base64,${item.image.data}`;
+                                    uri: item.image
                                 }}
                                 style={styles.image}
-                            /> */}
+                            />
                             <Text style={styles.item}>{item.name}</Text>
                         </Pressable>
                         {selectedMeal === item && (
