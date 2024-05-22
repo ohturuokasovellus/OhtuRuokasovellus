@@ -1,5 +1,5 @@
 const express = require('express');
-const { insertMeal, addMealImage, getMeals } = require('../database');
+const { insertMeal, addMealImage, getMeals, sql } = require('../database');
 
 const router = express.Router();
 
@@ -28,13 +28,29 @@ router.post('/api/meals/images/:id', express.raw({ type: '*/*', limit: 1e7 }), a
     const imageData = req.body;
     const mealId = req.params.id;
 
-    if (!Buffer.isBuffer(imageData)) {
+    // TODO: validate
+    if (!imageData) {
         return res.status(400).send('missing image');
     }
 
     await addMealImage(mealId, imageData);
 
     res.sendStatus(200);
+});
+
+router.get('/api/meals/images/:id', async (req, res) => {
+    const mealId = req.params.id;
+
+    const result = await sql`
+        SELECT image FROM meals WHERE meal_id = ${mealId};
+    `;
+
+    if (result.length === 0 || !result.at(0).image) {
+        return res.status(404).send('no image found');
+    }
+
+    const imageData = result.at(0).image.toString();
+    res.type('image/jpeg').send(imageData);
 });
 
 router.get('/api/meals', async (req, res) => {
