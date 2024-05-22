@@ -2,28 +2,19 @@ import { Text, Pressable, View, TextInput, StyleSheet } from 'react-native';
 import { Link, useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import axios from 'axios';
-import { deleteSession } from '../controllers/sessionController'
-import { registrationValidationSchema } from '../utils/formValidationSchemas';
+import { deleteSession } from '../controllers/sessionController';
+import { restaurantRegistrationValidationSchema } from '../utils/formValidationSchemas'; // Assuming you have a specific validation schema for restaurant registration
 import { useState, useEffect } from 'react';
 
 const initialValues = {
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    restaurantName: '',
 };
 
-const validationSchema = registrationValidationSchema;
-
-/**
- * Render a form for user registration, validate using a yup schema.
- * On submission, send registration data to the server.
- * 
- * @param {Function} onSubmit - handle form submission;
- *  args: form values (username, email, password)
- * 
- * @returns {React.JSX.Element}
- */
+const validationSchema = restaurantRegistrationValidationSchema;
 
 const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     const [formError, setFormError] = useState('');
@@ -49,7 +40,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             ) : null}
             <TextInput
                 style={styles.input}
-                placeholder='username'
+                placeholder='Username'
                 value={formik.values.username}
                 onChangeText={formik.handleChange('username')}
                 onBlur={formik.handleBlur('username')}
@@ -59,7 +50,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             )}
             <TextInput
                 style={styles.input}
-                placeholder='email'
+                placeholder='Email'
                 value={formik.values.email}
                 onChangeText={formik.handleChange('email')}
                 onBlur={formik.handleBlur('email')}
@@ -69,7 +60,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             )}
             <TextInput
                 style={styles.input}
-                placeholder='password'
+                placeholder='Password'
                 value={formik.values.password}
                 onChangeText={formik.handleChange('password')}
                 onBlur={formik.handleBlur('password')}
@@ -80,23 +71,31 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             )}
             <TextInput
                 style={styles.input}
-                placeholder='confirm password'
+                placeholder='Confirm Password'
                 value={formik.values.confirmPassword}
                 onChangeText={formik.handleChange('confirmPassword')}
                 onBlur={formik.handleBlur('confirmPassword')}
                 secureTextEntry
             />
-            {formik.touched.confirmPassword && formik.errors.confirmPassword &&
-                <Text style={styles.error}>
-                    {formik.errors.confirmPassword}
-                </Text>
-            }
+            {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                <Text style={styles.error}>{formik.errors.confirmPassword}</Text>
+            )}
+            <TextInput
+                style={styles.input}
+                placeholder='Restaurant Name'
+                value={formik.values.restaurantName}
+                onChangeText={formik.handleChange('restaurantName')}
+                onBlur={formik.handleBlur('restaurantName')}
+            />
+            {formik.touched.restaurantName && formik.errors.restaurantName && (
+                <Text style={styles.error}>{formik.errors.restaurantName}</Text>
+            )}
             <Pressable style={styles.button} onPress={formik.handleSubmit}>
-                <Text style={styles.buttonText}>register</Text>
+                <Text style={styles.buttonText}>Register</Text>
             </Pressable>
-            <Text>already registered?</Text>
+            <Text>Already registered?</Text>
             <Link to='/login'>
-                <Text>login</Text>
+                <Text>Login</Text>
             </Link>
         </View>
     );
@@ -110,28 +109,26 @@ const Register = ({ updateUser }) => {
     }, []);
 
     const onSubmit = async values => {
-        const { username, email, password } = values;
+        const { username, email, password, restaurantName } = values;
         try {
             await axios.post(
-                'http://localhost:8080/api/register',
-                { username, email, password }
+                'http://localhost:8080/api/RestaurantRegistration',
+                { username, email, password, restaurantName }
             );
         } catch (err) {
-            const errorMessage = err.response?.data?.errorMessage ||
-                'an unexpected error occurred';
+            const errorMessage = err.response?.data?.errorMessage || 'An unexpected error occurred';
             throw new Error(errorMessage);
         }
     };
     const onSuccess = () => {
-        console.log('registration successful!');
+        console.log('Registration successful!');
         navigate('/login');
     };
     const onError = err => {
         console.error('Registration error:', err);
     };
 
-    return <RegisterForm onSubmit={onSubmit}
-        onSuccess={onSuccess} onError={onError} />;
+    return <RegisterForm onSubmit={onSubmit} onSuccess={onSuccess} onError={onError} />;
 };
 
 const styles = StyleSheet.create({

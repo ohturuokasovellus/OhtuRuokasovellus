@@ -89,6 +89,11 @@ const LoginForm = ({ updateUser }) => {
                         <Button title="Register"
                             onPress={() => navigate('/register')} />
                     </View>
+
+                    <View style={ styles.register }>
+                        <Button title="Register as Restauraunt User"
+                            onPress={() => navigate('/RestaurantRegistration')} />
+                    </View>
                 </View>
             )}
         </Formik>
