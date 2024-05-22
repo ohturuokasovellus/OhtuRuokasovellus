@@ -142,11 +142,11 @@ const RegisterRestaurant = ({ updateUser }) => {
         }
     };
     const onSuccess = () => {
-        console.log('Registration successful!');
+        console.log('registration successful!');
         navigate('/login');
     };
     const onError = err => {
-        console.error('Registration error:', err);
+        console.error('registration error:', err);
     };
 
     return <RegisterForm onSubmit={onSubmit}

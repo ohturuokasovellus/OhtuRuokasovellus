@@ -36,7 +36,7 @@ const registrationValidationSchema = yup.object().shape({
 });
 
 const restaurantValidationSchema = registrationValidationSchema.shape({
-    name: yup.string()
+    restaurantName: yup.string()
         .min(3, 'restaurant name must be at least 3 characters')
         .max(32, 'restaurant name cannot exceed 32 characters')
         .required('restaurant name is required'),
