@@ -41,4 +41,42 @@ const styles = StyleSheet.create({
     },
 });
 
-export { styles };
+const stylesRegister = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 16,
+        backgroundColor: '#F2D8D5',
+        width: 400,
+    },
+    input: {
+        height: 50,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 8,
+        paddingHorizontal: 10,
+        marginBottom: 12,
+        backgroundColor: '#fff',
+    },
+    button: {
+        height: 50,
+        backgroundColor: '#60AEBF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 8,
+    },
+    buttonText: {
+        color: '#153236',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    error: {
+        color: '#BF5687',
+        marginBottom: 8,
+    },
+});
+
+export {
+    styles,
+    stylesRegister
+};
