@@ -58,6 +58,16 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             ) : null}
             <TextInput
                 style={styles.input}
+                placeholder='name of the restaurant'
+                value={formik.values.restaurantName}
+                onChangeText={formik.handleChange('restaurantName')}
+                onBlur={formik.handleBlur('restaurantName')}
+            />
+            {formik.touched.restaurantName && formik.errors.restaurantName && (
+                <Text style={styles.error}>{formik.errors.restaurantName}</Text>
+            )}
+            <TextInput
+                style={styles.input}
                 placeholder='username'
                 value={formik.values.username}
                 onChangeText={formik.handleChange('username')}
@@ -100,16 +110,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     {formik.errors.confirmPassword}
                 </Text>
             }
-            <TextInput
-                style={styles.input}
-                placeholder='name of the restaurant'
-                value={formik.values.restaurantName}
-                onChangeText={formik.handleChange('restaurantName')}
-                onBlur={formik.handleBlur('restaurantName')}
-            />
-            {formik.touched.restaurantName && formik.errors.restaurantName && (
-                <Text style={styles.error}>{formik.errors.restaurantName}</Text>
-            )}
             <Pressable style={styles.button} onPress={formik.handleSubmit}>
                 <Text style={styles.buttonText}>Register</Text>
             </Pressable>
