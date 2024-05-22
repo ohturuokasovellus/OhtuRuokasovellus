@@ -20,6 +20,13 @@ jobs:
         - uses: actions/setup-node@v4
           with:
             node-version: '20'
+        - uses: akanieski/setup-postgres-cli@v0.1.2
+          with:
+            # Password passed to postgres cli
+            password: ${{ secrets.BACKEND_POSTGRES_PASSWORD}}
+            # Actions to take
+            commands: psql -U ${{ secrets.BACKEND_POSTGRES_USERNAME}} -d ${{ secrets.BACKEND_POSTGRES_DATABASE}} -a -f schema.sql
+            
 
         - name: Install dependencies 
           run: npm install  
@@ -29,14 +36,6 @@ jobs:
 
         - name: Test
           run: npm run test
-
-        - name: Setup cloud database
-        - uses: akanieski/setup-postgres-cli@v0.1.2
-          with:
-            # Actions to take
-            commands: psql -U ${{ secrets.BACKEND_POSTGRES_USERNAME}} -d ${{ secrets.BACKEND_POSTGRES_DATABASE}} -a -f schema.sql
-            # Password passed to postgres cli
-            password: ${{ secrets.BACKEND_POSTGRES_PASSWORD}}
 
         - name: E2E tests
           run: npm run test:e2e
