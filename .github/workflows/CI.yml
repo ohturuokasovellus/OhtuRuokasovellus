@@ -14,6 +14,7 @@ jobs:
       runs-on: ubuntu-20.04
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        BACKEND_POSTGRES_URL: ${{ secrets.BACKEND_POSTGRES_URL }}
       steps:
         - uses: actions/checkout@v4
         - uses: actions/setup-node@v4
@@ -28,3 +29,14 @@ jobs:
 
         - name: Test
           run: npm run test
+
+        - name: Setup cloud database
+        - uses: akanieski/setup-postgres-cli@v0.1.2
+          with:
+            # Actions to take
+            commands: psql -U ${{ secrets.BACKEND_POSTGRES_USERNAME}} -d ${{ secrets.BACKEND_POSTGRES_DATABASE}} -a -f schema.sql
+            # Password passed to postgres cli
+            password: ${{ secrets.BACKEND_POSTGRES_PASSWORD}}
+
+        - name: E2E tests
+          run: npm run test:e2e
