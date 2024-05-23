@@ -75,4 +75,32 @@ describe('meal api', () => {
                 { name: 'pasta' },
             ]);
     });
+
+    test('system gives error if no meals found', async () => {
+        postgresMock.setSqlResults([[]]);
+
+        await request(app)
+            .get('/api/meals/2')
+            .expect(404)
+            .expect('"Page not found"');
+    });
+
+    test('meal image can be fetched in correct format', async () => {
+        postgresMock.setSqlResults([[{
+            image: {
+                type: 'Buffer',
+                data: [1, 2, 3, 4, 5, 6]
+            }
+        }]]);
+
+        const res = await request(app).get('/api/meals/images/1');
+        expect(res.header['content-type']).toMatch(/^image\/jpeg/);
+    });
+
+    test('meal image fetching fails if no image data', async () => {
+        postgresMock.setSqlResults([[]]);
+
+        const res = await request(app).get('/api/meals/images/2');
+        expect(res.status).toBe(404);
+    });
 });
