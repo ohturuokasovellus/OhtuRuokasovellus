@@ -98,15 +98,15 @@ const AddUser = ( props ) => {
     const navigate = useNavigate();
     useEffect(() => {
         deleteSession();
-    }, []);
+    }, [props.user]);
 
     const onSubmit = async values => {
-        const { email } = values;
-        const { restaurantID } = props.user.restaurantId;
+        const  emails  = values;
+        const  restaurantID  = props.user.restaurantId;
         try {
             await axios.post(
                 'http://localhost:8080/api/add-users',
-                { email, restaurantID }
+                { emails, restaurantID }
             );
         } catch (err) {
             const errorMessage = err.response?.data?.errorMessage ||
