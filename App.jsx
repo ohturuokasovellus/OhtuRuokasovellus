@@ -8,6 +8,8 @@ import LogoutButton from './src/components/LogoutButton';
 import Router, { Routes, Route } from './src/Router';
 import { styles } from './src/styling/styles';
 import { getSession } from './src/controllers/sessionController';
+import './src/lang/i18n'; // should be inported in index.js, but idk if 
+//they mean the backend's index.js or frontend's app.jsx
 
 const App = () => {
     const [user, setUser] = useState(getSession());
