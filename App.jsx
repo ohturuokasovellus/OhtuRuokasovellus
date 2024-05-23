@@ -5,6 +5,7 @@ import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
 import QRForm from './src/components/QRForm';
 import RegisterRestaurant from './src/components/RegisterRestaurant';
+import AddUserForm from './src/components/UserAddition'
 import LogoutButton from './src/components/LogoutButton';
 import Router, { Routes, Route } from './src/Router';
 import { styles } from './src/styling/styles';
@@ -38,6 +39,9 @@ const App = () => {
                     <Route path='/register-restaurant'
                         element=
                             {<RegisterRestaurant updateUser={updateUser}/>} />
+                    <Route path='/add-users'
+                        element=
+                            {<AddUserForm updateUser={updateUser}/>} />
                 </Routes>
             </View>
         </Router>
