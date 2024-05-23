@@ -90,7 +90,11 @@ const addMealImage = async (mealId, imageData) => {
 const getMeals = async (restaurantId) => {
     const result = await sql`
         SELECT m.meal_id, m.name as meal_name, m.image, 
-        r.name as restaurant_name FROM meals m
+        CASE 
+            WHEN r.restaurant_id IS NOT NULL THEN r.name 
+            ELSE NULL 
+        END as restaurant_name 
+        FROM meals m
         LEFT JOIN restaurants r ON m.restaurant_id = r.restaurant_id
         WHERE m.restaurant_id = ${restaurantId};
     `;

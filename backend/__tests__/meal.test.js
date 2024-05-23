@@ -61,7 +61,7 @@ describe('meal api', () => {
         expect(postgresMock.runSqlCommands().length).toBe(1);
     });
 
-    test('meals can be fetched', async () => {
+    test('restaurant meals can be fetched', async () => {
         postgresMock.setSqlResults([
             [
                 { name: 'pasta' },
@@ -69,7 +69,7 @@ describe('meal api', () => {
         ]);
 
         await request(app)
-            .get('/api/meals')
+            .get('/api/meals/1')
             .expect(200)
             .expect([
                 { name: 'pasta' },
