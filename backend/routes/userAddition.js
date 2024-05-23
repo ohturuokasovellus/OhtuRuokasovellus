@@ -31,12 +31,11 @@ router.post('/api/add-user', async (req, res) => {
     }
 
     // insert the user into database
-    const passwordHash = hash(password);   // TODO: salt hashes
     try {
-        await insertUser(username, passwordHash, email, null);
+        await updateUserRestaurantByEmail(email,restaurantID );
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ errorMessage: 'user creation failed' });
+        return res.status(500).json({ errorMessage: 'add user failed' });
     }
 
     res.sendStatus(200);
