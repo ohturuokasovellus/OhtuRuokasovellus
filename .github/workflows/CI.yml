@@ -18,7 +18,8 @@ jobs:
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         BACKEND_POSTGRES_URL: ${{ secrets.BACKEND_POSTGRES_URL }}
-        E2ETEST_POSTGRES_URL: ${{ secrets.BACKEND_POSTGRES_URL }}
+        E2ETEST_POSTGRES_URL: ${{ secrets.E2ETEST_POSTGRES_URL }}
+        E2ETEST: '1'
       services:
         # Label used to access the service container
         postgres:
