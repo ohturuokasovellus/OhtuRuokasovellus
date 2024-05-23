@@ -119,7 +119,7 @@ const AddUser = ( props ) => {
         navigate('/');
     };
     const onError = err => {
-        console.error('Registration error:', err);
+        console.error('User addition failed:', err);
     };
 
     return <AddUserForm onSubmit={onSubmit}
