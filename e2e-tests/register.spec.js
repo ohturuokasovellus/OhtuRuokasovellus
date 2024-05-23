@@ -16,7 +16,6 @@ const initTestDB = async () => {
 
 test.describe('registration page', () => {
     test.beforeEach(async ({ page }) => {
-        console.log('b4 initDB;');
         await initTestDB();
         await page.goto('/register');
     });
