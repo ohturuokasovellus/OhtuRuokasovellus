@@ -20,20 +20,6 @@ const Home = (props) => {
     // Check if user is a restaurant owner
     const isRestaurantUser = props.user.restaurantId !== null;
 
-    // return (
-    //     <View>
-    //         {isRestaurantUser ? (
-    //             <Text style={styles.welcomeText}>
-    //                 Welcome, restaurant owner {props.user.username}
-    //             </Text>
-    //         ) : (
-    //             <Text style={styles.welcomeText}>
-    //                 Welcome, {props.user.username}
-    //             </Text>
-    //         )}
-    //     </View>
-    // );
-
     return (
         <View>
             <Text style={styles.welcomeText}>
