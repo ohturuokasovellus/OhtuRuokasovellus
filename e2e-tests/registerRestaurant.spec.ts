@@ -44,7 +44,22 @@ test.describe('restaurant registration page', () => {
     });
 
     test('cannot register with a duplicate restaurant name', async ({ page }) => {
-        // TODO
+        await page.getByPlaceholder('name of the restaurant').click();
+        await page.getByPlaceholder('name of the restaurant')
+            .fill('testaurant');
+        await page.getByPlaceholder('username').click();
+        await page.getByPlaceholder('username').fill('test2');
+        await page.getByPlaceholder('email').click();
+        await page.getByPlaceholder('email').fill('test@test.fi');
+        await page.getByPlaceholder('password', { exact: true }).click();
+        await page.getByPlaceholder('password', { exact: true })
+            .fill('Test123!');
+        await page.getByPlaceholder('confirm password').click();
+        await page.getByPlaceholder('confirm password').fill('Test123!');
+        await page.getByText('register', { exact: true }).click();
+        await expect(page).toHaveURL(/\/register-restaurant$/);
+        await expect(page.locator('#root'))
+            .toContainText('restaurant already exists');
     });
 
     test('cannot register with an invalid restaurant name', async ({ page }) => {
