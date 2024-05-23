@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import { View } from 'react-native';
-import HomePage from './src/components/HomePage';
+import Home from './src/components/Home';
 import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
 import QRForm from './src/components/QRForm';
@@ -23,7 +23,7 @@ const App = () => {
                     <LogoutButton updateUser={updateUser}/>
                 }
                 <Routes>
-                    <Route path='/' element={<HomePage user={user} />} />
+                    <Route path='/' element={<Home user={user} />} />
                     <Route path='/register'
                         element={<Register updateUser={updateUser}/>} />
                     <Route path='/login'

@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 
-const HomePage = (props) => {
+const Home = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -34,4 +34,4 @@ const HomePage = (props) => {
     );
 };
 
-export default HomePage;
+export default Home;
