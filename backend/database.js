@@ -72,6 +72,61 @@ const doesEmailExist = async email => {
     return result.at(0).exists;
 };
 
+/**
+ * Insert a new meal to the database.
+ * @param {string} name Name of the meal.
+ * @returns {Promise<number>} ID of the created meal.
+ */
+const insertMeal = async name => {
+    // TODO: add another parameter for the restaurant id
+    const result = await sql`
+        INSERT INTO meals (name, restaurant_id)
+        VALUES (${name}, 1)
+        RETURNING meal_id;
+    `;
+    return result.at(0).meal_id;
+};
+
+/**
+ * Attach image to the meal.
+ * @param {number} mealId
+ * @param {Buffer} imageData
+ * @returns {Promise<boolean>} Whether the meal existed
+ *  (and thus the image was successfully added).
+ */
+const addMealImage = async (mealId, imageData) => {
+    const result = await sql`
+        UPDATE meals SET image = ${imageData} WHERE meal_id = ${mealId};
+    `;
+    return result.count === 1;
+};
+
+/**
+ * Fetch restaurant specific meals from database.
+ * @returns {Promise<{ name: string, image: string }[]>}
+ */
+const getMeals = async (restaurantId) => {
+    const result = await sql`
+        SELECT m.meal_id, m.name as meal_name, m.image, 
+        CASE 
+            WHEN r.restaurant_id IS NOT NULL THEN r.name 
+            ELSE NULL 
+        END as restaurant_name 
+        FROM meals m
+        LEFT JOIN restaurants r ON m.restaurant_id = r.restaurant_id
+        WHERE m.restaurant_id = ${restaurantId};
+    `;
+    return result;
+};
+
+const isRestaurantUser = async userId => {
+    const result = await sql`
+        SELECT exists
+        (SELECT restaurant_id FROM users WHERE user_id = ${userId} LIMIT 1);
+    `;
+    return result.at(0).exists;
+};
+
 module.exports = {
     sql,
     insertUser,
@@ -80,4 +135,8 @@ module.exports = {
     getUser,
     doesEmailExist,
     // getRestaurantId,
+    insertMeal,
+    addMealImage,
+    getMeals,
+    isRestaurantUser
 };

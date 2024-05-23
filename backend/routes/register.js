@@ -9,6 +9,8 @@ const { insertUser, doesUsernameExist, doesEmailExist } = require(
 
 const router = express.Router();
 
+router.use(express.json());
+
 router.post('/api/register', async (req, res) => {
     const { username, password, email } = req.body;
 

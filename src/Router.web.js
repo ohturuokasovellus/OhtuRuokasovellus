@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Link, Routes,
-    Route, Navigate, useNavigate } from 'react-router-dom';
+    Route, Navigate, useNavigate, useParams } from 'react-router-dom';
 
 export default Router;
 
@@ -8,5 +8,6 @@ export {
     Routes,
     Route,
     Navigate,
-    useNavigate
+    useNavigate,
+    useParams
 };
