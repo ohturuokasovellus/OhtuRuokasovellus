@@ -80,6 +80,7 @@ const addMealImage = async (mealId, imageData) => {
     const result = await sql`
         UPDATE meals SET image = ${imageData} WHERE meal_id = ${mealId};
     `;
+    return result.count === 1;
 };
 
 /**
@@ -88,8 +89,10 @@ const addMealImage = async (mealId, imageData) => {
  */
 const getMeals = async (restaurantId) => {
     const result = await sql`
-        SELECT meal_id, name, image FROM meals WHERE restaurant_id =
-            ${restaurantId};
+        SELECT m.meal_id, m.name as meal_name, m.image, 
+        r.name as restaurant_name FROM meals m
+        LEFT JOIN restaurants r ON m.restaurant_id = r.restaurant_id
+        WHERE m.restaurant_id = ${restaurantId};
     `;
     return result;
 };

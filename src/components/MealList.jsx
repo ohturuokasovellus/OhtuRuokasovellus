@@ -11,6 +11,7 @@ const MealList = () => {
     const [selectedMeal, setSelectedMeal] = useState(null);
     const [meals, setMeals] = useState([]);
     const [restaurantId, setRestaurantId] = useState(restId);
+    const [restaurantName, setRestaurantName] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -33,13 +34,13 @@ const MealList = () => {
                         };
                     }));
                 setMeals(updatedMeals);
+                setRestaurantName(updatedMeals[0].restaurant_name);
             } catch (err) {
                 setError(err.response.data);
             }
         };
         fetchMeals();
     }, [restaurantId]);
-
     const handlePress = (meal) => {
         setSelectedMeal(selectedMeal === meal ? null : meal);
     };
@@ -54,7 +55,7 @@ const MealList = () => {
 
     return (
         <View style={styles.mealContainer}>
-            <Text style={styles.header}>Ateriat</Text>
+            <Text style={styles.header}>Ravintola {restaurantName}</Text>
             <FlatList
                 data={meals}
                 keyExtractor={(item) => item.meal_id.toString()}
@@ -77,15 +78,26 @@ const MealList = () => {
                                 />
                                 <View style={styles.textContainer}>
                                     <Text style={styles.itemName}>
-                                        {item.name}
+                                        {item.meal_name}
                                     </Text>
                                     {selectedMeal === item && (
                                         <Text style={styles.additionalInfo}>
-                                            lorem ipsumlorem ipsumlorem
-                                            ipsumloremipsumlorem ipsumlorem
-                                            ipsumlorem ipsumlore ipsumlorem
-                                            ipsumlorem ipsumlorem ipsumlorem
-                                            ipsumlorem ipsumlorem ipsum
+                                            Lorem ipsum dolor sit amet,
+                                            consectetur adipiscing elit,
+                                            sed do eiusmod tempor incididunt
+                                            ut labore et dolore magna aliqua.
+                                            Ut enim ad minim veniam, quis
+                                            nostrud exercitation ullamco
+                                            laboris nisi ut aliquip ex ea
+                                            commodo consequat. Duis aute
+                                            irure dolor in reprehenderit
+                                            in voluptate velit esse
+                                            cillum dolore eu fugiat
+                                            nulla pariatur. Excepteur
+                                            sint occaecat cupidatat non
+                                            proident, sunt in culpa qui
+                                            officia deserunt mollit anim
+                                            id est laborum.
                                         </Text>
                                     )}
                                 </View>
