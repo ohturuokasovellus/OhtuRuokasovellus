@@ -38,6 +38,14 @@ const getUser = async (username, password) => {
     return result[0];
 };
 
+// const getRestaurantId = async (username) => {
+//     const result = await sql`
+//         SELECT restaurant_id FROM users
+//         WHERE username = ${username}
+//         `;
+//     return result[0].restaurant_id;
+// };
+
 /**
  * @param {string} username 
  * @returns {Promise<boolean>} Whether the given 
@@ -71,4 +79,5 @@ module.exports = {
     doesUsernameExist,
     getUser,
     doesEmailExist,
+    // getRestaurantId,
 };

@@ -17,7 +17,7 @@ const HomePage = (props) => {
     }
 
     // Check if user is a restaurant owner
-    const isRestaurantOwner = props.user.restaurant_id !== undefined;
+    const isRestaurantOwner = props.user.restaurantId !== null;
 
     return (
         <View>

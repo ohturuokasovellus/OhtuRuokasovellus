@@ -32,7 +32,8 @@ const LoginForm = ({ updateUser }) => {
             actions.setSubmitting(false);
             const userData = {
                 username: response.data.username,
-                token: response.data.token
+                token: response.data.token,
+                restaurantId: response.data.restaurantId,
             };
             createSession(userData);
             updateUser(userData);
