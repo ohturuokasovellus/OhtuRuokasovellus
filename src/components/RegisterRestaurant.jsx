@@ -110,7 +110,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 </Text>
             }
             <Pressable style={styles.button} onPress={formik.handleSubmit}>
-                <Text style={styles.buttonText}>Register</Text>
+                <Text style={styles.buttonText}>register</Text>
             </Pressable>
             <Text>already registered?</Text>
             <Link to='/login'>
