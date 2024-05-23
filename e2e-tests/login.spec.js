@@ -13,19 +13,10 @@ const initTestDB = async () => {
     INSERT INTO users (username, password, email)
     VALUES (${user}, ${pw}, ${email})
     `;
-    await console.log('after initDB;');
-    await getCurrentDB();
-};
-
-const getCurrentDB = async () => {
-    const res = await sql`SELECT current_database()`;
-    console.log(res[0].current_database);
 };
 
 test.describe('login page', () => {
     test.beforeEach(async ({ page }) => {
-        console.log('b4 initDB;');
-        await getCurrentDB();
         await initTestDB();
         await page.goto('/login');
     });
