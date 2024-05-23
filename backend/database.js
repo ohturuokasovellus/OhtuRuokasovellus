@@ -29,7 +29,6 @@ const insertRestaurant = async (name) => {
     return result[0].restaurant_id;
 };
 
-
 const getUser = async (username, password) => {
     const result = await sql`
         SELECT * FROM users
@@ -37,14 +36,6 @@ const getUser = async (username, password) => {
     `;
     return result[0];
 };
-
-// const getRestaurantId = async (username) => {
-//     const result = await sql`
-//         SELECT restaurant_id FROM users
-//         WHERE username = ${username}
-//         `;
-//     return result[0].restaurant_id;
-// };
 
 /**
  * @param {string} username 
@@ -69,6 +60,17 @@ const doesEmailExist = async email => {
     const result = await sql`
         SELECT exists (SELECT 1 FROM users WHERE email = ${email} LIMIT 1);
     `;
+    return result.at(0).exists;
+};
+
+/**
+ * @param {string} email 
+ * @returns {Promise<boolean>} Whether the given restaurant
+ *  already exists in the database.
+ */
+const doesRestaurantExist = async name => {
+    const result = await sql`
+    SELECT exists (SELECT 1 FROM restaurants WHERE name = ${name} LIMIT 1)`;
     return result.at(0).exists;
 };
 
@@ -134,7 +136,7 @@ module.exports = {
     doesUsernameExist,
     getUser,
     doesEmailExist,
-    // getRestaurantId,
+    doesRestaurantExist,
     insertMeal,
     addMealImage,
     getMeals,

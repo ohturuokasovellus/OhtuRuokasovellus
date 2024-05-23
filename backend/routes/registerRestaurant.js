@@ -4,7 +4,11 @@ const { isValidUsername, isValidPassword, isValidEmail } = require(
 );
 const { hash } = require('../services/hash.js');
 const {
-    insertUser, insertRestaurant, doesUsernameExist, doesEmailExist
+    insertUser,
+    insertRestaurant,
+    doesUsernameExist,
+    doesEmailExist,
+    doesRestaurantExist
 } = require('../database.js');
 
 const router = express.Router();
@@ -37,6 +41,11 @@ router.post('/api/register-restaurant', async (req, res) => {
     }
 
     try {
+        if (await doesRestaurantExist(restaurantName)) {
+            return res.status(400).json(
+                { errorMessage: 'restaurant already exists' }
+            );
+        }
         if (await doesUsernameExist(username)) {
             return res.status(400).json(
                 { errorMessage: 'username already exists' }
