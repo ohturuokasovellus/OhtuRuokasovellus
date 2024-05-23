@@ -26,7 +26,7 @@ test.describe('login page', () => {
         await expect(page).toHaveURL(/\/login$/);
         await page.fill('input[placeholder="Username"]', 'testi');
         await page.fill('input[placeholder="Password"]', 'Testi123@');
-        await page.click('text=Login');
+        await page.click('text=login');
         await expect(page).toHaveURL('/');
     });
 
