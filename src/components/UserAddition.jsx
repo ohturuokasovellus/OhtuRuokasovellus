@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, Pressable, View, TextInput } from 'react-native';
-import { Link } from '../Router';
+import { Link, useNavigate } from '../Router';
+import axios from 'axios';
+import { deleteSession } from '../controllers/sessionController';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { stylesRegister } from '../styling/styles';
@@ -92,5 +94,36 @@ const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
         </View>
     );
 };
+const AddUser = ({ updateUser }) => {
+    const navigate = useNavigate();
+    useEffect(() => {
+        deleteSession();
+        updateUser(null);
+    }, []);
 
-export default AddUserForm;
+    const onSubmit = async values => {
+        const { email } = values;
+        try {
+            await axios.post(
+                'http://localhost:8080/api/add-users',
+                { email }
+            );
+        } catch (err) {
+            const errorMessage = err.response?.data?.errorMessage ||
+                'an unexpected error occurred';
+            throw new Error(errorMessage);
+        }
+    };
+    const onSuccess = () => {
+        console.log('User has been added!');
+        navigate('/');
+    };
+    const onError = err => {
+        console.error('Registration error:', err);
+    };
+
+    return <AddUserForm onSubmit={onSubmit}
+        onSuccess={onSuccess} onError={onError} />;
+};
+
+export default AddUser;
