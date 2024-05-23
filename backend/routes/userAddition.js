@@ -3,14 +3,14 @@ const { isValidEmail } = require(
     '../../src/utils/validators.js'
 );
 const { hash } = require('../services/hash');
-const { doesEmailExist } = require(
+const { doesEmailExist, updateUserRestaurantByEmail} = require(
     '../database'
 );
 
 const router = express.Router();
 
 router.post('/api/add-user', async (req, res) => {
-    const { email } = req.body;
+    const { email, restaurantID } = req.body;
 
 
     // validate inputs
