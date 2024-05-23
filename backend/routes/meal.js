@@ -25,7 +25,8 @@ router.post('/api/meals', express.json(), async (req, res) => {
 });
 
 router.post('/api/meals/images/:id',
-    express.raw({ type: '*/*', limit: 1e7 }), async (req, res) => {
+    express.raw({ type: '*/*', limit: 1e7 }),
+    async (req, res) => {
         const imageData = req.body;
         const mealId = req.params.id;
 
@@ -34,11 +35,18 @@ router.post('/api/meals/images/:id',
             return res.status(400).send('missing image');
         }
 
-        await addMealImage(mealId, imageData);
+        try {
+            const success = await addMealImage(mealId, imageData);
+            if (!success) {
+                return res.status(404).send('meal not found');
+            }
+        } catch (err) {
+            console.error(err);
+            return res.status(500).send('unexpected internal server error');
+        }
 
         res.sendStatus(200);
-    }
-);
+    });
 
 router.get('/api/meals/images/:id', async (req, res) => {
     const mealId = req.params.id;

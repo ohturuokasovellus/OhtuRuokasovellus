@@ -43,11 +43,9 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
         } else if (response.error) {
             console.log('Image picker error: ', response.error);
         } else {
-            // length 885764
-            // w h 1920 1080
-            const imageUri = 'data:image/jpeg;base64,' + response.assets[0].base64;
+            const imageBase64 = response.assets[0].base64;
+            const imageUri = `data:image/jpeg;base64,${imageBase64}`;
             formik.setFieldValue('imageUri', imageUri);
-            console.log('image picked', imageUri.length, response.assets[0].width, response.assets[0].height);
         }
     };
 
