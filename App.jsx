@@ -41,7 +41,7 @@ const App = () => {
                             {<RegisterRestaurant updateUser={updateUser}/>} />
                     <Route path='/add-users'
                         element=
-                            {<AddUser updateUser={updateUser}/>} />
+                            {<AddUser user={user} />} />
                 </Routes>
             </View>
         </Router>

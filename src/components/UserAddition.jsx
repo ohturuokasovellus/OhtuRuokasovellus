@@ -94,19 +94,19 @@ const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
         </View>
     );
 };
-const AddUser = ({ updateUser }) => {
+const AddUser = ( props ) => {
     const navigate = useNavigate();
     useEffect(() => {
         deleteSession();
-        updateUser(null);
     }, []);
 
     const onSubmit = async values => {
         const { email } = values;
+        const { restaurantID } = props.user.restaurantId;
         try {
             await axios.post(
                 'http://localhost:8080/api/add-users',
-                { email }
+                { email, restaurantID }
             );
         } catch (err) {
             const errorMessage = err.response?.data?.errorMessage ||
