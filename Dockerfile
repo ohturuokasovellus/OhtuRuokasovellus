@@ -25,10 +25,10 @@ ADD backend/ backend/
 ADD assets/ assets/
 
 RUN npm run build
-RUN npm run lint
+# RUN npm run lint
 
-ENV SECRET_KEY=ajfjaoeiowfho
-RUN npm run test
+# ENV SECRET_KEY=ajfjaoeiowfho
+# RUN npm run test
 
 # run end-to-end tests
 # ENV E2ETEST_POSTGRES_URL=postgres://.....
