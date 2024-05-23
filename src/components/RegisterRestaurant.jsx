@@ -120,6 +120,15 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 
+/**
+ * Register a new restaurant and user, then navigate to the login page.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Function} props.updateUser - Function to update the user state.
+ *
+ * @returns {React.JSX.Element}
+ */
 const RegisterRestaurant = ({ updateUser }) => {
     const navigate = useNavigate();
     useEffect(() => {
@@ -127,6 +136,16 @@ const RegisterRestaurant = ({ updateUser }) => {
         updateUser(null);
     }, []);
 
+    /**
+     * Handle form submission by sending registration data to the server.
+     *
+     * @param {Object} values - The form values.
+     * @param {string} values.username - The username.
+     * @param {string} values.email - The email.
+     * @param {string} values.password - The password.
+     * @param {string} values.restaurantName - The name of the restaurant.
+     * @throws Throw an error if registration fails.
+     */
     const onSubmit = async values => {
         const { username, email, password, restaurantName } = values;
         try {
@@ -140,10 +159,20 @@ const RegisterRestaurant = ({ updateUser }) => {
             throw new Error(errorMessage);
         }
     };
+
+    /**
+     * Handle successful registration by navigating to the login page.
+     */
     const onSuccess = () => {
         console.log('registration successful!');
         navigate('/login');
     };
+
+    /**
+     * Handle registration errors.
+     *
+     * @param {Error} err - The error object.
+     */
     const onError = err => {
         console.error('registration error:', err);
     };
