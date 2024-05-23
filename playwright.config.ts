@@ -21,7 +21,7 @@ export default defineConfig({
   // limit workers to one in order not to mess up with the database
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: 'list',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -71,7 +71,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'E2ETEST=1 npm run start:server',
+    command: 'npm run start:server',
     url: 'http://127.0.0.1:8080',
     reuseExistingServer: !process.env.CI,
   },
