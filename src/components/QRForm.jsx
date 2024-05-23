@@ -17,7 +17,8 @@ const initialValues = {
 const QRForm = () => {
     let [urlView, setUrlView] = useState(null);
 
-    const {t} = useTranslation();
+    // eslint-disable-next-line id-length
+    const {t} = useTranslation(); // variable's name has to be t for it to work
 
     const onSubmit = urlObject => {
         const url = urlObject.urlToBeGenerated;
