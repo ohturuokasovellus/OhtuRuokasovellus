@@ -31,9 +31,9 @@ ENV SECRET_KEY=ajfjaoeiowfho
 RUN npm run test
 
 # run end-to-end tests
-# ENV E2ETEST_POSTGRES_URL=postgres://imgjicmd:AedizswWf8uv4FhcPNiL8bOT9CumHB10@abul.db.elephantsql.com/imgjicmd
-# ENV PGPASSWORD=AedizswWf8uv4FhcPNiL8bOT9CumHB10
-# RUN psql -h abul.db.elephantsql.com -U imgjicmd -d imgjicmd -f schema.sql
+# ENV E2ETEST_POSTGRES_URL=postgres://.....
+# ENV PGPASSWORD=.....
+# RUN psql -h example.com -U usernamehere -d databasenamehere -f schema.sql
 # RUN npm run test:e2e
 
 
