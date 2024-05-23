@@ -52,18 +52,6 @@ jobs:
 
         - name: Test
           run: npm run test
-        
-        - name: Connect to PostgreSQL
-          # Runs a script that creates a PostgreSQL table, populates
-          # the table with data, and then retrieves the data.
-          run: node client.js
-
-          env:
-            # The hostname used to communicate with the PostgreSQL service container
-            #POSTGRES_HOST: postgres
-            # The default PostgreSQL port
-            #POSTGRES_PORT: 5432
-            E2ETEST_POSTGRES_URL: ${{ secrets.BACKEND_POSTGRES_URL }}
 
         - name: E2E tests
           run: npm run test:e2e
