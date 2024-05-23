@@ -30,20 +30,17 @@ const Home = (props) => {
                     <Text style={styles.welcomeText}>
                         You are logged in as a restaurant user.
                     </Text>
-                    <View style={styles.button}>
-                    <Pressable title='Add user' onPress={
+                    <Pressable style={styles.button} title='Add user' onPress={
                         () => navigate('/add-users')
                     }>
                         <Text style={styles.buttonText}>add user</Text>
                     </Pressable>
-                    </View>
-                    <View style={styles.button}>
-                    <Pressable title='restaurant page' onPress={
-                        () => navigate(`/restaurant/${props.user.restaurantId}`)
+                    <Pressable style={styles.button} title='restaurant page'
+                        onPress={
+                        () => navigate(`/restaurant/${props.user.restaurantI}`)
                     }>
                         <Text style={styles.buttonText}>restaurant page</Text>
                     </Pressable>
-                    </View>
                 </>
             ) : null}
         </View>
