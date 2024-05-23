@@ -12,6 +12,8 @@ on:
 jobs:
     simple_deployment_pipeline:
       runs-on: ubuntu-20.04
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       steps:
         - name: Check out repository code
           uses: actions/checkout@v4
@@ -38,7 +40,6 @@ jobs:
         - name: E2E tests
           run: npm run test:e2e
           env:
-            SECRET_KEY: ${{ secrets.SECRET_KEY }}
             E2ETEST_POSTGRES_URL: ${{ secrets.E2ETEST_POSTGRES_URL }}
             E2ETEST: 1
       
