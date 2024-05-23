@@ -1,5 +1,6 @@
+/* eslint-disable @stylistic/js/indent */
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Pressable } from 'react-native';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 
@@ -17,19 +18,41 @@ const Home = (props) => {
     }
 
     // Check if user is a restaurant owner
-    const isRestaurantOwner = props.user.restaurantId !== null;
+    const isRestaurantUser = props.user.restaurantId !== null;
+
+    // return (
+    //     <View>
+    //         {isRestaurantUser ? (
+    //             <Text style={styles.welcomeText}>
+    //                 Welcome, restaurant owner {props.user.username}
+    //             </Text>
+    //         ) : (
+    //             <Text style={styles.welcomeText}>
+    //                 Welcome, {props.user.username}
+    //             </Text>
+    //         )}
+    //     </View>
+    // );
 
     return (
         <View>
-            {isRestaurantOwner ? (
-                <Text style={styles.welcomeText}>
-                    Welcome, restaurant owner {props.user.username}
-                </Text>
-            ) : (
-                <Text style={styles.welcomeText}>
-                    Welcome, {props.user.username}
-                </Text>
-            )}
+            <Text style={styles.welcomeText}>
+                Welcome, {props.user.username}
+            </Text>
+            {isRestaurantUser ? (
+                <>
+                    <Text style={styles.welcomeText}>
+                        You are logged in as a restaurant user.
+                    </Text>
+                    <View style={styles.button}>
+                    <Pressable title='Add user' onPress={
+                        () => navigate('/add-user')
+                    }>
+                        <Text style={styles.buttonText}>add user</Text>
+                    </Pressable>
+                    </View>
+                </>
+            ) : null}
         </View>
     );
 };
