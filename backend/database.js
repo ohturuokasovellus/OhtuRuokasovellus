@@ -37,6 +37,14 @@ const getUser = async (username, password) => {
     return result[0];
 };
 
+const updateUserRestaurantByEmail = async (email, restaurantID) => {
+    await sql`
+        UPDATE users
+        SET restaurant_id = ${restaurantID}
+        WHERE email = ${email};
+    `;
+};
+
 /**
  * @param {string} username 
  * @returns {Promise<boolean>} Whether the given 
@@ -140,5 +148,6 @@ module.exports = {
     insertMeal,
     addMealImage,
     getMeals,
-    isRestaurantUser
+    isRestaurantUser,
+    updateUserRestaurantByEmail
 };
