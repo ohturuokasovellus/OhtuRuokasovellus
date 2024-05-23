@@ -32,9 +32,16 @@ const Home = (props) => {
                     </Text>
                     <View style={styles.button}>
                     <Pressable title='Add user' onPress={
-                        () => navigate('/add-user')
+                        () => navigate('/add-users')
                     }>
                         <Text style={styles.buttonText}>add user</Text>
+                    </Pressable>
+                    </View>
+                    <View style={styles.button}>
+                    <Pressable title='restaurant page' onPress={
+                        () => navigate(`/restaurant/${props.user.restaurantId}`)
+                    }>
+                        <Text style={styles.buttonText}>restaurant page</Text>
                     </Pressable>
                     </View>
                 </>
