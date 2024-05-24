@@ -15,7 +15,9 @@ jobs:
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
       steps:
-        - uses: actions/checkout@v4
+        - name: Check out repository code
+          uses: actions/checkout@v4
+
         - uses: actions/setup-node@v4
           with:
             node-version: '20'
@@ -28,3 +30,16 @@ jobs:
 
         - name: Test
           run: npm run test
+
+        - name: Install Playwright
+          run: npx playwright install --with-deps
+
+        - name: Build
+          run: npm run build
+
+        - name: E2E tests
+          run: npm run test:e2e
+          env:
+            E2ETEST_POSTGRES_URL: ${{ secrets.E2ETEST_POSTGRES_URL }}
+            E2ETEST: 1
+      

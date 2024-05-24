@@ -20,15 +20,21 @@ const insertUser = async (username, password, email, restaurantId) => {
     `;
 };
 
-const insertRestaurant = async (name) => {
+const insertRestaurant = async (restaurantName) => {
     const result = await sql`
         INSERT INTO restaurants (name)
-        VALUES (${name})
-        RETURNING restaurant_id
+        VALUES (${restaurantName})
+        RETURNING restaurant_id;
     `;
     return result[0].restaurant_id;
 };
 
+/**
+ * @param {string} username 
+ * @param {string} password hashed password 
+ * @returns {Promise<{ user_id: number, username: string, password: string
+ * restaurant_id: number}n>} Whether there exists user with given credentials
+ */
 const getUser = async (username, password) => {
     const result = await sql`
         SELECT * FROM users
@@ -113,7 +119,9 @@ const addMealImage = async (mealId, imageData) => {
 
 /**
  * Fetch restaurant specific meals from database.
- * @returns {Promise<{ name: string, image: string }[]>}
+ * @param {number} restaurantId
+ * @returns {Promise<{ meal_id: number, meal_name: string, image: string,
+ * restaurant_name: string }[]>}
  */
 const getMeals = async (restaurantId) => {
     const result = await sql`

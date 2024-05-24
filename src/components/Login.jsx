@@ -5,15 +5,8 @@ import { Formik } from 'formik';
 import axios from 'axios';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
-import * as yup from 'yup';
 import { createSession } from '../controllers/sessionController';
-
-const LoginValidationSchema = yup.object().shape({
-    username: yup.string()
-        .required('Username is required'),
-    password: yup.string()
-        .required('Password is required'),
-});
+import { LoginValidationSchema } from '../utils/formValidationSchemas';
 
 const LoginForm = ({ updateUser }) => {
     const [errorMessage, setErrorMessage] = useState('');
