@@ -42,7 +42,15 @@ const restaurantValidationSchema = registrationValidationSchema.shape({
         .required('restaurant name is required'),
 });
 
+const LoginValidationSchema = yup.object().shape({
+    username: yup.string()
+        .required('Username is required'),
+    password: yup.string()
+        .required('Password is required'),
+});
+
 export {
     registrationValidationSchema,
-    restaurantValidationSchema
+    restaurantValidationSchema,
+    LoginValidationSchema
 };
