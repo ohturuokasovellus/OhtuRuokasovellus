@@ -9,9 +9,9 @@ WORKDIR /app
 # RUN apt-get update && apt-get install -y postgresql
 
 ADD package.json .
+ADD package-lock.json .
 
-ENV NODE_OPTIONS=--max-old-space-size=2048
-RUN npm install
+RUN npm clean-install --max-old-space-size=1024
 
 ADD babel.config.js .
 ADD schema.sql .
