@@ -15,7 +15,8 @@ describe('register restaurant api', () => {
             .send({ password: 'Testi-123', email: 'johndoe@example.com' })
             .set('Content-Type', 'application/json')
             .expect(400)
-            .expect({ errorMessage: 'invalid username, password or email' });
+            .expect({ errorMessage: 
+                'invalid username, password, email, or restaurant name' });
     });
 
     test('registered user is saved to database', async () => {
