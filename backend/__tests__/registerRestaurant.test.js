@@ -88,7 +88,7 @@ describe('register restaurant api', () => {
             [{ exists: false }],    // check if email already exists
             [{ exists: false }],    // check if restaurant name already exists
             // eslint-disable-next-line
-            [{ restaurant_id: 1 }],   // user is inserted to db, no return
+            [{ restaurant_id: 1 }],
         ]);
 
         await request(app)
