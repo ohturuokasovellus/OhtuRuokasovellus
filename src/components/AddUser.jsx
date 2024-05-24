@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Text, Pressable, View, TextInput } from 'react-native';
 import { useNavigate } from '../Router';
 import axios from 'axios';
-import { deleteSession } from '../controllers/sessionController';
+// import { deleteSession } from '../controllers/sessionController';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { stylesRegister } from '../styling/styles';
@@ -21,12 +21,16 @@ const validationSchema = yup.object().shape({
 
 const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
     const [formError, setFormError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
     const formik = useFormik({
         initialValues,
         validationSchema,
         onSubmit: async values => {
             try {
                 await onSubmit(values.emails);
+                setSuccessMessage('users have been successfully added!');
+                formik.resetForm();
                 onSuccess();
             } catch (err) {
                 onError(err);
@@ -50,6 +54,14 @@ const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
         <View style={styles.container}>
             {formError ? (
                 <Text style={styles.error}>{formError}</Text>
+            ) : null}
+            {successMessage ? (
+                <View>
+                    <Text style={styles.success}>{successMessage}</Text>
+                    <Pressable onPress={() => navigate('/')}>
+                        <Text style={styles.link}>Back to Home</Text>
+                    </Pressable>
+                </View>
             ) : null}
             {formik.values.emails.map((email, index) => (
                 <View key={index} style={styles.emailInputContainer}>
@@ -83,10 +95,10 @@ const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 const AddUser = ( props ) => {
-    const navigate = useNavigate();
-    useEffect(() => {
-        deleteSession();
-    }, [props.user]);
+    // const navigate = useNavigate();
+    // useEffect(() => {
+    //     deleteSession();
+    // }, [props.user]);
 
     const onSubmit = async values => {
         const  emails  = values;
@@ -104,7 +116,7 @@ const AddUser = ( props ) => {
     };
     const onSuccess = () => {
         console.log('User has been added!');
-        navigate('/');
+        // navigate('/');
     };
     const onError = err => {
         console.error('User addition failed:', err);
