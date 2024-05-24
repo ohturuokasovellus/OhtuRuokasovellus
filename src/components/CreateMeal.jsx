@@ -74,9 +74,15 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 value={formik.values.mealName}
                 onChangeText={formik.handleChange('mealName')}
             />
+            {formik.touched.mealName && formik.errors.mealName && 
+                <Text>{formik.errors.mealName}</Text>
+            }
             <Pressable onPress={openImagePicker}>
                 <Text>Valitse kuva laitteelta</Text>
             </Pressable>
+            {formik.touched.imageUri && formik.errors.imageUri && 
+                <Text>{formik.errors.imageUri}</Text>
+            }
             <Pressable onPress={formik.handleSubmit}>
                 <Text>Luo ateria</Text>
             </Pressable>
