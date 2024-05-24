@@ -22,7 +22,7 @@ describe('register api', () => {
     test('register fails if username already exists', async () => {
         postgresMock.setSqlResults([
             [{ exists: true }],    // check if username already exists
-            [{ exists: true }],    // check if email already exists
+            [{ exists: false }],    // check if email already exists
         ]);
 
         await request(app)
