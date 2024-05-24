@@ -87,7 +87,7 @@ describe('register restaurant api', () => {
             [{ exists: false }],    // check if username already exists
             [{ exists: false }],    // check if email already exists
             [{ exists: false }],    // check if restaurant name already exists
-            [{ restaurant_id: 1 }],   // user is inserted to db, no return
+            [{ restaurant_id: 1 }], // return restaurantId from insertRestaurant
         ]);
 
         await request(app)

@@ -46,8 +46,6 @@ router.post('/api/register-restaurant', async (req, res) => {
 
     const passwordHash = hash(password);   // TODO: salt hashes
     try {
-        // sql inside insertRestaurant() doesn't return anything for
-        // some reason
         const restaurantId = await insertRestaurant(restaurantName);
         await insertUser(username, passwordHash, email, restaurantId);
     } catch (err) {
