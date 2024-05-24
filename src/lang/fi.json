@@ -1,6 +1,13 @@
 {
     "translation": {
         "TYPE_A_URL": "Kirjoita URL",
-        "GENERATE_A_URL": "Generoi URL"
+        "GENERATE_A_URL": "Generoi URL",
+        "NAME_OF_THE_MEAL": "Aterian nimi",
+        "SELECT_A_IMAGE_FROM_DEVICE": "Valitse kuva laitteelta",
+        "CREATE_A_MEAL": "Luo ateria",
+        "WELCOME": "Tervetuloa",
+        "YOU_ARE_LOGGED_AS_RESTAURANT_USER": "Olet kirjautunut sisään ravintolakäyttäjänä",
+        "ADD_USER": "Lisää käyttäjä",
+        "RESTAURANT_PAGE": "Ravintolasivu"
    }
 }
