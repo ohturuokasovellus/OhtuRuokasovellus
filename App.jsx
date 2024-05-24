@@ -5,7 +5,7 @@ import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
 import QRForm from './src/components/QRForm';
 import RegisterRestaurant from './src/components/RegisterRestaurant';
-import AddUser from './src/components/UserAddition'
+import AddUser from './src/components/AddUser';
 import LogoutButton from './src/components/LogoutButton';
 import Router, { Routes, Route } from './src/Router';
 import { styles } from './src/styling/styles';

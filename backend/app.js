@@ -5,7 +5,7 @@ const registerRouter = require('./routes/register');
 const LoginRouter = require('./routes/login');
 const registerRestaurantRouter = require('./routes/registerRestaurant');
 const mealRouter = require('./routes/meal');
-const userAdditionRouter = require('./routes/userAddition');
+const userAdditionRouter = require('./routes/addUser');
 
 const path = require('path');
 const filesystem = require('fs');

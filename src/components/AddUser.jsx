@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, Pressable, View, TextInput } from 'react-native';
-import { Link, useNavigate } from '../Router';
+import { useNavigate } from '../Router';
 import axios from 'axios';
 import { deleteSession } from '../controllers/sessionController';
 import { useFormik } from 'formik';
