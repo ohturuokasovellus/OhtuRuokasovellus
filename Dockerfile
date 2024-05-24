@@ -14,10 +14,10 @@ ADD package-lock.json .
 RUN npm clean-install --max-old-space-size=1024
 
 ADD babel.config.js .
-ADD schema.sql .
-ADD .eslintrc.json .
-ADD playwright.config.ts .
-ADD e2e-tests/ e2e-tests/
+# ADD schema.sql .
+# ADD .eslintrc.json .
+# ADD playwright.config.ts .
+# ADD e2e-tests/ e2e-tests/
 ADD app.json .
 ADD App.jsx .
 ADD src/ src/
