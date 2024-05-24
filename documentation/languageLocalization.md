@@ -15,14 +15,14 @@ To use the imported language files add the following line to the start of the fi
 import { useTranslation } from 'react-i18next';
 ```
 
-Then, add this function to the function that returns a text element. The functions name HAS TO BE t, even though eslint won't like it. Otherwise the function won't work.
+Then, add this function to the function that returns a text element. The name of the function HAS TO BE t, even though Eslint won't like it. Otherwise the function won't work.
 ```bash
 const {t} = useTranslation();
 ```
 
 Then you can use text that has been defined in any of the language files in text elements, for example like this:
 ```bash
-<Text>{t('GENERATE_A_URL')}</Text>
+<Text>{t('TEXT_IDENTIFIER')}</Text>
 ```
 
 
@@ -32,7 +32,7 @@ To support new languages, you first must add a JSON file corresponding to the la
 ```bash
 src/lang/ 
 ```
-By default there is already files for english and finnish called 
+By default there is already files for English and Finnish called 
 ```bash
 en.json
 ```
