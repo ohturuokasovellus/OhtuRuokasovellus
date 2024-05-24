@@ -46,4 +46,7 @@ COPY --from=build-step /app/web-build/ web-build/
 COPY --from=build-step /app/backend/ backend/
 COPY --from=build-step /app/node_modules/ node_modules/
 
+RUN chown node .
+USER node
+
 CMD npm run start:server
