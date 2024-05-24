@@ -13,13 +13,28 @@ const sql = postgres(process.env.E2ETEST == '1' ?
     process.env.E2ETEST_POSTGRES_URL :
     process.env.BACKEND_POSTGRES_URL);
 
-const insertUser = async (username, password, email) => {
+const insertUser = async (username, password, email, restaurantId) => {
     await sql`
-        INSERT INTO users (username, password, email)
-        VALUES (${username}, ${password}, ${email})
+        INSERT INTO users (username, password, email, restaurant_id)
+        VALUES (${username}, ${password}, ${email}, ${restaurantId})
     `;
 };
 
+const insertRestaurant = async (restaurantName) => {
+    const result = await sql`
+        INSERT INTO restaurants (name)
+        VALUES (${restaurantName})
+        RETURNING restaurant_id;
+    `;
+    return result[0].restaurant_id;
+};
+
+/**
+ * @param {string} username 
+ * @param {string} password hashed password 
+ * @returns {Promise<{ user_id: number, username: string, password: string
+ * restaurant_id: number}n>} Whether there exists user with given credentials
+ */
 const getUser = async (username, password) => {
     const result = await sql`
         SELECT * FROM users
@@ -27,6 +42,14 @@ const getUser = async (username, password) => {
     `;
     return result[0];
 };
+
+// const getRestaurantId = async (username) => {
+//     const result = await sql`
+//         SELECT restaurant_id FROM users
+//         WHERE username = ${username}
+//         `;
+//     return result[0].restaurant_id;
+// };
 
 /**
  * @param {string} username 
@@ -84,14 +107,21 @@ const addMealImage = async (mealId, imageData) => {
 };
 
 /**
- * Fetch all meals from the database.
- * @returns {Promise<{ name: string }[]>}
+ * Fetch restaurant specific meals from database.
+ * @param {number} restaurantId
+ * @returns {Promise<{ meal_id: number, meal_name: string, image: string,
+ * restaurant_name: string }[]>}
  */
-const getMeals = async () => {
-    // TODO: add parameter for the restaurant id
-    //       and filter the results with that
+const getMeals = async (restaurantId) => {
     const result = await sql`
-        SELECT name FROM meals WHERE restaurant_id = 1;
+        SELECT m.meal_id, m.name as meal_name, m.image, 
+        CASE 
+            WHEN r.restaurant_id IS NOT NULL THEN r.name 
+            ELSE NULL 
+        END as restaurant_name 
+        FROM meals m
+        LEFT JOIN restaurants r ON m.restaurant_id = r.restaurant_id
+        WHERE m.restaurant_id = ${restaurantId};
     `;
     return result;
 };
@@ -104,14 +134,30 @@ const isRestaurantUser = async userId => {
     return result.at(0).exists;
 };
 
+/**
+ * @param {string} email 
+ * @returns {Promise<boolean>} Whether the given email
+ *  already exists in the database.
+ */
+const doesRestaurantNameExist = async restaurantName => {
+    const result = await sql`
+        SELECT exists (SELECT 1 FROM restaurants 
+            WHERE name = ${restaurantName} LIMIT 1);
+    `;
+    return result.at(0).exists;
+};
+
 module.exports = {
     sql,
     insertUser,
+    insertRestaurant,
     doesUsernameExist,
     getUser,
     doesEmailExist,
+    // getRestaurantId,
     insertMeal,
     addMealImage,
     getMeals,
-    isRestaurantUser
+    isRestaurantUser,
+    doesRestaurantNameExist
 };

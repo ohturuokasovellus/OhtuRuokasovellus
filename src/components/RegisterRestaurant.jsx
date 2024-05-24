@@ -3,7 +3,8 @@ import { Link, useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { deleteSession } from '../controllers/sessionController';
-import { registrationValidationSchema } from '../utils/formValidationSchemas';
+import { restaurantValidationSchema }
+    from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
 import { stylesRegister } from '../styling/styles';
 
@@ -13,20 +14,22 @@ const initialValues = {
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    restaurantName: '',
 };
 
-const validationSchema = registrationValidationSchema;
+const validationSchema = restaurantValidationSchema;
 
 /**
- * Render a form for user registration, validate using a yup schema.
+ * Render a form for restaurant registration, validate using a yup schema.
  * On submission, send registration data to the server.
- * 
+ *
  * @param {Function} onSubmit - handle form submission;
- *  args: form values (username, email, password, confirmPassword)
+ *  args: form values
+ * (username, email, password, confirmPassword, restaurantName)
  * @param {Function} onSuccess - redirect to login if successful
  * @param {Function} onError - log error message
- * 
+ *
  * @returns {React.JSX.Element}
  */
 
@@ -52,6 +55,16 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             {formError ? (
                 <Text style={styles.error}>{formError}</Text>
             ) : null}
+            <TextInput
+                style={styles.input}
+                placeholder='name of the restaurant'
+                value={formik.values.restaurantName}
+                onChangeText={formik.handleChange('restaurantName')}
+                onBlur={formik.handleBlur('restaurantName')}
+            />
+            {formik.touched.restaurantName && formik.errors.restaurantName && (
+                <Text style={styles.error}>{formik.errors.restaurantName}</Text>
+            )}
             <TextInput
                 style={styles.input}
                 placeholder='username'
@@ -101,13 +114,13 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             </Pressable>
             <Text>already registered?</Text>
             <Link to='/login'>
-                <Text>login</Text>
+                <Text>Login</Text>
             </Link>
         </View>
     );
 };
 
-const Register = ({ updateUser }) => {
+const RegisterRestaurant = ({ updateUser }) => {
     const navigate = useNavigate();
     useEffect(() => {
         deleteSession();
@@ -115,11 +128,11 @@ const Register = ({ updateUser }) => {
     }, []);
 
     const onSubmit = async values => {
-        const { username, email, password } = values;
+        const { username, email, password, restaurantName } = values;
         try {
             await axios.post(
-                'http://localhost:8080/api/register',
-                { username, email, password }
+                'http://localhost:8080/api/register-restaurant',
+                { username, email, password, restaurantName }
             );
         } catch (err) {
             const errorMessage = err.response?.data?.errorMessage ||
@@ -132,11 +145,11 @@ const Register = ({ updateUser }) => {
         navigate('/login');
     };
     const onError = err => {
-        console.error('Registration error:', err);
+        console.error('registration error:', err);
     };
 
     return <RegisterForm onSubmit={onSubmit}
         onSuccess={onSuccess} onError={onError} />;
 };
 
-export default Register;
+export default RegisterRestaurant;

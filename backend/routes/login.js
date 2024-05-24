@@ -17,7 +17,12 @@ router.post('/api/login', async (req, res) => {
         res
             .status(200)
             .send(
-                { token, username: user.username, message: 'Login succesful' }
+                {
+                    token,
+                    username: user.username,
+                    restaurantId: user.restaurant_id,
+                    message: 'Login succesful'
+                }
             );
     } else {
         res
