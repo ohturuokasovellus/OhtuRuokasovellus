@@ -21,12 +21,13 @@ test.describe('meal creation page', () => {
         await expect(page.locator('#root')).toContainText('Image of the meal is required');
     });
 
-    // test('meal image works', async ({ page}) => {
-    //     await page.fill('input[placeholder="Aterian nimi"]', 'ruoka');
-    //     await page.click('text=Valitse kuva laitteelta');
-    //     const filePath = path.join(__dirname, 'assets', 'image.png');
-    //     await page.locator('input[type="file"]').setInputFiles(filePath);
-    //     await page.keyboard.press('Escape');
-    //     await expect(page.getByRole('img')).toBeVisible();
-    // });
+    test('meal image works', async ({ page}) => {
+         await page.fill('input[placeholder="Aterian nimi"]', 'ruoka');
+         const fileChooserPromise = page.waitForEvent('filechooser');
+         await page.click('text=Valitse kuva laitteelta');
+         const fileChooser = await fileChooserPromise;
+         const filePath = path.join(__dirname, 'assets', 'image.png');
+         await fileChooser.setFiles(filePath);
+        expect(page.getByRole('img')).toBeDefined();
+     });
 });
