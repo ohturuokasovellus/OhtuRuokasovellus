@@ -2,14 +2,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: ruokasovellus
-    application: ruokasovellus
-  name: ruokasovellus
+  name: ruokasovellus-service
 spec:
   ports:
   - port: 8080
     protocol: TCP
     targetPort: 8080
   selector:
-    deploymentconfig: ruokasovellus
+    name: ruokasovellus
