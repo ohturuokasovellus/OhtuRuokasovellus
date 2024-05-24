@@ -87,7 +87,7 @@ describe('register restaurant api', () => {
             [{ exists: false }],    // check if username already exists
             [{ exists: false }],    // check if email already exists
             [{ exists: false }],    // check if restaurant name already exists
-            null,                   // user is inserted to db, no return
+            [{ restaurant_id: 1 }],   // user is inserted to db, no return
         ]);
 
         await request(app)
@@ -101,6 +101,6 @@ describe('register restaurant api', () => {
             .set('Content-Type', 'application/json')
             .expect(200);
 
-        expect(postgresMock.runSqlCommands().length).toBe(4);
+        expect(postgresMock.runSqlCommands().length).toBe(5);
     });
 });
