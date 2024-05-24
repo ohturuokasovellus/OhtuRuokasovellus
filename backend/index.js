@@ -3,10 +3,9 @@
 const express = require('express');
 const app = express();
 
-// commit counter: 1
-
 app.get('/', (req, res) => {
-    res.send('<h1>Ruokasovellus</h1>');
+    const url = 'https://github.com/ohturuokasovellus/OhtuRuokasovellus';
+    res.send(`<h1>Ruokasovellus</h1><a href="${url}">GitHub</a>`);
 });
 
 app.listen(8080, () => {
