@@ -19,10 +19,11 @@ describe('register restaurant api', () => {
                 'invalid username, password, email, or restaurant name' });
     });
 
-    test('registered user is saved to database', async () => {
+    test('registered restaurant user is saved to database', async () => {
         postgresMock.setSqlResults([
             [{ exists: false }],    // check if username already exists
             [{ exists: false }],    // check if email already exists
+            [{ exists: false }],    // check if restaurant name already exists
             null,                   // user is inserted to db, no return
         ]);
 
@@ -37,6 +38,6 @@ describe('register restaurant api', () => {
             .set('Content-Type', 'application/json')
             .expect(200);
 
-        expect(postgresMock.runSqlCommands().length).toBe(3);
+        expect(postgresMock.runSqlCommands().length).toBe(4);
     });
 });
