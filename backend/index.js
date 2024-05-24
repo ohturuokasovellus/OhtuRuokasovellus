@@ -3,6 +3,8 @@
 const express = require('express');
 const app = express();
 
+// commit counter: 1
+
 app.get('/', (req, res) => {
     res.send('<h1>Ruokasovellus</h1>');
 });
