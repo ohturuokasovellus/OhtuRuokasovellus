@@ -61,6 +61,7 @@ describe('meal api', () => {
         expect(postgresMock.runSqlCommands().length).toBe(1);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     test('meals can be fetched', async () => {
         postgresMock.setSqlResults([
             [
