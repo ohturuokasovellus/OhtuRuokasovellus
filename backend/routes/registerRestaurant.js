@@ -4,7 +4,8 @@ const { isValidUsername, isValidPassword, isValidEmail } = require(
 );
 const { hash } = require('../services/hash.js');
 const {
-    insertUser, insertRestaurant, doesUsernameExist, doesEmailExist
+    insertUser, insertRestaurant, doesUsernameExist, doesEmailExist, 
+    doesRestaurantNameExist
 } = require('../database.js');
 
 const router = express.Router();
@@ -33,6 +34,11 @@ router.post('/api/register-restaurant', async (req, res) => {
                 { errorMessage: 'email already exists' }
             );
         }
+        if (await doesRestaurantNameExist(restaurantName)){
+            return res.status(400).json(
+                { errorMessage: 'restaurant name already exists' }
+            );
+        }
     } catch (err) {
         console.error(err);
         return res.status(500).json({ errorMessage: 'user creation failed' });
@@ -40,6 +46,8 @@ router.post('/api/register-restaurant', async (req, res) => {
 
     const passwordHash = hash(password);   // TODO: salt hashes
     try {
+        // sql inside insertRestaurant() doesn't return anything for
+        // some reason
         const restaurantId = await insertRestaurant(restaurantName);
         await insertUser(username, passwordHash, email, restaurantId);
     } catch (err) {
