@@ -19,18 +19,6 @@ const validationSchema = yup.object().shape({
     ),
 });
 
-/**
- * Render a form for user registration, validate using a yup schema.
- * On submission, send registration data to the server.
- * 
- * @param {Function} onSubmit - handle form submission;
- *  args: form values (emails)
- * @param {Function} onSuccess - redirect to restaurant homepage if successful
- * @param {Function} onError - log error message
- * 
- * @returns {React.JSX.Element}
- */
-
 const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
     const [formError, setFormError] = useState('');
     const formik = useFormik({
