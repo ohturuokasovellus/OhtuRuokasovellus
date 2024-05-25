@@ -186,6 +186,10 @@ const stylesForm = StyleSheet.create({
         color: '#BF5687',
         marginBottom: 8,
     },
+    success: {
+        color: '#387373',
+        marginBottom: 8
+    },
     link: {
         color: '#023535',
         textDecorationLine: 'underline'
