@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, Pressable, View, TextInput } from 'react-native';
-import { Link } from '../Router';
+import { Link, useNavigate } from '../Router';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { stylesForm } from '../styling/styles';
@@ -93,6 +93,14 @@ const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 const AddUser = ( props ) => {
+    const navigate = useNavigate();
+    const [isAuthorised, setIsAuthorised] = useState(true);
+    useEffect(() => {
+        if (!props.user || !props.user.restaurantId) {
+            setIsAuthorised(false);
+            navigate('/', { replace: true });
+        }
+    }, [props.user, navigate]);
     const onSubmit = async values => {
         const { emails, password } = values;
         const restaurantId = props.user.restaurantId;
@@ -115,8 +123,20 @@ const AddUser = ( props ) => {
         console.error('User addition failed:', err);
     };
 
-    return <AddUserForm onSubmit={onSubmit}
-        onSuccess={onSuccess} onError={onError} />;
+    // return <AddUserForm onSubmit={onSubmit}
+    //     onSuccess={onSuccess} onError={onError} />;
+
+    return isAuthorised ? (
+        <AddUserForm
+            onSubmit={onSubmit}
+            onSuccess={onSuccess}
+            onError={onError}
+        />
+    ) : (
+        <Text style={styles.error}>
+            401: unauthorised
+        </Text>
+    );
 };
 
 export default AddUser;
