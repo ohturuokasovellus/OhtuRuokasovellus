@@ -16,9 +16,9 @@ const initTestDB = async () => {
 };
 
 test.describe('restaurant registration page', () => {
-    test.beforeEach(async ({ page}) => {
+    test.beforeEach(async ({ page }) => {
         await initTestDB();
-        await page.goto('/register-restaurant')
+        await page.goto('/register-restaurant');
     });
 
     test('redirects to login page if already registered', async ({ page }) => {
@@ -43,7 +43,8 @@ test.describe('restaurant registration page', () => {
         await expect(page).toHaveURL(/\/login$/);
     });
 
-    test('cannot register with a duplicate restaurant name', async ({ page }) => {
+    test('cannot register with a duplicate restaurant name', async (
+        { page }) => {
         await page.getByPlaceholder('name of the restaurant').click();
         await page.getByPlaceholder('name of the restaurant')
             .fill('testaurant');
@@ -62,7 +63,8 @@ test.describe('restaurant registration page', () => {
             .toContainText('restaurant already exists');
     });
 
-    test('cannot register with an invalid restaurant name', async ({ page }) => {
+    test('cannot register with an invalid restaurant name', async (
+        { page }) => {
         await page.getByPlaceholder('name of the restaurant').click();
         await page.getByPlaceholder('name of the restaurant')
             .fill('be');
@@ -315,4 +317,4 @@ test.describe('restaurant registration page', () => {
         await expect(page.locator('#root'))
             .toContainText('passwords must match');
     });
-})
+});
