@@ -33,7 +33,7 @@ router.post('/api/add-users', async (req, res) => {
             continue;
         }
 
-        const userId = user.user_id;
+        const userId = await getUserIdByEmail(email);
         if (await isRestaurantUser(userId)) {
             result.status = 'user is already associated with a restaurant';
             continue;

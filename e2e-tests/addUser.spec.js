@@ -3,7 +3,6 @@ import {
     sql, insertUser,
     insertRestaurant,
     updateUserRestaurantByEmail,
-    getUser
 } from '../backend/database';
 import { hash } from '../backend/services/hash';
 
@@ -32,6 +31,12 @@ const initTestDB = async () => {
             password: 'Rest789+',
             email: 'test3@test.com',
             restaurantId: null
+        },
+        {
+            username: 'test4',
+            password: 'Zest_000',
+            email: 'test4@test.com',
+            restaurantId: null
         }
     ];
 
@@ -39,8 +44,6 @@ const initTestDB = async () => {
         // eslint-disable-next-line id-length
         const pw = hash(user.password);
         await insertUser(user.username, pw, user.email, user.restaurantId);
-        const userCheck = await getUser(user.username, pw);
-        console.log(userCheck);
     }
 };
 
@@ -127,18 +130,17 @@ test.describe('adding restaurant users: authorised', () => {
             await expect(page.getByPlaceholder('email').nth(1)).toBeVisible();
             await page.getByText('–').nth(1).click();
             await expect(page.getByPlaceholder('email').nth(1))
-                .toBeVisible(false);
+                .toBeHidden();
         });
 
     test('users are not added if the emails do not exist',
         async ({ page }) => {
-            await page.goto('http://localhost:19006/login');
             await page.getByPlaceholder('email').click();
             await page.getByPlaceholder('email').fill('does@not.exist');
             await page.getByText('+').click();
             await page.getByPlaceholder('email').nth(1).click();
             await page.getByPlaceholder('email').nth(1).fill('not an email');
-            await page.getByText('+').nth(1).click();
+            await page.getByText('+').click();
             await page.getByPlaceholder('email').nth(2).click();
             await page.getByPlaceholder('email').nth(2).fill('');
             await page.getByPlaceholder('confirm with password').click();
@@ -158,9 +160,9 @@ test.describe('adding restaurant users: authorised', () => {
 
     test('users are not added if they are already part of a restaurant',
         async ({ page }) => {
-            await updateUserRestaurantByEmail('test2@test.com', 1);
+            await updateUserRestaurantByEmail('test4@test.com', 1);
             await page.getByPlaceholder('email').click();
-            await page.getByPlaceholder('email').fill('test2@test.com');
+            await page.getByPlaceholder('email').fill('test4@test.com');
             await page.getByPlaceholder('confirm with password').click();
             await page.getByPlaceholder('confirm with password')
                 .fill('Test123!');
@@ -171,7 +173,7 @@ test.describe('adding restaurant users: authorised', () => {
             await expect(page.locator('#root'))
                 .toContainText(
                     // eslint-disable-next-line @stylistic/js/max-len
-                    'test2@test.com: user is already associated with a restaurant'
+                    'test4@test.com: user is already associated with a restaurant'
                 );
         });
 
@@ -183,6 +185,8 @@ test.describe('adding restaurant users: authorised', () => {
             await expect(page).toHaveURL(/\/add-users$/);
             await expect(page.locator('#root'))
                 .toContainText('invalid password');
+            await page.getByPlaceholder('email').click();
+            await page.getByPlaceholder('email').fill('test2@test.com');
             await page.getByPlaceholder('confirm with password').click();
             await page.getByPlaceholder('confirm with password')
                 .fill('incorrect');

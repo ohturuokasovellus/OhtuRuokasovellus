@@ -21,9 +21,11 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
             try {
                 await onSubmit(values);
                 setSuccessMessage('users have been successfully processed!');
-                formik.resetForm();
+                // formik.resetForm();
                 onSuccess();
             } catch (err) {
+                // FIXME: idk why but sometimes the form
+                // is cleared even with 401 status
                 onError(err);
                 setFormError(err.message);
                 if (formError !== 'invalid password') {
