@@ -4,6 +4,7 @@ const {
     doesEmailExist,
     updateUserRestaurantByEmail,
     getUser,
+    getUserIdByEmail,
     isRestaurantUser
 } = require('../database.js');
 const { hash } = require('../services/hash');

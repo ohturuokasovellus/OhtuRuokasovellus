@@ -43,6 +43,15 @@ const getUser = async (username, password) => {
     return result[0];
 };
 
+const getUserIdByEmail = async (email) => {
+    const result = await sql`
+    SELECT user_id FROM users
+    WHERE email = ${email}
+    LIMIT 1
+    `;
+    return result[0].user_id;
+};
+
 const updateUserRestaurantByEmail = async (email, restaurantID) => {
     await sql`
         UPDATE users
@@ -140,7 +149,8 @@ const getMeals = async (restaurantId) => {
 const isRestaurantUser = async userId => {
     const result = await sql`
         SELECT exists
-        (SELECT restaurant_id FROM users WHERE user_id = ${userId} LIMIT 1);
+        (SELECT restaurant_id FROM users WHERE user_id = ${userId}
+        AND restaurant_id IS NOT NULL LIMIT 1);
     `;
     return result.at(0).exists;
 };
@@ -151,6 +161,7 @@ module.exports = {
     insertRestaurant,
     doesUsernameExist,
     getUser,
+    getUserIdByEmail,
     doesEmailExist,
     doesRestaurantExist,
     insertMeal,
