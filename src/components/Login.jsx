@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 import { createSession } from '../controllers/sessionController';
-import { LoginValidationSchema } from '../utils/formValidationSchemas';
+import { loginValidationSchema } from '../utils/formValidationSchemas';
 
 const LoginForm = ({ updateUser }) => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -47,7 +47,7 @@ const LoginForm = ({ updateUser }) => {
                 setErrorMessage('');
                 handleSubmit(values, actions);
             }}
-            validationSchema={LoginValidationSchema}
+            validationSchema={loginValidationSchema}
         >
             {({
                 handleChange, handleBlur, handleSubmit,

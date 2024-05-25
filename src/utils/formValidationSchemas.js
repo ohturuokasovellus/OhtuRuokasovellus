@@ -11,12 +11,18 @@ yup.addMethod(yup.string, 'email', function validateEmail(message) {
     });
 });
 
-const registrationValidationSchema = yup.object().shape({
+const usernameValidationSchema = yup.object().shape({
     username: yup.string()
         .min(3, 'username must be at least 3 characters')
         .max(32, 'username cannot exceed 32 characters')
         .required('username is required'),
-    email: yup.string().email('invalid email').required('email is required'),
+});
+
+const emailValidationSchema = yup.object().shape({
+    email: yup.string().email('invalid email').required('email is required')
+});
+
+const passwordValidationSchema = yup.object().shape({
     password: yup
         .string()
         .min(8, 'password must be at least 8 characters')
@@ -32,8 +38,11 @@ const registrationValidationSchema = yup.object().shape({
     confirmPassword: yup
         .string()
         .oneOf([yup.ref('password'), null], 'passwords must match')
-        .required('password confirmation is required'),
+        .required('password confirmation is required')
 });
+
+const registrationValidationSchema = usernameValidationSchema.concat(
+    emailValidationSchema).concat(passwordValidationSchema);
 
 const restaurantValidationSchema = registrationValidationSchema.shape({
     restaurantName: yup.string()
@@ -42,7 +51,7 @@ const restaurantValidationSchema = registrationValidationSchema.shape({
         .required('restaurant name is required'),
 });
 
-const LoginValidationSchema = yup.object().shape({
+const loginValidationSchema = yup.object().shape({
     username: yup.string()
         .required('Username is required'),
     password: yup.string()
@@ -52,5 +61,6 @@ const LoginValidationSchema = yup.object().shape({
 export {
     registrationValidationSchema,
     restaurantValidationSchema,
-    LoginValidationSchema
+    loginValidationSchema,
+    emailValidationSchema
 };
