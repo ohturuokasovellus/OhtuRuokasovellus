@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Text, Pressable, View, TextInput } from 'react-native';
-import { useNavigate } from '../Router';
+import { Link } from '../Router';
 import axios from 'axios';
-// import { deleteSession } from '../controllers/sessionController';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { stylesRegister } from '../styling/styles';
+import { stylesForm } from '../styling/styles';
 
-const styles = stylesRegister;
+const styles = stylesForm;
 
 const initialValues = {
     emails: [''], // Initial array with one email input
@@ -22,7 +21,6 @@ const validationSchema = yup.object().shape({
 const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
     const [formError, setFormError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const navigate = useNavigate();
     const formik = useFormik({
         initialValues,
         validationSchema,
@@ -57,17 +55,14 @@ const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
             ) : null}
             {successMessage ? (
                 <View>
-                    <Text style={styles.success}>{successMessage}</Text>
-                    <Pressable onPress={() => navigate('/')}>
-                        <Text style={styles.link}>Back to Home</Text>
-                    </Pressable>
+                    <Text>{successMessage}</Text>
                 </View>
             ) : null}
             {formik.values.emails.map((email, index) => (
-                <View key={index} style={styles.emailInputContainer}>
+                <View key={index} style={styles.addEmailContainer}>
                     <TextInput
-                        style={styles.input}
-                        placeholder='Email'
+                        style={styles.addEmailInput}
+                        placeholder='email'
                         value={email}
                         onChangeText={text => {
                             const updatedEmails = [...formik.values.emails];
@@ -77,29 +72,27 @@ const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
                     />
                     {formik.values.emails.length > 1 && (
                         <Pressable
-                            style={styles.removeButton}
+                            style={styles.smallButton}
                             onPress={() => removeEmailInput(index)}
                         >
-                            <Text style={styles.removeButtonText}>-</Text>
+                            <Text style={styles.smallButtonText}>–</Text>
                         </Pressable>
                     )}
                 </View>
             ))}
-            <Pressable style={styles.addButton} onPress={addEmailInput}>
-                <Text style={styles.addButtonText}>+ Add Email</Text>
+            <Pressable style={styles.smallButton} onPress={addEmailInput}>
+                <Text style={styles.smallButtonText}>+</Text>
             </Pressable>
             <Pressable style={styles.button} onPress={formik.handleSubmit}>
-                <Text style={styles.buttonText}>Add</Text>
+                <Text style={styles.buttonText}>add users</Text>
             </Pressable>
+            <Link to='/'>
+                <Text>back to home</Text>
+            </Link>
         </View>
     );
 };
 const AddUser = ( props ) => {
-    // const navigate = useNavigate();
-    // useEffect(() => {
-    //     deleteSession();
-    // }, [props.user]);
-
     const onSubmit = async values => {
         const  emails  = values;
         const  restaurantID  = props.user.restaurantId;
@@ -116,7 +109,6 @@ const AddUser = ( props ) => {
     };
     const onSuccess = () => {
         console.log('User has been added!');
-        // navigate('/');
     };
     const onError = err => {
         console.error('User addition failed:', err);
