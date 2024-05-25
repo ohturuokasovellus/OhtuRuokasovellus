@@ -6,9 +6,9 @@ import { deleteSession } from '../controllers/sessionController';
 import { restaurantValidationSchema }
     from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
-import { stylesRegister } from '../styling/styles';
+import { stylesForm } from '../styling/styles';
 
-const styles = stylesRegister;
+const styles = stylesForm;
 
 const initialValues = {
     username: '',

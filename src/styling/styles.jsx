@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const stylesRegister = StyleSheet.create({
+const stylesForm = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -131,14 +131,29 @@ const stylesRegister = StyleSheet.create({
         backgroundColor: '#F2D8D5',
         width: 400,
     },
+    addEmailContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 12,
+    },
     input: {
         height: 50,
         borderColor: '#ccc',
         borderWidth: 1,
         borderRadius: 8,
         paddingHorizontal: 10,
-        marginBottom: 12,
+        margin: 6,
         backgroundColor: '#fff',
+    },
+    addEmailInput: {
+        height: 50,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 8,
+        paddingHorizontal: 10,
+        margin: 6,
+        backgroundColor: '#fff',
+        flex: 1
     },
     button: {
         height: 50,
@@ -146,19 +161,38 @@ const stylesRegister = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 8,
+        marginTop: 12
     },
     buttonText: {
         color: '#153236',
         fontSize: 16,
         fontWeight: 'bold',
     },
+    smallButton: {
+        height: 30,
+        width: 30,
+        backgroundColor: '#60AEBF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 8,
+        margin: 6
+    },
+    smallButtonText: {
+        color: '#E4F2E7',
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
     error: {
         color: '#BF5687',
         marginBottom: 8,
     },
+    link: {
+        color: '#023535',
+        textDecorationLine: 'underline'
+    }
 });
 
 export {
     styles,
-    stylesRegister
+    stylesForm
 };
