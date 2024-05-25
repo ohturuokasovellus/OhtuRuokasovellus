@@ -3,30 +3,23 @@ import { Text, Pressable, View, TextInput } from 'react-native';
 import { Link } from '../Router';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import { stylesForm } from '../styling/styles';
 
 const styles = stylesForm;
 
 const initialValues = {
-    emails: [''], // Initial array with one email input
+    emails: [''],
+    password: ''
 };
-
-const validationSchema = yup.object().shape({
-    emails: yup.array().of(
-        yup.string().email('Invalid email').required('Email is required')
-    ),
-});
 
 const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
     const [formError, setFormError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const formik = useFormik({
         initialValues,
-        validationSchema,
         onSubmit: async values => {
             try {
-                await onSubmit(values.emails);
+                await onSubmit(values);
                 setSuccessMessage('users have been successfully added!');
                 formik.resetForm();
                 onSuccess();
@@ -83,6 +76,13 @@ const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
             <Pressable style={styles.smallButton} onPress={addEmailInput}>
                 <Text style={styles.smallButtonText}>+</Text>
             </Pressable>
+            <TextInput
+                style={styles.input}
+                placeholder='confirm with password'
+                secureTextEntry
+                value={formik.values.password}
+                onChangeText={formik.handleChange('password')}
+            />
             <Pressable style={styles.button} onPress={formik.handleSubmit}>
                 <Text style={styles.buttonText}>add users</Text>
             </Pressable>
@@ -94,12 +94,13 @@ const AddUserForm = ({ onSubmit, onSuccess, onError }) => {
 };
 const AddUser = ( props ) => {
     const onSubmit = async values => {
-        const  emails  = values;
-        const  restaurantID  = props.user.restaurantId;
+        const { emails, password } = values;
+        const restaurantId = props.user.restaurantId;
+        const username = props.user.username;
         try {
             await axios.post(
                 'http://localhost:8080/api/add-users',
-                { emails, restaurantID }
+                { emails, restaurantId, username, password }
             );
         } catch (err) {
             const errorMessage = err.response?.data?.errorMessage ||
