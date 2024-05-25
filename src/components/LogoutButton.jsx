@@ -14,7 +14,11 @@ const LogoutButton = ({ updateUser }) => {
 
     return (
         <View style={styles.logoutButton}>
-            <Pressable title="Logout" onPress={handlePress}>
+            <Pressable
+                style={styles.button}
+                title='Logout'
+                onPress={handlePress
+                }>
                 <Text style={ styles.buttonText }>logout</Text>
             </Pressable>
         </View>
