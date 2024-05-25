@@ -3,7 +3,8 @@ const router = express.Router();
 const {
     doesEmailExist,
     updateUserRestaurantByEmail,
-    getUser
+    getUser,
+    isRestaurantUser
 } = require('../database.js');
 const { hash } = require('../services/hash');
 
@@ -28,6 +29,12 @@ router.post('/api/add-users', async (req, res) => {
         } catch (err) {
             console.error(err);
             result.status = 'error checking email existence';
+            continue;
+        }
+
+        const userId = user.user_id;
+        if (await isRestaurantUser(userId)) {
+            result.status = 'user is already associated with a restaurant';
             continue;
         }
 

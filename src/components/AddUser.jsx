@@ -148,15 +148,12 @@ const AddUser = ( props ) => {
     };
 
     const onSuccess = () => {
-        console.log('user has been added!');
+        console.log('success');
     };
 
     const onError = err => {
-        console.error('user addition failed:', err);
+        console.error('error:', err);
     };
-
-    // return <AddUserForm onSubmit={onSubmit}
-    //     onSuccess={onSuccess} onError={onError} />;
 
     return isAuthorised ? (
         <AddUserForm
