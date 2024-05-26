@@ -57,9 +57,9 @@ const updateUserRestaurantByEmail = async (email, restaurantId) => {
         UPDATE users
         SET restaurant_id = ${restaurantId}
         WHERE email = ${email}
-        RETURNING email
+        RETURNING restaurant_id
     `;
-    return result.at(0).exists;
+    return result.length > 0;
 };
 
 /**
