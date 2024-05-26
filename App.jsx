@@ -26,7 +26,9 @@ const App = () => {
                     <LogoutButton updateUser={updateUser}/>
                 }
                 <Routes>
-                    <Route path='/' element={<Home user={user} />} />
+                    <Route path='/' element={
+                        <Home updateUser={updateUser}
+                        />} />
                     <Route path='/register'
                         element={<Register updateUser={updateUser}/>} />
                     <Route path='/login'
@@ -41,7 +43,7 @@ const App = () => {
                             {<RegisterRestaurant updateUser={updateUser}/>} />
                     <Route path='/add-users'
                         element=
-                            {<AddUser user={user} />} />
+                            {<AddUser updateUser={updateUser} />} />
                 </Routes>
             </View>
         </Router>

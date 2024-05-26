@@ -4,6 +4,7 @@ import { Link, useNavigate } from '../Router';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { stylesForm } from '../styling/styles';
+import { deleteSession } from '../controllers/sessionController';
 
 const styles = stylesForm;
 
@@ -137,22 +138,30 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
  * @param {number} props.user.restaurantId
  * @returns {JSX.Element}
  */
-const AddUser = ( props ) => {
+const AddUser = ( updateUser ) => {
     const navigate = useNavigate();
     const [isAuthorised, setIsAuthorised] = useState(true);
     const [results, setResults] = useState([]);
+    const user = updateUser.user;
+    const restaurantId = updateUser.user.restaurantId;
+    const username = updateUser.user.username;
 
     useEffect(() => {
-        if (!props.user || !props.user.restaurantId) {
+        if (!user || !restaurantId) {
             setIsAuthorised(false);
             navigate('/', { replace: true });
         }
-    }, [props.user, navigate]);
+    }, [user, navigate]);
+
+    useEffect(() => {
+        deleteSession();
+        updateUser(null);
+    }, []);
 
     const onSubmit = async values => {
         const { emails, password } = values;
-        const restaurantId = props.user.restaurantId;
-        const username = props.user.username;
+        // const restaurantId = props.user.restaurantId;
+        // const username = props.user.username;
         try {
             const response = await axios.post(
                 'http://localhost:8080/api/add-users',
