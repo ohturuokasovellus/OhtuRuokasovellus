@@ -5,33 +5,35 @@ import { styles } from '../styling/styles';
 
 /**
  * Home component for rendering the home screen.
- * @param {Object} props - Props passed to the component.
- * @param {Object} props.user - user info
- * @param {string} props.user.username - username of the logged-in user
- * @param {number|null} props.user.restaurantId - if user is restaurant user
+ * @param {Object} updateUser
+ * @param {Object} updateUser.user 
+ * @param {string} updateUser.user.username 
+ * @param {number|null} updateUser.user.restaurantId 
  * @returns {JSX.Element|null} - home screen component or null if not logged in
  */
 
-const Home = (props) => {
+const Home = ({ updateUser }) => {
     const navigate = useNavigate();
+    const user = updateUser.user;
+    const restaurantId = user?.restaurantId;
 
     useEffect(() => {
-        if (!props.user) {
+        if (!user) {
             navigate('/login');
         }
-    }, [props.user, navigate]);
+    }, [updateUser, navigate]);
 
-    if (!props.user) {
+    if (!user) {
         return null; // or render a loading indicator
     }
 
     // Check if user is a restaurant owner
-    const isRestaurantUser = props.user.restaurantId !== null;
+    const isRestaurantUser = restaurantId !== null;
 
     return (
         <View>
             <Text style={styles.welcomeText}>
-                Welcome, {props.user.username}
+                Welcome, {user.username}
             </Text>
             {isRestaurantUser ? (
                 <>
@@ -43,14 +45,16 @@ const Home = (props) => {
                     }>
                         <Text style={styles.buttonText}>add user</Text>
                     </Pressable>
+                    {/* FIXME: this is broken (restaurantID is undefined)
+                    and im too dumb to fix the issue /meri
                     <Pressable style={styles.button} title='restaurant page'
                         onPress={
                             () => navigate(
-                                `/restaurant/${props.user.restaurantI}`
+                                `/restaurant/${restaurantId}`
                             )
                         }>
                         <Text style={styles.buttonText}>restaurant page</Text>
-                    </Pressable>
+                    </Pressable> */}
                 </>
             ) : null}
         </View>
