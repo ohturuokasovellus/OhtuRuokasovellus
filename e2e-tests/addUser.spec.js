@@ -61,8 +61,13 @@ test.describe('adding restaurant users: unauthorised', () => {
             await page.getByPlaceholder('Password').click();
             await page.getByPlaceholder('Password').fill('Best456@');
             await page.getByText('login').click();
+
+            await page.waitForURL('/');
+            await expect(page.locator('text=Welcome,')).toBeVisible();
+
             await page.goto('/add-users');
-            await expect(page).toHaveURL('/');
+            await page.waitForURL('/');
+            await expect(page.locator('text=Welcome,')).toBeVisible();
         });
 
     test('redirects to login if user is not logged in',
