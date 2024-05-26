@@ -4,6 +4,14 @@ import { useNavigate } from '../Router';
 import { deleteSession } from '../controllers/sessionController';
 import { styles } from '../styling/styles';
 
+/**
+ * Render a button for logout.
+ * On pressing, deletes user session from local storage and
+ * updates App's user state to null.
+ * Navigates to login page
+ * @param {Function} handlePress - handle button press;
+ * @returns {React.JSX.Element}
+ */
 const LogoutButton = ({ updateUser }) => {
     const navigate = useNavigate();
     const handlePress = () => {

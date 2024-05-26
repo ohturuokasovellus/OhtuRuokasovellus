@@ -8,6 +8,15 @@ import { styles } from '../styling/styles';
 import { createSession } from '../controllers/sessionController';
 import { LoginValidationSchema } from '../utils/formValidationSchemas';
 
+/**
+ * Render a form for user login, validate using a yup schema.
+ * On submission, send login data to the server.
+ *
+ * @param {Function} handleSubmit - handle form submission;
+ *  args: form values
+ * (username, password)
+ * @returns {React.JSX.Element}
+ */
 const LoginForm = ({ updateUser }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();

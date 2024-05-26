@@ -6,6 +6,16 @@ import axios from 'axios';
 import { useParams } from '../Router';
 import { styles } from '../styling/styles';
 
+/**
+ * Render a restaurant specific meal list based on restaurantId.
+ * @param {Function} fetchMeals - fetches meal list from the server;
+ *  args: URL GET parameter
+ * (restId)
+ * @param {Function} handlePress - opens up additional info of the meal;
+ *  args: selected meal on the meal list
+ * (meal)
+ * @returns {React.JSX.Element}
+ */
 const MealList = () => {
     const { restId } = useParams();
     const [selectedMeal, setSelectedMeal] = useState(null);
