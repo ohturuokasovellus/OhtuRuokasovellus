@@ -40,8 +40,11 @@ router.post('/api/add-users', async (req, res) => {
         }
 
         try {
-            await updateUserRestaurantByEmail(email, restaurantId);
-            result.status = 'user added successfully';
+            if (await updateUserRestaurantByEmail(email, restaurantId)) {
+                result.status = 'user added successfully';
+            } else {
+                result.status = `failed to update user with email ${email}`;
+            }
         } catch (err) {
             console.error(err);
             result.status = `failed to update user with email ${email}`;
