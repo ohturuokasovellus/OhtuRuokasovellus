@@ -45,9 +45,11 @@ router.post('/api/add-users', async (req, res) => {
             } else {
                 result.status = `failed to update user with email ${email}`;
             }
+            continue;
         } catch (err) {
             console.error(err);
             result.status = `failed to update user with email ${email}`;
+            continue;
         }
     }
 

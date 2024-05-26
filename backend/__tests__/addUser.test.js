@@ -76,7 +76,7 @@ describe('POST /api/add-users', () => {
                 emails: ['existing@example.com'],
                 restaurantId: 123,
                 username: 'testuser',
-                password: 'hashedpassword'
+                password: 'password'
             })
             .set('Content-Type', 'application/json')
             .expect(207);
@@ -108,7 +108,7 @@ describe('POST /api/add-users', () => {
                 emails: ['test@example.com'],
                 restaurantId: 123,
                 username: 'testuser',
-                password: 'hashedpassword'
+                password: 'password'
             })
             .set('Content-Type', 'application/json')
             .expect(207);
@@ -144,7 +144,7 @@ describe('POST /api/add-users', () => {
                 emails: ['error@example.com'],
                 restaurantId: 123,
                 username: 'testuser',
-                password: 'hashedpassword'
+                password: 'password'
             })
             .set('Content-Type', 'application/json')
             .expect(207);
@@ -185,7 +185,7 @@ describe('POST /api/add-users', () => {
                 emails: ['test1@example.com', 'test2@example.com'],
                 restaurantId: 123,
                 username: 'testuser',
-                password: 'hashedpassword'
+                password: 'password'
             })
             .set('Content-Type', 'application/json')
             .expect(207);
