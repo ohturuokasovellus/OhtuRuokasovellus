@@ -70,7 +70,7 @@ test.describe('login page', () => {
         await page.fill('input[placeholder="Username"]', 'testi');
         await page.fill('input[placeholder="Password"]', 'Testi123@');
         await page.click('text=Login');
-        await page.click('text=Logout');
+        await page.click('text=logout');
         await expect(page).toHaveURL('/login');
     });
 });
