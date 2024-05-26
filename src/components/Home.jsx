@@ -3,6 +3,15 @@ import { Text, View, Pressable } from 'react-native';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 
+/**
+ * Home component for rendering the home screen.
+ * @param {Object} props - Props passed to the component.
+ * @param {Object} props.user - user info
+ * @param {string} props.user.username - username of the logged-in user
+ * @param {number|null} props.user.restaurantId - if user is restaurant user
+ * @returns {JSX.Element|null} - home screen component or null if not logged in
+ */
+
 const Home = (props) => {
     const navigate = useNavigate();
 

@@ -13,6 +13,13 @@ const sql = postgres(process.env.E2ETEST == '1' ?
     process.env.E2ETEST_POSTGRES_URL :
     process.env.BACKEND_POSTGRES_URL);
 
+/**
+ * Insert a new user into the database.
+ * @param {string} username
+ * @param {string} password
+ * @param {string} email
+ * @param {number} restaurantId
+ */
 const insertUser = async (username, password, email, restaurantId) => {
     await sql`
         INSERT INTO users (username, password, email, restaurant_id)
@@ -20,6 +27,11 @@ const insertUser = async (username, password, email, restaurantId) => {
     `;
 };
 
+/**
+ * Insert a new restaurant into the database.
+ * @param {string} restaurantName
+ * @returns {Promise<number>} - id of the new restaurant
+ */
 const insertRestaurant = async (restaurantName) => {
     const result = await sql`
         INSERT INTO restaurants (name)
@@ -43,6 +55,11 @@ const getUser = async (username, password) => {
     return result[0];
 };
 
+/**
+ * Get user id based on email.
+ * @param {string} email
+ * @returns {Promise<number|null>} - user id or null if not found
+ */
 const getUserIdByEmail = async (email) => {
     const result = await sql`
     SELECT user_id FROM users
@@ -52,6 +69,12 @@ const getUserIdByEmail = async (email) => {
     return result.at(0).user_id;
 };
 
+/**
+ * Update user's restaurant id based on email.
+ * @param {string} email
+ * @param {number} restaurantId new restaurant id
+ * @returns {Promise<boolean>} true if successful
+ */
 const updateUserRestaurantByEmail = async (email, restaurantId) => {
     const result = await sql`
         UPDATE users
@@ -148,6 +171,11 @@ const getMeals = async (restaurantId) => {
     return result;
 };
 
+/**
+ * Check if a user is associated with a restaurant.
+ * @param {number} userId
+ * @returns {Promise<boolean>} true if user is a restaurant user
+ */
 const isRestaurantUser = async userId => {
     const result = await sql`
         SELECT exists

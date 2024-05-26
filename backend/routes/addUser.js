@@ -11,6 +11,18 @@ const { hash } = require('../services/hash');
 
 router.use(express.json());
 
+/**
+ * Handles the addition of users to a restaurant.
+ * @param {Object} req
+ * @param {Object} req.body
+ * @param {string[]} req.body.emails - array of emails to be added
+ * @param {number} req.body.restaurantId - restaurant to which users are added
+ * @param {string} req.body.username - the username of current user
+ * @param {string} req.body.password - the password of current user
+ * @param {Object} res - the response object
+ * @returns {Object} - JSON object containing results for each email
+ */
+
 router.post('/api/add-users', async (req, res) => {
     const { emails, restaurantId, username, password } = req.body;
     const user = await getUser(username, hash(password));
