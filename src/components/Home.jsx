@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/js/indent */
 import React, { useEffect } from 'react';
 import { Text, View, Pressable } from 'react-native';
 import { useNavigate } from '../Router';
@@ -37,8 +36,10 @@ const Home = (props) => {
                     </Pressable>
                     <Pressable style={styles.button} title='restaurant page'
                         onPress={
-                        () => navigate(`/restaurant/${props.user.restaurantI}`)
-                    }>
+                            () => navigate(
+                                `/restaurant/${props.user.restaurantI}`
+                            )
+                        }>
                         <Text style={styles.buttonText}>restaurant page</Text>
                     </Pressable>
                 </>
