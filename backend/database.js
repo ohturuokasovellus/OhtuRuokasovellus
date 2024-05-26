@@ -24,9 +24,9 @@ const insertRestaurant = async (restaurantName) => {
     const result = await sql`
         INSERT INTO restaurants (name)
         VALUES (${restaurantName})
-        RETURNING restaurant_id;
+        RETURNING restaurant_id
     `;
-    return result[0].restaurant_id;
+    return result.at(0).restaurant_id;
 };
 
 /**
@@ -38,7 +38,7 @@ const insertRestaurant = async (restaurantName) => {
 const getUser = async (username, password) => {
     const result = await sql`
         SELECT * FROM users
-        WHERE username = ${username} and password = ${password};
+        WHERE username = ${username} and password = ${password}
     `;
     return result[0];
 };
@@ -49,15 +49,17 @@ const getUserIdByEmail = async (email) => {
     WHERE email = ${email}
     LIMIT 1
     `;
-    return result[0].user_id;
+    return result.at(0).user_id;
 };
 
-const updateUserRestaurantByEmail = async (email, restaurantID) => {
-    await sql`
+const updateUserRestaurantByEmail = async (email, restaurantId) => {
+    const result = await sql`
         UPDATE users
-        SET restaurant_id = ${restaurantID}
-        WHERE email = ${email};
+        SET restaurant_id = ${restaurantId}
+        WHERE email = ${email}
+        RETURNING email
     `;
+    return result.at(0).exists;
 };
 
 /**
