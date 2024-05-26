@@ -12,6 +12,15 @@ const initialValues = {
     password: ''
 };
 
+/**
+ * Form for adding new restaurant users.
+ * @param {Function} onSubmit - handle form submission
+ * @param {Function} onSuccess - handle success scenario
+ * @param {Function} onError - handle error scenarios
+ * @param {Array} results - array containing processed emails and their statuses
+ * @returns {JSX.Element} - AddUserForm component
+ */
+
 const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
     const [formError, setFormError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
@@ -119,6 +128,15 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
         </View>
     );
 };
+
+/**
+ * AddUser component for managing user addition.
+ * @param {object} props
+ * @param {object} props.user - contains user info
+ * @param {string} props.user.username
+ * @param {number} props.user.restaurantId
+ * @returns {JSX.Element}
+ */
 const AddUser = ( props ) => {
     const navigate = useNavigate();
     const [isAuthorised, setIsAuthorised] = useState(true);
