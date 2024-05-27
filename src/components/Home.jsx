@@ -3,21 +3,21 @@ import { Text, View, Pressable } from 'react-native';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 
-const Home = (user) => {
+const Home = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user.user) {
+        if (!props.user) {
             navigate('/login');
         }
-    }, [user, navigate]);
+    }, [props, navigate]);
 
-    if (!user.user) {
+    if (!props.user) {
         return null; // or render a loading indicator
     }
 
-    const username = user.user.username;
-    const restaurantId = user.user.restaurantId;
+    const username = props.user.username;
+    const restaurantId = props.user.restaurantId;
     const isRestaurantUser = restaurantId !== null;
 
     return (

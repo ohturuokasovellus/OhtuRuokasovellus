@@ -30,7 +30,6 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
             try {
                 await onSubmit(values);
                 setSuccessMessage('users have been successfully processed!');
-                // formik.resetForm();
                 onSuccess();
             } catch (err) {
                 // FIXME: idk why but sometimes the form
@@ -137,16 +136,15 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
  * @param {number} props.user.restaurantId
  * @returns {JSX.Element}
  */
-const AddUser = ({ updateUser }) => {
+
+const AddUser = (props) => {
     const navigate = useNavigate();
     const [isAuthorised, setIsAuthorised] = useState(true);
     const [results, setResults] = useState([]);
-    const user = updateUser.user;
-    const restaurantId = updateUser.user.restaurantId;
-    const username = updateUser.user.username;
+    const user = props.user;
 
     useEffect(() => {
-        if (!user || !restaurantId) {
+        if (!user || !user.restaurantId) {
             setIsAuthorised(false);
             navigate('/', { replace: true });
         }
@@ -157,13 +155,17 @@ const AddUser = ({ updateUser }) => {
         try {
             const response = await axios.post(
                 'http://localhost:8080/api/add-users',
-                { emails, restaurantId, username, password }
+                {
+                    emails,
+                    restaurantId: user.restaurantId,
+                    username: user.username,
+                    password
+                }
             );
             setResults(response.data.results);
         } catch (err) {
-            console.log(err.response?.data?.error);
             const errorMessage = err.response?.data?.error ||
-                'an unexpected error occurred';
+            'an unexpected error occurred';
             throw new Error(errorMessage);
         }
     };
