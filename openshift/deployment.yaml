@@ -20,9 +20,42 @@ spec:
           - containerPort: 8080
           resources:
             limits:
-              memory: "200M"
-              cpu: "1"
+              memory: "100M"
+              cpu: "0.7"
+          env:
+            - name: BACKEND_POSTGRES_URL
+              value: postgres://postgres:$(POSTGRES_PASSWORD)@ruokasovellus-database:5432/postgres
+          envFrom:
+            - secretRef:
+                # loads POSTGRES_PASSWORD env var
+                name: ruokasovellus-db-password
+        - name: ruokasovellus-database
+          image: docker.io/library/postgres:16
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              memory: "100M"
+              cpu: "0.3"
+          volumeMounts:
+            - name: ruokasovellus-db-storage
+              mountPath: /var/lib/postgresql
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ruokasovellus-db-password
+                  key: POSTGRES_PASSWORD
+      volumes:
+        - name: ruokasovellus-db-storage
+          persistentVolumeClaim:
+            claimName: ruokasovellus-db-pvc
   revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   triggers:
     - type: ImageChange
       imageChangeParams:

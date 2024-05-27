@@ -1,0 +1,12 @@
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ruokasovellus-db-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "300Mi"
+  volumeName: pvc-c9f80413-5fac-4572-9698-c08aa532932d
