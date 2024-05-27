@@ -3,37 +3,27 @@ import { Text, View, Pressable } from 'react-native';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 
-/**
- * Home component for rendering the home screen.
- * @param {Object} updateUser
- * @param {Object} updateUser.user 
- * @param {string} updateUser.user.username 
- * @param {number|null} updateUser.user.restaurantId 
- * @returns {JSX.Element|null} - home screen component or null if not logged in
- */
-
-const Home = ({ updateUser }) => {
+const Home = (user) => {
     const navigate = useNavigate();
-    const user = updateUser.user;
-    const restaurantId = user?.restaurantId;
 
     useEffect(() => {
-        if (!user) {
+        if (!user.user) {
             navigate('/login');
         }
-    }, [updateUser, navigate]);
+    }, [user, navigate]);
 
-    if (!user) {
+    if (!user.user) {
         return null; // or render a loading indicator
     }
 
-    // Check if user is a restaurant owner
+    const username = user.user.username;
+    const restaurantId = user.user.restaurantId;
     const isRestaurantUser = restaurantId !== null;
 
     return (
         <View>
             <Text style={styles.welcomeText}>
-                Welcome, {user.username}
+                Welcome, {username}
             </Text>
             {isRestaurantUser ? (
                 <>
@@ -45,8 +35,6 @@ const Home = ({ updateUser }) => {
                     }>
                         <Text style={styles.buttonText}>add user</Text>
                     </Pressable>
-                    {/* FIXME: this is broken (restaurantID is undefined)
-                    and im too dumb to fix the issue /meri
                     <Pressable style={styles.button} title='restaurant page'
                         onPress={
                             () => navigate(
@@ -54,7 +42,7 @@ const Home = ({ updateUser }) => {
                             )
                         }>
                         <Text style={styles.buttonText}>restaurant page</Text>
-                    </Pressable> */}
+                    </Pressable>
                 </>
             ) : null}
         </View>

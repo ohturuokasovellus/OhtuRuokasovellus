@@ -27,7 +27,7 @@ const App = () => {
                 }
                 <Routes>
                     <Route path='/' element={
-                        <Home updateUser={updateUser}
+                        <Home user={user}
                         />} />
                     <Route path='/register'
                         element={<Register updateUser={updateUser}/>} />
