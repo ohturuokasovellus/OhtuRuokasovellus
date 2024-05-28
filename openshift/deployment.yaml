@@ -20,8 +20,8 @@ spec:
           - containerPort: 8080
           resources:
             limits:
-              memory: "100M"
-              cpu: "0.7"
+              memory: 100Mi
+              cpu: 700m
           env:
             - name: BACKEND_POSTGRES_URL
               value: postgres://postgres:$(POSTGRES_PASSWORD)@ruokasovellus-db-service:5432/ruokasovellus
@@ -35,12 +35,3 @@ spec:
                 # loads POSTGRES_PASSWORD env var
                 name: ruokasovellus-db-password
   revisionHistoryLimit: 2
-  triggers:
-    - type: ImageChange
-      imageChangeParams:
-        automatic: true
-        containerNames:
-        - ruokasovellus
-        from:
-          kind: ImageStreamTag
-          name: "ruokasovellus:latest"
