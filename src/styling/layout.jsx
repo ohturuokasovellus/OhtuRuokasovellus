@@ -1,162 +1,201 @@
 import { StyleSheet } from 'react-native';
 
-const lightTheme = {
-    background: '#D9DED5',
-    text: '#143626',
-    error: '#B46A67',
-    success: '#08472B',
-    buttonBackground: '#007bff',
-    buttonPressed: '#0056b3',
-    inputBorder: '#cccccc',
-    placeholderText: '#888888',
-    link: '#1C6A63',
-    containerBackground: '#ffffff',
-    additionalInfoBackground: '#e0e0e0',
-    imageContainerBackground: '#cccccc',
-    naviButtonBackground: '#17a2b8',
-};
-  
-const darkTheme = {
-    background: '#143626',
-    text: '#D9DED5',
-    error: '#B46A67',
-    success: '#4caf50',
-    buttonBackground: '#3b5998',
-    buttonPressed: '#2d4373',
-    inputBorder: '#666666',
-    placeholderText: '#aaaaaa',
-    link: '#1C6A63',
-    containerBackground: '#303030',
-    additionalInfoBackground: '#505050',
-    imageContainerBackground: '#404040',
-    naviButtonBackground: '#007bff',
-};
-
-const styles = StyleSheet.create({
+const createStyles = (theme) => StyleSheet.create({
+    // general
     background: {
         flex: 1,
-        backgroundColor: '#D9DED5',
+        backgroundColor: theme.background,
+    },
+    container: {
         padding: 16,
+        backgroundColor: theme.containerBackground,
+        borderRadius: 8,
+        marginVertical: 8,
     },
-    heading: {
-        color: '#143626',
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
+
+    // text
     bodyText: {
         fontSize: 16,
-        marginBottom: 8,
-        color: '#143626'
+        color: theme.text,
     },
-    errorText: {
-        color: '#B46A67',
-        fontSize: 16,
-        marginBottom: 8,
-    },
-    successText: {
-        color: '#08472B',
-        fontSize: 16,
-        marginBottom: 8,
-    },
-    smallButtonText: {
-        color: '#D9DED5',
+    heading: {
         fontSize: 24,
         fontWeight: 'bold',
+        marginVertical: 16,
+        color: theme.text,
+    },
+    errorText: {
+        fontSize: 14,
+        color: theme.error,
     },
     buttonText: {
         fontSize: 18,
         fontWeight: 'bold',
+        textTransform: 'lowercase',
+        color: theme.buttonText,
+    },
+    iconButtonText: {
+        fontsize: 32,
+        fontWeight: 'bold',
+        color: theme.background,
     },
     linkText: {
-        color: '#1C6A63',
+        fontSize: 16,
+        color: theme.link,
         textDecorationLine: 'underline',
-        marginBottom: 8,
     },
-    input: {
-        height: 50,
-        // borderColor: 'gray',
-        backgroundColor: '#EDF2E9',
-        // borderWidth: 1,
+
+    // buttons
+    button: {
+        backgroundColor: theme.buttonBackground,
+        padding: 12,
         borderRadius: 8,
-        margin: 6,
-        paddingHorizontal: 10,
+        alignItems: 'center',
+        marginBottom: 12,
+    },
+    iconButton: {
+        height: 30,
+        width: 30,
+        backgroundColor: theme.accent,
+        padding: 8,
+        borderRadius: 100,
+        marginBottom: 6,
+        marginHorizontal: 6,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    // input fields
+    input: {
+        height: 40,
+        borderColor: theme.inputBorder,
+        borderWidth: 1,
+        borderRadius: 8,
+        marginBottom: 12,
+        paddingLeft: 8,
+        color: theme.text,
+        backgroundColor: theme.inputBackground,
+    },
+    passwordInput: {
+        height: 40,
+        borderColor: theme.inputBorder,
+        borderWidth: 1,
+        borderRadius: 8,
+        marginBottom: 12,
+        paddingLeft: 8,
+        color: theme.text,
+        secureTextEntry: true,
+        backgroundColor: theme.inputBackground,
+    },
+    multilineInput: {
+        borderColor: theme.inputBorder,
+        borderWidth: 1,
+        borderRadius: 8,
+        marginBottom: 12,
+        padding: 8,
+        textAlignVertical: 'top',
+        color: theme.text,
+        backgroundColor: theme.inputBackground,
     },
     scalableInputContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 6,
-        marginTop: 6,
+        borderRadius: 8,
+        marginBottom: 12,
     },
     scalableInput: {
         flex: 1,
-        height: 50,
-        // borderColor: 'gray',
-        backgroundColor: '#F2F7ED',
-        // borderWidth: 1,
+        height: 40,
+        borderColor: theme.inputBorder,
+        borderWidth: 1,
         borderRadius: 8,
-        paddingHorizontal: 8,
-        margin: 6,
+        paddingLeft: 8,
+        color: theme.text,
+        backgroundColor: theme.inputBackground,
     },
-    container: {
-        flex: 1,
-        width: 400,
+
+    // forms
+    formContainer: {
         padding: 16,
-        backgroundColor: '#fff',
+        backgroundColor: theme.containerBackground,
         borderRadius: 8,
-        marginBottom: 16,
+        marginVertical: 8,
     },
-    additionalInfoContainer: {
-        // padding: 16,
-        // backgroundColor: '#e0e0e0',
-        // borderRadius: 8,
-        // marginBottom: 16,
+    formLabel: {
+        fontSize: 16,
+        marginBottom: 8,
+        color: theme.text,
+    },
+    formValidationMessage: {
+        fontSize: 14,
+        color: theme.error,
+        marginBottom: 8,
+    },
+
+    // qr scanner
+    scannerContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.scannerBackground,
+    },
+    scannerInstructions: {
+        fontSize: 16,
+        color: theme.text,
+        margin: 16,
+    },
+
+    // dishes & menus
+    menuItemContainer: {
+        padding: 16,
+        backgroundColor: theme.containerBackground,
+        borderRadius: 8,
+        marginVertical: 8,
+    },
+    menuItemImage: {
         width: '100%',
-        flexwrap: 'wrap',
-    },
-    imageContainer: {
         height: 200,
-        backgroundColor: '#ccc',
-        borderRadius: 3,
-        margin: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
+        borderRadius: 8,
+        marginBottom: 8,
     },
-    smallButton: {
-        height: 30,
-        width: 30,
+    menuItemText: {
+        fontSize: 16,
+        color: theme.text,
+    },
+
+    // nutritional etc info
+    infoContainer: {
+        padding: 16,
+        backgroundColor: theme.containerBackground,
+        borderRadius: 8,
+        marginVertical: 8,
+    },
+    infoHeading: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 8,
+        color: theme.text,
+    },
+    infoText: {
+        fontSize: 16,
+        color: theme.text,
+    },
+
+    // navigation
+    navigationBar: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        paddingVertical: 12,
+        backgroundColor: theme.accent,
+    },
+    navigationLink: {
         padding: 8,
-        backgroundColor: '#143626',
-        borderRadius: 8,
-        margin: 6,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    button: {
-        height: 50,
-        padding: 12,
-        backgroundColor: '#26855F',
-        borderRadius: 8,
-        margin: 6,
-    },
-    buttonPressed: {
-        backgroundColor: '#1E674A',
-    },
-    naviBarMobile: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginBottom: 16,
-    },
-    naviBarWeb: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginBottom: 16,
-    },
-    naviButton: {
-        padding: 12,
-        backgroundColor: '#17a2b8',
-        borderRadius: 8,
+        color: theme.background,
+        fontSize: 16,
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
     },
 });
 
-export { styles, lightTheme, darkTheme };
+// export { styles, createStyles };
+export default createStyles;

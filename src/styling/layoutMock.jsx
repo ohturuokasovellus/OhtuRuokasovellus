@@ -1,141 +1,174 @@
-/* eslint-disable id-length */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import {
     View, Text, TextInput,
-    Pressable, TouchableOpacity
+    ScrollView, Image, Pressable
 } from 'react-native';
-import { styles } from './layout';
+import createStyles from './layout';
+import { lightTheme, darkTheme } from './colors';
 
 const Layout = () => {
-    const [inputs, setInputs] = useState([{ id: 1, value: '' }]);
+    const [isDarkTheme, setIsDarkTheme] = useState(false);
+    const theme = isDarkTheme ? darkTheme : lightTheme;
+    const styles = createStyles(theme);
+    const [inputs, setInputs] = useState([{ idx: 1, value: '' }]);
+
     const addInput = () => {
-        setInputs([...inputs, { id: inputs.length + 1, value: '' }]);
+        setInputs([...inputs, { idx: inputs.length + 1, value: '' }]);
     };
-    
-    const removeInput = (id) => {
-        setInputs(inputs.filter(input => input.id !== id));
+
+    const removeInput = (idx) => {
+        setInputs(inputs.filter(input => input.idx !== idx));
     };
-    
-    const handleInputChange = (id, text) => {
-        setInputs(
-            inputs.map(
-                input => (input.id ===
-                    id ? { ...input, value: text } : input)
-            ));
+
+    const handleInputChange = (idx, text) => {
+        setInputs(inputs.map(
+            input => (input.idx === idx ? { ...input, value: text } : input)
+        ));
     };
 
     return (
-        <View style={styles.background}>
-            {/* Headings */}
+        <ScrollView style={styles.background}>
+
+            {/* navigation bar */}
+            <View>
+                <View style={styles.navigationBar}>
+                    <Pressable
+                        onPress={() => setIsDarkTheme(!isDarkTheme)}
+                        style={({ pressed }) => [
+                            { opacity: pressed ? 0.5 : 1.0 }
+                        ]}
+                    >
+                        <Text style={styles.navigationLink}>
+                            {isDarkTheme ? '🌘︎' : '🌒︎'}
+                        </Text>
+                    </Pressable>
+                    <Pressable style={({ pressed }) => [
+                        { opacity: pressed ? 0.5 : 1.0 }
+                    ]} onPress={() => {/* handle login */}}>
+                        <Text style={styles.navigationLink}>Login</Text>
+                    </Pressable>
+                    <Pressable style={({ pressed }) => [
+                        { opacity: pressed ? 0.5 : 1.0 }
+                    ]} onPress={() => {/* handle logout */}}>
+                        <Text style={styles.navigationLink}>Logout</Text>
+                    </Pressable>
+                    <Pressable style={({ pressed }) => [
+                        { opacity: pressed ? 0.5 : 1.0 }
+                    ]} onPress={() => {/* handle register */}}>
+                        <Text style={styles.navigationLink}>Register</Text>
+                    </Pressable>
+                </View>
+            </View>
+
+            {/* headings */}
             <Text style={styles.heading}>Heading</Text>
 
-            {/* Regular Text */}
+            {/* body */}
             <Text style={styles.bodyText}>This is some regular text.</Text>
 
-            {/* Error Message */}
+            {/* error messages */}
             <Text style={styles.errorText}>This is an error message.</Text>
 
-            {/* Success Message */}
-            <Text style={styles.successText}>This is a success message.</Text>
+            {/* links */}
+            <Text style={styles.linkText}>This is a link text.</Text>
 
-            {/* Links */}
-            <Text style={styles.linkText}>Click here</Text>
+            {/* buttons */}
+            <Pressable
+                style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0 },
+                    styles.button
+                ]}>
+                <Text style={styles.buttonText}>Button</Text>
+            </Pressable>
 
-            {/* Forms */}
+            {/* input fields */}
             <TextInput
                 style={styles.input}
-                placeholder="Regular Input"
-                placeholderTextColor="#888" />
-            {/* <View style={styles.scalableInputContainer}>
-                <TextInput
-                    style={styles.scalableInput}
-                    placeholder="Scalable Input"
-                    placeholderTextColor="#888" />
-                <TouchableOpacity style={styles.smallButton}>
-                    <Text style={styles.smallButtonText}>–</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <TouchableOpacity style={styles.smallButton}>
-                    <Text style={styles.smallButtonText}>+</Text>
-                </TouchableOpacity>
-            </View> */}
+                placeholder='normal input'
+                placeholderTextColor={theme.placeholderText}
+            />
+            <TextInput
+                style={styles.passwordInput}
+                placeholder='password'
+                placeholderTextColor={theme.placeholderText}
+                secureTextEntry={true}
+            />
+            <TextInput
+                style={styles.multilineInput}
+                placeholder='multiline'
+                placeholderTextColor={theme.placeholderText}
+                multiline={true}
+                numberOfLines={4}
+            />
             {inputs.map((input, index) => (
-                <View key={input.id} style={styles.scalableInputContainer}>
+                <View key={input.idx} style={styles.scalableInputContainer}>
                     <TextInput
                         style={styles.scalableInput}
-                        placeholder="Scalable Input"
-                        placeholderTextColor='#888'
+                        placeholder='scalable'
+                        placeholderTextColor={theme.placeholderText}
                         value={input.value}
-                        onChangeText={
-                            (text) => handleInputChange(input.id, text)
-                        }
+                        onChangeText={(text) =>
+                            handleInputChange(input.idx, text)}
                     />
                     {inputs.length > 1 && (
-                        <TouchableOpacity
-                            style={styles.smallButton}
-                            onPress={() => removeInput(input.id)}
+                        <Pressable
+                            style={({ pressed }) => [
+                                { opacity: pressed ? 0.5 : 1.0 },
+                                styles.iconButton
+                            ]}
+                            onPress={() => removeInput(input.idx)}
                         >
-                            <Text style={styles.smallButtonText}>–</Text>
-                        </TouchableOpacity>
+                            <Text style={styles.iconButtonText}>–</Text>
+                        </Pressable>
                     )}
                 </View>
             ))}
-            <View>
-                <TouchableOpacity style={styles.smallButton} onPress={addInput}>
-                    <Text style={styles.smallButtonText}>+</Text>
-                </TouchableOpacity>
-            </View>
-            <TextInput
-                style={styles.input}
-                placeholder="Password"
-                placeholderTextColor="#888"
-                secureTextEntry={true} />
-            <Pressable style={({ pressed }) =>
-                [styles.button, pressed && styles.buttonPressed]}>
-                <Text style={styles.buttonText}>Submit</Text>
+            <Pressable
+                style={({ pressed }) => [
+                    { opacity: pressed ? 0.5 : 1.0 },
+                    styles.iconButton
+                ]}
+                onPress={addInput}
+            >
+                <Text style={styles.iconButtonText}>+</Text>
             </Pressable>
 
-            {/* Containers */}
-            <View style={styles.container}>
-                <Text style={styles.bodyText}>Regular Container</Text>
-            </View>
-            <View style={styles.additionalInfoContainer}>
-                <Text style={styles.bodyText}>Additional Info</Text>
-            </View>
-            <View style={styles.imageContainer}>
-                <Text style={styles.bodyText}>Image Container</Text>
+            {/* forms */}
+            <View style={styles.formContainer}>
+                <Text style={styles.formLabel}>Form Label</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder='form field'
+                    placeholderTextColor={theme.placeholderText}
+                />
+                <Text style={styles.formValidationMessage}>
+                    This is a validation message.
+                </Text>
             </View>
 
-            {/* Pressables */}
-            {/* <Pressable
-                style={({ pressed }) =>
-                    [styles.smallButton, pressed && styles.buttonPressed]}>
-                <Text style={styles.smallButtonText}>+</Text>
-            </Pressable> */}
-            
-
-            {/* Navigation */}
-            {/* <View style={styles.naviBarMobile}>
-                <Pressable style={styles.naviButton}>
-                    <Text style={styles.buttonText}>Login</Text>
-                </Pressable>
-                <Pressable style={styles.naviButton}>
-                    <Text style={styles.buttonText}>Logout</Text>
-                </Pressable>
-                <Pressable style={styles.naviButton}>
-                    <Text style={styles.buttonText}>Register</Text>
-                </Pressable>
+            {/* qr scanner */}
+            <View style={styles.scannerContainer}>
+                <Text style={styles.scannerInstructions}>
+                    Scan your QR code here.
+                </Text>
             </View>
-            <View style={styles.naviBarWeb}>
-                <Pressable style={styles.naviButton}>
-                    <Text style={styles.buttonText}>Change Theme</Text>
-                </Pressable>
-                <Pressable style={styles.naviButton}>
-                    <Text style={styles.buttonText}>Change Language</Text>
-                </Pressable>
-            </View> */}
-        </View>
+
+            {/* dishes & menu stuff */}
+            <View style={styles.menuItemContainer}>
+                <Image
+                    source={{ uri: require('./example.jpg') }}
+                    style={styles.menuItemImage}
+                />
+                <Text style={styles.menuItemText}>Menu Item</Text>
+            </View>
+            <View style={styles.infoContainer}>
+                <Text style={styles.infoHeading}>Additional Information</Text>
+                <Text style={styles.infoText}>
+                    Nutritional and emission data here.
+                </Text>
+            </View>
+
+        </ScrollView>
     );
 };
 
