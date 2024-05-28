@@ -18,6 +18,16 @@ spec:
           image: image-registry.openshift-image-registry.svc:5000/ruokasovellus/ruokasovellus:latest
           ports:
           - containerPort: 8080
+          startupProbe:
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            timeoutSeconds: 1
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 3
           resources:
             requests:
               memory: 40Mi
