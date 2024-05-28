@@ -1,5 +1,5 @@
 import { Text, Pressable, View, TextInput } from 'react-native';
-import { Link, useNavigate } from '../Router';
+import { Link } from '../Router';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { deleteSession } from '../controllers/sessionController';
@@ -107,11 +107,10 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 
-const Register = ({ updateUser }) => {
-    const navigate = useNavigate();
+function Register(props) {
     useEffect(() => {
         deleteSession();
-        updateUser(null);
+        props.updateUser(null);
     }, []);
 
     const onSubmit = async values => {
@@ -129,7 +128,7 @@ const Register = ({ updateUser }) => {
     };
     const onSuccess = () => {
         console.log('registration successful!');
-        navigate('/login');
+        props.navigation.navigate('/login');
     };
     const onError = err => {
         console.error('Registration error:', err);
@@ -137,6 +136,6 @@ const Register = ({ updateUser }) => {
 
     return <RegisterForm onSubmit={onSubmit}
         onSuccess={onSuccess} onError={onError} />;
-};
+}
 
 export default Register;

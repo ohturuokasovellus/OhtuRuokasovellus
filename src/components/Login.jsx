@@ -3,17 +3,15 @@ import { deleteSession } from '../controllers/sessionController';
 import { TextInput, View, Pressable, Text } from 'react-native';
 import { Formik } from 'formik';
 import axios from 'axios';
-import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 import { createSession } from '../controllers/sessionController';
 import { LoginValidationSchema } from '../utils/formValidationSchemas';
 
-const LoginForm = ({ updateUser }) => {
+function LoginForm(props) {
     const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate();
     useEffect(() => {
         deleteSession();
-        updateUser(null);
+        props.updateUser(null);
     }, []);
 
     const handleSubmit = async (values, actions) => {
@@ -29,9 +27,9 @@ const LoginForm = ({ updateUser }) => {
                 restaurantId: response.data.restaurantId,
             };
             createSession(userData);
-            updateUser(userData);
+            props.updateUser(userData);
             
-            navigate('/');
+            props.navigation.navigate('Home');
 
         } catch (error) {
             setErrorMessage('Incorrect username or/and password');
@@ -87,14 +85,16 @@ const LoginForm = ({ updateUser }) => {
                     </View>
                     <View style={ styles.button }>
                         <Pressable title="Register"
-                            onPress={() => navigate('/register')}>
+                            onPress={() => 
+                                props.navigation.navigate('Register')}>
                             <Text style={ styles.buttonText }>register</Text>
                         </Pressable>
                     </View>
 
                     <View style={ styles.button }>
                         <Pressable title="Register as a Restauraunt User"
-                            onPress={() => navigate('/register-restaurant')}>
+                            onPress={() => props.navigation
+                                .navigate('RegisterRestaurant')}>
                             <Text style={ styles.buttonText }>
                                 register restaurant
                             </Text>
@@ -104,6 +104,6 @@ const LoginForm = ({ updateUser }) => {
             )}
         </Formik>
     );
-};
+}
 
 export default LoginForm;
