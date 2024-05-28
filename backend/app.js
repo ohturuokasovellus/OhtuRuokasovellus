@@ -5,6 +5,7 @@ const registerRouter = require('./routes/register');
 const LoginRouter = require('./routes/login');
 const registerRestaurantRouter = require('./routes/registerRestaurant');
 const mealRouter = require('./routes/meal');
+const surveyRouter = require('./routes/survey');
 const path = require('path');
 const filesystem = require('fs');
 
@@ -16,6 +17,7 @@ app.use(registerRouter);
 app.use(LoginRouter);
 app.use(registerRestaurantRouter);
 app.use(mealRouter);
+app.use(surveyRouter);
 
 const webBuildPath = path.join(__dirname, '..', 'web-build');
 if (filesystem.existsSync(webBuildPath)) {
