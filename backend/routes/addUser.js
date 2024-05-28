@@ -14,12 +14,7 @@ router.use(express.json());
 /**
  * Handles the addition of users to a restaurant.
  * @param {Object} req
- * @param {Object} req.body
- * @param {string[]} req.body.emails - array of emails to be added
- * @param {number} req.body.restaurantId - restaurant to which users are added
- * @param {string} req.body.username - the username of current user
- * @param {string} req.body.password - the password of current user
- * @param {Object} res - the response object
+ * @param {Object} res
  * @returns {Object} - JSON object containing results for each email
  */
 

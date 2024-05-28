@@ -16,11 +16,6 @@ const router = express.Router();
 /**
  * Route for registering a new restaurant along with a user account.
  * @param {Object} req - The request object.
- * @param {Object} req.body - The body of the request.
- * @param {string} req.body.username - The username for the new user.
- * @param {string} req.body.password - The password for the new user.
- * @param {string} req.body.email - The email for the new user.
- * @param {string} req.body.restaurantName - The name of the new restaurant.
  * @param {Object} res - The response object.
  * @returns {Object} 200 - Success status.
  * @returns {Object} 400 - Invalid input or user/restaurant already exists.
