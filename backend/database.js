@@ -13,15 +13,35 @@ const sql = postgres(process.env.E2ETEST == '1' ?
     process.env.E2ETEST_POSTGRES_URL :
     process.env.BACKEND_POSTGRES_URL);
 
+/**
+ * @param {string} username 
+ * @param {string} password hashed password 
+ * @param {string} email 
+ * @param {int} restaurantId
+ * @returns {null}
+*/
 const insertUser = async (username, password, email, restaurantId) => {
-    await sql`
-        INSERT INTO users (username, password, email, restaurant_id)
-        VALUES (pgp_sym_encrypt(${username},
-            ${process.env.DATABASE_ENCRYPTION_KEY}), 
-            ${password}, 
-            pgp_sym_encrypt(${email},${process.env.DATABASE_ENCRYPTION_KEY}), 
-            ${restaurantId})
-    `;
+    if(restaurantId){
+        await sql`
+            INSERT INTO users (username, password, email, restaurant_id)
+            VALUES (pgp_sym_encrypt(${username},
+                ${process.env.DATABASE_ENCRYPTION_KEY}), 
+                ${password}, 
+                pgp_sym_encrypt(
+                    ${email},${process.env.DATABASE_ENCRYPTION_KEY}), 
+                ${restaurantId})
+        `;
+    }
+    else{
+        await sql`
+            INSERT INTO users (username, password, email)
+            VALUES (pgp_sym_encrypt(${username},
+                ${process.env.DATABASE_ENCRYPTION_KEY}), 
+                ${password}, 
+                pgp_sym_encrypt(
+                    ${email},${process.env.DATABASE_ENCRYPTION_KEY}))
+        `;
+    } 
 };
 
 const insertRestaurant = async (restaurantName) => {
