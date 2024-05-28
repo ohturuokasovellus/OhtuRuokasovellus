@@ -42,4 +42,5 @@ jobs:
           env:
             E2ETEST_POSTGRES_URL: ${{ secrets.E2ETEST_POSTGRES_URL }}
             E2ETEST: 1
+            DATABASE_ENCRYPTION_KEY: ${{ secrets.DATABASE_ENCRYPTION_KEY }}
       
