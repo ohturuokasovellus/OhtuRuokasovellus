@@ -140,10 +140,6 @@ const RegisterRestaurant = ({ updateUser }) => {
      * Handle form submission by sending registration data to the server.
      *
      * @param {Object} values - The form values.
-     * @param {string} values.username - The username.
-     * @param {string} values.email - The email.
-     * @param {string} values.password - The password.
-     * @param {string} values.restaurantName - The name of the restaurant.
      * @throws Throw an error if registration fails.
      */
     const onSubmit = async values => {
@@ -160,19 +156,11 @@ const RegisterRestaurant = ({ updateUser }) => {
         }
     };
 
-    /**
-     * Handle successful registration by navigating to the login page.
-     */
     const onSuccess = () => {
         console.log('registration successful!');
         navigate('/login');
     };
 
-    /**
-     * Handle registration errors.
-     *
-     * @param {Error} err - The error object.
-     */
     const onError = err => {
         console.error('registration error:', err);
     };

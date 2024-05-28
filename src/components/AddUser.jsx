@@ -14,11 +14,11 @@ const initialValues = {
 
 /**
  * Form for adding new restaurant users.
- * @param {Function} onSubmit - handle form submission
- * @param {Function} onSuccess - handle success scenario
- * @param {Function} onError - handle error scenarios
+ * @param {Function} onSubmit
+ * @param {Function} onSuccess
+ * @param {Function} onError
  * @param {Array} results - array containing processed emails and their statuses
- * @returns {JSX.Element} - AddUserForm component
+ * @returns {JSX.Element} 
  */
 
 const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
@@ -32,8 +32,6 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                 setSuccessMessage('users have been successfully processed!');
                 onSuccess();
             } catch (err) {
-                // FIXME: idk why but sometimes the form
-                // is cleared even with 401 status
                 onError(err);
                 setFormError(err.message);
                 if (formError !== 'invalid password') {
@@ -130,11 +128,6 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
 
 /**
  * AddUser component for managing user addition.
- * @param {object} props
- * @param {object} props.user - contains user info
- * @param {string} props.user.username
- * @param {number} props.user.restaurantId
- * @returns {JSX.Element}
  */
 
 const AddUser = (props) => {

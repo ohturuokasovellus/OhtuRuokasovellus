@@ -11,6 +11,7 @@ yup.addMethod(yup.string, 'email', function validateEmail(message) {
     });
 });
 
+// Username needs to be 3-32 characters and is a required field.
 const usernameValidationSchema = yup.object().shape({
     username: yup.string()
         .min(3, 'username must be at least 3 characters')
@@ -18,10 +19,14 @@ const usernameValidationSchema = yup.object().shape({
         .required('username is required'),
 });
 
+
+// Email is required. Uses the override regex.
 const emailValidationSchema = yup.object().shape({
     email: yup.string().email('invalid email').required('email is required')
 });
 
+// Password needs to be 3-32 chars, and contain
+// lower- & uppercase, digits, special chars
 const passwordValidationSchema = yup.object().shape({
     password: yup
         .string()
@@ -41,6 +46,7 @@ const passwordValidationSchema = yup.object().shape({
         .required('password confirmation is required')
 });
 
+// Schema for validating all registration form fields
 const registrationValidationSchema = usernameValidationSchema.concat(
     emailValidationSchema).concat(passwordValidationSchema);
 
@@ -51,6 +57,8 @@ const restaurantValidationSchema = registrationValidationSchema.shape({
         .required('restaurant name is required'),
 });
 
+
+// Username and password are required when logging in.
 const loginValidationSchema = yup.object().shape({
     username: yup.string()
         .required('Username is required'),

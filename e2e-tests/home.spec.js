@@ -54,7 +54,6 @@ test.describe('home page', () => {
             await page.getByText('login').click();
             await page.waitForURL('/');
             await expect(page).toHaveURL('/');
-            // await page.goto('/');
             await expect(page.locator('#root'))
                 .toContainText('Welcome, test2');
         });
@@ -67,7 +66,6 @@ test.describe('home page', () => {
             await page.getByPlaceholder('Password').click();
             await page.getByPlaceholder('Password').fill('Test123!');
             await page.getByText('login').click();
-            // await page.goto('/');
             await page.waitForURL('/');
             await expect(page).toHaveURL('/');
             await expect(page.locator('#root'))
@@ -86,14 +84,12 @@ test.describe('home page', () => {
             await page.getByPlaceholder('Password').click();
             await page.getByPlaceholder('Password').fill('Test123!');
             await page.getByText('login').click();
-            // await page.goto('/');
             await page.waitForURL('/');
             await page.getByText('add user').click();
             await expect(page).toHaveURL(/\/add-users$/);
             await page.getByRole('link', { name: 'back to home' }).click();
             await page.waitForURL('/');
             await page.getByText('restaurant page').click();
-            // await expect(page).toHaveURL(/\/restaurant\//);
             await expect(page).toHaveURL('/restaurant/1');
         });
 });
