@@ -11,7 +11,11 @@ const initTestDB = async () => {
     const email = 'testi@test.com';
     await sql`
     INSERT INTO users (username, password, email)
-    VALUES (${user}, ${pw}, ${email})
+    VALUES (
+        pgp_sym_encrypt(${user}, ${process.env.DATABASE_ENCRYPTION_KEY}),
+        ${pw},
+        pgp_sym_encrypt(${email}, ${process.env.DATABASE_ENCRYPTION_KEY})
+    )
     `;
 };
 
