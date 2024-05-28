@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Pressable } from 'react-native';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 
@@ -10,26 +10,41 @@ const Home = (props) => {
         if (!props.user) {
             navigate('/login');
         }
-    }, [props.user, navigate]);
+    }, [props, navigate]);
 
     if (!props.user) {
         return null; // or render a loading indicator
     }
 
-    // Check if user is a restaurant owner
-    const isRestaurantOwner = props.user.restaurantId !== null;
+    const username = props.user.username;
+    const restaurantId = props.user.restaurantId;
+    const isRestaurantUser = restaurantId !== null;
 
     return (
         <View>
-            {isRestaurantOwner ? (
-                <Text style={styles.welcomeText}>
-                    Welcome, restaurant owner {props.user.username}
-                </Text>
-            ) : (
-                <Text style={styles.welcomeText}>
-                    Welcome, {props.user.username}
-                </Text>
-            )}
+            <Text style={styles.welcomeText}>
+                Welcome, {username}
+            </Text>
+            {isRestaurantUser ? (
+                <>
+                    <Text style={styles.welcomeText}>
+                        You are logged in as a restaurant user.
+                    </Text>
+                    <Pressable style={styles.button} title='Add user' onPress={
+                        () => navigate('/add-users')
+                    }>
+                        <Text style={styles.buttonText}>add user</Text>
+                    </Pressable>
+                    <Pressable style={styles.button} title='restaurant page'
+                        onPress={
+                            () => navigate(
+                                `/restaurant/${restaurantId}`
+                            )
+                        }>
+                        <Text style={styles.buttonText}>restaurant page</Text>
+                    </Pressable>
+                </>
+            ) : null}
         </View>
     );
 };

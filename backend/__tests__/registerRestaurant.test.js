@@ -22,9 +22,9 @@ describe('register restaurant api', () => {
     // eslint-disable-next-line jest/expect-expect
     test('register fails if username already exists', async () => {
         postgresMock.setSqlResults([
+            [{ exists: false }],    // check if restaurant already exists
             [{ exists: true }],    // check if username already exists
             [{ exists: false }],    // check if email already exists
-            [{ exists: false }],    // check if restaurant name already exists
         ]);
 
         await request(app)
@@ -43,9 +43,9 @@ describe('register restaurant api', () => {
     // eslint-disable-next-line jest/expect-expect
     test('register fails if email already exists', async () => {
         postgresMock.setSqlResults([
-            [{ exists: false }],    // check if username already exists
-            [{ exists: true }],     // check if email already exists
-            [{ exists: false }],    // check if restaurant name already exists
+            [{ exists: false }],    // check if restaurant already exists
+            [{ exists: false }],     // check if username already exists
+            [{ exists: true }],    // check if email already exists
         ]);
 
         await request(app)
@@ -64,9 +64,9 @@ describe('register restaurant api', () => {
     // eslint-disable-next-line jest/expect-expect
     test('register fails if restaurant name already exists', async () => {
         postgresMock.setSqlResults([
-            [{ exists: false }],    // check if username already exists
-            [{ exists: false }],     // check if email already exists
-            [{ exists: true }],    // check if restaurant name already exists
+            [{ exists: true }],    // check if restaurant already exists
+            [{ exists: false }],     // check if username already exists
+            [{ exists: false }],    // check if email already exists
         ]);
 
         await request(app)
@@ -79,14 +79,14 @@ describe('register restaurant api', () => {
             })
             .set('Content-Type', 'application/json')
             .expect(400)
-            .expect({ errorMessage: 'restaurant name already exists' });
+            .expect({ errorMessage: 'restaurant already exists' });
     });
 
     test('registered restaurant user is saved to database', async () => {
         postgresMock.setSqlResults([
+            [{ exists: false }],    // check if restaurant already exists
             [{ exists: false }],    // check if username already exists
             [{ exists: false }],    // check if email already exists
-            [{ exists: false }],    // check if restaurant name already exists
             // eslint-disable-next-line
             [{ restaurant_id: 1 }],
         ]);
