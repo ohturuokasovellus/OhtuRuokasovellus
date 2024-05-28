@@ -16,7 +16,11 @@ const sql = postgres(process.env.E2ETEST == '1' ?
 const insertUser = async (username, password, email, restaurantId) => {
     await sql`
         INSERT INTO users (username, password, email, restaurant_id)
-        VALUES (${username}, ${password}, ${email}, ${restaurantId})
+        VALUES (pgp_sym_encrypt(${username},
+            ${process.env.DATABASE_ENCRYPTION_KEY}), 
+            ${password}, 
+            pgp_sym_encrypt(${email},${process.env.DATABASE_ENCRYPTION_KEY}), 
+            ${restaurantId})
     `;
 };
 
@@ -37,9 +41,14 @@ const insertRestaurant = async (restaurantName) => {
  */
 const getUser = async (username, password) => {
     const result = await sql`
-        SELECT * FROM users
-        WHERE username = ${username} and password = ${password};
+        SELECT (user_id, pgp_sym_decrypt(username::bytea, 
+            ${process.env.DATABASE_ENCRYPTION_KEY}), 
+            password, restaurant_id) FROM users
+        WHERE pgp_sym_decrypt(username::bytea, 
+            ${process.env.DATABASE_ENCRYPTION_KEY}) 
+            = ${username} and password = ${password};
     `;
+    console.log(result);
     return result[0];
 };
 
@@ -60,7 +69,10 @@ const doesUsernameExist = async username => {
     // https://stackoverflow.com/q/8149596
     const result = await sql`
         SELECT exists
-        (SELECT 1 FROM users WHERE username = ${username} LIMIT 1);
+        (SELECT 1 FROM users 
+        WHERE 
+            pgp_sym_decrypt(username::bytea, 
+            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${username} LIMIT 1);
     `;
     return result.at(0).exists;
 };
@@ -72,7 +84,10 @@ const doesUsernameExist = async username => {
  */
 const doesEmailExist = async email => {
     const result = await sql`
-        SELECT exists (SELECT 1 FROM users WHERE email = ${email} LIMIT 1);
+        SELECT exists (SELECT 1 FROM users 
+        WHERE 
+            pgp_sym_decrypt(email::bytea, 
+            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email} LIMIT 1);
     `;
     return result.at(0).exists;
 };

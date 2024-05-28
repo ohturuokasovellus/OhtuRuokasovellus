@@ -10,6 +10,8 @@ router.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
     const user = await getUser(username, hash(password));
     if (user) {
+        console.log(user);
+        console.log(user.username+' '+user.user_id);
         const token = jwt.sign(
             { username: user.username, userId: user.user_id },
             process.env.SECRET_KEY
