@@ -32,10 +32,17 @@ spec:
         volumeMounts:
           - name: ruokasovellus-db-storage
             mountPath: /var/lib/postgresql
+      initContainers:
+        - name: ruokasovellus-db-init
+          image: busybox
+          command: ["sh", "-c", "mkdir -p /var/lib/postgresql/data/"]
+          volumeMounts:
+          - name: ruokasovellus-db-storage
+            mountPath: /var/lib/postgresql
       volumes:
         - name: ruokasovellus-db-storage
           persistentVolumeClaim:
-            claimName: ruokasovellus-db-pvc
+            claimName: ruokasovellus-db-pvc-2
   revisionHistoryLimit: 2
   strategy:
     type: RollingUpdate

@@ -6,7 +6,6 @@ const postgres = require('postgres');
 const app = express();
 
 const sql = postgres(process.env.BACKEND_POSTGRES_URL);
-console.log('db connection', process.env.BACKEND_POSTGRES_URL);
 
 app.get('/', async (req, res) => {
     let dbtest
