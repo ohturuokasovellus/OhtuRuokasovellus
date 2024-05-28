@@ -13,6 +13,8 @@ import { getSession } from './src/controllers/sessionController';
 import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
 
+import Layout from './src/styling/layoutMock';
+
 const App = () => {
     const [user, setUser] = useState(getSession());
     const updateUser = (userData) => {
@@ -40,6 +42,7 @@ const App = () => {
                             {<RegisterRestaurant updateUser={updateUser}/>} />
                     <Route path='/add-users'
                         element={<AddUser user={user} />} />
+                    <Route path='/layout' element={<Layout/>}/>
                 </Routes>
             </View>
         </Router>
