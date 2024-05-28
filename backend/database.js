@@ -48,7 +48,6 @@ const getUser = async (username, password) => {
             ${process.env.DATABASE_ENCRYPTION_KEY}) 
             = ${username} and password = ${password};
     `;
-    console.log(result);
     return result[0];
 };
 
