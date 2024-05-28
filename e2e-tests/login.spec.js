@@ -1,5 +1,5 @@
 /* eslint-disable @stylistic/js/indent */
-import { sql } from '../backend/database';
+import { sql, insertUser } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 
@@ -9,14 +9,7 @@ const initTestDB = async () => {
     // eslint-disable-next-line id-length
     const pw = hash('Testi123@');
     const email = 'testi@test.com';
-    await sql`
-    INSERT INTO users (username, password, email)
-    VALUES (
-        pgp_sym_encrypt(${user}, ${process.env.DATABASE_ENCRYPTION_KEY}),
-        ${pw},
-        pgp_sym_encrypt(${email}, ${process.env.DATABASE_ENCRYPTION_KEY})
-    )
-    `;
+    await insertUser(user, pw, email);
 };
 
 test.describe('login page', () => {

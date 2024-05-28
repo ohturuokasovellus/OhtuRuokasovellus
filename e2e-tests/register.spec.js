@@ -1,4 +1,4 @@
-import { sql } from '../backend/database';
+import { sql, insertUser } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 
@@ -8,10 +8,7 @@ const initTestDB = async () => {
     // eslint-disable-next-line id-length
     const pw = hash('Test123!');
     const email = 'test@test.com';
-    await sql`
-    INSERT INTO users (username, password, email)
-    VALUES (${user}, ${pw}, ${email})
-    `;
+    await insertUser(user, pw, email);
 };
 
 test.describe('registration page', () => {
