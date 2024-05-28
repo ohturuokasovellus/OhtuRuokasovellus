@@ -146,10 +146,11 @@ const Register = ({ updateUser }) => {
         const { username, email, password } = values;
         try {
             await axios.post(
-                'http://localhost:8080/api/register',
+                '/api/register',
                 { username, email, password }
             );
         } catch (err) {
+            console.error(err);
             const errorMessage = err.response?.data?.errorMessage ||
                 'an unexpected error occurred';
             throw new Error(errorMessage);

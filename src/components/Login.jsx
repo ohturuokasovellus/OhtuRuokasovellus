@@ -26,7 +26,7 @@ const LoginForm = ({ updateUser }) => {
     const handleSubmit = async (values, actions) => {
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/login',
+                '/api/login',
                 values
             );
             actions.setSubmitting(false);
@@ -38,6 +38,7 @@ const LoginForm = ({ updateUser }) => {
             updateUser(userData);
             navigate('/');
         } catch (error) {
+            console.error(error);
             setErrorMessage('Incorrect username or/and password');
             actions.setFieldError('general', 'Wrong credentials');
             actions.setSubmitting(false);
