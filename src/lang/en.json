@@ -1,0 +1,20 @@
+{
+    "translation": {
+        "TYPE_A_URL": "Type a URL",
+        "GENERATE_A_URL": "Generate a URL",
+        "NAME_OF_THE_MEAL": "Name of the meal",
+        "SELECT_A_IMAGE_FROM_DEVICE": "Select image from device",
+        "CREATE_A_MEAL": "Create a meal",
+        "WELCOME": "Welcome",
+        "YOU_ARE_LOGGED_AS_RESTAURANT_USER": "You are logged-in as a restaurant user",
+        "ADD_USER": "Add user",
+        "RESTAURANT_OWNER": "restaurant owner",
+        "RESTAURANT_PAGE": "Restaurant page",
+        "LOGIN": "login",
+        "LOGOUT": "logout",
+        "REGISTER": "register",
+        "REGISTER_RESTAURANT": "register restaurant",
+        "ALREADY_REGISTERED": "Already registered?",
+        "RESTAURANT": "Restaurant"
+    }
+}

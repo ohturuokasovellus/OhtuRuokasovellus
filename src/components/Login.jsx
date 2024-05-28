@@ -7,17 +7,17 @@ import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 import { createSession } from '../controllers/sessionController';
 import { LoginValidationSchema } from '../utils/formValidationSchemas';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Render a form for user login, validate using a yup schema.
  * On submission, send login data to the server.
  *
- * @param {Function} handleSubmit - handle form submission;
- *  args: form values
- * (username, password)
+ * @param {{ updateUser: Function }} props - handle user session management;
  * @returns {React.JSX.Element}
  */
 const LoginForm = ({ updateUser }) => {
+    const {t} = useTranslation();
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     useEffect(() => {
@@ -91,13 +91,17 @@ const LoginForm = ({ updateUser }) => {
                     <View style={ styles.button }>
                         <Pressable onPress={handleSubmit}
                             title="Login" disabled={isSubmitting}>
-                            <Text style={ styles.buttonText }> login </Text>
+                            <Text style={ styles.buttonText }>
+                                {t('LOGIN')}
+                            </Text>
                         </Pressable>
                     </View>
                     <View style={ styles.button }>
                         <Pressable title="Register"
                             onPress={() => navigate('/register')}>
-                            <Text style={ styles.buttonText }>register</Text>
+                            <Text style={ styles.buttonText }>
+                                {t('REGISTER')}
+                            </Text>
                         </Pressable>
                     </View>
 
@@ -105,7 +109,7 @@ const LoginForm = ({ updateUser }) => {
                         <Pressable title="Register as a Restauraunt User"
                             onPress={() => navigate('/register-restaurant')}>
                             <Text style={ styles.buttonText }>
-                                register restaurant
+                                {t('REGISTER_RESTAURANT')}
                             </Text>
                         </Pressable>
                     </View>

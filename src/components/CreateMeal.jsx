@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 const validationSchema = yup.object().shape({
     mealName: yup.string()
@@ -18,6 +19,7 @@ const initialValues = {
 };
 
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
+    const {t} = useTranslation();
     const [formError, setFormError] = useState('');
 
     const formik = useFormik({
@@ -78,13 +80,13 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 <Text>{formik.errors.mealName}</Text>
             }
             <Pressable onPress={openImagePicker}>
-                <Text>Valitse kuva laitteelta</Text>
+                <Text>{t('SELECT_A_IMAGE_FROM_DEVICE')}</Text>
             </Pressable>
             {formik.touched.imageUri && formik.errors.imageUri && 
                 <Text>{formik.errors.imageUri}</Text>
             }
             <Pressable onPress={formik.handleSubmit}>
-                <Text>Luo ateria</Text>
+                <Text>{t('CREATE_A_MEAL')}</Text>
             </Pressable>
         </View>
     );

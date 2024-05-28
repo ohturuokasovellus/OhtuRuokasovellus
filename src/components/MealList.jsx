@@ -5,6 +5,7 @@ import {
 import axios from 'axios';
 import { useParams } from '../Router';
 import { styles } from '../styling/styles';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Render a restaurant specific meal list based on restaurantId.
@@ -17,6 +18,7 @@ import { styles } from '../styling/styles';
  * @returns {React.JSX.Element}
  */
 const MealList = () => {
+    const {t} = useTranslation();
     const { restId } = useParams();
     const [selectedMeal, setSelectedMeal] = useState(null);
     const [meals, setMeals] = useState([]);
@@ -66,7 +68,9 @@ const MealList = () => {
 
     return (
         <View style={styles.mealContainer}>
-            <Text style={styles.header}>Ravintola {restaurantName}</Text>
+            <Text style={styles.header}>
+                {t('RESTAURANT')} {restaurantName}
+            </Text>
             <FlatList
                 data={meals}
                 keyExtractor={(item) => item.meal_id.toString()}

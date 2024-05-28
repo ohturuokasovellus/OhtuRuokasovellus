@@ -11,6 +11,9 @@ import { styles } from './src/styling/styles';
 import { getSession } from './src/controllers/sessionController';
 import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
+import './src/lang/i18n'; // should be inported in index.js, but idk if 
+//they mean the backend's index.js or frontend's app.jsx. Works when imported
+// here.
 
 const App = () => {
     const [user, setUser] = useState(getSession());

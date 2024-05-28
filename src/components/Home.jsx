@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
+import { useTranslation } from 'react-i18next';
 
 const Home = (props) => {
+    const {t} = useTranslation();
     const navigate = useNavigate();
-
     useEffect(() => {
         if (!props.user) {
             navigate('/login');
@@ -23,11 +24,12 @@ const Home = (props) => {
         <View>
             {isRestaurantOwner ? (
                 <Text style={styles.welcomeText}>
-                    Welcome, restaurant owner {props.user.username}
+                    {t('WELCOME')}, {t('RESTAURANT_OWNER')} 
+                    {' '}{props.user.username}
                 </Text>
             ) : (
                 <Text style={styles.welcomeText}>
-                    Welcome, {props.user.username}
+                    {t('WELCOME')}, {props.user.username}
                 </Text>
             )}
         </View>

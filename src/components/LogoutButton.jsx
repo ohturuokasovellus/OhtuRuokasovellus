@@ -3,6 +3,7 @@ import { View, Text, Pressable } from 'react-native';
 import { useNavigate } from '../Router';
 import { deleteSession } from '../controllers/sessionController';
 import { styles } from '../styling/styles';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Render a button for logout.
@@ -13,6 +14,7 @@ import { styles } from '../styling/styles';
  * @returns {React.JSX.Element}
  */
 const LogoutButton = ({ updateUser }) => {
+    const {t} = useTranslation();
     const navigate = useNavigate();
     const handlePress = () => {
         deleteSession();
@@ -23,7 +25,7 @@ const LogoutButton = ({ updateUser }) => {
     return (
         <View style={styles.logoutButton}>
             <Pressable title="Logout" onPress={handlePress}>
-                <Text style={ styles.buttonText }>logout</Text>
+                <Text style={ styles.buttonText }>{t('LOGOUT')}</Text>
             </Pressable>
         </View>
     );

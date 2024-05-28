@@ -7,7 +7,7 @@ const router = express.Router();
  * Route for adding meal.
  * @param {Object} req - The request object.
  * @param {Object} req.body - Request body.
- * @param {Object} req.body.mealName - Name of the meal.
+ * @param {string} req.body.mealName - Name of the meal.
  * @param {Object} res - The response object.
  * @returns {Object} 400 - Invalid meal name
  * @returns {Object} 500 -  Meal insertion failed.
@@ -36,8 +36,7 @@ router.post('/api/meals', express.json(), async (req, res) => {
 /**
  * Route for adding meal image.
  * @param {Object} req - The request object.
- * @param {Object} req.body - Request body.
- * @param {Object} req.body.imageData - Image data.
+ * @param {string} req.body - Image data.
  * @param {number} req.params.id - meal id.
  * @param {Object} res - The response object.
  * @returns {Object} 400 - Missing image.
