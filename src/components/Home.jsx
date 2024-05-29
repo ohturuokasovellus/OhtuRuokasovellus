@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
+import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 
-function Home(props) {
+const Home = (props) => {
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (!props.user) {
-            props.navigation.navigate('Login');
+            navigate('/login');
         }
-    }, []);
+    }, [props.user, navigate]);
 
     if (!props.user) {
         return null; // or render a loading indicator
@@ -29,6 +32,6 @@ function Home(props) {
             )}
         </View>
     );
-}
+};
 
 export default Home;
