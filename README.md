@@ -1,5 +1,5 @@
 # Ohtuprojekti kesä 2024: Ruokasovellus
-![CI workflow badge](https://github.com/Robomarti/Ohtu-ryhm-repo-2023/workflows/CI/badge.svg)
+![CI workflow badge](https://github.com/ohturuokasovellus/OhtuRuokasovellus/workflows/CI/badge.svg)
 
 ## Usage
 
