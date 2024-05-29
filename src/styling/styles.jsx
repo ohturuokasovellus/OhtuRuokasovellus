@@ -59,6 +59,15 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    surveyButton: {
+        margin: 10,
+        height: 40,
+        width: 130,
+        backgroundColor: '#60AEBF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 8,
+    },
     mealContainer: {
         justifyContent: 'center',
         // borderWidth: 3,

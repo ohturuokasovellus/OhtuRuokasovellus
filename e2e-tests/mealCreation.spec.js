@@ -14,7 +14,7 @@ test.describe('meal creation page', () => {
     });
 
     test('does not create a meal without image selected', async ({page}) => {
-        await page.fill('input[placeholder="Aterian nimi"]', 'ruoka');
+        await page.fill('input[placeholder="Name of the meal"]', 'ruoka');
         await page.click('text=Create a meal');
         await expect(page).toHaveURL('/create-meal');
         await expect(page.locator('#root'))
@@ -22,7 +22,7 @@ test.describe('meal creation page', () => {
     });
 
     test('creating a meal works with name and a image', async ({ page}) => {
-        await page.fill('input[placeholder="Aterian nimi"]', 'ruoka');
+        await page.fill('input[placeholder="Name of the meal"]', 'ruoka');
         const fileChooserPromise = page.waitForEvent('filechooser');
         await page.click('text=Select image from device');
         const fileChooser = await fileChooserPromise;

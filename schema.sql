@@ -31,3 +31,9 @@ CREATE TABLE meals (
     -- TODO: change creator type to Restaurant ID
     restaurant_id INT NOT NULL
 );
+
+CREATE TABLE urls (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL,
+    url TEXT NOT NULL
+);

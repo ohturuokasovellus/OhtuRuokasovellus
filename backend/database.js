@@ -147,11 +147,15 @@ const doesRestaurantNameExist = async restaurantName => {
     return result.at(0).exists;
 };
 
-const getSurveyUrl = async () => {
-    const result = 'http://localhost:19006/restaurant/1';
-    // const result = await sql`
-    //     SELECT survey_url FROM urls WHERE name = survey_url 
-    // `;
+/**
+ * @param {string} urlName
+ * @returns {Promise<string>} url as a string
+ */
+const getSurveyUrl = async (urlName) => {
+    // const result = 'http://localhost:19006/restaurant/1';
+    const result = await sql`
+        SELECT url FROM urls WHERE name = ${urlName};
+    `;
     return result;
 };
 

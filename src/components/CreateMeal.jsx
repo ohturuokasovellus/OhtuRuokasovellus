@@ -72,7 +72,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 <Text>{formError}</Text>
             ) : null}
             <TextInput
-                placeholder='Aterian nimi'
+                placeholder={t('NAME_OF_THE_MEAL')}
                 value={formik.values.mealName}
                 onChangeText={formik.handleChange('mealName')}
             />
