@@ -11,13 +11,14 @@ router.use(express.json());
  * @returns {Object} 200 - Success status.
  * @returns {Object} 404 - Url not found.
  */
-router.get('/api/url', async (req, res) => {
-    const { urlName } = req.query;
-    const surveyUrl = await getSurveyUrl(urlName);
-    if (surveyUrl) {
-        res.status(200).send({ url: surveyUrl });
-    } else {
-        res.status(404);
+router.get('/api/url/:urlName', async (req, res) => {
+    try {
+        const result = await getSurveyUrl(req.params.urlName);
+        if (result) {
+            res.status(200).send(result[0].url);
+        }
+    } catch (err) {
+        return res.sendStatus(404);
     }
 });
 

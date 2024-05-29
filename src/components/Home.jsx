@@ -39,7 +39,7 @@ const Home = (props) => {
                 </Text>
             )}
             {surveyUrl && (
-                <Survey />
+                <Survey surveyUrl={surveyUrl}/>
             )}
         </View>
     );

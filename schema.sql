@@ -11,6 +11,8 @@ DROP TABLE IF EXISTS restaurants CASCADE;
 
 DROP TABLE IF EXISTS meals CASCADE;
 
+DROP TABLE IF EXISTS urls CASCADE;
+
 CREATE TABLE restaurants (
     restaurant_id SERIAL PRIMARY KEY,
     name TEXT UNIQUE NOT NULL
@@ -37,3 +39,6 @@ CREATE TABLE urls (
     name TEXT UNIQUE NOT NULL,
     url TEXT NOT NULL
 );
+
+-- let survey url be this for now
+INSERT INTO urls (name, url) VALUES ('survey', 'http://localhost:19006/create-meal')
