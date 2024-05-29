@@ -9,6 +9,8 @@ import { createStyles } from './layout';
 import { lightTheme, darkTheme } from './colors';
 import { themeContext } from '../controllers/themeController';
 
+import Button from '../components/Button';
+
 const Layout = () => {
     // const [isDarkTheme, setIsDarkTheme] = useState(false);
     // const theme = isDarkTheme ? darkTheme : lightTheme;
@@ -93,6 +95,8 @@ const Layout = () => {
                 ]}>
                 <Text style={styles.buttonText}>Button</Text>
             </Pressable>
+
+            <Button onPress={() => {}} text='button' styles={styles}></Button>
 
             {/* input fields */}
             <TextInput

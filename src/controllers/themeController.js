@@ -5,7 +5,7 @@ import { lightTheme, darkTheme } from '../styling/colors';
  * Context for managing the theme state.
  * @property {string} theme current theme (light/dark)
  * @property {Function} toggleTheme
- * @property {Object} themeColors
+ * @property {Object} colors
  */
 export const themeContext = createContext();
 
