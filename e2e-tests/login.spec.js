@@ -6,10 +6,9 @@ import { hash } from '../backend/services/hash';
 const initTestDB = async () => {
     await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
     const user = 'testi';
-    // eslint-disable-next-line id-length
-    const pw = hash('Testi123@');
-    const email = 'testi@test.com';
-    await insertUser(user, pw, email);
+    const password = hash('Testi123!');
+    const email = 'test@test.com';
+    insertUser(user, password, email);
 };
 
 test.describe('login page', () => {
@@ -22,7 +21,7 @@ test.describe('login page', () => {
         await page.goto('/');
         await expect(page).toHaveURL(/\/login$/);
         await page.fill('input[placeholder="Username"]', 'testi');
-        await page.fill('input[placeholder="Password"]', 'Testi123@');
+        await page.fill('input[placeholder="Password"]', 'Testi123!');
         await page.locator('#log_user_in_button').click();
         await expect(page).toHaveURL('/');
     });
@@ -55,7 +54,7 @@ test.describe('login page', () => {
     test('warns if username is missing', async ({page}) => {
         await page.goto('/');
         await expect(page).toHaveURL(/\/login$/);
-        await page.fill('input[placeholder="Password"]', 'Testi123@');
+        await page.fill('input[placeholder="Password"]', 'Testi123!');
         await page.locator('#log_user_in_button').click();
         await page.waitForSelector('text="Username is required"');
     });
@@ -65,7 +64,7 @@ test.describe('login page', () => {
         async ({page}) => {
         await page.goto('/');
         await page.fill('input[placeholder="Username"]', 'testi');
-        await page.fill('input[placeholder="Password"]', 'Testi123@');
+        await page.fill('input[placeholder="Password"]', 'Testi123!');
         await page.locator('#log_user_in_button').click();
         await page.click('text=Logout');
         await expect(page).toHaveURL('/login');

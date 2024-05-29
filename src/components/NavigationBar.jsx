@@ -17,7 +17,8 @@ const NavigationBar = ({ user, updateUser }) => {
                 listStyleType: 'none'}}>
                 {user &&
                     <li>
-                        <Pressable style={{marginRight: '10px'}}
+                        <Pressable id='to_home_button' 
+                            style={{marginRight: '10px'}}
                             onPress={() => navigate('/')}>
                             <Text style={{textDecoration: 'none', 
                                 color: 'white'}}>Home</Text>
@@ -46,7 +47,8 @@ const NavigationBar = ({ user, updateUser }) => {
                 }
                 {user &&
                     <li>
-                        <Pressable style={{marginRight: '10px'}} 
+                        <Pressable id='to_qr_form_button'
+                            style={{marginRight: '10px'}} 
                             onPress={() => navigate('/qr-form')}>
                             <Text style={{textDecoration: 'none',
                                 color: 'white'}}>QR Form</Text>
@@ -55,7 +57,8 @@ const NavigationBar = ({ user, updateUser }) => {
                 }
                 {(user && user.restaurantId) &&
                     <li>
-                        <Pressable style={{marginRight: '10px'}} 
+                        <Pressable id='to_create_meal_form_button'
+                            style={{marginRight: '10px'}} 
                             onPress={() => navigate('/create-meal')}>
                             <Text style={{textDecoration: 'none',
                                 color: 'white'}}>Add a meal</Text>
