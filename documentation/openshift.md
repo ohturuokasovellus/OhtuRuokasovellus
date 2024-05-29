@@ -1,6 +1,24 @@
 # OpenShift deployment
 
-This documentation is still in progress.
+## Prerequisities
+
+Before starting, make sure that you have access to the web interface of your
+OpenShift platform. In our case, for example, go to `rahti.csc.fi` and log in
+to Rahti 2.
+
+In addition to the web interface, you also have to run commands in terminal,
+so you need OpenShift CLI tool `oc`. See
+[installation page](https://docs.openshift.com/container-platform/4.15/cli_reference/openshift_cli/getting-started-cli.html)
+for instructions.
+
+`oc` tool must also be logged in to your account.
+In the web interface, click you name in the top right corner and then click
+"Copy login command". Log in with your credentials, click Display token and
+copy the command starting with `oc`.
+Run this command in your terminal to log the `oc` tool in to your account.
+The login seems to expire automatically in 24 hours,
+so you have to repeat this step daily.
+
 
 ## Docker image
 
@@ -44,8 +62,6 @@ First, we need to automate the build of the Docker image.
 This can be done with `BuildConfig` configuration
 in [`openshift/build.yaml`](../openshift/build.yaml).
 
-We name our build process `ruokasovellus-build` in `metadata.name`.
-
 In `spec.source` section we define where OpenShift should get the source code from.
 In our case we give it the URL of the GitHub repository.
 
@@ -58,7 +74,41 @@ and give it the `latest` tag as a mark of being the newest version of the image.
 
 ### Automatic build
 
-TODO, github webhook, triggers
+Now the build process can be started either with the command-line tool
+or via the web interface.
+Luckily we can also make a connection between OpenShift and GitHub so that
+the build process is triggered automatically when changes are pushed
+to the repository.
+This connection is called webhook.
+
+First, let's add a secret for this webhook.
+Secret is a way to store sensitive data such as credentials without
+placing them in plaintext to the YAML files.
+In web interface, navigate to Secrets and click Create, then Webhook secret.
+Give the secret a name (`ohtu-ruokasovellus-github-webhook-secret` in our case)
+and value by clicking the Generate button.
+
+Next, let's add trigger section to the build configuration
+(in [`openshift/build.yaml`](../openshift/build.yaml)).
+In `spec.triggers[0]` we define that we want the build to trigger
+on GitHub changes.
+We also give a secret reference to the secret that we just created.
+
+Then, we need to get a webhook URL.
+This can be done by navigating to Builds in the web interface,
+going to the page of the build process and
+clicking the "Copy URL with Secret" button.
+
+Now OpenShift is ready for the trigger and we move on to preparing GitHub.
+In the settings of the GitHub repository, go to Webhooks section and click
+Add webhook button.
+Paste the copied Webhook URL to the Payload URL field and change Content type
+to JSON.
+Here, secret field is not the same thing as the secret we generated earlier,
+so leave the secret field empty.
+
+Now the connection between GitHub and OpenShift is finished and
+our build configuration is triggered whenever someone pushes changes to main.
 
 
 ## Image stream
@@ -155,4 +205,155 @@ for the database.
 
 ## Database deployment
 
-TODO
+Whenever we want to add a new pod,
+we need to add a new `Deployment` configuration
+(in [`openshift/db-deployment.yaml`](../openshift/db-deployment.yaml)).
+It looks almost the same as the deployment of our server with a few exceptions.
+
+This time, we do not want to use image stream in `containers[0].image`,
+but load the image directly from Docker Hub instead.
+
+We give the container some environment variables in `containers[0].env`.
+The `POSTGRES_DB` variable has a constant value `ruokasovellus` that is not
+sensitive, so it can be written directly to the YAML file.
+
+`POSTGRES_PASSWORD` env variable, on the other hand, is sensitive, so we
+pass it as a secret reference similarly to the secret in automatic build webhook.
+The secret can be created in the web interface by navigating to Secrets and
+clicking Create > Key/value secret.
+In our case, the secret name is `ruokasovellus-db-password`,
+key is `POSTGRES_PASSWORD` and value is the database password.
+
+In `spec.strategy` we tell OpenShift how to apply updates.
+`maxSurge` and `maxUnavailable` make sure that all of the existing pods are
+terminated before new ones are created.
+This is important, because the volume (see below) can only
+be used by a single pod at a time.
+
+In `spec.triggers` we tell OpenShift that the pod should be updated
+whenever the configuration is changed.
+
+### Volume mount
+
+Database needs disk space to store its contents.
+In OpenShift, we can request disk space by making
+a new persistent volume claim (PVC).
+This can be done in the web interface by navigating to Project,
+clicking "n PersistentVolumeClaims" button and
+clicking "Create PersistentVolumeClaim".
+Give your PVC a name (`ruokasovellus-db-pvc-2` in our case) and choose a size.
+
+Next, we need to connect our PVC to the database.
+In the database deployment configuration, we can give our pod the right to use
+the volume in `spec.template.spec.volumes`.
+The `claimName` must match the name that you chose for your PVC earlier.
+`volumes[0].name` can be choosed freely (`ruokasovellus-db-storage` in our case).
+
+Now our pod can use the volume but we still need to instruct Postgres to
+place its files there.
+In `containers[0].volumeMounts` you give the name that you used
+in `volumes[0].name` and a path where the volume appears in the container.
+Postgres keeps its files in `/var/lib/postgresql/data`, so we choose the
+supdirectory of that as a mount path.
+
+In the `spec.template.spec.initContainers` section of
+the deployment configuration we can define scripts that
+are run before starting the container.
+In the `command` we instruct OpenShift to create the `data` directory for
+Postgres if it does not already exist.
+
+(You might be wondering why we can't use `/var/lib/postgresql/data` directly
+as a mount point. The reason is that Postgres wants the `data` directory to be
+absolutely empty before it starts using it.
+OpenShift, however, adds some of its own files to the mount path,
+which would prevent Postgres from using it.)
+
+### Service
+
+As mentioned earlier in this documentation,
+pods can only communicate with each other when they are wrapped with services.
+Obviously, we want our server pod to be able to make queries to the database,
+so we need to setup a service for the database deployment.
+
+The service is very similar to the one created for the server pod earlier.
+This time, however, we place the `Service` configuration to the same file with
+`Deployment` configuration.
+This is possible when they are separated with three dashes `---`.
+The placement of the configurations is not very important, but can be used
+to keep the repository clean the same way code is split across multiple files.
+
+### Formatting the database
+
+To format the database, make sure that you have the latest `schema.sql`
+locally on your computer.
+Then run the following command:
+
+```
+oc get pods
+```
+
+From the output pick the name of your database pod
+(in our case it is something like `ruokasovellus-db-xxxxxxxxxx-xxxxx`).
+
+Then run the following two commands:
+
+```
+oc cp schema.sql podname-xxxxxxxxxx-xxxxx:/tmp/schema.sql
+oc exec -it podname-xxxxxxxxxx-xxxxx -- psql -U postgres -d dbname -f /tmp/schema.sql
+```
+
+The first command copies the `schema.sql` file from you local machine to the pod.
+The second command runs `psql` command on the pod.
+You may need to modify the arguments given to `psql` command according to your
+database setup (database name etc.).
+
+### Changes to server deployment
+
+Finally, we need to make a couple of changes to our server deployment to make
+it connect with the database.
+First, in the `containers[0].envFrom` we use the same secret as the database
+deployment to load the database password to
+an environment variable `POSTGRES_PASSWORD`.
+Next, in `containers[0].env` we define `BACKEND_POSTGRES_URL` env variable
+and use the `POSTGRES_PASSWORD` env variable loaded earlier in it to form
+a complete Postgres connection URL.
+
+
+And that's it! Now you have a fully functional server that connects to
+the database and is accessible from the Internet. Congratulations!
+
+
+## Helps for debugging
+
+Here is a collection of command-line commands that I found useful in debugging.
+
+Show the history of an image stream:
+
+```
+oc describe is image-stream-name
+```
+
+List running pods
+(and get the pod name `podname-abc-123` used in the commands below):
+
+```
+oc get pods
+```
+
+Copy a local file from your computer to a pod:
+
+```
+oc cp localfile.txt podname-abc-123:/path/to/remotefile.txt
+```
+
+Run any terminal command on a pod:
+
+```
+oc exec -it podname-abc-123 -- command --here --example 3141
+```
+
+List environment variables that a pod has:
+
+```
+oc exec -it podname-abc-123 -- printenv
+```
