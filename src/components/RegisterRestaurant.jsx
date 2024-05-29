@@ -6,7 +6,7 @@ import { deleteSession } from '../controllers/sessionController';
 import { restaurantValidationSchema }
     from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
-import { stylesForm } from '../styling/styles';
+import { stylesForm } from '../styles/styles';
 
 const styles = stylesForm;
 

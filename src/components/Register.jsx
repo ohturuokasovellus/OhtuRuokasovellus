@@ -5,7 +5,7 @@ import axios from 'axios';
 import { deleteSession } from '../controllers/sessionController';
 import { registrationValidationSchema } from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
-import { stylesForm } from '../styling/styles';
+import { stylesForm } from '../styles/styles';
 
 const styles = stylesForm;
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { useNavigate } from '../Router';
 import { deleteSession } from '../controllers/sessionController';
-import { styles } from '../styling/styles';
+import { styles } from '../styles/styles';
 
 const LogoutButton = ({ updateUser }) => {
     const navigate = useNavigate();

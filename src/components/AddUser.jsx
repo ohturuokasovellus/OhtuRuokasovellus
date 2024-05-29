@@ -3,7 +3,7 @@ import { Text, Pressable, View, TextInput } from 'react-native';
 import { Link, useNavigate } from '../Router';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { stylesForm } from '../styling/styles';
+import { stylesForm } from '../styles/styles';
 
 const styles = stylesForm;
 

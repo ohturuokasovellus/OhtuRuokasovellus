@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import { lightTheme, darkTheme } from '../styling/colors';
+import { lightTheme, darkTheme } from '../styles/colors';
 
 /**
  * Context for managing the theme state.

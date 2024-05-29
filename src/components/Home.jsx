@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Text, View, Pressable } from 'react-native';
 import { useNavigate } from '../Router';
-import { styles } from '../styling/styles';
+import { styles } from '../styles/styles';
 
 const Home = (props) => {
     const navigate = useNavigate();

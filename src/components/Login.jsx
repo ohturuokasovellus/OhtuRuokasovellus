@@ -4,7 +4,7 @@ import { TextInput, View, Pressable, Text } from 'react-native';
 import { Formik } from 'formik';
 import axios from 'axios';
 import { useNavigate } from '../Router';
-import { styles } from '../styling/styles';
+import { styles } from '../styles/styles';
 import { createSession } from '../controllers/sessionController';
 import { loginValidationSchema } from '../utils/formValidationSchemas';
 

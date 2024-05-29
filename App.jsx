@@ -8,12 +8,12 @@ import RegisterRestaurant from './src/components/RegisterRestaurant';
 import AddUser from './src/components/AddUser';
 import LogoutButton from './src/components/LogoutButton';
 import Router, { Routes, Route } from './src/Router';
-import { styles } from './src/styling/styles';
+import { styles } from './src/styles/styles';
 import { getSession } from './src/controllers/sessionController';
 import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
 
-import Layout from './src/styling/layoutMock';
+import Layout from './src/styles/layoutMock';
 import { ThemeController } from './src/controllers/themeController';
 
 const App = () => {

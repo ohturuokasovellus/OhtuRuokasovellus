@@ -7,7 +7,7 @@ import {
 import createStyles from './layout';
 import { themeContext } from '../controllers/themeController';
 
-import { Button, SmallButton } from '../components/Buttons';
+import { Button, SmallButton } from '../components/ui/Buttons';
 
 const Layout = () => {
     const { toggleTheme } = useContext(themeContext);

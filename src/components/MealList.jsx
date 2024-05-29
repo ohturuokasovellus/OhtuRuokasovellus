@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { useParams } from '../Router';
-import { styles } from '../styling/styles';
+import { styles } from '../styles/styles';
 
 const MealList = () => {
     const { restId } = useParams();
