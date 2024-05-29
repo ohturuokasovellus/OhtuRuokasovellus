@@ -51,7 +51,7 @@ const NavigationBar = ({ user, updateUser }) => {
                         </Pressable>
                     </li>
                 }
-                {user && user.restaurantID &&
+                {(user && user.restaurantId) &&
                     <li>
                         <Pressable style={{marginRight: '10px'}} 
                             onPress={() => navigate('/create-meal')}>

@@ -30,7 +30,6 @@ const LoginForm = ({ updateUser }) => {
             };
             createSession(userData);
             updateUser(userData);
-            console.log(userData);
             
             navigate('/');
 
