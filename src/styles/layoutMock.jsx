@@ -8,6 +8,7 @@ import createStyles from './layout';
 import { themeContext } from '../controllers/themeController';
 
 import { Button, SmallButton } from '../components/ui/Buttons';
+import { Input, PasswordInput, FlexInput } from '../components/ui/InputFields';
 
 const Layout = () => {
     const { toggleTheme } = useContext(themeContext);
@@ -75,23 +76,12 @@ const Layout = () => {
             <Text style={styles.linkText}>This is a link text.</Text>
 
             {/* buttons */}
-            <Button onPress={() => {}} text='button' styles={styles}>
-            </Button>
-            <SmallButton onPress={() => {}} text='S' styles={styles}>
-            </SmallButton>
+            <Button onPress={() => {}} text='button' styles={styles}/>
+            <SmallButton onPress={() => {}} text='S' styles={styles}/>
 
             {/* input fields */}
-            <TextInput
-                style={styles.input}
-                placeholder='normal input'
-                // placeholderTextColor={theme.placeholderText}
-            />
-            <TextInput
-                style={styles.passwordInput}
-                placeholder='password'
-                // placeholderTextColor={theme.placeholderText}
-                secureTextEntry={true}
-            />
+            <Input styles={styles} placeholder='normal input'/>
+            <PasswordInput styles={styles} placeholder='password'/>
             <TextInput
                 style={styles.multilineInput}
                 placeholder='multiline'
@@ -100,11 +90,10 @@ const Layout = () => {
                 numberOfLines={4}
             />
             {inputs.map((input, index) => (
-                <View key={input.idx} style={styles.scalableInputContainer}>
-                    <TextInput
-                        style={styles.scalableInput}
-                        placeholder='scalable'
-                        // placeholderTextColor={theme.placeholderText}
+                <View key={input.idx} style={styles.flexInputContainer}>
+                    <FlexInput
+                        styles={styles}
+                        placeholder='flex input'
                         value={input.value}
                         onChangeText={(text) =>
                             handleInputChange(input.idx, text)}
@@ -112,14 +101,14 @@ const Layout = () => {
                     {inputs.length > 1 && (
                         <SmallButton
                             onPress={() => removeInput(input.idx)}
-                            text='–' styles={styles}>
-                        </SmallButton>
+                            text='–' styles={styles}
+                        />
                     )}
                 </View>
             ))}
             <SmallButton
-                onPress={addInput} text='+' styles={styles}>
-            </SmallButton>
+                onPress={addInput} text='+' styles={styles}
+            />
 
             {/* forms */}
             <View style={styles.formContainer}>

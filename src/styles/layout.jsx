@@ -51,6 +51,10 @@ const createStyles = () => {
             textDecorationLine: 'underline',
         },
 
+        placeholderText: {
+            color: colors.placeholderText
+        },
+
         // buttons
         button: {
             backgroundColor: colors.buttonBackground,
@@ -103,13 +107,13 @@ const createStyles = () => {
             color: colors.text,
             backgroundColor: colors.inputBackground,
         },
-        scalableInputContainer: {
+        flexInputContainer: {
             flexDirection: 'row',
             alignItems: 'center',
             borderRadius: 8,
             marginBottom: 12,
         },
-        scalableInput: {
+        flexInput: {
             flex: 1,
             height: 40,
             borderColor: colors.inputBorder,
