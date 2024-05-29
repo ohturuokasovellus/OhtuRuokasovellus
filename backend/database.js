@@ -62,7 +62,7 @@ const insertRestaurant = async (restaurantName) => {
 const getUser = async (username, password) => {
     const result = await sql`
         SELECT user_id, pgp_sym_decrypt(username::bytea, 
-            ${process.env.DATABASE_ENCRYPTION_KEY}), 
+            ${process.env.DATABASE_ENCRYPTION_KEY}) AS username, 
             password, restaurant_id FROM users
         WHERE pgp_sym_decrypt(username::bytea, 
             ${process.env.DATABASE_ENCRYPTION_KEY}) 
