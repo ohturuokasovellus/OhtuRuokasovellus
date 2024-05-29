@@ -14,21 +14,12 @@ const sql = postgres(process.env.E2ETEST == '1' ?
     process.env.BACKEND_POSTGRES_URL);
 
 /**
-<<<<<<< HEAD
- * @param {string} username 
- * @param {string} password hashed password 
- * @param {string} email 
- * @param {int} restaurantId
- * @returns {null}
-*/
-=======
  * Insert a new user into the database.
  * @param {string} username
  * @param {string} password
  * @param {string} email
  * @param {number} restaurantId
  */
->>>>>>> main
 const insertUser = async (username, password, email, restaurantId) => {
     if(restaurantId){
         await sql`
@@ -75,17 +66,12 @@ const insertRestaurant = async (restaurantName) => {
  */
 const getUser = async (username, password) => {
     const result = await sql`
-<<<<<<< HEAD
         SELECT user_id, pgp_sym_decrypt(username::bytea, 
             ${process.env.DATABASE_ENCRYPTION_KEY}) AS username, 
             password, restaurant_id FROM users
         WHERE pgp_sym_decrypt(username::bytea, 
             ${process.env.DATABASE_ENCRYPTION_KEY}) 
             = ${username} and password = ${password};
-=======
-        SELECT * FROM users
-        WHERE username = ${username} and password = ${password}
->>>>>>> main
     `;
     return result[0];
 };
