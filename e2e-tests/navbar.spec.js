@@ -38,7 +38,7 @@ test.describe('navbar', () => {
         await page.fill('input[placeholder="Username"]', 'testi');
         await page.fill('input[placeholder="Password"]', 'Testi123!');
         await page.locator('#log_user_in_button').click();
-        await expect(page).toHaveURL('/');
+        await page.waitForURL('/');
         await page.locator('#to_qr_form_button').click();
         await expect(page).toHaveURL('/qr-form');
         await page.locator('#to_home_button').click();
@@ -52,7 +52,7 @@ test.describe('navbar', () => {
         await page.fill('input[placeholder="Username"]', 'testaurante');
         await page.fill('input[placeholder="Password"]', 'Testaurante123!');
         await page.locator('#log_user_in_button').click();
-        await expect(page).toHaveURL('/');
+        await page.waitForURL('/');
         await page.locator('#to_create_meal_form_button').click();
         await expect(page).toHaveURL('/create-meal');
     });
