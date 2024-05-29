@@ -1,16 +1,19 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
     View, Text, TextInput,
     ScrollView, Image, Pressable
 } from 'react-native';
-import createStyles from './layout';
+// import createStyles from './layout';
+import { createStyles } from './layout';
 import { lightTheme, darkTheme } from './colors';
+import { themeContext } from '../controllers/themeController';
 
 const Layout = () => {
-    const [isDarkTheme, setIsDarkTheme] = useState(false);
-    const theme = isDarkTheme ? darkTheme : lightTheme;
-    const styles = createStyles(theme);
+    // const [isDarkTheme, setIsDarkTheme] = useState(false);
+    // const theme = isDarkTheme ? darkTheme : lightTheme;
+    const { toggleTheme } = useContext(themeContext);
+    const styles = createStyles();
     const [inputs, setInputs] = useState([{ idx: 1, value: '' }]);
 
     const addInput = () => {
@@ -33,7 +36,7 @@ const Layout = () => {
             {/* navigation bar */}
             <View>
                 <View style={styles.navigationBar}>
-                    <Pressable
+                    {/* <Pressable
                         onPress={() => setIsDarkTheme(!isDarkTheme)}
                         style={({ pressed }) => [
                             { opacity: pressed ? 0.5 : 1.0 }
@@ -41,6 +44,16 @@ const Layout = () => {
                     >
                         <Text style={styles.navigationLink}>
                             {isDarkTheme ? '🌘︎' : '🌒︎'}
+                        </Text>
+                    </Pressable> */}
+                    <Pressable
+                        onPress={toggleTheme}
+                        style={({ pressed }) => [
+                            { opacity: pressed ? 0.5 : 1.0 }
+                        ]}
+                    >
+                        <Text style={styles.navigationLink}>
+                        🌘︎
                         </Text>
                     </Pressable>
                     <Pressable style={({ pressed }) => [
@@ -85,18 +98,18 @@ const Layout = () => {
             <TextInput
                 style={styles.input}
                 placeholder='normal input'
-                placeholderTextColor={theme.placeholderText}
+                // placeholderTextColor={theme.placeholderText}
             />
             <TextInput
                 style={styles.passwordInput}
                 placeholder='password'
-                placeholderTextColor={theme.placeholderText}
+                // placeholderTextColor={theme.placeholderText}
                 secureTextEntry={true}
             />
             <TextInput
                 style={styles.multilineInput}
                 placeholder='multiline'
-                placeholderTextColor={theme.placeholderText}
+                // placeholderTextColor={theme.placeholderText}
                 multiline={true}
                 numberOfLines={4}
             />
@@ -105,7 +118,7 @@ const Layout = () => {
                     <TextInput
                         style={styles.scalableInput}
                         placeholder='scalable'
-                        placeholderTextColor={theme.placeholderText}
+                        // placeholderTextColor={theme.placeholderText}
                         value={input.value}
                         onChangeText={(text) =>
                             handleInputChange(input.idx, text)}
@@ -139,7 +152,7 @@ const Layout = () => {
                 <TextInput
                     style={styles.input}
                     placeholder='form field'
-                    placeholderTextColor={theme.placeholderText}
+                    // placeholderTextColor={theme.placeholderText}
                 />
                 <Text style={styles.formValidationMessage}>
                     This is a validation message.

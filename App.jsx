@@ -14,6 +14,7 @@ import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
 
 import Layout from './src/styling/layoutMock';
+import { ThemeController } from './src/controllers/themeController';
 
 const App = () => {
     const [user, setUser] = useState(getSession());
@@ -22,30 +23,34 @@ const App = () => {
     };
 
     return (
-        <Router>
-            <View style={styles.app}>
-                {user &&
+        <ThemeController>
+            <Router>
+                <View style={styles.app}>
+                    {user &&
                     <LogoutButton updateUser={updateUser}/>
-                }
-                <Routes>
-                    <Route path='/' element={<Home user={user}/>} />
-                    <Route path='/register'
-                        element={<Register updateUser={updateUser}/>} />
-                    <Route path='/login'
-                        element={<LoginForm updateUser={updateUser}/>} />
-                    <Route path='/qr-form' element={<QRForm />} />
-                    <Route path='/restaurant/:restId'
-                        element={<MealList />}/>
-                    <Route path='/create-meal' element={<CreateMeal />} />
-                    <Route path='/register-restaurant'
-                        element=
-                            {<RegisterRestaurant updateUser={updateUser}/>} />
-                    <Route path='/add-users'
-                        element={<AddUser user={user} />} />
-                    <Route path='/layout' element={<Layout/>}/>
-                </Routes>
-            </View>
-        </Router>
+                    }
+                    <Routes>
+                        <Route path='/' element={<Home user={user}/>} />
+                        <Route path='/register'
+                            element={<Register updateUser={updateUser}/>} />
+                        <Route path='/login'
+                            element={<LoginForm updateUser={updateUser}/>} />
+                        <Route path='/qr-form' element={<QRForm />} />
+                        <Route path='/restaurant/:restId'
+                            element={<MealList />}/>
+                        <Route path='/create-meal' element={<CreateMeal />} />
+                        <Route path='/register-restaurant'
+                            element=
+                                {<RegisterRestaurant updateUser={updateUser}/>}
+                        />
+                        <Route path='/add-users'
+                            element={<AddUser user={user} />} />
+                        <Route path='/layout' element={<Layout/>}/>
+                    </Routes>
+                </View>
+            </Router>
+        </ThemeController>
+        
     );
 };
 
