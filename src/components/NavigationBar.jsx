@@ -26,7 +26,8 @@ const NavigationBar = ({ user, updateUser }) => {
                 }
                 {!user &&
                     <li>
-                        <Pressable style={{marginRight: '10px'}}
+                        <Pressable id='navbar_login_button' 
+                            style={{marginRight: '10px'}}
                             onPress={() => navigate('/login')}>
                             <Text style={{textDecoration: 'none', 
                                 color: 'white'}}>Login</Text>
@@ -35,7 +36,8 @@ const NavigationBar = ({ user, updateUser }) => {
                 }
                 {!user &&
                     <li>
-                        <Pressable style={{marginRight: '10px'}}
+                        <Pressable id='navbar_register_button' 
+                            style={{marginRight: '10px'}}
                             onPress={() => navigate('/register')}>
                             <Text style={{textDecoration: 'none', 
                                 color: 'white'}}>Register</Text>
@@ -64,7 +66,7 @@ const NavigationBar = ({ user, updateUser }) => {
                     <li>
                         <Pressable title="Logout" onPress={logOutPress}>
                             <Text style={{textDecoration: 'none',
-                                color: 'white'}}>logout</Text>
+                                color: 'white'}}>Logout</Text>
                         </Pressable>
                     </li>
                 }

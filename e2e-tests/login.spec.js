@@ -23,7 +23,7 @@ test.describe('login page', () => {
         await expect(page).toHaveURL(/\/login$/);
         await page.fill('input[placeholder="Username"]', 'testi');
         await page.fill('input[placeholder="Password"]', 'Testi123@');
-        await page.click('text=login');
+        await page.locator('#log_user_in_button').click();
         await expect(page).toHaveURL('/');
     });
 
@@ -32,7 +32,7 @@ test.describe('login page', () => {
         await expect(page).toHaveURL(/\/login$/);
         await page.fill('input[placeholder="Username"]', 'Testi');
         await page.fill('input[placeholder="Password"]', 'Testi123!!!');
-        await page.click('text=Login');
+        await page.locator('#log_user_in_button').click();
         await expect(page).toHaveURL('/login');
     });
 
@@ -48,7 +48,7 @@ test.describe('login page', () => {
         await page.goto('/');
         await expect(page).toHaveURL(/\/login$/);
         await page.fill('input[placeholder="Username"]', 'testi');
-        await page.click('text=login');
+        await page.locator('#log_user_in_button').click();
         await page.waitForSelector('text="Password is required"');
     });
 
@@ -56,7 +56,7 @@ test.describe('login page', () => {
         await page.goto('/');
         await expect(page).toHaveURL(/\/login$/);
         await page.fill('input[placeholder="Password"]', 'Testi123@');
-        await page.click('text=login');
+        await page.locator('#log_user_in_button').click();
         await page.waitForSelector('text="Username is required"');
     });
 
@@ -66,7 +66,7 @@ test.describe('login page', () => {
         await page.goto('/');
         await page.fill('input[placeholder="Username"]', 'testi');
         await page.fill('input[placeholder="Password"]', 'Testi123@');
-        await page.click('text=Login');
+        await page.locator('#log_user_in_button').click();
         await page.click('text=Logout');
         await expect(page).toHaveURL('/login');
     });

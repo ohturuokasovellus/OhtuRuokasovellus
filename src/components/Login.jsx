@@ -80,11 +80,13 @@ const LoginForm = ({ updateUser }) => {
                         <Text style={styles.errorText}>{errorMessage}</Text>
                     ) : null}
                     <View style={ styles.button }>
-                        <Pressable onPress={handleSubmit}
+                        <Pressable onPress={handleSubmit} 
+                            id='log_user_in_button'
                             title="Login" disabled={isSubmitting}>
                             <Text style={ styles.buttonText }> login </Text>
                         </Pressable>
                     </View>
+                    <Text>Dont have an account yet?</Text>
                     <View style={ styles.button }>
                         <Pressable title="Register"
                             onPress={() => navigate('/register')}>

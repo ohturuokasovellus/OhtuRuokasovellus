@@ -12,6 +12,10 @@ import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
 import NavigationBar from './src/components/NavigationBar';
 
+// The component in LogoutButton.jsx is no longer used, 
+// its button has been replaced 
+// in the component in NavigationBar.jsx 
+
 const App = () => {
     const [user, setUser] = useState(getSession());
     const updateUser = (userData) => {
