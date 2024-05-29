@@ -24,6 +24,8 @@ test.describe('login page', () => {
         await page.fill('input[placeholder="Password"]', 'Testi123!');
         await page.locator('#log_user_in_button').click();
         await expect(page).toHaveURL('/');
+        // await expect(page.locator('#root'))
+        //         .toContainText('Welcome, testi');
     });
 
     test('does not login with incorrect credentials', async ({page}) => {
