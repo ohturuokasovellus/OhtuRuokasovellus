@@ -4,16 +4,12 @@ import {
     View, Text, TextInput,
     ScrollView, Image, Pressable
 } from 'react-native';
-// import createStyles from './layout';
-import { createStyles } from './layout';
-import { lightTheme, darkTheme } from './colors';
+import createStyles from './layout';
 import { themeContext } from '../controllers/themeController';
 
-import Button from '../components/Button';
+import { Button, SmallButton } from '../components/Buttons';
 
 const Layout = () => {
-    // const [isDarkTheme, setIsDarkTheme] = useState(false);
-    // const theme = isDarkTheme ? darkTheme : lightTheme;
     const { toggleTheme } = useContext(themeContext);
     const styles = createStyles();
     const [inputs, setInputs] = useState([{ idx: 1, value: '' }]);
@@ -38,16 +34,6 @@ const Layout = () => {
             {/* navigation bar */}
             <View>
                 <View style={styles.navigationBar}>
-                    {/* <Pressable
-                        onPress={() => setIsDarkTheme(!isDarkTheme)}
-                        style={({ pressed }) => [
-                            { opacity: pressed ? 0.5 : 1.0 }
-                        ]}
-                    >
-                        <Text style={styles.navigationLink}>
-                            {isDarkTheme ? '🌘︎' : '🌒︎'}
-                        </Text>
-                    </Pressable> */}
                     <Pressable
                         onPress={toggleTheme}
                         style={({ pressed }) => [
@@ -89,14 +75,10 @@ const Layout = () => {
             <Text style={styles.linkText}>This is a link text.</Text>
 
             {/* buttons */}
-            <Pressable
-                style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0 },
-                    styles.button
-                ]}>
-                <Text style={styles.buttonText}>Button</Text>
-            </Pressable>
-
-            <Button onPress={() => {}} text='button' styles={styles}></Button>
+            <Button onPress={() => {}} text='button' styles={styles}>
+            </Button>
+            <SmallButton onPress={() => {}} text='S' styles={styles}>
+            </SmallButton>
 
             {/* input fields */}
             <TextInput
@@ -128,27 +110,16 @@ const Layout = () => {
                             handleInputChange(input.idx, text)}
                     />
                     {inputs.length > 1 && (
-                        <Pressable
-                            style={({ pressed }) => [
-                                { opacity: pressed ? 0.5 : 1.0 },
-                                styles.iconButton
-                            ]}
+                        <SmallButton
                             onPress={() => removeInput(input.idx)}
-                        >
-                            <Text style={styles.iconButtonText}>–</Text>
-                        </Pressable>
+                            text='–' styles={styles}>
+                        </SmallButton>
                     )}
                 </View>
             ))}
-            <Pressable
-                style={({ pressed }) => [
-                    { opacity: pressed ? 0.5 : 1.0 },
-                    styles.iconButton
-                ]}
-                onPress={addInput}
-            >
-                <Text style={styles.iconButtonText}>+</Text>
-            </Pressable>
+            <SmallButton
+                onPress={addInput} text='+' styles={styles}>
+            </SmallButton>
 
             {/* forms */}
             <View style={styles.formContainer}>

@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { useContext } from 'react';
 import { themeContext } from '../controllers/themeController';
 
-export const createStyles = () => {
+const createStyles = () => {
     // eslint-disable-next-line no-unused-vars
     const { theme, colors } = useContext(themeContext);
 
@@ -203,3 +203,5 @@ export const createStyles = () => {
         },
     });
 };
+
+export default createStyles;
