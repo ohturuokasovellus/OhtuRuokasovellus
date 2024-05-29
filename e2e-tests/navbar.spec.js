@@ -17,7 +17,7 @@ const createRestaurantUser = async () => {
     insertUser(user, password, email, 1);
 };
 
-test.describe('registration page', () => {
+test.describe('navbar', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/');
