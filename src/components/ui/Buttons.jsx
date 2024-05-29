@@ -1,6 +1,14 @@
 import React from 'react';
 import { Pressable, Text } from 'react-native';
 
+/**
+ * Custom button wrapper
+ * @param {function} onPress handles the button press event
+ * @param {string} text text displayed on the button
+ * @param {object} styles styles passed from the global stylesheet
+ * @param {...any} props https://reactnative.dev/docs/pressable#props
+ */
+
 const Button = ({ onPress, text, styles, ...props }) => {
     return (
         <Pressable
@@ -15,7 +23,7 @@ const Button = ({ onPress, text, styles, ...props }) => {
         </Pressable>
     );
 };
-
+/** Custom wrapper for small buttons */
 const SmallButton = ({ onPress, text, styles, ...props }) => {
     return (
         <Pressable
@@ -33,6 +41,7 @@ const SmallButton = ({ onPress, text, styles, ...props }) => {
     );
 };
 
+/** Custom wrapper for navigation bar links. */
 const NavButton = ({ onPress, text, styles, ...props }) => {
     return (
         <Pressable
