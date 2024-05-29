@@ -14,12 +14,12 @@ const sql = postgres(process.env.E2ETEST == '1' ?
     process.env.BACKEND_POSTGRES_URL);
 
 /**
- * @param {string} username 
- * @param {string} password hashed password 
- * @param {string} email 
- * @param {int} restaurantId
- * @returns {null}
-*/
+ * Insert a new user into the database.
+ * @param {string} username
+ * @param {string} password
+ * @param {string} email
+ * @param {number} restaurantId
+ */
 const insertUser = async (username, password, email, restaurantId) => {
     if(restaurantId){
         await sql`
@@ -44,13 +44,18 @@ const insertUser = async (username, password, email, restaurantId) => {
     } 
 };
 
+/**
+ * Insert a new restaurant into the database.
+ * @param {string} restaurantName
+ * @returns {Promise<number>} - id of the new restaurant
+ */
 const insertRestaurant = async (restaurantName) => {
     const result = await sql`
         INSERT INTO restaurants (name)
         VALUES (${restaurantName})
-        RETURNING restaurant_id;
+        RETURNING restaurant_id
     `;
-    return result[0].restaurant_id;
+    return result.at(0).restaurant_id;
 };
 
 /**
@@ -71,13 +76,35 @@ const getUser = async (username, password) => {
     return result[0];
 };
 
-// const getRestaurantId = async (username) => {
-//     const result = await sql`
-//         SELECT restaurant_id FROM users
-//         WHERE username = ${username}
-//         `;
-//     return result[0].restaurant_id;
-// };
+/**
+ * Get user id based on email.
+ * @param {string} email
+ * @returns {Promise<number|null>} - user id or null if not found
+ */
+const getUserIdByEmail = async (email) => {
+    const result = await sql`
+    SELECT user_id FROM users
+    WHERE email = ${email}
+    LIMIT 1
+    `;
+    return result.at(0).user_id;
+};
+
+/**
+ * Update user's restaurant id based on email.
+ * @param {string} email
+ * @param {number} restaurantId new restaurant id
+ * @returns {Promise<boolean>} true if successful
+ */
+const updateUserRestaurantByEmail = async (email, restaurantId) => {
+    const result = await sql`
+        UPDATE users
+        SET restaurant_id = ${restaurantId}
+        WHERE email = ${email}
+        RETURNING restaurant_id
+    `;
+    return result.length > 0;
+};
 
 /**
  * @param {string} username 
@@ -108,6 +135,17 @@ const doesEmailExist = async email => {
             pgp_sym_decrypt(email::bytea, 
             ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email} LIMIT 1);
     `;
+    return result.at(0).exists;
+};
+
+/**
+ * @param {string} email 
+ * @returns {Promise<boolean>} Whether the given restaurant
+ *  already exists in the database.
+ */
+const doesRestaurantExist = async name => {
+    const result = await sql`
+    SELECT exists (SELECT 1 FROM restaurants WHERE name = ${name} LIMIT 1)`;
     return result.at(0).exists;
 };
 
@@ -160,23 +198,16 @@ const getMeals = async (restaurantId) => {
     return result;
 };
 
+/**
+ * Check if a user is associated with a restaurant.
+ * @param {number} userId
+ * @returns {Promise<boolean>} true if user is a restaurant user
+ */
 const isRestaurantUser = async userId => {
     const result = await sql`
         SELECT exists
-        (SELECT restaurant_id FROM users WHERE user_id = ${userId} LIMIT 1);
-    `;
-    return result.at(0).exists;
-};
-
-/**
- * @param {string} email 
- * @returns {Promise<boolean>} Whether the given email
- *  already exists in the database.
- */
-const doesRestaurantNameExist = async restaurantName => {
-    const result = await sql`
-        SELECT exists (SELECT 1 FROM restaurants 
-            WHERE name = ${restaurantName} LIMIT 1);
+        (SELECT restaurant_id FROM users WHERE user_id = ${userId}
+        AND restaurant_id IS NOT NULL LIMIT 1);
     `;
     return result.at(0).exists;
 };
@@ -187,11 +218,12 @@ module.exports = {
     insertRestaurant,
     doesUsernameExist,
     getUser,
+    getUserIdByEmail,
     doesEmailExist,
-    // getRestaurantId,
+    doesRestaurantExist,
     insertMeal,
     addMealImage,
     getMeals,
     isRestaurantUser,
-    doesRestaurantNameExist
+    updateUserRestaurantByEmail
 };

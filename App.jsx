@@ -5,6 +5,7 @@ import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
 import QRForm from './src/components/QRForm';
 import RegisterRestaurant from './src/components/RegisterRestaurant';
+import AddUser from './src/components/AddUser';
 import Router, { Routes, Route } from './src/Router';
 import { styles } from './src/styling/styles';
 import { getSession } from './src/controllers/sessionController';
@@ -27,19 +28,20 @@ const App = () => {
             <View style={styles.app}>
                 <NavigationBar user={user} updateUser={updateUser}/>
                 <Routes>
-                    <Route path='/' element={<Home user={user} />} />
+                    <Route path='/' element={<Home user={user}/>} />
                     <Route path='/register'
                         element={<Register updateUser={updateUser}/>} />
                     <Route path='/login'
                         element={<LoginForm updateUser={updateUser}/>} />
                     <Route path='/qr-form' element={<QRForm />} />
-                    <Route path='/restaurant/:restId'element={
-                        <MealList />
-                    }/>
+                    <Route path='/restaurant/:restId'
+                        element={<MealList />}/>
                     <Route path='/create-meal' element={<CreateMeal />} />
                     <Route path='/register-restaurant'
                         element=
                             {<RegisterRestaurant updateUser={updateUser}/>} />
+                    <Route path='/add-users'
+                        element={<AddUser user={user} />} />
                 </Routes>
             </View>
         </Router>

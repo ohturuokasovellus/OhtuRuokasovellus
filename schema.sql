@@ -9,15 +9,6 @@ CREATE TABLE restaurants (
     name TEXT UNIQUE NOT NULL
 );
 
-DROP TABLE IF EXISTS restaurants CASCADE;
-
-DROP TABLE IF EXISTS meals CASCADE;
-
-CREATE TABLE restaurants (
-    restaurant_id SERIAL PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL
-);
-
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,

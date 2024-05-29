@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 import { createSession } from '../controllers/sessionController';
-import { LoginValidationSchema } from '../utils/formValidationSchemas';
+import { loginValidationSchema } from '../utils/formValidationSchemas';
 
 const LoginForm = ({ updateUser }) => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -47,7 +47,7 @@ const LoginForm = ({ updateUser }) => {
                 setErrorMessage('');
                 handleSubmit(values, actions);
             }}
-            validationSchema={LoginValidationSchema}
+            validationSchema={loginValidationSchema}
         >
             {({
                 handleChange, handleBlur, handleSubmit,
@@ -93,15 +93,13 @@ const LoginForm = ({ updateUser }) => {
                             <Text style={ styles.buttonText }>register</Text>
                         </Pressable>
                     </View>
-
-                    <View style={ styles.button }>
-                        <Pressable title="Register as a Restauraunt User"
-                            onPress={() => navigate('/register-restaurant')}>
-                            <Text style={ styles.buttonText }>
+                    <Pressable style={styles.button}
+                        title='Register as a Restauraunt User'
+                        onPress={() => navigate('/register-restaurant')}>
+                        <Text style={ styles.buttonText }>
                                 register restaurant
-                            </Text>
-                        </Pressable>
-                    </View>
+                        </Text>
+                    </Pressable>
                 </View>
             )}
         </Formik>
