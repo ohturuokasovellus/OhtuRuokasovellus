@@ -1,5 +1,7 @@
 # OpenShift deployment
 
+![](assets/openshift-diagram.svg)
+
 ## Prerequisities
 
 Before starting, make sure that you have access to the web interface of your
