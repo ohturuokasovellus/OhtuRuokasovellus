@@ -84,7 +84,8 @@ const getUser = async (username, password) => {
 const getUserIdByEmail = async (email) => {
     const result = await sql`
     SELECT user_id FROM users
-    WHERE email = ${email}
+    WHERE pgp_sym_decrypt(email::bytea, 
+        ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email}
     LIMIT 1
     `;
     return result.at(0).user_id;
@@ -100,7 +101,8 @@ const updateUserRestaurantByEmail = async (email, restaurantId) => {
     const result = await sql`
         UPDATE users
         SET restaurant_id = ${restaurantId}
-        WHERE email = ${email}
+        WHERE pgp_sym_decrypt(email::bytea, 
+            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email}
         RETURNING restaurant_id
     `;
     return result.length > 0;
