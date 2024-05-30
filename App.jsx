@@ -6,12 +6,16 @@ import LoginForm from './src/components/Login';
 import QRForm from './src/components/QRForm';
 import RegisterRestaurant from './src/components/RegisterRestaurant';
 import AddUser from './src/components/AddUser';
-import LogoutButton from './src/components/LogoutButton';
 import Router, { Routes, Route } from './src/Router';
 import { styles } from './src/styling/styles';
 import { getSession } from './src/controllers/sessionController';
 import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
+import NavigationBar from './src/components/NavigationBar';
+
+// The component in LogoutButton.jsx is no longer used, 
+// its button has been replaced 
+// in the component in NavigationBar.jsx 
 
 const App = () => {
     const [user, setUser] = useState(getSession());
@@ -22,9 +26,7 @@ const App = () => {
     return (
         <Router>
             <View style={styles.app}>
-                {user &&
-                    <LogoutButton updateUser={updateUser}/>
-                }
+                <NavigationBar user={user} updateUser={updateUser}/>
                 <Routes>
                     <Route path='/' element={<Home user={user}/>} />
                     <Route path='/register'
