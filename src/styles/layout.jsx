@@ -71,12 +71,12 @@ const createStyles = () => {
             fontSize: 10,
             color: colors.text,
         },
-        errorText: {
+        error: {
             fontSize: 14,
             color: colors.error,
             marginBottom: 8,
         },
-        linkText: {
+        link: {
             fontSize: 16,
             color: colors.link,
             textDecorationLine: 'underline',
@@ -165,7 +165,7 @@ const createStyles = () => {
             backgroundColor: colors.inputBackground,
         },
 
-        // dishes & menus
+        // cards
         cardContainer: {
             width: 400,
             padding: 16,
@@ -177,7 +177,7 @@ const createStyles = () => {
             shadowOpacity: 0.2,
             shadowRadius: 4,
             elevation: 3,
-            // alignSelf: 'center',
+            alignSelf: 'center',
         },
         imageContainer: {
             position: 'absolute',

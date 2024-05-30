@@ -1,14 +1,17 @@
-import { Text, Pressable, View, TextInput } from 'react-native';
-import { Link, useNavigate } from '../Router';
-import { useFormik } from 'formik';
-import axios from 'axios';
-import { deleteSession } from '../controllers/sessionController';
-import { registrationValidationSchema } from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
-import { stylesForm } from '../styles/styles';
+import axios from 'axios';
+import { useFormik } from 'formik';
+import { Text, View } from 'react-native';
+
+import { Link, useNavigate } from '../Router';
+import { deleteSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
 
-const styles = stylesForm;
+import { registrationValidationSchema } from '../utils/formValidationSchemas';
+
+import createStyles from '../styles/layout';
+import { Button } from './ui/Buttons';
+import { Input, PasswordInput } from './ui/InputFields';
 
 const initialValues = {
     username: '',
@@ -48,13 +51,15 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
         },
     });
 
+    const styles = createStyles();
+
     return (
         <View style={styles.container}>
             {formError ? (
                 <Text style={styles.error}>{formError}</Text>
             ) : null}
-            <TextInput
-                style={styles.input}
+            <Input
+                styles={styles}
                 placeholder='username'
                 value={formik.values.username}
                 onChangeText={formik.handleChange('username')}
@@ -63,8 +68,8 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             {formik.touched.username && formik.errors.username && (
                 <Text style={styles.error}>{formik.errors.username}</Text>
             )}
-            <TextInput
-                style={styles.input}
+            <Input
+                styles={styles}
                 placeholder='email'
                 value={formik.values.email}
                 onChangeText={formik.handleChange('email')}
@@ -73,36 +78,36 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             {formik.touched.email && formik.errors.email && (
                 <Text style={styles.error}>{formik.errors.email}</Text>
             )}
-            <TextInput
-                style={styles.input}
+            <PasswordInput
+                styles={styles}
                 placeholder='password'
                 value={formik.values.password}
                 onChangeText={formik.handleChange('password')}
                 onBlur={formik.handleBlur('password')}
-                secureTextEntry
             />
             {formik.touched.password && formik.errors.password && (
                 <Text style={styles.error}>{formik.errors.password}</Text>
             )}
-            <TextInput
-                style={styles.input}
+            <PasswordInput
+                styles={styles}
                 placeholder='confirm password'
                 value={formik.values.confirmPassword}
                 onChangeText={formik.handleChange('confirmPassword')}
                 onBlur={formik.handleBlur('confirmPassword')}
-                secureTextEntry
             />
             {formik.touched.confirmPassword && formik.errors.confirmPassword &&
                 <Text style={styles.error}>
                     {formik.errors.confirmPassword}
                 </Text>
             }
-            <Pressable style={styles.button} onPress={formik.handleSubmit}>
-                <Text style={styles.buttonText}>register</Text>
-            </Pressable>
-            <Text>already registered?</Text>
+            <Button
+                styles={styles}
+                onPress={formik.handleSubmit}
+                text='register'
+            />
+            <Text style={styles.body}>already registered?</Text>
             <Link to='/login'>
-                <Text>login</Text>
+                <Text style={styles.link}>login</Text>
             </Link>
         </View>
     );

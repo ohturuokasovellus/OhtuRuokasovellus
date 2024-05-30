@@ -89,10 +89,10 @@ const Layout = () => {
 
 
             {/* error messages */}
-            <Text style={styles.errorText}>This is an error message.</Text>
+            <Text style={styles.error}>This is an error message.</Text>
 
             {/* links */}
-            <Text style={styles.linkText}>This is a link text.</Text>
+            <Text style={styles.link}>This is a link text.</Text>
 
             {/* buttons */}
             <Button onPress={() => {}} text='button' styles={styles}/>
