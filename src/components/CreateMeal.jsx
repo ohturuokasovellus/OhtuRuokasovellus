@@ -1,10 +1,11 @@
 import { Text, Pressable, View, TextInput, Image } from 'react-native';
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios';
 import * as yup from 'yup';
 import apiUrl from '../utils/apiUrl';
+import { useNavigate } from '../Router';
 
 const validationSchema = yup.object().shape({
     mealName: yup.string()
@@ -17,6 +18,7 @@ const initialValues = {
     mealName: '',
     imageUri: ''
 };
+
 
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const [formError, setFormError] = useState('');
@@ -91,7 +93,18 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 
-const CreateMeal = () => {
+const CreateMeal = (props) => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!props.user) {
+            navigate('/login');
+        }
+        else if (!props.user.restaurantId) {
+            navigate('/');
+        }
+    });
+
     const onSubmit = async values => {
         const { mealName, imageUri } = values;
         try {
