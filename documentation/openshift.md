@@ -96,27 +96,37 @@ First, let's add a secret for this webhook.
 Secret is a way to store sensitive data such as credentials without
 placing them in plaintext to the YAML files.
 In web interface, navigate to Secrets and click Create, then Webhook secret.
-Give the secret a name (`ohtu-ruokasovellus-github-webhook-secret` in our case)
+Give the secret a name (`ruokasovellus-generic-webhook-secret` in our case)
 and value by clicking the Generate button.
 
 Next, let's add trigger section to the build configuration
 (in [`openshift/build.yaml`](../openshift/build.yaml)).
-In `spec.triggers[0]` we define that we want the build to trigger
-on GitHub changes.
+In `spec.triggers[0]` we define that we want the build to
+be triggered by a webhook.
 We also give a secret reference to the secret that we just created.
 
-Then, we need to get a webhook URL.
+Then, we need to get the webhook URL.
 This can be done by navigating to Builds in the web interface,
 going to the page of the build process and
 clicking the "Copy URL with Secret" button.
 
 Now OpenShift is ready for the trigger and we move on to preparing GitHub.
-In the settings of the GitHub repository, go to Webhooks section and click
-Add webhook button.
-Paste the copied Webhook URL to the Payload URL field and change Content type
-to JSON.
-Here, secret field is not the same thing as the secret we generated earlier,
-so leave the secret field empty.
+We want to add a job to a GitHub Actions workflow
+(in [`.github/workflows/CI.yml](../.github/workflows/CI.yml)),
+so that the build is triggered whenever something is
+pushed or merged to main branch.
+We need the workflow to run command
+
+```
+curl -X POST -k https://your-openshift.com/apis/build.openshift.io/v1/namespaces/something/buildconfigs/your-build-config/webhooks/s0m3secret/generic
+```
+
+Obviously change the URL in the command with the URL
+you copied in the previous step.
+Since the URL is kinda secret
+(you don't want anyone to be able to trigger you build),
+it is a good idea to place it in the GitHub secrets at
+Repository settings > Secrets and variables > Actions > Repository secrets.
 
 Now the connection between GitHub and OpenShift is finished and
 our build configuration is triggered whenever someone pushes changes to main.
@@ -234,6 +244,8 @@ The secret can be created in the web interface by navigating to Secrets and
 clicking Create > Key/value secret.
 In our case, the secret name is `ruokasovellus-db-password`,
 key is `POSTGRES_PASSWORD` and value is the database password.
+
+Similarly we add another secret env variable `SECRET_KEY` needed by our server.
 
 In `spec.strategy` we tell OpenShift how to apply updates.
 `maxSurge` and `maxUnavailable` make sure that all of the existing pods are

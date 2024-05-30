@@ -38,6 +38,11 @@ spec:
           env:
             - name: BACKEND_POSTGRES_URL
               value: postgres://postgres:$(POSTGRES_PASSWORD)@ruokasovellus-db-service:5432/ruokasovellus
+            - name: DATABASE_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ruokasovellus-encryption-key
+                  key: DATABASE_ENCRYPTION_KEY
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:

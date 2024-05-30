@@ -5,10 +5,10 @@ metadata:
   name: ruokasovellus-build
 spec:
   triggers:
-    - type: GitHub
-      github:
+    - type: Generic
+      generic:
         secretReference:
-          name: "ohtu-ruokasovellus-github-webhook-secret"
+          name: ruokasovellus-generic-webhook-secret
   source:
     git:
       uri: "https://github.com/ohturuokasovellus/OhtuRuokasovellus"
