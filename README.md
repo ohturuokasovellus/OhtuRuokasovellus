@@ -1,4 +1,5 @@
 # Ohtuprojekti kesä 2024: Ruokasovellus
+![CI workflow badge](https://github.com/ohturuokasovellus/OhtuRuokasovellus/actions/workflows/CI.yml/badge.svg)
 
 ## Usage
 

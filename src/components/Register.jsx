@@ -5,10 +5,10 @@ import axios from 'axios';
 import { deleteSession } from '../controllers/sessionController';
 import { registrationValidationSchema } from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
-import { stylesRegister } from '../styling/styles';
 import apiUrl from '../utils/apiUrl';
+import { stylesForm } from '../styling/styles';
 
-const styles = stylesRegister;
+const styles = stylesForm;
 
 const initialValues = {
     username: '',

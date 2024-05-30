@@ -4,11 +4,23 @@ const { isValidUsername, isValidPassword, isValidEmail } = require(
 );
 const { hash } = require('../services/hash.js');
 const {
-    insertUser, insertRestaurant, doesUsernameExist, doesEmailExist, 
-    doesRestaurantNameExist
+    insertUser,
+    insertRestaurant,
+    doesUsernameExist,
+    doesEmailExist,
+    doesRestaurantExist
 } = require('../database.js');
 
 const router = express.Router();
+
+/**
+ * Route for registering a new restaurant along with a user account.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} 200 - Success status.
+ * @returns {Object} 400 - Invalid input or user/restaurant already exists.
+ * @returns {Object} 500 - Server error during user or restaurant creation.
+ */
 
 router.post('/api/register-restaurant', async (req, res) => {
     const { username, password, email, restaurantName } = req.body;
@@ -24,6 +36,11 @@ router.post('/api/register-restaurant', async (req, res) => {
     }
 
     try {
+        if (await doesRestaurantExist(restaurantName)) {
+            return res.status(400).json(
+                { errorMessage: 'restaurant already exists' }
+            );
+        }
         if (await doesUsernameExist(username)) {
             return res.status(400).json(
                 { errorMessage: 'username already exists' }
@@ -32,11 +49,6 @@ router.post('/api/register-restaurant', async (req, res) => {
         if (await doesEmailExist(email)) {
             return res.status(400).json(
                 { errorMessage: 'email already exists' }
-            );
-        }
-        if (await doesRestaurantNameExist(restaurantName)){
-            return res.status(400).json(
-                { errorMessage: 'restaurant name already exists' }
             );
         }
     } catch (err) {

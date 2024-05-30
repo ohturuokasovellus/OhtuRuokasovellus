@@ -6,10 +6,10 @@ import { deleteSession } from '../controllers/sessionController';
 import { restaurantValidationSchema }
     from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
-import { stylesRegister } from '../styling/styles';
 import apiUrl from '../utils/apiUrl';
+import { stylesForm } from '../styling/styles';
 
-const styles = stylesRegister;
+const styles = stylesForm;
 
 const initialValues = {
     username: '',
@@ -121,6 +121,15 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 
+/**
+ * Register a new restaurant and user, then navigate to the login page.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Function} props.updateUser - Function to update the user state.
+ *
+ * @returns {React.JSX.Element}
+ */
 const RegisterRestaurant = ({ updateUser }) => {
     const navigate = useNavigate();
     useEffect(() => {
@@ -128,6 +137,12 @@ const RegisterRestaurant = ({ updateUser }) => {
         updateUser(null);
     }, []);
 
+    /**
+     * Handle form submission by sending registration data to the server.
+     *
+     * @param {Object} values - The form values.
+     * @throws Throw an error if registration fails.
+     */
     const onSubmit = async values => {
         const { username, email, password, restaurantName } = values;
         try {
@@ -141,10 +156,12 @@ const RegisterRestaurant = ({ updateUser }) => {
             throw new Error(errorMessage);
         }
     };
+
     const onSuccess = () => {
         console.log('registration successful!');
         navigate('/login');
     };
+
     const onError = err => {
         console.error('registration error:', err);
     };
