@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { styles } from '../styling/styles';
 import { Link } from '../Router';
+import apiUrl from '../utils/apiUrl';
 
 /**
  * Renders a survey link
@@ -31,7 +32,7 @@ const Survey = ({ surveyUrl } ) => {
 export const fetchSurveyUrl = async (setSurveyUrl, setLoading) => {
     try {
         const res = await axios.get(
-            'http://localhost:8080/api/url/survey',
+            `${apiUrl}/url/survey`
         );
         setSurveyUrl(res.data);
     } catch (error) {
