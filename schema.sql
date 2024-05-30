@@ -34,4 +34,4 @@ CREATE TABLE urls (
 );
 
 -- let survey url be this for now
-INSERT INTO urls (name, url) VALUES ('survey', 'http://localhost:19006/create-meal')
+INSERT INTO urls (name, url) VALUES ('survey', '/create-meal')
