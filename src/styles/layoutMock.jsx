@@ -11,6 +11,17 @@ import { Button, SmallButton } from '../components/ui/Buttons';
 import {
     Input, PasswordInput, FlexInput, MultilineInput
 } from '../components/ui/InputFields';
+import { Card } from '../components/ui/Card';
+
+const loremIpsum = 'Lorem ipsum dolor sit amet, \
+consecteturadipiscing elit, sed do eiusmod tempor \
+incididunt ut labore et dolore magna aliqua. \
+Ut enim ad minim veniam, quis nostrud exercitation ullamco \
+laboris nisi ut aliquip ex ea commodo consequat. \
+Duis aute irure dolor in reprehenderit in voluptate \
+velit esse cillum dolore eu fugiat nulla pariatur. \
+Excepteur sint occaecat cupidatat non proident, \
+sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 const Layout = () => {
     const { toggleTheme } = useContext(themeContext);
@@ -65,11 +76,17 @@ const Layout = () => {
                 </View>
             </View>
 
-            {/* headings */}
-            <Text style={styles.heading}>Heading</Text>
+            {/* typography */}
+            <Text style={styles.h1}>Heading 1</Text>
+            <Text style={styles.h2}>Heading 2</Text>
+            <Text style={styles.h3}>Heading 3</Text>
+            <Text style={styles.h4}>Heading 4</Text>
+            <Text style={styles.h5}>Heading 5</Text>
+            <Text style={styles.h6}>Heading 6</Text>
+            <Text style={styles.body}>{loremIpsum}</Text>
+            <Text style={styles.caption}>Caption</Text>
+            <Text style={styles.smallCaption}>Small caption</Text>
 
-            {/* body */}
-            <Text style={styles.bodyText}>This is some regular text.</Text>
 
             {/* error messages */}
             <Text style={styles.errorText}>This is an error message.</Text>
@@ -84,13 +101,6 @@ const Layout = () => {
             {/* input fields */}
             <Input styles={styles} placeholder='normal input'/>
             <PasswordInput styles={styles} placeholder='password'/>
-            {/* <TextInput
-                style={styles.multilineInput}
-                placeholder='multiline'
-                // placeholderTextColor={theme.placeholderText}
-                multiline={true}
-                numberOfLines={4}
-            /> */}
             <MultilineInput
                 styles={styles}
                 placeholder={'this is a multiline input field'}
@@ -117,40 +127,13 @@ const Layout = () => {
                 onPress={addInput} text='+' styles={styles}
             />
 
-            {/* forms */}
-            <View style={styles.formContainer}>
-                <Text style={styles.formLabel}>Form Label</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder='form field'
-                    // placeholderTextColor={theme.placeholderText}
-                />
-                <Text style={styles.formValidationMessage}>
-                    This is a validation message.
-                </Text>
-            </View>
-
-            {/* qr scanner */}
-            <View style={styles.scannerContainer}>
-                <Text style={styles.scannerInstructions}>
-                    Scan your QR code here.
-                </Text>
-            </View>
-
-            {/* dishes & menu stuff */}
-            <View style={styles.menuItemContainer}>
-                <Image
-                    source={{ uri: require('./example.jpg') }}
-                    style={styles.menuItemImage}
-                />
-                <Text style={styles.menuItemText}>Menu Item</Text>
-            </View>
-            <View style={styles.infoContainer}>
-                <Text style={styles.infoHeading}>Additional Information</Text>
-                <Text style={styles.infoText}>
-                    Nutritional and emission data here.
-                </Text>
-            </View>
+            {/* cards */}
+            <Card
+                styles={styles}
+                imgURI={require('./example.jpg')}
+                title={'card title'}
+                body={loremIpsum}
+            />
 
         </ScrollView>
     );

@@ -28,3 +28,41 @@ export const darkTheme = {
     placeholderText: '#777',
     scannerBackground: '#00291B',
 };
+
+// export const light = {
+//     primary: '',
+//     onPrimary: '',
+//     secondary: '',
+//     onSecondary: '',
+//     tertiary: '',
+//     onTertiary: '',
+//     error: '',
+//     onError: '',
+//     errorContainer: '',
+//     onErrorContainer: '',
+//     background: '',
+//     onBackground: '',
+//     surface: '',
+//     onSurface: '',
+//     surfaceVariant: '',
+//     onSurfaceVariant: '',
+// };
+
+// export const dark = {
+//     primary: '#00422C',
+//     onPrimary: '',
+//     secondary: '',
+//     onSecondary: '',
+//     tertiary: '',
+//     onTertiary: '',
+//     error: '',
+//     onError: '',
+//     errorContainer: '',
+//     onErrorContainer: '',
+//     background: '',
+//     onBackground: '',
+//     surface: '',
+//     onSurface: '',
+//     surfaceVariant: '',
+//     onSurfaceVariant: '',
+// };

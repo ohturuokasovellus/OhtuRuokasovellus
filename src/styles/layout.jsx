@@ -1,3 +1,4 @@
+/* eslint-disable id-length */
 import { StyleSheet } from 'react-native';
 import { useContext } from 'react';
 import { themeContext } from '../controllers/themeController';
@@ -9,7 +10,9 @@ const createStyles = () => {
     return StyleSheet.create({
     // general
         background: {
-            flex: 1,
+            maxWidth: 700,
+            alignSelf: 'center',
+            // flex: 1,
             backgroundColor: colors.background,
         },
         container: {
@@ -20,37 +23,64 @@ const createStyles = () => {
         },
 
         // text
-        bodyText: {
+        body: {
             fontSize: 16,
             color: colors.text,
         },
-        heading: {
+        h1: {
+            fontSize: 32,
+            fontWeight: 'bold',
+            marginVertical: 12,
+            color: colors.text,
+        },
+        h2: {
+            fontSize: 28,
+            fontWeight: 'bold',
+            marginVertical: 12,
+            color: colors.text,
+        },
+        h3: {
             fontSize: 24,
             fontWeight: 'bold',
-            marginVertical: 16,
+            marginVertical: 12,
+            color: colors.text,
+        },
+        h4: {
+            fontSize: 22,
+            fontWeight: 'bold',
+            marginVertical: 12,
+            color: colors.text,
+        },
+        h5: {
+            fontSize: 20,
+            fontWeight: 'bold',
+            marginVertical: 12,
+            color: colors.text,
+        },
+        h6: {
+            fontSize: 18,
+            fontWeight: 'bold',
+            marginVertical: 12,
+            color: colors.text,
+        },
+        caption: {
+            fontSize: 12,
+            color: colors.text,
+        },
+        smallCaption: {
+            fontSize: 10,
             color: colors.text,
         },
         errorText: {
             fontSize: 14,
             color: colors.error,
-        },
-        buttonText: {
-            fontSize: 18,
-            fontWeight: 'bold',
-            textTransform: 'lowercase',
-            color: colors.buttonText,
-        },
-        iconButtonText: {
-            fontsize: 32,
-            fontWeight: 'bold',
-            color: colors.background,
+            marginBottom: 8,
         },
         linkText: {
             fontSize: 16,
             color: colors.link,
             textDecorationLine: 'underline',
         },
-
         placeholderText: {
             color: colors.placeholderText
         },
@@ -73,6 +103,17 @@ const createStyles = () => {
             marginHorizontal: 6,
             alignItems: 'center',
             justifyContent: 'center',
+        },
+        buttonText: {
+            fontSize: 18,
+            fontWeight: 'bold',
+            textTransform: 'lowercase',
+            color: colors.buttonText,
+        },
+        iconButtonText: {
+            fontsize: 32,
+            fontWeight: 'bold',
+            color: colors.background,
         },
 
         // input fields
@@ -124,71 +165,41 @@ const createStyles = () => {
             backgroundColor: colors.inputBackground,
         },
 
-        // forms
-        formContainer: {
-            padding: 16,
-            backgroundColor: colors.containerBackground,
-            borderRadius: 8,
-            marginVertical: 8,
-        },
-        formLabel: {
-            fontSize: 16,
-            marginBottom: 8,
-            color: colors.text,
-        },
-        formValidationMessage: {
-            fontSize: 14,
-            color: colors.error,
-            marginBottom: 8,
-        },
-
-        // qr scanner
-        scannerContainer: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: colors.scannerBackground,
-        },
-        scannerInstructions: {
-            fontSize: 16,
-            color: colors.text,
-            margin: 16,
-        },
-
         // dishes & menus
-        menuItemContainer: {
+        cardContainer: {
+            width: 400,
             padding: 16,
-            backgroundColor: colors.containerBackground,
+            backgroundColor: colors.buttonBackground,
             borderRadius: 8,
-            marginVertical: 8,
+            marginVertical: 16,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            elevation: 3,
+            // alignSelf: 'center',
         },
-        menuItemImage: {
+        imageContainer: {
+            position: 'absolute',
+            top: '-5%',
+            left: '5%',
+            // width: '90%',
+            width: 360,
+            // height: 200,
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            elevation: 3,
+            borderRadius: 8,
+        },
+        image: {
             width: '100%',
             height: 200,
             borderRadius: 8,
-            marginBottom: 8,
         },
-        menuItemText: {
-            fontSize: 16,
-            color: colors.text,
-        },
-
-        // nutritional etc info
-        infoContainer: {
-            padding: 16,
-            backgroundColor: colors.containerBackground,
-            borderRadius: 8,
-            marginVertical: 8,
-        },
-        infoHeading: {
-            fontSize: 18,
-            fontWeight: 'bold',
-            marginBottom: 8,
-            color: colors.text,
-        },
-        infoText: {
-            fontSize: 16,
-            color: colors.text,
+        cardContent: {
+            paddingTop: 170,  // adjust this value based on the image height
+            alignItems: 'center',
         },
 
         // navigation
