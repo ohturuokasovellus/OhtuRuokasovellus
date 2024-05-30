@@ -12,8 +12,6 @@ spec:
   source:
     git:
       uri: "https://github.com/ohturuokasovellus/OhtuRuokasovellus"
-      # use this branch for now, change later to main
-      ref: "container"
   strategy:
     type: Docker
   output:
