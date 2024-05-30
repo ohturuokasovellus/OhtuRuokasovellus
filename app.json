@@ -28,7 +28,13 @@
       "startUrl": "/"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-font",
+        {
+          "fonts": ["./assets/fonts/Jacquard12Regular.ttf"]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
