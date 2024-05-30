@@ -9,6 +9,8 @@ const { insertUser, doesUsernameExist, doesEmailExist } = require(
 
 const router = express.Router();
 
+router.use(express.json());
+
 router.post('/api/register', async (req, res) => {
     const { username, password, email } = req.body;
 
@@ -41,7 +43,7 @@ router.post('/api/register', async (req, res) => {
     // insert the user into database
     const passwordHash = hash(password);   // TODO: salt hashes
     try {
-        await insertUser(username, passwordHash, email);
+        await insertUser(username, passwordHash, email, null);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ errorMessage: 'user creation failed' });

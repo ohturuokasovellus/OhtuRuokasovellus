@@ -4,6 +4,8 @@ const { hash } = require('../services/hash');
 const router = express.Router();
 const { getUser } = require('../database');
 
+router.use(express.json());
+
 router.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
     const user = await getUser(username, hash(password));
@@ -15,7 +17,12 @@ router.post('/api/login', async (req, res) => {
         res
             .status(200)
             .send(
-                { token, username: user.username, message: 'Login succesful' }
+                {
+                    token,
+                    username: user.username,
+                    restaurantId: user.restaurant_id,
+                    message: 'Login succesful'
+                }
             );
     } else {
         res

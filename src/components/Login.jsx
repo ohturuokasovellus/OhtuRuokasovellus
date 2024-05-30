@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { deleteSession } from '../controllers/sessionController';
-import { TextInput, View, Button, Text } from 'react-native';
+import { TextInput, View, Pressable, Text } from 'react-native';
 import { Formik } from 'formik';
 import axios from 'axios';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
-import * as yup from 'yup';
 import { createSession } from '../controllers/sessionController';
-
-const LoginValidationSchema = yup.object().shape({
-    username: yup.string()
-        .required('Username is required'),
-    password: yup.string()
-        .required('Password is required'),
-});
+import { LoginValidationSchema } from '../utils/formValidationSchemas';
 
 const LoginForm = ({ updateUser }) => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -32,11 +25,14 @@ const LoginForm = ({ updateUser }) => {
             actions.setSubmitting(false);
             const userData = {
                 username: response.data.username,
-                token: response.data.token
+                token: response.data.token,
+                restaurantId: response.data.restaurantId,
             };
             createSession(userData);
             updateUser(userData);
+            
             navigate('/');
+
         } catch (error) {
             console.error(error);
             setErrorMessage('Incorrect username or/and password');
@@ -84,11 +80,26 @@ const LoginForm = ({ updateUser }) => {
                     {errorMessage ? (
                         <Text style={styles.errorText}>{errorMessage}</Text>
                     ) : null}
-                    <Button onPress={handleSubmit}
-                        title="Login" disabled={isSubmitting} />
-                    <View style={ styles.register }>
-                        <Button title="Register"
-                            onPress={() => navigate('/register')} />
+                    <View style={ styles.button }>
+                        <Pressable onPress={handleSubmit}
+                            title="Login" disabled={isSubmitting}>
+                            <Text style={ styles.buttonText }> login </Text>
+                        </Pressable>
+                    </View>
+                    <View style={ styles.button }>
+                        <Pressable title="Register"
+                            onPress={() => navigate('/register')}>
+                            <Text style={ styles.buttonText }>register</Text>
+                        </Pressable>
+                    </View>
+
+                    <View style={ styles.button }>
+                        <Pressable title="Register as a Restauraunt User"
+                            onPress={() => navigate('/register-restaurant')}>
+                            <Text style={ styles.buttonText }>
+                                register restaurant
+                            </Text>
+                        </Pressable>
                     </View>
                 </View>
             )}
