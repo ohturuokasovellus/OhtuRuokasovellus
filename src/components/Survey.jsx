@@ -4,6 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { styles } from '../styling/styles';
 import { Link } from '../Router';
 
+/**
+ * Renders a survey link
+ * @param {string} surveyUrl - url of the survey;
+ * @returns {React.JSX.Element}
+ */
 const Survey = ({ surveyUrl } ) => {
     const {t} = useTranslation();
 
@@ -18,6 +23,11 @@ const Survey = ({ surveyUrl } ) => {
     );
 };
 
+/**
+ * Fetches a survely link from the backend
+ * @param {Function} setsSurveyUrl - sets survey url;
+ * @param {Function} setLoading - manages loading indicator;
+ */
 export const fetchSurveyUrl = async (setSurveyUrl, setLoading) => {
     try {
         const res = await axios.get(
