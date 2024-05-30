@@ -35,10 +35,7 @@ const Card = ({ styles, imgURI, title, body }) => {
 const MealCard = ({ styles, imgURI, title, body, onPress, isSelected }) => {
     return (
         <Pressable onPress={onPress} style={({ pressed }) => [
-            {
-                opacity: pressed ? 0.5 : 1,
-            },
-            styles.pressable
+            { opacity: pressed ? 0.5 : 1, },
         ]}>
             <View style={styles.cardContainer}>
                 <View style={styles.imageContainer}>

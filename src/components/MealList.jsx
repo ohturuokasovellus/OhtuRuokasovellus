@@ -1,7 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import {
-    View, Text, Pressable, FlatList, Image
-} from 'react-native';
+import { View, Text, FlatList, ScrollView } from 'react-native';
 import axios from 'axios';
 import { useParams } from '../Router';
 // import { styles } from '../styles/styles';
@@ -70,23 +68,26 @@ const MealList = () => {
     sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.h1}>Ravintola {restaurantName}</Text>
-            <FlatList
-                data={meals}
-                keyExtractor={(item) => item.meal_id.toString()}
-                renderItem={({ item }) => (
-                    <MealCard
-                        styles={styles}
-                        imgURI={item.image}
-                        title={item.meal_name}
-                        body={loremIpsum}
-                        onPress={() => handlePress(item)}
-                        isSelected={selectedMeal === item}
-                    />
-                )}
-            />
-        </View>
+        <ScrollView style={styles.background}>
+            <View style={styles.container}>
+                <Text style={styles.h1}>Ravintola {restaurantName}</Text>
+                <FlatList
+                    data={meals}
+                    keyExtractor={(item) => item.meal_id.toString()}
+                    renderItem={({ item }) => (
+                        <MealCard
+                            styles={styles}
+                            imgURI={item.image}
+                            title={item.meal_name}
+                            body={loremIpsum}
+                            onPress={() => handlePress(item)}
+                            isSelected={selectedMeal === item}
+                        />
+                    )}
+                />
+            </View>
+        </ScrollView>
+        
     );
 };
 
