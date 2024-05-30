@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { deleteSession } from '../controllers/sessionController';
-import { TextInput, View, Pressable, Text } from 'react-native';
-import { Formik } from 'formik';
 import axios from 'axios';
+import { Formik } from 'formik';
+import { View, Text, ScrollView } from 'react-native';
+
 import { useNavigate } from '../Router';
-import { styles } from '../styles/styles';
-import { createSession } from '../controllers/sessionController';
+import { createSession, deleteSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
+
 import { loginValidationSchema } from '../utils/formValidationSchemas';
+
+import createStyles from '../styles/layout';
+import { Button } from './ui/Buttons';
+import { Input, PasswordInput } from './ui/InputFields';
+
+
 
 const LoginForm = ({ updateUser }) => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -16,6 +22,8 @@ const LoginForm = ({ updateUser }) => {
         deleteSession();
         updateUser(null);
     }, []);
+
+    const styles = createStyles();
 
     const handleSubmit = async (values, actions) => {
         try {
@@ -55,54 +63,55 @@ const LoginForm = ({ updateUser }) => {
                 handleChange, handleBlur, handleSubmit,
                 values, errors, touched, isSubmitting
             }) => (
-                <View style={styles.login}>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={handleChange('username')}
-                        onBlur={handleBlur('username')}
-                        value={values.username}
-                        placeholder="Username"
-                    />
-                    {touched.username && errors.username && (
-                        <Text style={styles.errorText}>{errors.username}</Text>
-                    )}
-
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={handleChange('password')}
-                        onBlur={handleBlur('password')}
-                        value={values.password}
-                        placeholder="Password"
-                        secureTextEntry
-                    />
-                    {touched.password && errors.password && (
-                        <Text style={styles.errorText}>{errors.password}</Text>
-                    )}
-                    {errorMessage ? (
-                        <Text style={styles.errorText}>{errorMessage}</Text>
-                    ) : null}
-                    <View style={ styles.button }>
-                        <Pressable onPress={handleSubmit} 
-                            id='log_user_in_button'
-                            title="Login" disabled={isSubmitting}>
-                            <Text style={ styles.buttonText }> login </Text>
-                        </Pressable>
-                    </View>
-                    <Text>Dont have an account yet?</Text>
-                    <View style={ styles.button }>
-                        <Pressable title="Register"
-                            onPress={() => navigate('/register')}>
-                            <Text style={ styles.buttonText }>register</Text>
-                        </Pressable>
-                    </View>
-                    <Pressable style={styles.button}
-                        title='Register as a Restauraunt User'
-                        onPress={() => navigate('/register-restaurant')}>
-                        <Text style={ styles.buttonText }>
-                                register restaurant
+                <ScrollView style={styles.background}>
+                    <View style={styles.container}>
+                        <Input
+                            styles={styles}
+                            onChangeText={handleChange('username')}
+                            onBlur={handleBlur('username')}
+                            value={values.username}
+                            placeholder='username'
+                        />
+                        {touched.username && errors.username && (
+                            <Text style={styles.error}>{errors.username}</Text>
+                        )}
+                        <PasswordInput
+                            styles={styles}
+                            onChangeText={handleChange('password')}
+                            onBlur={handleBlur('password')}
+                            value={values.password}
+                            placeholder='password'
+                        />
+                        {touched.password && errors.password && (
+                            <Text style={styles.error}>{errors.password}</Text>
+                        )}
+                        {errorMessage ? (
+                            <Text style={styles.error}>{errorMessage}</Text>
+                        ) : null}
+                        <Button
+                            styles={styles}
+                            onPress={handleSubmit}
+                            text='login'
+                            id='login-button'
+                            disabled={isSubmitting}
+                        />
+                        <Text style={styles.body}>
+                            Dont have an account yet?
                         </Text>
-                    </Pressable>
-                </View>
+                        <Button
+                            styles={styles}
+                            onPress={() => navigate('/register')}
+                            text='register'
+                            id='register-button'
+                        />
+                        <Button
+                            styles={styles}
+                            onPress={() => navigate('/register-restaurant')}
+                            text='register as a restaurant'
+                            id='register-restaurant-button'
+                        />
+                    </View>
+                </ScrollView>
             )}
         </Formik>
     );

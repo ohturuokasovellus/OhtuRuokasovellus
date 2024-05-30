@@ -94,6 +94,7 @@ const createStyles = () => {
             borderRadius: 8,
             alignItems: 'center',
             marginBottom: 12,
+            // maxWidth: 300,
         },
         iconButton: {
             height: 30,
