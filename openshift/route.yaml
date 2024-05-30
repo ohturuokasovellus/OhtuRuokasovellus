@@ -1,0 +1,12 @@
+
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: ruokasovellus-route
+spec:
+  host: ruokasovellus.2.rahtiapp.fi
+  to:
+    kind: Service
+    name: ruokasovellus-service
+  port:
+    targetPort: 8080

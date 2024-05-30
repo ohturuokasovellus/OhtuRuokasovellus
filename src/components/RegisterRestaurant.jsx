@@ -6,6 +6,7 @@ import { deleteSession } from '../controllers/sessionController';
 import { restaurantValidationSchema }
     from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
+import apiUrl from '../utils/apiUrl';
 import { stylesForm } from '../styling/styles';
 
 const styles = stylesForm;
@@ -146,7 +147,7 @@ const RegisterRestaurant = ({ updateUser }) => {
         const { username, email, password, restaurantName } = values;
         try {
             await axios.post(
-                'http://localhost:8080/api/register-restaurant',
+                `${apiUrl}/register-restaurant`,
                 { username, email, password, restaurantName }
             );
         } catch (err) {

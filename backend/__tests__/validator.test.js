@@ -1,4 +1,4 @@
-const { isValidPassword, isValidEmail } = require('../../src/utils/validators');
+const { isValidPassword, isValidEmail } = require('../services/validators');
 
 describe('validator', () => {
     describe('password', () => {

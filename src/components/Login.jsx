@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 import { createSession } from '../controllers/sessionController';
+import apiUrl from '../utils/apiUrl';
 import { loginValidationSchema } from '../utils/formValidationSchemas';
 
 const LoginForm = ({ updateUser }) => {
@@ -19,7 +20,7 @@ const LoginForm = ({ updateUser }) => {
     const handleSubmit = async (values, actions) => {
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/login',
+                `${apiUrl}/login`,
                 values
             );
             actions.setSubmitting(false);
@@ -34,6 +35,7 @@ const LoginForm = ({ updateUser }) => {
             navigate('/');
 
         } catch (error) {
+            console.error(error);
             setErrorMessage('Incorrect username or/and password');
             actions.setFieldError('general', 'Wrong credentials');
             actions.setSubmitting(false);

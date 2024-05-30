@@ -20,6 +20,22 @@ Note that you also need to have set the [`E2ETEST_POSTGRES_URL` environment vari
 
 The app requires a secret key to function – you can set this by adding `SECRET_KEY = your-secret-key-here` to the `.env` file.
 
+### Container
+
+To build a Docker image, run
+
+```
+docker build -t ruokasovellus .
+```
+
+then the image can be started with
+
+```
+docker run -p 8080:8080 ruokasovellus
+```
+
+The first `8080` can be changed to customize the port that the server listens to.
+
 ## Definition of Done:
 
 [DoD](https://github.com/ohturuokasovellus/OhtuRuokasovellus/blob/main/documentation/DoD.md)
