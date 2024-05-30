@@ -1,4 +1,5 @@
 # Ohtuprojekti kesä 2024: Ruokasovellus
+![CI workflow badge](https://github.com/ohturuokasovellus/OhtuRuokasovellus/actions/workflows/CI.yml/badge.svg)
 
 ## Usage
 
@@ -18,6 +19,22 @@ End-to-end tests can then be run with `npm run test:e2e`.
 Note that you also need to have set the [`E2ETEST_POSTGRES_URL` environment variable](documentation/databaseSetup.md).
 
 The app requires a secret key to function – you can set this by adding `SECRET_KEY = your-secret-key-here` to the `.env` file.
+
+### Container
+
+To build a Docker image, run
+
+```
+docker build -t ruokasovellus .
+```
+
+then the image can be started with
+
+```
+docker run -p 8080:8080 ruokasovellus
+```
+
+The first `8080` can be changed to customize the port that the server listens to.
 
 ## Definition of Done:
 

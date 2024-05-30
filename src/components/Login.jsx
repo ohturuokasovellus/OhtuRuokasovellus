@@ -6,8 +6,9 @@ import axios from 'axios';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 import { createSession } from '../controllers/sessionController';
-import { LoginValidationSchema } from '../utils/formValidationSchemas';
 import { useTranslation } from 'react-i18next';
+import apiUrl from '../utils/apiUrl';
+import { loginValidationSchema } from '../utils/formValidationSchemas';
 
 /**
  * Render a form for user login, validate using a yup schema.
@@ -28,7 +29,7 @@ const LoginForm = ({ updateUser }) => {
     const handleSubmit = async (values, actions) => {
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/login',
+                `${apiUrl}/login`,
                 values
             );
             actions.setSubmitting(false);
@@ -43,6 +44,7 @@ const LoginForm = ({ updateUser }) => {
             navigate('/');
 
         } catch (error) {
+            console.error(error);
             setErrorMessage('Incorrect username or/and password');
             actions.setFieldError('general', 'Wrong credentials');
             actions.setSubmitting(false);
@@ -56,7 +58,7 @@ const LoginForm = ({ updateUser }) => {
                 setErrorMessage('');
                 handleSubmit(values, actions);
             }}
-            validationSchema={LoginValidationSchema}
+            validationSchema={loginValidationSchema}
         >
             {({
                 handleChange, handleBlur, handleSubmit,
@@ -89,13 +91,15 @@ const LoginForm = ({ updateUser }) => {
                         <Text style={styles.errorText}>{errorMessage}</Text>
                     ) : null}
                     <View style={ styles.button }>
-                        <Pressable onPress={handleSubmit}
+                        <Pressable onPress={handleSubmit} 
+                            id='log_user_in_button'
                             title="Login" disabled={isSubmitting}>
                             <Text style={ styles.buttonText }>
                                 {t('LOGIN')}
                             </Text>
                         </Pressable>
                     </View>
+                    <Text>Dont have an account yet?</Text>
                     <View style={ styles.button }>
                         <Pressable title="Register"
                             onPress={() => navigate('/register')}>
@@ -104,15 +108,13 @@ const LoginForm = ({ updateUser }) => {
                             </Text>
                         </Pressable>
                     </View>
-
-                    <View style={ styles.button }>
-                        <Pressable title="Register as a Restauraunt User"
-                            onPress={() => navigate('/register-restaurant')}>
-                            <Text style={ styles.buttonText }>
+                    <Pressable style={styles.button}
+                        title='Register as a Restauraunt User'
+                        onPress={() => navigate('/register-restaurant')}>
+                        <Text style={ styles.buttonText }>
                                 {t('REGISTER_RESTAURANT')}
-                            </Text>
-                        </Pressable>
-                    </View>
+                        </Text>
+                    </Pressable>
                 </View>
             )}
         </Formik>

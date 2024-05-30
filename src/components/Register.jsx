@@ -5,10 +5,11 @@ import axios from 'axios';
 import { deleteSession } from '../controllers/sessionController';
 import { registrationValidationSchema } from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
-import { stylesRegister } from '../styling/styles';
+import { stylesRegister, stylesForm } from '../styling/styles';
 import { useTranslation } from 'react-i18next';
+import apiUrl from '../utils/apiUrl';
 
-const styles = stylesRegister;
+const styles = stylesForm;
 
 const initialValues = {
     username: '',
@@ -120,10 +121,11 @@ const Register = ({ updateUser }) => {
         const { username, email, password } = values;
         try {
             await axios.post(
-                'http://localhost:8080/api/register',
+                `${apiUrl}/register`,
                 { username, email, password }
             );
         } catch (err) {
+            console.error(err);
             const errorMessage = err.response?.data?.errorMessage ||
                 'an unexpected error occurred';
             throw new Error(errorMessage);

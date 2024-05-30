@@ -1,0 +1,21 @@
+
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: ruokasovellus-build
+spec:
+  triggers:
+    - type: Generic
+      generic:
+        secretReference:
+          name: ruokasovellus-generic-webhook-secret
+  source:
+    git:
+      uri: "https://github.com/ohturuokasovellus/OhtuRuokasovellus"
+      ref: "main"
+  strategy:
+    type: Docker
+  output:
+    to:
+      kind: ImageStreamTag
+      name: "ruokasovellus:latest"

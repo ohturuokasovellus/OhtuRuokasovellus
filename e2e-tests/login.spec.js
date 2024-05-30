@@ -1,18 +1,14 @@
 /* eslint-disable @stylistic/js/indent */
-import { sql } from '../backend/database';
+import { sql, insertUser } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 
 const initTestDB = async () => {
     await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
     const user = 'testi';
-    // eslint-disable-next-line id-length
-    const pw = hash('Testi123@');
-    const email = 'testi@test.com';
-    await sql`
-    INSERT INTO users (username, password, email)
-    VALUES (${user}, ${pw}, ${email})
-    `;
+    const password = hash('Testi123!');
+    const email = 'test@test.com';
+    insertUser(user, password, email);
 };
 
 test.describe('login page', () => {
@@ -25,9 +21,11 @@ test.describe('login page', () => {
         await page.goto('/');
         await expect(page).toHaveURL(/\/login$/);
         await page.fill('input[placeholder="Username"]', 'testi');
-        await page.fill('input[placeholder="Password"]', 'Testi123@');
-        await page.click('text=login');
+        await page.fill('input[placeholder="Password"]', 'Testi123!');
+        await page.locator('#log_user_in_button').click();
         await expect(page).toHaveURL('/');
+        // await expect(page.locator('#root'))
+        //         .toContainText('Welcome, testi');
     });
 
     test('does not login with incorrect credentials', async ({page}) => {
@@ -35,7 +33,7 @@ test.describe('login page', () => {
         await expect(page).toHaveURL(/\/login$/);
         await page.fill('input[placeholder="Username"]', 'Testi');
         await page.fill('input[placeholder="Password"]', 'Testi123!!!');
-        await page.click('text=Login');
+        await page.locator('#log_user_in_button').click();
         await expect(page).toHaveURL('/login');
     });
 
@@ -51,15 +49,15 @@ test.describe('login page', () => {
         await page.goto('/');
         await expect(page).toHaveURL(/\/login$/);
         await page.fill('input[placeholder="Username"]', 'testi');
-        await page.click('text=login');
+        await page.locator('#log_user_in_button').click();
         await page.waitForSelector('text="Password is required"');
     });
 
     test('warns if username is missing', async ({page}) => {
         await page.goto('/');
         await expect(page).toHaveURL(/\/login$/);
-        await page.fill('input[placeholder="Password"]', 'Testi123@');
-        await page.click('text=login');
+        await page.fill('input[placeholder="Password"]', 'Testi123!');
+        await page.locator('#log_user_in_button').click();
         await page.waitForSelector('text="Username is required"');
     });
 
@@ -68,8 +66,8 @@ test.describe('login page', () => {
         async ({page}) => {
         await page.goto('/');
         await page.fill('input[placeholder="Username"]', 'testi');
-        await page.fill('input[placeholder="Password"]', 'Testi123@');
-        await page.click('text=Login');
+        await page.fill('input[placeholder="Password"]', 'Testi123!');
+        await page.locator('#log_user_in_button').click();
         await page.click('text=Logout');
         await expect(page).toHaveURL('/login');
     });

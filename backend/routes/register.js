@@ -1,6 +1,6 @@
 const express = require('express');
 const { isValidUsername, isValidPassword, isValidEmail } = require(
-    '../../src/utils/validators.js'
+    '../services/validators'
 );
 const { hash } = require('../services/hash');
 const { insertUser, doesUsernameExist, doesEmailExist } = require(

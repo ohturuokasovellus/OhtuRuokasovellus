@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ActivityIndicator } from 'react-native';
+import { Text, View, ActivityIndicator, Pressable } from 'react-native';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 import { useTranslation } from 'react-i18next';
@@ -21,23 +21,36 @@ const Home = (props) => {
     
     if (!props.user || loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
-    }
 
-    // Check if user is a restaurant owner
-    const isRestaurantOwner = props.user.restaurantId !== null;
+    const username = props.user.username;
+    const restaurantId = props.user.restaurantId;
+    const isRestaurantUser = restaurantId !== null;
 
     return (
         <View>
-            {isRestaurantOwner ? (
-                <Text style={styles.welcomeText}>
-                    {t('WELCOME')}, {t('RESTAURANT_OWNER')} 
-                    {' '}{props.user.username}
-                </Text>
-            ) : (
-                <Text style={styles.welcomeText}>
-                    {t('WELCOME')}, {props.user.username}
-                </Text>
-            )}
+            <Text style={styles.welcomeText}>
+                {t('WELCOME')}, {username}
+            </Text>
+            {isRestaurantUser ? (
+                <>
+                    <Text style={styles.welcomeText}>
+                        You are logged in as a restaurant user.
+                    </Text>
+                    <Pressable style={styles.button} title='Add user' onPress={
+                        () => navigate('/add-users')
+                    }>
+                        <Text style={styles.buttonText}>add user</Text>
+                    </Pressable>
+                    <Pressable style={styles.button} title='restaurant page'
+                        onPress={
+                            () => navigate(
+                                `/restaurant/${restaurantId}`
+                            )
+                        }>
+                        <Text style={styles.buttonText}>restaurant page</Text>
+                    </Pressable>
+                </>
+            ) : null}
             {surveyUrl && (
                 <Survey surveyUrl={surveyUrl}/>
             )}
