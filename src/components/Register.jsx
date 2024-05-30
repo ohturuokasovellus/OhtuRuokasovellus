@@ -6,6 +6,7 @@ import { deleteSession } from '../controllers/sessionController';
 import { registrationValidationSchema } from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
 import { stylesRegister } from '../styling/styles';
+import apiUrl from '../utils/apiUrl';
 
 const styles = stylesRegister;
 
@@ -118,7 +119,7 @@ const Register = ({ updateUser }) => {
         const { username, email, password } = values;
         try {
             await axios.post(
-                '/api/register',
+                `${apiUrl}/register`,
                 { username, email, password }
             );
         } catch (err) {

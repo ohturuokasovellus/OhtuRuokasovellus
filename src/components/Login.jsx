@@ -7,6 +7,7 @@ import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
 import { createSession } from '../controllers/sessionController';
 import { LoginValidationSchema } from '../utils/formValidationSchemas';
+import apiUrl from '../utils/apiUrl';
 
 const LoginForm = ({ updateUser }) => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -19,7 +20,7 @@ const LoginForm = ({ updateUser }) => {
     const handleSubmit = async (values, actions) => {
         try {
             const response = await axios.post(
-                '/api/login',
+                `${apiUrl}/login`,
                 values
             );
             actions.setSubmitting(false);
