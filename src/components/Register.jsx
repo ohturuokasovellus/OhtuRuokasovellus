@@ -5,7 +5,7 @@ import axios from 'axios';
 import { deleteSession } from '../controllers/sessionController';
 import { registrationValidationSchema } from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
-import { stylesRegister, stylesForm } from '../styling/styles';
+import { stylesForm } from '../styling/styles';
 import { useTranslation } from 'react-i18next';
 import apiUrl from '../utils/apiUrl';
 

@@ -6,7 +6,7 @@ import { deleteSession } from '../controllers/sessionController';
 import { restaurantValidationSchema }
     from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
-import { stylesRegister, stylesForm } from '../styling/styles';
+import { stylesForm } from '../styling/styles';
 import { useTranslation } from 'react-i18next';
 import apiUrl from '../utils/apiUrl';
 

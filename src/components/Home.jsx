@@ -21,6 +21,7 @@ const Home = (props) => {
     
     if (!props.user || loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
+    }
 
     const username = props.user.username;
     const restaurantId = props.user.restaurantId;

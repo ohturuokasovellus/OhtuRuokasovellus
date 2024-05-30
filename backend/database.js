@@ -239,7 +239,7 @@ module.exports = {
     addMealImage,
     getMeals,
     isRestaurantUser,
-    doesRestaurantNameExist,
-    getSurveyUrl
+    // doesRestaurantNameExist,
+    getSurveyUrl,
     updateUserRestaurantByEmail
 };

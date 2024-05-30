@@ -112,7 +112,7 @@ const LoginForm = ({ updateUser }) => {
                         title='Register as a Restauraunt User'
                         onPress={() => navigate('/register-restaurant')}>
                         <Text style={ styles.buttonText }>
-                                {t('REGISTER_RESTAURANT')}
+                            {t('REGISTER_RESTAURANT')}
                         </Text>
                     </Pressable>
                 </View>
