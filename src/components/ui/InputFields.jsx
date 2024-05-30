@@ -40,4 +40,18 @@ const FlexInput = ({ styles, ...props }) => {
     );
 };
 
-export { Input, PasswordInput, FlexInput };
+/** Input field if multiple lines are required. Pass the
+ * row props if you want to define the number of lines visible.
+ */
+const MultilineInput = ({ styles, ...props }) => {
+    return (
+        <TextInput
+            style={styles.multilineInput}
+            placeholderTextColor={styles.placeholderText.color}
+            multiline={true}
+            {...props}
+        />
+    );
+};
+
+export { Input, PasswordInput, FlexInput, MultilineInput };

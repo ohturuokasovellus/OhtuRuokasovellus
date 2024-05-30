@@ -8,7 +8,9 @@ import createStyles from './layout';
 import { themeContext } from '../controllers/themeController';
 
 import { Button, SmallButton } from '../components/ui/Buttons';
-import { Input, PasswordInput, FlexInput } from '../components/ui/InputFields';
+import {
+    Input, PasswordInput, FlexInput, MultilineInput
+} from '../components/ui/InputFields';
 
 const Layout = () => {
     const { toggleTheme } = useContext(themeContext);
@@ -82,12 +84,17 @@ const Layout = () => {
             {/* input fields */}
             <Input styles={styles} placeholder='normal input'/>
             <PasswordInput styles={styles} placeholder='password'/>
-            <TextInput
+            {/* <TextInput
                 style={styles.multilineInput}
                 placeholder='multiline'
                 // placeholderTextColor={theme.placeholderText}
                 multiline={true}
                 numberOfLines={4}
+            /> */}
+            <MultilineInput
+                styles={styles}
+                placeholder={'this is a multiline input field'}
+                rows={4}
             />
             {inputs.map((input, index) => (
                 <View key={input.idx} style={styles.flexInputContainer}>
