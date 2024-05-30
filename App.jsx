@@ -12,6 +12,7 @@ import { getSession } from './src/controllers/sessionController';
 import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
 import NavigationBar from './src/components/NavigationBar';
+import { useFonts } from 'expo-font';
 
 // The component in LogoutButton.jsx is no longer used, 
 // its button has been replaced 
@@ -22,6 +23,10 @@ const App = () => {
     const updateUser = (userData) => {
         setUser(userData);
     };
+
+    useFonts({
+        'Jacquard12Regular': require('./assets/fonts/Jacquard12Regular.ttf'),
+    });
 
     return (
         <Router>
