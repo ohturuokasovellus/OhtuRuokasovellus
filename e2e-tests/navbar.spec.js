@@ -7,14 +7,14 @@ const initTestDB = async () => {
     const user = 'testi';
     const password = hash('Testi123!');
     const email = 'test@test.com';
-    insertUser(user, password, email);
+    await insertUser(user, password, email);
 };
 
 const createRestaurantUser = async () => {
     const user = 'testaurante';
     const password = hash('Testaurante123!');
     const email = 'testaurante@test.com';
-    insertUser(user, password, email, 1);
+    await insertUser(user, password, email, 1);
 };
 
 test.describe('navbar', () => {
