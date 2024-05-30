@@ -12,6 +12,7 @@ spec:
   source:
     git:
       uri: "https://github.com/ohturuokasovellus/OhtuRuokasovellus"
+      ref: "main"
   strategy:
     type: Docker
   output:
