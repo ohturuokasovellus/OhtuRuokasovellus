@@ -1,5 +1,6 @@
 import i18next from 'i18next';
 import {initReactI18next} from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 import engl from './en.json';
 import finn from './fi.json';
 
@@ -14,6 +15,7 @@ const resources = {
 
 i18next
     // pass the i18n instance to react-i18next.
+    .use(LanguageDetector)
     .use(initReactI18next)
     // init i18next
     // for all options read:
@@ -21,14 +23,14 @@ i18next
     .init({
         compatibilityJSON: 'v3',
         resources,
-        fallbackLng: 'fin',
+        // fallbackLng: 'fin',
         lng: 'eng', // default language to use.
         supportedLngs: ['fin', 'eng'],
         detection: {
             order: ['queryString', 'cookie'],
         },
-        preload: ['fin', 'eng'],
-        initImmediate: false
+        // preload: ['fin', 'eng'],
+        // initImmediate: false
     });
 
 export default {i18next};

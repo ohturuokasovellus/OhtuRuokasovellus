@@ -1,6 +1,7 @@
 import { useNavigate } from '../Router';
 import { Text, Pressable,View } from 'react-native';
 import { deleteSession } from '../controllers/sessionController';
+import LanguageSwitch from './LanguageSwitch';
 
 const NavigationBar = ({ user, updateUser }) => {
     const navigate = useNavigate();
@@ -60,6 +61,7 @@ const NavigationBar = ({ user, updateUser }) => {
                         color: 'white'}}>Logout</Text>
                 </Pressable>      
             }
+            <LanguageSwitch />
         </View>
     );
 };
