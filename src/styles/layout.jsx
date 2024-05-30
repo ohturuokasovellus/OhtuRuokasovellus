@@ -10,9 +10,11 @@ const createStyles = () => {
     return StyleSheet.create({
     // general
         background: {
-            maxWidth: 700,
-            alignSelf: 'center',
-            // flex: 1,
+            // maxWidth: 700,
+            // alignSelf: 'center',
+            paddingTop: 60,
+            flex: 1,
+            flexGrow: 1,
             backgroundColor: colors.background,
         },
         container: {
@@ -208,6 +210,11 @@ const createStyles = () => {
             justifyContent: 'space-around',
             paddingVertical: 12,
             backgroundColor: colors.accent,
+            position: 'absolute',
+            top: 0,
+            width: '100%',
+            height: 60,
+            zIndex: 1000,
         },
         navigationLink: {
             padding: 8,

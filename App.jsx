@@ -1,25 +1,23 @@
 import { React, useState } from 'react';
 import { View } from 'react-native';
+import { useFonts } from 'expo-font';
+
+import Router, { Routes, Route } from './src/Router';
+import { getSession } from './src/controllers/sessionController';
+import { ThemeController } from './src/controllers/themeController';
+
+import NavigationBar from './src/components/NavigationBar';
 import Home from './src/components/Home';
 import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
 import QRForm from './src/components/QRForm';
 import RegisterRestaurant from './src/components/RegisterRestaurant';
 import AddUser from './src/components/AddUser';
-import Router, { Routes, Route } from './src/Router';
-import { styles } from './src/styles/styles';
-import { getSession } from './src/controllers/sessionController';
 import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
-import NavigationBar from './src/components/NavigationBar';
-import { useFonts } from 'expo-font';
-
-// The component in LogoutButton.jsx is no longer used, 
-// its button has been replaced 
-// in the component in NavigationBar.jsx 
 
 import Layout from './src/styles/layoutMock';
-import { ThemeController } from './src/controllers/themeController';
+
 
 const App = () => {
     const [user, setUser] = useState(getSession());
@@ -34,7 +32,7 @@ const App = () => {
     return (
         <ThemeController>
             <Router>
-                <View style={styles.app}>
+                <View>
                     <NavigationBar user={user} updateUser={updateUser}/>
                     <Routes>
                         <Route path='/' element={<Home user={user}/>} />

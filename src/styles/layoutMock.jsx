@@ -24,8 +24,8 @@ Excepteur sint occaecat cupidatat non proident, \
 sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 const Layout = () => {
-    const { toggleTheme } = useContext(themeContext);
-    const styles = createStyles();
+    const { toggleTheme, colors } = useContext(themeContext);
+    const styles = createStyles(colors);
     const [inputs, setInputs] = useState([{ idx: 1, value: '' }]);
 
     const addInput = () => {
@@ -45,36 +45,7 @@ const Layout = () => {
     return (
         <ScrollView style={styles.background}>
 
-            {/* navigation bar */}
-            <View>
-                <View style={styles.navigationBar}>
-                    <Pressable
-                        onPress={toggleTheme}
-                        style={({ pressed }) => [
-                            { opacity: pressed ? 0.5 : 1.0 }
-                        ]}
-                    >
-                        <Text style={styles.navigationLink}>
-                        🌘︎
-                        </Text>
-                    </Pressable>
-                    <Pressable style={({ pressed }) => [
-                        { opacity: pressed ? 0.5 : 1.0 }
-                    ]} onPress={() => {/* handle login */}}>
-                        <Text style={styles.navigationLink}>Login</Text>
-                    </Pressable>
-                    <Pressable style={({ pressed }) => [
-                        { opacity: pressed ? 0.5 : 1.0 }
-                    ]} onPress={() => {/* handle logout */}}>
-                        <Text style={styles.navigationLink}>Logout</Text>
-                    </Pressable>
-                    <Pressable style={({ pressed }) => [
-                        { opacity: pressed ? 0.5 : 1.0 }
-                    ]} onPress={() => {/* handle register */}}>
-                        <Text style={styles.navigationLink}>Register</Text>
-                    </Pressable>
-                </View>
-            </View>
+
 
             {/* typography */}
             <Text style={styles.h1}>Heading 1</Text>
