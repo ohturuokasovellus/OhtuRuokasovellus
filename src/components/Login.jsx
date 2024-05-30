@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from '../Router';
 import { styles } from '../styles/styles';
 import { createSession } from '../controllers/sessionController';
+import apiUrl from '../utils/apiUrl';
 import { loginValidationSchema } from '../utils/formValidationSchemas';
 
 const LoginForm = ({ updateUser }) => {
@@ -19,7 +20,7 @@ const LoginForm = ({ updateUser }) => {
     const handleSubmit = async (values, actions) => {
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/login',
+                `${apiUrl}/login`,
                 values
             );
             actions.setSubmitting(false);
@@ -34,6 +35,7 @@ const LoginForm = ({ updateUser }) => {
             navigate('/');
 
         } catch (error) {
+            console.error(error);
             setErrorMessage('Incorrect username or/and password');
             actions.setFieldError('general', 'Wrong credentials');
             actions.setSubmitting(false);
@@ -79,15 +81,20 @@ const LoginForm = ({ updateUser }) => {
                     {errorMessage ? (
                         <Text style={styles.errorText}>{errorMessage}</Text>
                     ) : null}
-                    <Pressable style={styles.button} onPress={handleSubmit}
-                        title="Login" disabled={isSubmitting}>
-                        <Text style={ styles.buttonText }> login </Text>
-                    </Pressable>
-                    <Pressable style={styles.button} title='Register'
-                        onPress={() => navigate('/register')}>
-                        <Text style={ styles.buttonText }>register</Text>
-                    </Pressable>
-
+                    <View style={ styles.button }>
+                        <Pressable onPress={handleSubmit} 
+                            id='log_user_in_button'
+                            title="Login" disabled={isSubmitting}>
+                            <Text style={ styles.buttonText }> login </Text>
+                        </Pressable>
+                    </View>
+                    <Text>Dont have an account yet?</Text>
+                    <View style={ styles.button }>
+                        <Pressable title="Register"
+                            onPress={() => navigate('/register')}>
+                            <Text style={ styles.buttonText }>register</Text>
+                        </Pressable>
+                    </View>
                     <Pressable style={styles.button}
                         title='Register as a Restauraunt User'
                         onPress={() => navigate('/register-restaurant')}>

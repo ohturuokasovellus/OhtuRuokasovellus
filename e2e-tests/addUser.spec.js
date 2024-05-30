@@ -41,9 +41,9 @@ const initTestDB = async () => {
     ];
 
     for (const user of users) {
-        // eslint-disable-next-line id-length
-        const pw = hash(user.password);
-        await insertUser(user.username, pw, user.email, user.restaurantId);
+        const password = hash(user.password);
+        await insertUser(user.username, password, user.email, 
+            user.restaurantId);
     }
 };
 
@@ -60,7 +60,7 @@ test.describe('adding restaurant users: unauthorised', () => {
             await page.getByPlaceholder('Username').fill('test2');
             await page.getByPlaceholder('Password').click();
             await page.getByPlaceholder('Password').fill('Best456@');
-            await page.getByText('login').click();
+            await page.locator('#log_user_in_button').click();
 
             await page.waitForURL('/');
             await expect(page.locator('text=Welcome,')).toBeVisible();
@@ -85,7 +85,7 @@ test.describe('adding restaurant users: authorised', () => {
         await page.getByPlaceholder('Username').fill('test');
         await page.getByPlaceholder('Password').click();
         await page.getByPlaceholder('Password').fill('Test123!');
-        await page.getByText('login').click();
+        await page.locator('#log_user_in_button').click();
         await page.getByText('add user').click();
     });
 

@@ -51,7 +51,7 @@ test.describe('home page', () => {
             await page.getByPlaceholder('Username').fill('test2');
             await page.getByPlaceholder('Password').click();
             await page.getByPlaceholder('Password').fill('Best456@');
-            await page.getByText('login').click();
+            await page.locator('#log_user_in_button').click();
             await page.waitForURL('/');
             await expect(page).toHaveURL('/');
             await expect(page.locator('#root'))
@@ -65,7 +65,7 @@ test.describe('home page', () => {
             await page.getByPlaceholder('Username').fill('test');
             await page.getByPlaceholder('Password').click();
             await page.getByPlaceholder('Password').fill('Test123!');
-            await page.getByText('login').click();
+            await page.locator('#log_user_in_button').click();
             await page.waitForURL('/');
             await expect(page).toHaveURL('/');
             await expect(page.locator('#root'))
@@ -83,7 +83,7 @@ test.describe('home page', () => {
             await page.getByPlaceholder('Username').fill('test');
             await page.getByPlaceholder('Password').click();
             await page.getByPlaceholder('Password').fill('Test123!');
-            await page.getByText('login').click();
+            await page.locator('#log_user_in_button').click();
             await page.waitForURL('/');
             await page.getByText('add user').click();
             await expect(page).toHaveURL(/\/add-users$/);

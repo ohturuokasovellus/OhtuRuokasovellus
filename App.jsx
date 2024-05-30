@@ -6,12 +6,17 @@ import LoginForm from './src/components/Login';
 import QRForm from './src/components/QRForm';
 import RegisterRestaurant from './src/components/RegisterRestaurant';
 import AddUser from './src/components/AddUser';
-import LogoutButton from './src/components/LogoutButton';
 import Router, { Routes, Route } from './src/Router';
 import { styles } from './src/styles/styles';
 import { getSession } from './src/controllers/sessionController';
 import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
+import NavigationBar from './src/components/NavigationBar';
+import { useFonts } from 'expo-font';
+
+// The component in LogoutButton.jsx is no longer used, 
+// its button has been replaced 
+// in the component in NavigationBar.jsx 
 
 import Layout from './src/styles/layoutMock';
 import { ThemeController } from './src/controllers/themeController';
@@ -22,13 +27,15 @@ const App = () => {
         setUser(userData);
     };
 
+    useFonts({
+        'Jacquard12Regular': require('./assets/fonts/Jacquard12Regular.ttf'),
+    });
+
     return (
         <ThemeController>
             <Router>
                 <View style={styles.app}>
-                    {user &&
-                    <LogoutButton updateUser={updateUser}/>
-                    }
+                    <NavigationBar user={user} updateUser={updateUser}/>
                     <Routes>
                         <Route path='/' element={<Home user={user}/>} />
                         <Route path='/register'

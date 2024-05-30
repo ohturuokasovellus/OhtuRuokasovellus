@@ -8,6 +8,7 @@ import { useParams } from '../Router';
 
 import { MealCard } from './ui/Card';
 import createStyles from '../styles/layout';
+import apiUrl from '../utils/apiUrl';
 
 const MealList = () => {
     const { restId } = useParams();
@@ -24,14 +25,13 @@ const MealList = () => {
             setRestaurantId(restId);
             try {
                 const response = await axios.get(
-                    `http://localhost:8080/api/meals/${restaurantId}`,
+                    `${apiUrl}/meals/${restaurantId}`,
                 );
                 const responseMeals = response.data;
                 const updatedMeals = await Promise.all(
                     responseMeals.map(async (meal) => {
                         const imageRes = await axios.get(
-                            `http://localhost:8080/api/meals/images/
-                                ${meal.meal_id}`
+                            `${apiUrl}/meals/images/${meal.meal_id}`
                         );
                         return {
                             ...meal,

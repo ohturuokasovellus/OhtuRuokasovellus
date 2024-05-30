@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios';
 import * as yup from 'yup';
+import apiUrl from '../utils/apiUrl';
 
 const validationSchema = yup.object().shape({
     mealName: yup.string()
@@ -95,12 +96,12 @@ const CreateMeal = () => {
         const { mealName, imageUri } = values;
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/meals',
+                `${apiUrl}/meals`,
                 { mealName }
             );
             const mealId = response.data.mealId;
             await axios.post(
-                `http://localhost:8080/api/meals/images/${mealId}`,
+                `${apiUrl}/meals/images/${mealId}`,
                 imageUri,
                 {
                     headers: { 'Content-Type': 'image/jpeg' },
