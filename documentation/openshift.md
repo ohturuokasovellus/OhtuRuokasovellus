@@ -21,6 +21,15 @@ Run this command in your terminal to log the `oc` tool in to your account.
 The login seems to expire automatically in 24 hours,
 so you have to repeat this step daily.
 
+### Usage
+
+Whenever making changes to any of the YAML configuration files,
+they have to made into force by running
+
+```
+oc apply -f myconfigfile.yaml
+```
+
 
 ## Docker image
 
