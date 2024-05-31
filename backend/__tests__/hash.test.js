@@ -1,7 +1,8 @@
 const { hash, compareHashes } = require('../services/hash');
 
 // hash of "hello world" computed with an online tool
-const digest = 'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9';
+const digest =
+    'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9';
 
 describe('hash', () => {
     test('hashing outputs expected digest', () => {
@@ -22,5 +23,5 @@ describe('hash', () => {
         // change the first character
         const digest2 = 'a' + digest.substring(1);
         expect(compareHashes(digest, digest2)).toBe(false);
-    })
+    });
 });

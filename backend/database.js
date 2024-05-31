@@ -1,6 +1,6 @@
 require('dotenv').config();
 const postgres = require('postgres');
-const { compareHashes } = require('./services/hash')
+const { compareHashes } = require('./services/hash');
 
 //const sql = postgres('postgres://username:password@host:port/database', {
 //  host: process.env.POSTGRES_IP, // Postgres ip address[s] or domain name[s]
