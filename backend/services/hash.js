@@ -11,8 +11,8 @@ const hash = content => {
 
 /**
  * Securely compares the two hashes.
- * @param {string} hash1 
- * @param {string} hash2 
+ * @param {string} hash1 The first hash hex digest to compare.
+ * @param {string} hash2 The second hash hex digest to compare.
  * @returns {boolean} Whether the two hashes equal.
  */
 const compareHashes = (hash1, hash2) => {
