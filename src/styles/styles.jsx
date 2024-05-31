@@ -27,63 +27,74 @@ const createStyles = () => {
         body: {
             fontSize: 16,
             color: colors.text,
+            fontFamily: 'Roboto-Regular',
         },
         h1: {
             fontSize: 32,
-            fontWeight: 'bold',
             marginVertical: 12,
             color: colors.text,
+            fontFamily: 'Roboto-Black',
         },
         h2: {
             fontSize: 28,
             fontWeight: 'bold',
             marginVertical: 12,
             color: colors.text,
+            fontFamily: 'Roboto-Black',
         },
         h3: {
             fontSize: 24,
             fontWeight: 'bold',
             marginVertical: 12,
             color: colors.text,
+            fontFamily: 'Roboto-Black',
         },
         h4: {
             fontSize: 22,
             fontWeight: 'bold',
             marginVertical: 12,
             color: colors.text,
+            fontFamily: 'Roboto-Bold',
         },
         h5: {
             fontSize: 20,
             fontWeight: 'bold',
             marginVertical: 12,
             color: colors.text,
+            fontFamily: 'Roboto-Bold',
         },
         h6: {
             fontSize: 18,
             fontWeight: 'bold',
             marginVertical: 12,
             color: colors.text,
+            fontFamily: 'Roboto-Bold',
         },
         caption: {
             fontSize: 12,
             color: colors.text,
+            fontFamily: 'Roboto-Italic',
         },
         smallCaption: {
             fontSize: 10,
             color: colors.text,
+            fontFamily: 'Roboto-Italic',
         },
         error: {
             fontSize: 14,
             color: colors.error,
             marginBottom: 8,
+            fontFamily: 'Roboto-Bold',
         },
         link: {
             fontSize: 16,
             color: colors.link,
             textDecorationLine: 'underline',
+            fontFamily: 'Roboto-Regular',
         },
         placeholderText: {
-            color: colors.placeholderText
+            color: colors.placeholderText,
+            fontFamily: 'Roboto-Regular',
         },
 
         // buttons
@@ -107,14 +118,14 @@ const createStyles = () => {
         },
         buttonText: {
             fontSize: 18,
-            fontWeight: 'bold',
-            textTransform: 'lowercase',
+            textTransform: 'uppercase',
             color: colors.buttonText,
+            fontFamily: 'Roboto-Bold',
         },
         iconButtonText: {
             fontsize: 32,
-            fontWeight: 'bold',
             color: colors.background,
+            fontFamily: 'Roboto-Bold',
         },
 
         // input fields
@@ -225,7 +236,7 @@ const createStyles = () => {
             padding: 8,
             color: colors.background,
             fontSize: 16,
-            fontWeight: 'bold',
+            fontFamily: 'Roboto-Black',
             textTransform: 'uppercase',
         },
     });

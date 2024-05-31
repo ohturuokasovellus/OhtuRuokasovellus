@@ -29,7 +29,10 @@ const App = () => {
     };
 
     useFonts({
-        'Jacquard12Regular': require('./assets/fonts/Jacquard12Regular.ttf'),
+        'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
+        'Roboto-Bold': require('./assets/fonts/Roboto-Bold.ttf'),
+        'Roboto-Black': require('./assets/fonts/Roboto-Black.ttf'),
+        'Roboto-Italic': require('./assets/fonts/Roboto-Italic.ttf'),
     });
 
     return (
