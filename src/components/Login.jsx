@@ -6,15 +6,22 @@ import { View, Text, ScrollView } from 'react-native';
 import { useNavigate } from '../Router';
 import { createSession, deleteSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
+import { useTranslation } from 'react-i18next';
 import { loginValidationSchema } from '../utils/formValidationSchemas';
 
 import createStyles from '../styles/layout';
 import { Button } from './ui/Buttons';
 import { Input, PasswordInput } from './ui/InputFields';
 
-
-
+/**
+ * Render a form for user login, validate using a yup schema.
+ * On submission, send login data to the server.
+ *
+ * @param {{ updateUser: Function }} props - handle user session management;
+ * @returns {React.JSX.Element}
+ */
 const LoginForm = ({ updateUser }) => {
+    const {t} = useTranslation();
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     useEffect(() => {
@@ -72,7 +79,7 @@ const LoginForm = ({ updateUser }) => {
                             onChangeText={handleChange('username')}
                             onBlur={handleBlur('username')}
                             value={values.username}
-                            placeholder='username'
+                            placeholder={t('USERNAME')}
                         />
                         {touched.username && errors.username && (
                             <Text style={styles.error}>{errors.username}</Text>
@@ -82,7 +89,7 @@ const LoginForm = ({ updateUser }) => {
                             onChangeText={handleChange('password')}
                             onBlur={handleBlur('password')}
                             value={values.password}
-                            placeholder='password'
+                            placeholder={t('PASSWORD')}
                         />
                         {touched.password && errors.password && (
                             <Text style={styles.error}>{errors.password}</Text>
@@ -93,23 +100,23 @@ const LoginForm = ({ updateUser }) => {
                         <Button
                             styles={styles}
                             onPress={handleSubmit}
-                            text='login'
+                            text={t('LOGIN')}
                             id='login-button'
                             disabled={isSubmitting}
                         />
                         <Text style={styles.body}>
-                            Dont have an account yet?
+                            {t('DONT_HAVE_AN_ACCOUNT_YET')}
                         </Text>
                         <Button
                             styles={styles}
                             onPress={() => navigate('/register')}
-                            text='register'
+                            text={t('REGISTER')}
                             id='register-button'
                         />
                         <Button
                             styles={styles}
                             onPress={() => navigate('/register-restaurant')}
-                            text='register as a restaurant'
+                            text={t('REGISTER_RESTAURANT')}
                             id='register-restaurant-button'
                         />
                     </View>

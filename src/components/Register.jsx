@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Text, View, ScrollView } from 'react-native';
 
 import { Link, useNavigate } from '../Router';
@@ -34,6 +35,7 @@ const validationSchema = registrationValidationSchema;
  */
 
 const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
+    const {t} = useTranslation();
     const [formError, setFormError] = useState('');
     const formik = useFormik({
         initialValues,
@@ -63,7 +65,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 ) : null}
                 <Input
                     styles={styles}
-                    placeholder='username'
+                    placeholder={t('USERNAME')}
                     value={formik.values.username}
                     onChangeText={formik.handleChange('username')}
                     onBlur={formik.handleBlur('username')}
@@ -73,7 +75,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 )}
                 <Input
                     styles={styles}
-                    placeholder='email'
+                    placeholder={t('EMAIL')}
                     value={formik.values.email}
                     onChangeText={formik.handleChange('email')}
                     onBlur={formik.handleBlur('email')}
@@ -83,7 +85,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 )}
                 <PasswordInput
                     styles={styles}
-                    placeholder='password'
+                    placeholder={t('PASSWORD')}
                     value={formik.values.password}
                     onChangeText={formik.handleChange('password')}
                     onBlur={formik.handleBlur('password')}
@@ -93,7 +95,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 )}
                 <PasswordInput
                     styles={styles}
-                    placeholder='confirm password'
+                    placeholder={t('CONFIRM_PASSWORD')}
                     value={formik.values.confirmPassword}
                     onChangeText={formik.handleChange('confirmPassword')}
                     onBlur={formik.handleBlur('confirmPassword')}
@@ -101,17 +103,17 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 {formik.touched.confirmPassword &&
                 formik.errors.confirmPassword &&
                 <Text style={styles.error}>
-                    {formik.errors.confirmPassword}
+                    {t(formik.errors.confirmPassword)}
                 </Text>
                 }
                 <Button
                     styles={styles}
                     onPress={formik.handleSubmit}
-                    text='register'
+                    text={t('REGISTER')}
                 />
-                <Text style={styles.body}>already registered?</Text>
+                <Text style={styles.body}>{t('ALREADY_REGISTERED')}</Text>
                 <Link to='/login'>
-                    <Text style={styles.link}>login</Text>
+                    <Text style={styles.link}>{t('LOGIN')}</Text>
                 </Link>
             </View>
         </ScrollView>

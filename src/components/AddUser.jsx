@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { Text, View, ScrollView } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { Link, useNavigate } from '../Router';
 import apiUrl from '../utils/apiUrl';
@@ -25,6 +26,7 @@ const initialValues = {
  */
 
 const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
+    const {t} = useTranslation();
     const [formError, setFormError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const formik = useFormik({
@@ -87,7 +89,7 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                             <View key={index} style={styles.flexInputContainer}>
                                 <FlexInput
                                     styles={styles}
-                                    placeholder='email'
+                                    placeholder={t('EMAIL')}
                                     value={email}
                                     onChangeText={text => {
                                         const updatedEmails =
@@ -116,20 +118,20 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                         />
                         <PasswordInput
                             styles={styles}
-                            placeholder='confirm with password'
+                            placeholder={t('CONFIRM_WITH_PASSWORD')}
                             value={formik.values.password}
                             onChangeText={formik.handleChange('password')}
                         />
                         <Button
                             styles={styles}
                             onPress={formik.handleSubmit}
-                            text='add users'
+                            text={t('ADD_USERS')}
                             id='add-users-button'
                         />
                     </View>
                 )}
                 <Link to='/'>
-                    <Text style={styles.link}>back to home</Text>
+                    <Text style={styles.link}>{t('BACK_TO_HOME')}</Text>
                 </Link>
             </View>
         </ScrollView>

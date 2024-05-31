@@ -1,14 +1,26 @@
 import { React, useState, useEffect } from 'react';
 import { View, Text, FlatList, ScrollView } from 'react-native';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+
 import { useParams } from '../Router';
-// import { styles } from '../styles/styles';
+import apiUrl from '../utils/apiUrl';
 
 import { MealCard } from './ui/Card';
 import createStyles from '../styles/layout';
-import apiUrl from '../utils/apiUrl';
 
+/**
+ * Render a restaurant specific meal list based on restaurantId.
+ * @param {Function} fetchMeals - fetches meal list from the server;
+ *  args: URL GET parameter
+ * (restId)
+ * @param {Function} handlePress - opens up additional info of the meal;
+ *  args: selected meal on the meal list
+ * (meal)
+ * @returns {React.JSX.Element}
+ */
 const MealList = () => {
+    const {t} = useTranslation();
     const { restId } = useParams();
     const [selectedMeal, setSelectedMeal] = useState(null);
     const [meals, setMeals] = useState([]);
@@ -70,7 +82,9 @@ const MealList = () => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
-                <Text style={styles.h1}>Ravintola {restaurantName}</Text>
+                <Text style={styles.h1}>
+                    {t('RESTAURANT')} {restaurantName}
+                </Text>
                 <FlatList
                     data={meals}
                     keyExtractor={(item) => item.meal_id.toString()}

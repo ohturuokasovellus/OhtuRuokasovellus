@@ -21,6 +21,7 @@ test.describe('navbar', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/');
+        await page.locator('#english_button').click();
     });
 
     test('navbar login button keeps user in login page', async ({ page }) => {
@@ -35,8 +36,8 @@ test.describe('navbar', () => {
     
     test('logged in user can use navbar home button', async ({ page }) => {
         await expect(page).toHaveURL(/\/login$/);
-        await page.fill('input[placeholder="Username"]', 'testi');
-        await page.fill('input[placeholder="Password"]', 'Testi123!');
+        await page.fill('input[id="username_input"]', 'testi');
+        await page.fill('input[id="password_input"]', 'Testi123!');
         await page.locator('#log_user_in_button').click();
         await page.waitForURL('/');
         await page.locator('#to_qr_form_button').click();
@@ -49,8 +50,8 @@ test.describe('navbar', () => {
         await createRestaurantUser();
         
         await expect(page).toHaveURL(/\/login$/);
-        await page.fill('input[placeholder="Username"]', 'testaurante');
-        await page.fill('input[placeholder="Password"]', 'Testaurante123!');
+        await page.fill('input[id="username_input"]', 'testaurante');
+        await page.fill('input[id="password_input"]', 'Testaurante123!');
         await page.locator('#log_user_in_button').click();
         await page.waitForURL('/');
         await page.locator('#to_create_meal_form_button').click();

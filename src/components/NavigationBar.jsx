@@ -1,14 +1,17 @@
 import { useContext } from 'react';
 import { View } from 'react-native';
 
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from '../Router';
 import { deleteSession } from '../controllers/sessionController';
 import { themeContext } from '../controllers/themeController';
 
 import { NavButton } from './ui/Buttons';
 import createStyles from '../styles/layout';
+import LanguageSwitch from './LanguageSwitch';
 
 const NavigationBar = ({ user, updateUser }) => {
+    const {t} = useTranslation();
     const navigate = useNavigate();
     const logOutPress = () => {
         deleteSession();
@@ -30,7 +33,7 @@ const NavigationBar = ({ user, updateUser }) => {
                     <NavButton
                         styles={styles}
                         onPress={() => navigate('/')}
-                        text='home'
+                        text={t('HOME')}
                         id='navigation-home'
                     />
             }
@@ -38,7 +41,7 @@ const NavigationBar = ({ user, updateUser }) => {
                     <NavButton
                         styles={styles}
                         onPress={() => navigate('/login')}
-                        text='login'
+                        text={t('LOGIN')}
                         id='navigation-login'
                     />
             }
@@ -46,7 +49,7 @@ const NavigationBar = ({ user, updateUser }) => {
                     <NavButton
                         styles={styles}
                         onPress={() => navigate('/register')}
-                        text='register'
+                        text={t('REGISTER')}
                         id='navigation-register'
                     />
             }
@@ -54,7 +57,7 @@ const NavigationBar = ({ user, updateUser }) => {
                     <NavButton
                         styles={styles}
                         onPress={() => navigate('/qr-form')}
-                        text='QR form'
+                        text={t('QR_FORM')}
                         id='navigation-qr-form'
                     />
             }
@@ -62,7 +65,7 @@ const NavigationBar = ({ user, updateUser }) => {
                     <NavButton
                         styles={styles}
                         onPress={() => navigate('/create-meal')}
-                        text='add meal'
+                        text={t('ADD_A_MEAL')}
                         id='navigation-add-meal'
                     />
             }
@@ -70,10 +73,11 @@ const NavigationBar = ({ user, updateUser }) => {
                     <NavButton
                         styles={styles}
                         onPress={logOutPress}
-                        text='logout'
+                        text={t('LOGOUT')}
                         id='navigation-logout'
                     />
             }
+            <LanguageSwitch />
         </View>
     );
 };

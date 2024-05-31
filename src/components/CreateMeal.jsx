@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Text, View, Image, ScrollView} from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 
@@ -19,6 +20,7 @@ const initialValues = {
 const validationSchema = mealValidationSchema;
 
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
+    const {t} = useTranslation();
     const [formError, setFormError] = useState('');
 
     const formik = useFormik({
@@ -76,7 +78,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 ) : null}
                 <Input
                     styles={styles}
-                    placeholder='Aterian nimi'
+                    placeholder={t('NAME_OF_THE_MEAL')}
                     value={formik.values.mealName}
                     onChangeText={formik.handleChange('mealName')}
                 />
@@ -86,7 +88,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 <Button
                     styles={styles}
                     onPress={openImagePicker}
-                    text='Valitse kuva laitteelta'
+                    text={t('SELECT_A_IMAGE_FROM_DEVICE')}
                     id='image-picker-button'
                 />
                 {formik.touched.imageUri && formik.errors.imageUri &&
@@ -95,7 +97,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 <Button
                     styles={styles}
                     onPress={formik.handleSubmit}
-                    text='Luo ateria'
+                    text={t('CREATE_A_MEAL')}
                     id='create-meal-button'
                 />
             </View>

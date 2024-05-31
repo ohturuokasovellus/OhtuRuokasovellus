@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Text, View, ScrollView } from 'react-native';
 
 import QRGenerator from '../utils/QRGenerator';
@@ -20,6 +21,9 @@ const initialValues = {
  */
 const QRForm = () => {
     let [urlView, setUrlView] = useState(null);
+
+    const {t} = useTranslation();
+
     const onSubmit = urlObject => {
         const url = urlObject.urlToBeGenerated;
         setUrlView(QRGenerator(url));
@@ -38,13 +42,13 @@ const QRForm = () => {
                 <Text style={styles.h1}>Create a QR Code</Text>
                 <Input
                     styles={styles}
-                    placeholder='URL'
+                    placeholder={t('TYPE_A_URL')}
                     onChangeText={formik.handleChange('urlToBeGenerated')}
                 />
                 <Button
                     styles={styles}
                     onPress={formik.handleSubmit}
-                    text='Generate QR Code'
+                    text={t('GENERATE_A_URL')}
                     id='generate-qr-button'
                 />
                 <View style={styles.qrContainer}>
