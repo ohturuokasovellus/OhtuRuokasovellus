@@ -1,4 +1,4 @@
-import QRGenerator from '../components/QRGenerator';
+import QRGenerator from '../utils/QRGenerator';
 
 describe('QRGenerator', () => {
     test('QRGenerator returns a qr', () => {
