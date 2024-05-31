@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Text, Pressable, View, TextInput } from 'react-native';
-import { Link, useNavigate } from '../Router';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { stylesForm } from '../styles/styles';
+import { Text, View, ScrollView } from 'react-native';
 
-const styles = stylesForm;
+import { Link, useNavigate } from '../Router';
+import apiUrl from '../utils/apiUrl';
+
+import createStyles from '../styles/layout';
+import { Button, SmallButton } from './ui/Buttons';
+import { FlexInput, PasswordInput } from './ui/InputFields';
 
 const initialValues = {
     emails: [''],
@@ -51,78 +54,86 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
         formik.setFieldValue('emails', updatedEmails);
     };
 
+    const styles = createStyles();
+
     return (
-        <View style={styles.container}>
-            {formError ? (
-                <Text style={styles.error}>{formError}</Text>
-            ) : null}
-            {successMessage ? (
-                <View>
-                    <Text>{successMessage}</Text>
+        <ScrollView style={styles.background}>
+            <View style={styles.container}>
+                <Text style={styles.h1}>
+                    Add Users to a Restaurant
+                </Text>
+                {formError ? (
+                    <Text style={styles.error}>{formError}</Text>
+                ) : null}
+                {successMessage ? (
                     <View>
-                        {results.map((result, index) => (
-                            <Text
-                                key={index}
-                                style={result.status ===
+                        <Text style={styles.body}>{successMessage}</Text>
+                        <View>
+                            {results.map((result, index) => (
+                                <Text
+                                    key={index}
+                                    style={result.status ===
                                     'user added successfully' ?
-                                    styles.success : styles.error
-                                }>
-                                {result.email}: {result.status}
-                            </Text>
-                        ))}
-                    </View>
-                </View>
-            ) : (
-                <View>
-                    {formik.values.emails.map((email, index) => (
-                        <View key={index} style={styles.addEmailContainer}>
-                            <TextInput
-                                style={styles.addEmailInput}
-                                placeholder='email'
-                                value={email}
-                                onChangeText={text => {
-                                    const updatedEmails =
-                                    [...formik.values.emails];
-                                    updatedEmails[index] = text;
-                                    formik.setFieldValue(
-                                        'emails', updatedEmails
-                                    );
-                                }}
-                            />
-                            {formik.values.emails.length > 1 && (
-                                <Pressable
-                                    style={styles.smallButton}
-                                    onPress={() => removeEmailInput(index)}>
-                                    <Text style={styles.smallButtonText}>
-                                        –
-                                    </Text>
-                                </Pressable>
-                            )}
+                                        styles.body : styles.error
+                                    }>
+                                    {result.email}: {result.status}
+                                </Text>
+                            ))}
                         </View>
-                    ))}
-                    <Pressable
-                        style={styles.smallButton}
-                        onPress={addEmailInput}>
-                        <Text style={styles.smallButtonText}>+</Text>
-                    </Pressable>
-                    <TextInput
-                        style={styles.input}
-                        placeholder='confirm with password'
-                        secureTextEntry
-                        value={formik.values.password}
-                        onChangeText={formik.handleChange('password')}
-                    />
-                    <Pressable
-                        style={styles.button}
-                        onPress={formik.handleSubmit}>
-                        <Text style={styles.buttonText}>add users</Text>
-                    </Pressable>
-                </View>
-            )}
-            <Link to='/'>
-                <Text>back to home</Text>
-            </Link>
-        </View>
+                    </View>
+                ) : (
+                    <View>
+                        {formik.values.emails.map((email, index) => (
+                            <View key={index} style={styles.flexInputContainer}>
+                                <FlexInput
+                                    styles={styles}
+                                    placeholder='email'
+                                    value={email}
+                                    onChangeText={text => {
+                                        const updatedEmails =
+                                    [...formik.values.emails];
+                                        updatedEmails[index] = text;
+                                        formik.setFieldValue(
+                                            'emails', updatedEmails
+                                        );
+                                    }}
+                                />
+                                {formik.values.emails.length > 1 && (
+                                    <SmallButton
+                                        styles={styles}
+                                        onPress={() => removeEmailInput(index)}
+                                        text='–'
+                                        id='remove-email-button'
+                                    />
+                                )}
+                            </View>
+                        ))}
+                        <SmallButton
+                            styles={styles}
+                            onPress={addEmailInput}
+                            text='+'
+                            id='add-email-button'
+                        />
+                        <PasswordInput
+                            styles={styles}
+                            placeholder='confirm with password'
+                            value={formik.values.password}
+                            onChangeText={formik.handleChange('password')}
+                        />
+                        <Button
+                            styles={styles}
+                            onPress={formik.handleSubmit}
+                            text='add users'
+                            id='add-users-button'
+                        />
+                    </View>
+                )}
+                <Link to='/'>
+                    <Text style={styles.link}>back to home</Text>
+                </Link>
+            </View>
+        </ScrollView>
+        
     );
 };
 
@@ -147,7 +158,7 @@ const AddUser = (props) => {
         const { emails, password } = values;
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/add-users',
+                `${apiUrl}/add-users`,
                 {
                     emails,
                     restaurantId: user.restaurantId,
@@ -179,7 +190,7 @@ const AddUser = (props) => {
             results={results}
         />
     ) : (
-        <Text style={styles.error}>
+        <Text>
             401: unauthorised
         </Text>
     );

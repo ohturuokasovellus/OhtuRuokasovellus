@@ -18,10 +18,12 @@ const createStyles = () => {
             backgroundColor: colors.background,
         },
         container: {
+            maxWidth: 700,
             padding: 16,
             backgroundColor: colors.containerBackground,
             borderRadius: 8,
             marginVertical: 8,
+            alignSelf: 'center',
         },
 
         // text
