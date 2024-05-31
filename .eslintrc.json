@@ -30,7 +30,7 @@
         "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",
         "@stylistic/js/semi": ["error", "always"],
-        "id-length": ["error", { "min": 3 }],
+        "id-length": ["error", { "min": 3, "exceptions": ["t"]}],
         "camelcase": ["error", { "properties": "always" }],
         "@stylistic/js/indent": ["error", 4],
         "@stylistic/js/max-len": ["error", { "code": 80 }],

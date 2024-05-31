@@ -221,6 +221,18 @@ const isRestaurantUser = async userId => {
     return result.at(0).exists;
 };
 
+/**
+ * @param {string} urlName
+ * @returns {Promise<string>} url as a string
+ */
+const getSurveyUrl = async (urlName) => {
+    // const result = 'http://localhost:19006/restaurant/1';
+    const result = await sql`
+        SELECT url FROM urls WHERE name = ${urlName};
+    `;
+    return result;
+};
+
 module.exports = {
     sql,
     insertUser,
@@ -234,5 +246,7 @@ module.exports = {
     addMealImage,
     getMeals,
     isRestaurantUser,
+    // doesRestaurantNameExist,
+    getSurveyUrl,
     updateUserRestaurantByEmail
 };

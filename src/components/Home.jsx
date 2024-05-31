@@ -1,19 +1,26 @@
-import React, { useEffect } from 'react';
-import { Text, View, Pressable } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, View, ActivityIndicator, Pressable } from 'react-native';
 import { useNavigate } from '../Router';
 import { styles } from '../styling/styles';
+import { useTranslation } from 'react-i18next';
+import Survey, { fetchSurveyUrl } from './Survey';
 
 const Home = (props) => {
+    const {t} = useTranslation();
     const navigate = useNavigate();
+    const [surveyUrl, setSurveyUrl] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (!props.user) {
             navigate('/login');
+        } else {
+            fetchSurveyUrl(setSurveyUrl, setLoading);
         }
-    }, [props, navigate]);
-
-    if (!props.user) {
-        return null; // or render a loading indicator
+    }, [props.user, navigate]);
+    
+    if (!props.user || loading) {
+        return <ActivityIndicator size="large" color="#0000ff" />;
     }
 
     const username = props.user.username;
@@ -23,7 +30,7 @@ const Home = (props) => {
     return (
         <View>
             <Text style={styles.welcomeText}>
-                Welcome, {username}
+                {t('WELCOME')}, {username}
             </Text>
             {isRestaurantUser ? (
                 <>
@@ -45,6 +52,9 @@ const Home = (props) => {
                     </Pressable>
                 </>
             ) : null}
+            {surveyUrl && (
+                <Survey surveyUrl={surveyUrl}/>
+            )}
         </View>
     );
 };
