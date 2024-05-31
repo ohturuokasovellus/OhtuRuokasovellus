@@ -1,8 +1,11 @@
 import axios from 'axios';
-import { Text, View, TouchableOpacity, Linking } from 'react-native';
+import { Linking } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { styles } from '../styling/styles';
+
 import apiUrl from '../utils/apiUrl';
+
+import createStyles from '../styles/layout';
+import { Button } from './ui/Buttons';
 
 /**
  * Renders a survey link
@@ -16,14 +19,15 @@ const Survey = ({ surveyUrl } ) => {
         Linking.openURL(surveyUrl);
     };
 
+    const styles = createStyles();
+
     return (
-        <View style={ styles.surveyButton }>
-            <TouchableOpacity onPress={ openLink }>
-                <Text style={ styles.buttonText }>
-                    {t('SURVEY')}
-                </Text>
-            </TouchableOpacity>
-        </View>
+        <Button
+            styles={styles}
+            onPress={ openLink }
+            text={t('SURVEY')}
+            id='survey-link'
+        />
     );
 };
 
@@ -35,7 +39,7 @@ const Survey = ({ surveyUrl } ) => {
 export const fetchSurveyUrl = async (setSurveyUrl, setLoading) => {
     try {
         const res = await axios.get(
-            `${apiUrl}/url/survey`
+            `${apiUrl}/layout`
         );
         setSurveyUrl(res.data);
     } catch (error) {
