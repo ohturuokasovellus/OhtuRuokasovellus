@@ -91,6 +91,15 @@ const getUserIdByEmail = async (email) => {
     return result.at(0).user_id;
 };
 
+const getRestaurantIdByUserId = async (userId) => {
+    const result = await sql`
+    SELECT restaurant_id FROM users
+    WHERE user_id = ${userId}
+    LIMIT 1
+    `;
+    return result.at(0).restaurant_id;
+};
+
 /**
  * Update user's restaurant id based on email.
  * @param {string} email
@@ -233,6 +242,7 @@ module.exports = {
     doesUsernameExist,
     getUser,
     getUserIdByEmail,
+    getRestaurantIdByUserId,
     doesEmailExist,
     doesRestaurantExist,
     insertMeal,

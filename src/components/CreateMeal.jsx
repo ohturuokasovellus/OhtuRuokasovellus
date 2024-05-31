@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import apiUrl from '../utils/apiUrl';
 import { useNavigate } from '../Router';
+import { getSession } from '../controllers/sessionController';
 
 const validationSchema = yup.object().shape({
     mealName: yup.string()
@@ -114,7 +115,10 @@ const CreateMeal = (props) => {
         try {
             const response = await axios.post(
                 `${apiUrl}/meals`,
-                { mealName, restaurantUser }
+                { mealName, restaurantUser },
+                {
+                    headers: { Authorization: 'Bearer ' + getSession().token }
+                }
             );
             const mealId = response.data.mealId;
             await axios.post(
