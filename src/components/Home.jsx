@@ -35,12 +35,12 @@ const Home = (props) => {
             {isRestaurantUser ? (
                 <>
                     <Text style={styles.welcomeText}>
-                        You are logged in as a restaurant user.
+                        {t('YOU_ARE_LOGGED_AS_RESTAURANT_USER')}
                     </Text>
                     <Pressable style={styles.button} title='Add user' onPress={
                         () => navigate('/add-users')
                     }>
-                        <Text style={styles.buttonText}>add user</Text>
+                        <Text style={styles.buttonText}>{t('ADD_USER')}</Text>
                     </Pressable>
                     <Pressable style={styles.button} title='restaurant page'
                         onPress={
@@ -48,7 +48,9 @@ const Home = (props) => {
                                 `/restaurant/${restaurantId}`
                             )
                         }>
-                        <Text style={styles.buttonText}>restaurant page</Text>
+                        <Text style={styles.buttonText}>
+                            {t('RESTAURANT_PAGE')}
+                        </Text>
                     </Pressable>
                 </>
             ) : null}

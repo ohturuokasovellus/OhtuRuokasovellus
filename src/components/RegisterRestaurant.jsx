@@ -60,59 +60,67 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             ) : null}
             <TextInput
                 style={styles.input}
-                placeholder='name of the restaurant'
+                placeholder={t('NAME_OF_THE_RESTAURANT')}
                 value={formik.values.restaurantName}
                 onChangeText={formik.handleChange('restaurantName')}
                 onBlur={formik.handleBlur('restaurantName')}
+                id="name_of_the_restaurant_input"
             />
             {formik.touched.restaurantName && formik.errors.restaurantName && (
-                <Text style={styles.error}>{formik.errors.restaurantName}</Text>
+                <Text style={styles.error}>
+                    {t(formik.errors.restaurantName)}
+                </Text>
             )}
             <TextInput
                 style={styles.input}
-                placeholder='username'
+                placeholder={t('USERNAME')}
                 value={formik.values.username}
                 onChangeText={formik.handleChange('username')}
                 onBlur={formik.handleBlur('username')}
+                id="username_input"
             />
             {formik.touched.username && formik.errors.username && (
-                <Text style={styles.error}>{formik.errors.username}</Text>
+                <Text style={styles.error}>{t(formik.errors.username)}</Text>
             )}
             <TextInput
                 style={styles.input}
-                placeholder='email'
+                placeholder={t('EMAIL')}
                 value={formik.values.email}
                 onChangeText={formik.handleChange('email')}
                 onBlur={formik.handleBlur('email')}
+                id="email_input"
             />
             {formik.touched.email && formik.errors.email && (
-                <Text style={styles.error}>{formik.errors.email}</Text>
+                <Text style={styles.error}>{t(formik.errors.email)}</Text>
             )}
             <TextInput
                 style={styles.input}
-                placeholder='password'
+                placeholder={t('PASSWORD')}
                 value={formik.values.password}
                 onChangeText={formik.handleChange('password')}
                 onBlur={formik.handleBlur('password')}
+                id="password_input"
                 secureTextEntry
             />
             {formik.touched.password && formik.errors.password && (
-                <Text style={styles.error}>{formik.errors.password}</Text>
+                <Text style={styles.error}>{t(formik.errors.password)}</Text>
             )}
             <TextInput
                 style={styles.input}
-                placeholder='confirm password'
+                placeholder={t('CONFIRM_PASSWORD')}
                 value={formik.values.confirmPassword}
                 onChangeText={formik.handleChange('confirmPassword')}
                 onBlur={formik.handleBlur('confirmPassword')}
+                id="confirm_password_input"
                 secureTextEntry
             />
             {formik.touched.confirmPassword && formik.errors.confirmPassword &&
                 <Text style={styles.error}>
-                    {formik.errors.confirmPassword}
+                    {t(formik.errors.confirmPassword)}
                 </Text>
             }
-            <Pressable style={styles.button} onPress={formik.handleSubmit}>
+            <Pressable style={styles.button}
+                onPress={formik.handleSubmit} id='register_button'>
                 <Text style={styles.buttonText}>{t('REGISTER')}</Text>
             </Pressable>
             <Text>{t('ALREADY_REGISTERED')}</Text>
