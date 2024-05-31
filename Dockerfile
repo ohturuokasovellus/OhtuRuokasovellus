@@ -6,7 +6,7 @@ ADD package.json package-lock.json ./
 
 RUN npm clean-install --max-old-space-size=1024 --no-fund
 
-ADD app.json App.jsx ./
+ADD app.json App.jsx webpack.config.js ./
 ADD src/ src/
 ADD backend/ backend/
 ADD assets/ assets/
