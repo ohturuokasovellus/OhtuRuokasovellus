@@ -59,6 +59,9 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
+                <Text style={styles.h1}>
+                    Register as a Restaurant
+                </Text>
                 {formError ? (
                     <Text style={styles.error}>{formError}</Text>
                 ) : null}
