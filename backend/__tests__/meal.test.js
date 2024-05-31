@@ -16,7 +16,7 @@ describe('meal api', () => {
 
         const response = await request(app)
             .post('/api/meals')
-            .send({ mealName: 'pasta' })
+            .send({ mealName: 'pasta', restaurantUser: { restaurantId: 1} })
             .set('Content-Type', 'application/json')
             .expect(200)
             .expect('Content-Type', /application\/json/);
