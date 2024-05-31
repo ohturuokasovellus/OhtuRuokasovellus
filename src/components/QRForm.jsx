@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useFormik } from 'formik';
-import { Text, Pressable, View, TextInput, ScrollView } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 
 import QRGenerator from '../utils/QRGenerator';
 
@@ -52,19 +52,6 @@ const QRForm = () => {
                 </View>
             </View>
         </ScrollView>
-        // <View>
-        //     <TextInput
-        //         placeholder = 'Type a URL'
-        //         value = {formik.values.urlToBeGenerated}
-        //         onChangeText={formik.handleChange('urlToBeGenerated')}
-        //     />
-        //     <Pressable onPress={formik.handleSubmit}>
-        //         <Text>Generate a URL</Text>
-        //     </Pressable>
-        //     <View style={{ background: 'white', padding: '16px' }}>
-        //         {urlView}
-        //     </View>
-        // </View>
     );
 };
 
