@@ -38,6 +38,7 @@ test.describe('home page', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/');
+        await page.locator('#english_button').click();
     });
 
     test('redirects to login if not currently logged in',
@@ -47,10 +48,10 @@ test.describe('home page', () => {
 
     test('displays regular user page correctly',
         async ({ page }) => {
-            await page.getByPlaceholder('Username').click();
-            await page.getByPlaceholder('Username').fill('test2');
-            await page.getByPlaceholder('Password').click();
-            await page.getByPlaceholder('Password').fill('Best456@');
+            await page.locator('#username_input').click();
+            await page.locator('#username_input').fill('test2');
+            await page.locator('#password_input').click();
+            await page.locator('#password_input').fill('Best456@');
             await page.locator('#log_user_in_button').click();
             await page.waitForURL('/');
             await expect(page).toHaveURL('/');
@@ -61,17 +62,17 @@ test.describe('home page', () => {
     test('displays restaurant user page correctly',
         async ({ page }) => {
             await page.goto('/login');
-            await page.getByPlaceholder('Username').click();
-            await page.getByPlaceholder('Username').fill('test');
-            await page.getByPlaceholder('Password').click();
-            await page.getByPlaceholder('Password').fill('Test123!');
+            await page.locator('#username_input').click();
+            await page.locator('#username_input').fill('test');
+            await page.locator('#password_input').click();
+            await page.locator('#password_input').fill('Test123!');
             await page.locator('#log_user_in_button').click();
             await page.waitForURL('/');
             await expect(page).toHaveURL('/');
             await expect(page.locator('#root'))
                 .toContainText('Welcome, test');
             await expect(page.locator('#root'))
-                .toContainText('You are logged in as a restaurant user.');
+                .toContainText('You are logged-in as a restaurant user');
             await expect(page.getByText('add user')).toBeVisible();
             await expect(page.getByText('restaurant page')).toBeVisible();
         });
@@ -79,10 +80,10 @@ test.describe('home page', () => {
     test('restaurant user view navigation works',
         async ({ page }) => {
             await page.goto('/login');
-            await page.getByPlaceholder('Username').click();
-            await page.getByPlaceholder('Username').fill('test');
-            await page.getByPlaceholder('Password').click();
-            await page.getByPlaceholder('Password').fill('Test123!');
+            await page.locator('#username_input').click();
+            await page.locator('#username_input').fill('test');
+            await page.locator('#password_input').click();
+            await page.locator('#password_input').fill('Test123!');
             await page.locator('#log_user_in_button').click();
             await page.waitForURL('/');
             await page.getByText('add user').click();

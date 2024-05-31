@@ -33,8 +33,9 @@ test.describe('survey', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/login');
-        await page.fill('input[placeholder="Username"]', 'testi');
-        await page.fill('input[placeholder="Password"]', 'Testi123@');
+        await page.locator('#english_button').click();
+        await page.fill('input[id="username_input"]', 'testi');
+        await page.fill('input[id="password_input"]', 'Testi123@');
         await page.locator('#log_user_in_button').click();
     });
 

@@ -8,14 +8,19 @@ const resources = {
     eng: engl,
     fin: finn,
 };
-// eslint-disable-next-line no-undef
-// const urlParams = new URLSearchParams(window.location.search);
-// const languageFromURL = urlParams.get('lng');
-// const defaultLanguage = languageFromURL === 'eng' ? 'eng' : 'fin';
+
+const languageDetector = new LanguageDetector(null, {
+    order: ['localStorage', 'navigator', 'cookie', 'queryString'],
+
+    lookupLocalStorage: 'i18nextLng',
+    lookupCookie: 'i18next',
+
+    caches: ['localStorage', 'cookie']
+});
 
 i18next
     // pass the i18n instance to react-i18next.
-    .use(LanguageDetector)
+    .use(languageDetector)
     .use(initReactI18next)
     // init i18next
     // for all options read:
@@ -23,11 +28,12 @@ i18next
     .init({
         compatibilityJSON: 'v3',
         resources,
-        // fallbackLng: 'fin',
-        lng: 'eng', // default language to use.
-        supportedLngs: ['fin', 'eng'],
+        fallbackLng: 'fin',
+        // lng: 'eng', // default language to use.
+        // supportedLngs: ['fin', 'eng'],
         detection: {
-            order: ['queryString', 'cookie'],
+            order: ['localStorage', 'navigator', 'cookie', 'queryString'],
+            caches: ['localStorage', 'cookie']
         },
         // preload: ['fin', 'eng'],
         // initImmediate: false

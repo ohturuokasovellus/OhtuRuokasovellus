@@ -70,10 +70,13 @@ const LoginForm = ({ updateUser }) => {
                         onChangeText={handleChange('username')}
                         onBlur={handleBlur('username')}
                         value={values.username}
-                        placeholder="Username"
+                        placeholder={t('USERNAME')}
+                        id="username_input"
                     />
                     {touched.username && errors.username && (
-                        <Text style={styles.errorText}>{errors.username}</Text>
+                        <Text style={styles.errorText}>
+                            {t(errors.username)}
+                        </Text>
                     )}
 
                     <TextInput
@@ -81,11 +84,14 @@ const LoginForm = ({ updateUser }) => {
                         onChangeText={handleChange('password')}
                         onBlur={handleBlur('password')}
                         value={values.password}
-                        placeholder="Password"
+                        placeholder={t('PASSWORD')}
+                        id="password_input"
                         secureTextEntry
                     />
                     {touched.password && errors.password && (
-                        <Text style={styles.errorText}>{errors.password}</Text>
+                        <Text style={styles.errorText}>
+                            {t(errors.password)}
+                        </Text>
                     )}
                     {errorMessage ? (
                         <Text style={styles.errorText}>{errorMessage}</Text>
@@ -99,9 +105,9 @@ const LoginForm = ({ updateUser }) => {
                             </Text>
                         </Pressable>
                     </View>
-                    <Text>Dont have an account yet?</Text>
+                    <Text>{t('DONT_HAVE_AN_ACCOUNT_YET')}</Text>
                     <View style={ styles.button }>
-                        <Pressable title="Register"
+                        <Pressable title="Register" id="navigate_to_register"
                             onPress={() => navigate('/register')}>
                             <Text style={ styles.buttonText }>
                                 {t('REGISTER')}
@@ -110,6 +116,7 @@ const LoginForm = ({ updateUser }) => {
                     </View>
                     <Pressable style={styles.button}
                         title='Register as a Restauraunt User'
+                        id="navigate_to_register_restaurant"
                         onPress={() => navigate('/register-restaurant')}>
                         <Text style={ styles.buttonText }>
                             {t('REGISTER_RESTAURANT')}

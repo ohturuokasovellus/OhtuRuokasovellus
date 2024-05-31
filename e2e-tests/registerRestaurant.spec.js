@@ -19,6 +19,7 @@ test.describe('restaurant registration page', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/register-restaurant');
+        await page.locator('#english_button').click();
     });
 
     test('redirects to login page if already registered', async ({ page }) => {
@@ -27,37 +28,37 @@ test.describe('restaurant registration page', () => {
     });
 
     test('registers user with correct details', async ({ page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('name of the restaurant')
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('bestaurant');
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('username').fill('best');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('best@test.com');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#username_input').click();
+        await page.locator('#username_input').fill('best');
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('best@test.com');
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('Test123!');
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByPlaceholder('confirm password').fill('Test123!');
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#confirm_password_input').fill('Test123!');
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/login$/);
     });
 
     test('cannot register with a duplicate restaurant name', async (
         { page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('name of the restaurant')
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('testaurant');
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('username').fill('test2');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('test@test.fi');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#username_input').click();
+        await page.locator('#username_input').fill('test2');
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('test@test.fi');
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('Test123!');
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByPlaceholder('confirm password').fill('Test123!');
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#confirm_password_input').fill('Test123!');
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/register-restaurant$/);
         await expect(page.locator('#root'))
             .toContainText('restaurant already exists');
@@ -65,256 +66,256 @@ test.describe('restaurant registration page', () => {
 
     test('cannot register with an invalid restaurant name', async (
         { page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('name of the restaurant')
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('be');
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('username').fill('test2');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('test@test.fi');
+        await page.locator('#username_input').click();
+        await page.locator('#username_input').fill('test2');
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('test@test.fi');
         await expect(page.locator('#root'))
-            .toContainText('restaurant name must be at least 3 characters');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('name of the restaurant')
+            .toContainText('Restaurant name must be at least 3 characters');
+        await page.locator('#email_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('123456789012345678901234567890123');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('Test123!');
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByPlaceholder('confirm password').fill('Test123!');
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#confirm_password_input').fill('Test123!');
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/register-restaurant$/);
         await expect(page.locator('#root'))
-            .toContainText('restaurant name cannot exceed 32 characters');
+            .toContainText('Restaurant name cannot exceed 32 characters');
     });
 
     test('cannot register without restaurant name', async ({ page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('username').fill('best');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('best@test.com');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#username_input').click();
+        await page.locator('#username_input').fill('best');
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('best@test.com');
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('Test123!');
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByPlaceholder('confirm password').fill('Test123!');
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#confirm_password_input').fill('Test123!');
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/register-restaurant$/);
         await expect(page.locator('#root'))
-            .toContainText('restaurant name is required');
+            .toContainText('Restaurant name is required');
     });
 
     test('cannot register with a duplicate username', async ({ page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('name of the restaurant')
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('bestaurant');
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('username').fill('test');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('test@test.fi');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#username_input').click();
+        await page.locator('#username_input').fill('test');
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('test@test.fi');
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('Test123!');
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByPlaceholder('confirm password').fill('Test123!');
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#confirm_password_input').fill('Test123!');
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/register-restaurant$/);
         await expect(page.locator('#root'))
             .toContainText('username already exists');
     });
 
     test('cannot register without a username', async ({ page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('name of the restaurant')
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('bestaurant');
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('test@test.fi');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#username_input').click();
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('test@test.fi');
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('Test123!');
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByPlaceholder('confirm password').fill('Test123!');
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#confirm_password_input').fill('Test123!');
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/register-restaurant$/);
         await expect(page.locator('#root'))
-            .toContainText('username is required');
+            .toContainText('Username is required');
     });
 
     test('cannot register with an invalid username', async ({ page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('name of the restaurant')
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('bestaurant');
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('username').fill('te');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('test@test.fi');
+        await page.locator('#username_input').click();
+        await page.locator('#username_input').fill('te');
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('test@test.fi');
         await expect(page.locator('#root'))
-            .toContainText('username must be at least 3 characters');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('username')
+            .toContainText('Username must be at least 3 characters');
+        await page.locator('#email_input').click();
+        await page.locator('#username_input')
             .fill('123456789012345678901234567890123');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('Test123!');
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByPlaceholder('confirm password').fill('Test123!');
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#confirm_password_input').fill('Test123!');
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/register-restaurant$/);
         await expect(page.locator('#root'))
-            .toContainText('username cannot exceed 32 characters');
+            .toContainText('Username cannot exceed 32 characters');
     });
 
     test('cannot register with a duplicate email', async ({ page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('name of the restaurant')
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('bestaurant');
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('username').fill('test2');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('test@test.com');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#username_input').click();
+        await page.locator('#username_input').fill('test2');
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('test@test.com');
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('Test123!');
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByPlaceholder('confirm password').fill('Test123!');
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#confirm_password_input').fill('Test123!');
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/register-restaurant$/);
         await expect(page.locator('#root'))
             .toContainText('email already exists');
     });
 
     test('cannot register without an email', async ({ page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('name of the restaurant')
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('bestaurant');
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('username').fill('test2');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#username_input').click();
+        await page.locator('#username_input').fill('test2');
+        await page.locator('#email_input').click();
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('Test123!');
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByPlaceholder('confirm password').fill('Test123!');
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#confirm_password_input').fill('Test123!');
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/register-restaurant$/);
-        await expect(page.locator('#root')).toContainText('email is required');
+        await expect(page.locator('#root')).toContainText('Email is required');
     });
 
     test('cannot register with an invalid email', async ({ page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('name of the restaurant')
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('bestaurant');
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('username').fill('test2');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('test');
-        await page.getByPlaceholder('username').click();
-        await expect(page.locator('#root')).toContainText('invalid email');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('test@test.com');
-        await page.getByPlaceholder('email').fill('test@test');
-        await page.getByPlaceholder('username').click();
-        await expect(page.locator('#root')).toContainText('invalid email');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#username_input').click();
+        await page.locator('#username_input').fill('test2');
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('test');
+        await page.locator('#username_input').click();
+        await expect(page.locator('#root')).toContainText('Invalid email');
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('test@test.com');
+        await page.locator('#email_input').fill('test@test');
+        await page.locator('#username_input').click();
+        await expect(page.locator('#root')).toContainText('Invalid email');
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('Test123!');
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByPlaceholder('confirm password').fill('Test123!');
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#confirm_password_input').fill('Test123!');
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/register-restaurant$/);
     });
 
     test('cannot register without a password', async ({ page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('name of the restaurant')
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('bestaurant');
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('username').fill('test2');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('test@test.fi');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#username_input').click();
+        await page.locator('#username_input').fill('test2');
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('test@test.fi');
+        await page.locator('#password_input').click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/register-restaurant$/);
         await expect(page.locator('#root'))
-            .toContainText('password is required');
+            .toContainText('Password is required');
         await expect(page.locator('#root'))
-            .toContainText('password confirmation is required');
+            .toContainText('Password confirmation is required');
     });
 
     test('cannot register with an invalid password', async ({ page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('name of the restaurant')
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('bestaurant');
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('username').fill('test2');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('test@test.fi');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true }).fill('test');
-        await page.getByPlaceholder('confirm password').click();
+        await page.locator('#username_input').click();
+        await page.locator('#username_input').fill('test2');
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('test@test.fi');
+        await page.locator('#password_input').click();
+        await page.locator('#password_input').fill('test');
+        await page.locator('#confirm_password_input').click();
         await expect(page.locator('#root'))
-            .toContainText('password must be at least 8 characters');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+            .toContainText('Password must be at least 8 characters');
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('123456789012345678901234567890123');
-        await page.getByPlaceholder('confirm password').click();
+        await page.locator('#confirm_password_input').click();
         await expect(page.locator('#root'))
-            .toContainText('password cannot exceed 32 characters');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+            .toContainText('Password cannot exceed 32 characters');
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('TESTTEST');
-        await page.getByPlaceholder('confirm password').click();
+        await page.locator('#confirm_password_input').click();
         await expect(page.locator('#root'))
             .toContainText(
-                'password must contain at least one lowercase letter'
+                'Password must contain at least one lowercase letter'
             );
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('testtest');
-        await page.getByPlaceholder('confirm password').click();
+        await page.locator('#confirm_password_input').click();
         await expect(page.locator('#root'))
             .toContainText(
-                'password must contain at least one uppercase letter'
+                'Password must contain at least one uppercase letter'
             );
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('testTEST');
-        await page.getByPlaceholder('confirm password').click();
+        await page.locator('#confirm_password_input').click();
         await expect(page.locator('#root'))
-            .toContainText('password must contain at least one number');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+            .toContainText('Password must contain at least one number');
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('test123A');
-        await page.getByPlaceholder('confirm password').click();
+        await page.locator('#confirm_password_input').click();
         await expect(page.locator('#root'))
             .toContainText(
-                'password must contain at least one special character'
+                'Password must contain at least one special character'
             );
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByPlaceholder('confirm password').fill('test123A!');
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#confirm_password_input').fill('test123A!');
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/register-restaurant$/);
     });
 
     test('cannot register if the passwords do not match', async ({ page }) => {
-        await page.getByPlaceholder('name of the restaurant').click();
-        await page.getByPlaceholder('name of the restaurant')
+        await page.locator('#name_of_the_restaurant_input').click();
+        await page.locator('#name_of_the_restaurant_input')
             .fill('bestaurant');
-        await page.getByPlaceholder('username').click();
-        await page.getByPlaceholder('username').fill('test2');
-        await page.getByPlaceholder('email').click();
-        await page.getByPlaceholder('email').fill('test@test.fi');
-        await page.getByPlaceholder('password', { exact: true }).click();
-        await page.getByPlaceholder('password', { exact: true })
+        await page.locator('#username_input').click();
+        await page.locator('#username_input').fill('test2');
+        await page.locator('#email_input').click();
+        await page.locator('#email_input').fill('test@test.fi');
+        await page.locator('#password_input').click();
+        await page.locator('#password_input')
             .fill('Test123!');
-        await page.getByPlaceholder('confirm password').click();
-        await page.getByPlaceholder('confirm password').fill('Test123');
-        await page.getByText('register', { exact: true }).click();
+        await page.locator('#confirm_password_input').click();
+        await page.locator('#confirm_password_input').fill('Test123');
+        await page.locator('#register_button').click();
         await expect(page).toHaveURL(/\/register-restaurant$/);
         await expect(page.locator('#root'))
-            .toContainText('passwords must match');
+            .toContainText('Passwords must match');
     });
 });

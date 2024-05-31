@@ -4,6 +4,7 @@ import { Link, useNavigate } from '../Router';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { stylesForm } from '../styling/styles';
+import { useTranslation } from 'react-i18next';
 
 const styles = stylesForm;
 
@@ -22,6 +23,7 @@ const initialValues = {
  */
 
 const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
+    const {t} = useTranslation();
     const [formError, setFormError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const formik = useFormik({
@@ -78,7 +80,7 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                         <View key={index} style={styles.addEmailContainer}>
                             <TextInput
                                 style={styles.addEmailInput}
-                                placeholder='email'
+                                placeholder={t('EMAIL')}
                                 value={email}
                                 onChangeText={text => {
                                     const updatedEmails =
@@ -107,7 +109,7 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                     </Pressable>
                     <TextInput
                         style={styles.input}
-                        placeholder='confirm with password'
+                        placeholder={t('CONFIRM_WITH_PASSWORD')}
                         secureTextEntry
                         value={formik.values.password}
                         onChangeText={formik.handleChange('password')}
@@ -115,12 +117,12 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                     <Pressable
                         style={styles.button}
                         onPress={formik.handleSubmit}>
-                        <Text style={styles.buttonText}>add users</Text>
+                        <Text style={styles.buttonText}>{t('ADD_USERS')}</Text>
                     </Pressable>
                 </View>
             )}
             <Link to='/'>
-                <Text>back to home</Text>
+                <Text>{t('BACK_TO_HOME')}</Text>
             </Link>
         </View>
     );

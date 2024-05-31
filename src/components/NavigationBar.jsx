@@ -2,8 +2,10 @@ import { useNavigate } from '../Router';
 import { Text, Pressable,View } from 'react-native';
 import { deleteSession } from '../controllers/sessionController';
 import LanguageSwitch from './LanguageSwitch';
+import { useTranslation } from 'react-i18next';
 
 const NavigationBar = ({ user, updateUser }) => {
+    const {t} = useTranslation();
     const navigate = useNavigate();
     const logOutPress = () => {
         deleteSession();
@@ -19,7 +21,7 @@ const NavigationBar = ({ user, updateUser }) => {
                     style={{marginRight: '10px'}}
                     onPress={() => navigate('/')}>
                     <Text style={{textDecoration: 'none', 
-                        color: 'white'}}>Home</Text>
+                        color: 'white'}}>{t('HOME')}</Text>
                 </Pressable>
             }
             {!user &&
@@ -27,7 +29,7 @@ const NavigationBar = ({ user, updateUser }) => {
                     style={{marginRight: '10px'}}
                     onPress={() => navigate('/login')}>
                     <Text style={{textDecoration: 'none', 
-                        color: 'white'}}>Login</Text>
+                        color: 'white'}}>{t('LOGIN')}</Text>
                 </Pressable>
             }
             {!user &&
@@ -35,7 +37,7 @@ const NavigationBar = ({ user, updateUser }) => {
                     style={{marginRight: '10px'}}
                     onPress={() => navigate('/register')}>
                     <Text style={{textDecoration: 'none', 
-                        color: 'white'}}>Register</Text>
+                        color: 'white'}}>{t('REGISTER')}</Text>
                 </Pressable>
             }
             {user &&
@@ -43,7 +45,7 @@ const NavigationBar = ({ user, updateUser }) => {
                     style={{marginRight: '10px'}} 
                     onPress={() => navigate('/qr-form')}>
                     <Text style={{textDecoration: 'none',
-                        color: 'white'}}>QR Form</Text>
+                        color: 'white'}}>{t('QR_FORM')}</Text>
                 </Pressable>
             }
             {(user && user.restaurantId) &&
@@ -51,14 +53,15 @@ const NavigationBar = ({ user, updateUser }) => {
                     style={{marginRight: '10px'}} 
                     onPress={() => navigate('/create-meal')}>
                     <Text style={{textDecoration: 'none',
-                        color: 'white'}}>Add a meal</Text>
+                        color: 'white'}}>{t('ADD_A_MEAL')}</Text>
                 </Pressable>
             }
             {user && 
-                <Pressable style={{marginRight: '10px'}} 
+                <Pressable id="logout_button"
+                    style={{marginRight: '10px'}} 
                     title="Logout" onPress={logOutPress}>
                     <Text style={{textDecoration: 'none',
-                        color: 'white'}}>Logout</Text>
+                        color: 'white'}}>{t('LOGOUT')}</Text>
                 </Pressable>      
             }
             <LanguageSwitch />

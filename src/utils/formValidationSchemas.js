@@ -14,15 +14,15 @@ yup.addMethod(yup.string, 'email', function validateEmail(message) {
 // Username needs to be 3-32 characters and is a required field.
 const usernameValidationSchema = yup.object().shape({
     username: yup.string()
-        .min(3, 'username must be at least 3 characters')
-        .max(32, 'username cannot exceed 32 characters')
-        .required('username is required'),
+        .min(3, 'USERNAME_MUST_BE_AT_LEAST_3_CHARACTERS')
+        .max(32, 'USERNAME_CANNOT_EXCEED_32_CHARACTERS')
+        .required('USERNAME_IS_REQUIRED'),
 });
 
 
 // Email is required. Uses the override regex.
 const emailValidationSchema = yup.object().shape({
-    email: yup.string().email('invalid email').required('email is required')
+    email: yup.string().email('INVALID_EMAIL').required('EMAIL_IS_REQUIRED')
 });
 
 // Password needs to be 3-32 chars, and contain
@@ -30,20 +30,20 @@ const emailValidationSchema = yup.object().shape({
 const passwordValidationSchema = yup.object().shape({
     password: yup
         .string()
-        .min(8, 'password must be at least 8 characters')
-        .max(32, 'password cannot exceed 32 characters')
-        .matches(/[a-z]/, 'password must contain at least one lowercase letter')
-        .matches(/[A-Z]/, 'password must contain at least one uppercase letter')
-        .matches(/\d/, 'password must contain at least one number')
+        .min(8, 'PASSWORD_MUST_BE_AT_LEAST_8_CHARACTERS')
+        .max(32, 'PASSWORD_CANNOT_EXCEED_32_CHARACTERS')
+        .matches(/[a-z]/, 'PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_LOWERCASE_LETTER')
+        .matches(/[A-Z]/, 'PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_UPPERCASE_LETTER')
+        .matches(/\d/, 'PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_NUMBER')
         .matches(
             /[@$!%&€\-_:#+]/,
-            'password must contain at least one special character'
+            'PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_SPECIAL_CHARACTER'
         )
-        .required('password is required'),
+        .required('PASSWORD_IS_REQUIRED'),
     confirmPassword: yup
         .string()
-        .oneOf([yup.ref('password'), null], 'passwords must match')
-        .required('password confirmation is required')
+        .oneOf([yup.ref('password'), null], 'PASSWORDS_MUST_MATCH')
+        .required('PASSWORD_CONFIRMATION_IS_REQUIRED')
 });
 
 // Schema for validating all registration form fields
@@ -52,18 +52,18 @@ const registrationValidationSchema = usernameValidationSchema.concat(
 
 const restaurantValidationSchema = registrationValidationSchema.shape({
     restaurantName: yup.string()
-        .min(3, 'restaurant name must be at least 3 characters')
-        .max(32, 'restaurant name cannot exceed 32 characters')
-        .required('restaurant name is required'),
+        .min(3, 'RESTAURANT_NAME_MUST_BE_AT_LEAST_3_CHARACTERS')
+        .max(32, 'RESTAURANT_NAME_CANNOT_EXCEED_32_CHARACTERS')
+        .required('RESTAURANT_NAME_IS_REQUIRED'),
 });
 
 
 // Username and password are required when logging in.
 const loginValidationSchema = yup.object().shape({
     username: yup.string()
-        .required('Username is required'),
+        .required('USERNAME_IS_REQUIRED'),
     password: yup.string()
-        .required('Password is required'),
+        .required('PASSWORD_IS_REQUIRED'),
 });
 
 export {

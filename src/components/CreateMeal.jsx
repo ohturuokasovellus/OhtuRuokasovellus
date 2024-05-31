@@ -76,17 +76,22 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 placeholder={t('NAME_OF_THE_MEAL')}
                 value={formik.values.mealName}
                 onChangeText={formik.handleChange('mealName')}
+                id="name_of_the_meal_input"
             />
             {formik.touched.mealName && formik.errors.mealName && 
                 <Text>{formik.errors.mealName}</Text>
             }
-            <Pressable onPress={openImagePicker}>
+            <Pressable onPress={openImagePicker}
+                id="select_image_button"
+            >
                 <Text>{t('SELECT_A_IMAGE_FROM_DEVICE')}</Text>
             </Pressable>
             {formik.touched.imageUri && formik.errors.imageUri && 
                 <Text>{formik.errors.imageUri}</Text>
             }
-            <Pressable onPress={formik.handleSubmit}>
+            <Pressable onPress={formik.handleSubmit}
+                id="create_a_meal_button"
+            >
                 <Text>{t('CREATE_A_MEAL')}</Text>
             </Pressable>
         </View>
