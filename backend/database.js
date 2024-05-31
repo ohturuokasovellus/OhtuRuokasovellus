@@ -156,11 +156,11 @@ const doesRestaurantExist = async name => {
  * @param {string} name Name of the meal.
  * @returns {Promise<number>} ID of the created meal.
  */
-const insertMeal = async name => {
+const insertMeal = async (name, restaurantId) => {
     // TODO: add another parameter for the restaurant id
     const result = await sql`
         INSERT INTO meals (name, restaurant_id)
-        VALUES (${name}, 1)
+        VALUES (${name}, ${restaurantId})
         RETURNING meal_id;
     `;
     return result.at(0).meal_id;

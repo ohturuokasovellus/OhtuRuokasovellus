@@ -6,16 +6,23 @@ const router = express.Router();
 router.post('/api/meals', express.json(), async (req, res) => {
     // TODO: validate user login
 
-    const { mealName } = req.body;
+    const { mealName, restaurantUser } = req.body;
 
     // TODO: properly validate name
     if (!mealName) {
         return res.status(400).send('invalid meal name');
     }
 
+    if (!restaurantUser) {
+        return res.status(400).send('You are not logged in');
+    }
+    else if (!restaurantUser.restaurantId) {
+        return res.status(400).send('You do not have permissions to add meals');
+    }
+
     let mealId;
     try {
-        mealId = await insertMeal(mealName);
+        mealId = await insertMeal(mealName, restaurantUser.restaurantId);
     } catch (err) {
         console.error(err);
         return res.status(500).send('meal insertion failed');

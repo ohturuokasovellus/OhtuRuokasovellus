@@ -107,10 +107,12 @@ const CreateMeal = (props) => {
 
     const onSubmit = async values => {
         const { mealName, imageUri } = values;
+        const restaurantUser = props.user;
+
         try {
             const response = await axios.post(
                 `${apiUrl}/meals`,
-                { mealName }
+                { mealName, restaurantUser }
             );
             const mealId = response.data.mealId;
             await axios.post(
