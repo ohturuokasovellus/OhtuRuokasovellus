@@ -51,7 +51,7 @@ test.describe('adding restaurant users: unauthorised', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/login');
-        await page.locator('#english_button').click();
+        await page.locator('#language-toggle').click();
     });
 
     test('redirects to home if a normal user tries to access the page',
@@ -61,7 +61,7 @@ test.describe('adding restaurant users: unauthorised', () => {
             await page.getByPlaceholder('Username').fill('test2');
             await page.getByPlaceholder('Password').click();
             await page.getByPlaceholder('Password').fill('Best456@');
-            await page.locator('#log_user_in_button').click();
+            await page.locator('#login-button').click();
 
             await page.waitForURL('/');
             await expect(page.locator('text=Welcome,')).toBeVisible();
@@ -82,12 +82,12 @@ test.describe('adding restaurant users: authorised', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/login');
-        await page.locator('#english_button').click();
+        await page.locator('#language-toggle').click();
         await page.getByPlaceholder('Username').click();
         await page.getByPlaceholder('Username').fill('test');
         await page.getByPlaceholder('Password').click();
         await page.getByPlaceholder('Password').fill('Test123!');
-        await page.locator('#log_user_in_button').click();
+        await page.locator('#login-button').click();
         await page.getByText('add user').click();
     });
 

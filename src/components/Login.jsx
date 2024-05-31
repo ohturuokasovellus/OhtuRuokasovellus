@@ -80,6 +80,7 @@ const LoginForm = ({ updateUser }) => {
                             onBlur={handleBlur('username')}
                             value={values.username}
                             placeholder={t('USERNAME')}
+                            id='username-input'
                         />
                         {touched.username && errors.username && (
                             <Text style={styles.error}>{errors.username}</Text>
@@ -90,6 +91,7 @@ const LoginForm = ({ updateUser }) => {
                             onBlur={handleBlur('password')}
                             value={values.password}
                             placeholder={t('PASSWORD')}
+                            id='password-input'
                         />
                         {touched.password && errors.password && (
                             <Text style={styles.error}>{errors.password}</Text>

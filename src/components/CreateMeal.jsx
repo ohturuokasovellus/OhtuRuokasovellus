@@ -81,6 +81,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                     placeholder={t('NAME_OF_THE_MEAL')}
                     value={formik.values.mealName}
                     onChangeText={formik.handleChange('mealName')}
+                    id='meal-name-input'
                 />
                 {formik.touched.mealName && formik.errors.mealName && 
                 <Text style={styles.error}>{formik.errors.mealName}</Text>

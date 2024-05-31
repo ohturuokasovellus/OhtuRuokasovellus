@@ -69,6 +69,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     value={formik.values.username}
                     onChangeText={formik.handleChange('username')}
                     onBlur={formik.handleBlur('username')}
+                    id='username-input'
                 />
                 {formik.touched.username && formik.errors.username && (
                     <Text style={styles.error}>{formik.errors.username}</Text>
@@ -79,6 +80,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     value={formik.values.email}
                     onChangeText={formik.handleChange('email')}
                     onBlur={formik.handleBlur('email')}
+                    id='email-input'
                 />
                 {formik.touched.email && formik.errors.email && (
                     <Text style={styles.error}>{formik.errors.email}</Text>
@@ -89,6 +91,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     value={formik.values.password}
                     onChangeText={formik.handleChange('password')}
                     onBlur={formik.handleBlur('password')}
+                    id='password-input'
                 />
                 {formik.touched.password && formik.errors.password && (
                     <Text style={styles.error}>{formik.errors.password}</Text>
@@ -99,6 +102,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     value={formik.values.confirmPassword}
                     onChangeText={formik.handleChange('confirmPassword')}
                     onBlur={formik.handleBlur('confirmPassword')}
+                    id='confirm-password-input'
                 />
                 {formik.touched.confirmPassword &&
                 formik.errors.confirmPassword &&
@@ -110,6 +114,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     styles={styles}
                     onPress={formik.handleSubmit}
                     text={t('REGISTER')}
+                    id='register-button'
                 />
                 <Text style={styles.body}>{t('ALREADY_REGISTERED')}</Text>
                 <Link to='/login'>

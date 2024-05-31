@@ -24,7 +24,7 @@ test.describe('restaurant meal page', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/restaurant/1');
-        await page.locator('#english_button').click();
+        await page.locator('#language-toggle').click();
     });
 
     test('renders restaurant meal names', async ({ page }) => {
