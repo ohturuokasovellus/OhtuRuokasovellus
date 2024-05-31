@@ -1,0 +1,23 @@
+version: '3.8'
+
+# FOR LOCAL DEVELOPMENT USE ONLY
+# NOT SECURE FOR EXTERNAL CONNECTIONS
+
+# To start the database, run
+#   docker compose up
+# The URL of the database is then
+#   postgres://postgres:salasana@localhost:5432/postgres
+# When using `psql` tool, just add `-h localhost` argument to any regular command
+# To clear and reinitialize the database, stop running docker compose
+#   with ctrl+C, remove the database/ directory and restart docker compose
+
+services:
+  database:
+    image: postgres:16
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=salasana
+    volumes:
+      - ./database/:/var/lib/postgresql/data/
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
