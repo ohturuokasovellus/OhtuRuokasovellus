@@ -27,7 +27,7 @@ test.describe('restaurant meal page', () => {
     test('renders restaurant meal names', async ({ page }) => {
         await page.goto('/restaurant/1');
 
-        await expect(page.locator('text=Ravintola testaurant')).toBeVisible();
+        await expect(page.locator('text=Restaurant testaurant')).toBeVisible();
         await expect(page.locator('text=Kana bolognese')).toBeVisible();
         await expect(page.locator('text=Pannacotta')).toBeVisible();
     });
