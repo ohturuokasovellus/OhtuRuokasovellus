@@ -6,6 +6,16 @@ const { getUser } = require('../database');
 
 router.use(express.json());
 
+/**
+ * Route for logging user in.
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request.
+ * @param {string} req.body.username - The username of the user.
+ * @param {string} req.body.password - The password of the user.
+ * @param {Object} res - The response object.
+ * @returns {Object} 200 - Success status.
+ * @returns {Object} 404 - Invalid credentials.
+ */
 router.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
     const user = await getUser(username, hash(password));

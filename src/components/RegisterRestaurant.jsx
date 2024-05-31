@@ -6,8 +6,9 @@ import { deleteSession } from '../controllers/sessionController';
 import { restaurantValidationSchema }
     from '../utils/formValidationSchemas';
 import { useState, useEffect } from 'react';
-import apiUrl from '../utils/apiUrl';
 import { stylesForm } from '../styling/styles';
+import { useTranslation } from 'react-i18next';
+import apiUrl from '../utils/apiUrl';
 
 const styles = stylesForm;
 
@@ -35,6 +36,7 @@ const validationSchema = restaurantValidationSchema;
  */
 
 const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
+    const {t} = useTranslation();
     const [formError, setFormError] = useState('');
     const formik = useFormik({
         initialValues,
@@ -111,11 +113,11 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 </Text>
             }
             <Pressable style={styles.button} onPress={formik.handleSubmit}>
-                <Text style={styles.buttonText}>register</Text>
+                <Text style={styles.buttonText}>{t('REGISTER')}</Text>
             </Pressable>
-            <Text>already registered?</Text>
+            <Text>{t('ALREADY_REGISTERED')}</Text>
             <Link to='/login'>
-                <Text>Login</Text>
+                <Text>{t('LOGIN')}</Text>
             </Link>
         </View>
     );
