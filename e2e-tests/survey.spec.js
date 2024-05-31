@@ -38,11 +38,19 @@ test.describe('survey', () => {
         await page.locator('#log_user_in_button').click();
     });
 
-    test('survey link displays on the homepage', async ({page}) => {
-        await expect(page.locator('text=Take a survey')).toBeVisible();
-        await page.click('text=Take a survey');
-        await expect(page).toHaveURL('/create-meal');
-    });
+    test('survey link displays on the homepage and it opens in a new tab',
+        async ({ page, context }) => {
+            await expect(page.locator('text=Take a survey')).toBeVisible();
+
+            const [newPage] = await Promise.all([
+                context.waitForEvent('page'),
+                page.click('text=Take a survey')
+            ]);
+
+            await newPage.waitForLoadState();
+            await expect(newPage).toHaveURL(testSurveyUrl);
+
+        });
 
     test('survey link does not display if survey link does not exist',
         async ({page}) => {

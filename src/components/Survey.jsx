@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity, Linking } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { styles } from '../styling/styles';
-import { Link } from '../Router';
 import apiUrl from '../utils/apiUrl';
 
 /**
@@ -13,13 +12,17 @@ import apiUrl from '../utils/apiUrl';
 const Survey = ({ surveyUrl } ) => {
     const {t} = useTranslation();
 
+    const openLink = () => {
+        Linking.openURL(surveyUrl);
+    };
+
     return (
         <View style={ styles.surveyButton }>
-            <Link title="Survey" to={surveyUrl}>
+            <TouchableOpacity onPress={ openLink }>
                 <Text style={ styles.buttonText }>
                     {t('SURVEY')}
                 </Text>
-            </Link>
+            </TouchableOpacity>
         </View>
     );
 };
