@@ -4,7 +4,7 @@ import {
     View, Text, TextInput,
     ScrollView, Image, Pressable
 } from 'react-native';
-import createStyles from './layout';
+import createStyles from './styles';
 import { themeContext } from '../controllers/themeController';
 
 import { Button, SmallButton } from '../components/ui/Buttons';
@@ -44,68 +44,65 @@ const Layout = () => {
 
     return (
         <ScrollView style={styles.background}>
+            <View style={styles.container}>
+                {/* typography */}
+                <Text style={styles.h1}>Heading 1</Text>
+                <Text style={styles.h2}>Heading 2</Text>
+                <Text style={styles.h3}>Heading 3</Text>
+                <Text style={styles.h4}>Heading 4</Text>
+                <Text style={styles.h5}>Heading 5</Text>
+                <Text style={styles.h6}>Heading 6</Text>
+                <Text style={styles.body}>{loremIpsum}</Text>
+                <Text style={styles.caption}>Caption</Text>
+                <Text style={styles.smallCaption}>Small caption</Text>
 
+                {/* error messages */}
+                <Text style={styles.error}>This is an error message.</Text>
 
+                {/* links */}
+                <Text style={styles.link}>This is a link text.</Text>
 
-            {/* typography */}
-            <Text style={styles.h1}>Heading 1</Text>
-            <Text style={styles.h2}>Heading 2</Text>
-            <Text style={styles.h3}>Heading 3</Text>
-            <Text style={styles.h4}>Heading 4</Text>
-            <Text style={styles.h5}>Heading 5</Text>
-            <Text style={styles.h6}>Heading 6</Text>
-            <Text style={styles.body}>{loremIpsum}</Text>
-            <Text style={styles.caption}>Caption</Text>
-            <Text style={styles.smallCaption}>Small caption</Text>
+                {/* buttons */}
+                <Button onPress={() => {}} text='button' styles={styles}/>
+                <SmallButton onPress={() => {}} text='S' styles={styles}/>
 
-
-            {/* error messages */}
-            <Text style={styles.error}>This is an error message.</Text>
-
-            {/* links */}
-            <Text style={styles.link}>This is a link text.</Text>
-
-            {/* buttons */}
-            <Button onPress={() => {}} text='button' styles={styles}/>
-            <SmallButton onPress={() => {}} text='S' styles={styles}/>
-
-            {/* input fields */}
-            <Input styles={styles} placeholder='normal input'/>
-            <PasswordInput styles={styles} placeholder='password'/>
-            <MultilineInput
-                styles={styles}
-                placeholder={'this is a multiline input field'}
-                rows={4}
-            />
-            {inputs.map((input, index) => (
-                <View key={input.idx} style={styles.flexInputContainer}>
-                    <FlexInput
-                        styles={styles}
-                        placeholder='flex input'
-                        value={input.value}
-                        onChangeText={(text) =>
-                            handleInputChange(input.idx, text)}
-                    />
-                    {inputs.length > 1 && (
-                        <SmallButton
-                            onPress={() => removeInput(input.idx)}
-                            text='–' styles={styles}
+                {/* input fields */}
+                <Input styles={styles} placeholder='normal input'/>
+                <PasswordInput styles={styles} placeholder='password'/>
+                <MultilineInput
+                    styles={styles}
+                    placeholder={'this is a multiline input field'}
+                    rows={4}
+                />
+                {inputs.map((input, index) => (
+                    <View key={input.idx} style={styles.flexInputContainer}>
+                        <FlexInput
+                            styles={styles}
+                            placeholder='flex input'
+                            value={input.value}
+                            onChangeText={(text) =>
+                                handleInputChange(input.idx, text)}
                         />
-                    )}
-                </View>
-            ))}
-            <SmallButton
-                onPress={addInput} text='+' styles={styles}
-            />
+                        {inputs.length > 1 && (
+                            <SmallButton
+                                onPress={() => removeInput(input.idx)}
+                                text='–' styles={styles}
+                            />
+                        )}
+                    </View>
+                ))}
+                <SmallButton
+                    onPress={addInput} text='+' styles={styles}
+                />
 
-            {/* cards */}
-            <Card
-                styles={styles}
-                imgURI={require('./example.jpg')}
-                title={'card title'}
-                body={loremIpsum}
-            />
-
+                {/* cards */}
+                <Card
+                    styles={styles}
+                    imgURI={require('./example.jpg')}
+                    title={'card title'}
+                    body={loremIpsum}
+                />
+            </View>
         </ScrollView>
     );
 };

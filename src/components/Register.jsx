@@ -9,7 +9,7 @@ import { deleteSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
 import { registrationValidationSchema } from '../utils/formValidationSchemas';
 
-import createStyles from '../styles/layout';
+import createStyles from '../styles/styles';
 import { Button } from './ui/Buttons';
 import { Input, PasswordInput } from './ui/InputFields';
 

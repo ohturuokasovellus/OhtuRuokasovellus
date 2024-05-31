@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from '../Router';
 import apiUrl from '../utils/apiUrl';
 
-import createStyles from '../styles/layout';
+import createStyles from '../styles/styles';
 import { Button, SmallButton } from './ui/Buttons';
 import { FlexInput, PasswordInput } from './ui/InputFields';
 

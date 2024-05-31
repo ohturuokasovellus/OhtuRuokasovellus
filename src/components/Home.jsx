@@ -5,7 +5,7 @@ import { useNavigate } from '../Router';
 import { useTranslation } from 'react-i18next';
 import Survey, { fetchSurveyUrl } from './Survey';
 
-import createStyles from '../styles/layout';
+import createStyles from '../styles/styles';
 import { Button } from './ui/Buttons';
 
 const Home = (props) => {

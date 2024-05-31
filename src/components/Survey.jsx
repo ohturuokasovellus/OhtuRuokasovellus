@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import apiUrl from '../utils/apiUrl';
 
-import createStyles from '../styles/layout';
+import createStyles from '../styles/styles';
 import { Button } from './ui/Buttons';
 
 /**

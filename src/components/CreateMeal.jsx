@@ -8,7 +8,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import apiUrl from '../utils/apiUrl';
 import { mealValidationSchema } from '../utils/formValidationSchemas';
 
-import createStyles from '../styles/layout';
+import createStyles from '../styles/styles';
 import { Button } from './ui/Buttons';
 import { Input } from './ui/InputFields';
 

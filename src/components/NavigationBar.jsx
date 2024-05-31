@@ -7,7 +7,7 @@ import { deleteSession } from '../controllers/sessionController';
 import { themeContext } from '../controllers/themeController';
 
 import { NavButton } from './ui/Buttons';
-import createStyles from '../styles/layout';
+import createStyles from '../styles/styles';
 import LanguageSwitch from './LanguageSwitch';
 
 const NavigationBar = ({ user, updateUser }) => {

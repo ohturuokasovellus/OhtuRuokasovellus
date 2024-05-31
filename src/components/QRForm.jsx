@@ -5,7 +5,7 @@ import { Text, View, ScrollView } from 'react-native';
 
 import QRGenerator from '../utils/QRGenerator';
 
-import createStyles from '../styles/layout';
+import createStyles from '../styles/styles';
 import { Input } from './ui/InputFields';
 import { Button } from './ui/Buttons';
 

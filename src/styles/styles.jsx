@@ -1,212 +1,234 @@
+/* eslint-disable id-length */
 import { StyleSheet } from 'react-native';
+import { useContext } from 'react';
+import { themeContext } from '../controllers/themeController';
 
-const styles = StyleSheet.create({
-    app: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    welcomeText: {
-        position: 'flex',
-        top: 0,
-        left: 0,
-        margin: 20,
-    },
-    login: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    input: {
-        width: '100%',
-        padding: 10,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 5,
-        marginBottom: 10,
-    },
-    register: {
-        margin: 10,
-    },
-    logoutButton: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        margin: 20,
-        height: 40,
-        width: 80,
-        backgroundColor: '#60AEBF',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8,
-    },
-    errorText: {
-        color: 'red',
-        marginBottom: 10,
-    },
-    button: {
-        margin: 4,
-        height: 40,
-        width: 80,
-        backgroundColor: '#60AEBF',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8,
-    },
-    buttonText: {
-        color: '#153236',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    surveyButton: {
-        margin: 10,
-        height: 40,
-        width: 130,
-        backgroundColor: '#60AEBF',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8,
-        textDecorationLine: 'none'
-    },
-    mealContainer: {
-        justifyContent: 'center',
-        // borderWidth: 3,
-        borderColor: '#ccc',
-        borderRadius: 15,
-        marginTop: 20,
-        marginBottom: 20,
-        flex: 1,
-        // paddingTop: 20,
-        // paddingHorizontal: 10,
-        padding: 15,
-        backgroundColor: '#F2D8D5',
-        width: 500,
-    },
-    header: {
-        fontSize: 24,
-        marginBottom: 10,
-        textAlign: 'center',
-    },
-    item: {
-        padding: 10,
-        fontSize: 18,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-    },
-    pressable: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        marginBottom: 10,
-    },
-    image: {
-        width: 220,
-        height: 200,
-        marginRight: 5,
-        marginBottom: 5,
-        borderRadius: 3,
-    },
-    additionalInfo: {
-        paddingBottom: 20,
-    },
-    additionalInfoContainer: {
-        width: '100%',
-        flexWrap: 'wrap',
-    },
-    itemContainer: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        // flexWrap: 'wrap',
-        // width: '100%',
+const createStyles = () => {
+    const { colors } = useContext(themeContext);
 
-    },
-    textContainer: {
-        marginLeft: 3,
-        flexDirection: 'center',
-        flexWrap: 'wrap',
-        width: '100%',
-    },
-    itemName: {
-        marginBottom: 5,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-    },
-});
+    return StyleSheet.create({
+    // general
+        background: {
+            paddingTop: 60,
+            flex: 1,
+            flexGrow: 1,
+            backgroundColor: colors.background,
+        },
+        container: {
+            maxWidth: 700,
+            padding: 16,
+            backgroundColor: colors.containerBackground,
+            borderRadius: 8,
+            marginVertical: 8,
+            alignSelf: 'center',
+        },
 
-const stylesForm = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 16,
-        backgroundColor: '#F2D8D5',
-        width: 400,
-    },
-    addEmailContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 12,
-    },
-    input: {
-        height: 50,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 8,
-        paddingHorizontal: 10,
-        margin: 6,
-        backgroundColor: '#fff',
-    },
-    addEmailInput: {
-        height: 50,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 8,
-        paddingHorizontal: 10,
-        margin: 6,
-        backgroundColor: '#fff',
-        flex: 1
-    },
-    button: {
-        height: 50,
-        backgroundColor: '#60AEBF',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8,
-        marginTop: 12
-    },
-    buttonText: {
-        color: '#153236',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    smallButton: {
-        height: 30,
-        width: 30,
-        backgroundColor: '#60AEBF',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8,
-        margin: 6
-    },
-    smallButtonText: {
-        color: '#E4F2E7',
-        fontSize: 24,
-        fontWeight: 'bold',
-    },
-    error: {
-        color: '#BF5687',
-        marginBottom: 8,
-    },
-    success: {
-        color: '#387373',
-        marginBottom: 8
-    },
-    link: {
-        color: '#023535',
-        textDecorationLine: 'underline'
-    }
-});
+        // text
+        body: {
+            fontSize: 16,
+            color: colors.text,
+        },
+        h1: {
+            fontSize: 32,
+            fontWeight: 'bold',
+            marginVertical: 12,
+            color: colors.text,
+        },
+        h2: {
+            fontSize: 28,
+            fontWeight: 'bold',
+            marginVertical: 12,
+            color: colors.text,
+        },
+        h3: {
+            fontSize: 24,
+            fontWeight: 'bold',
+            marginVertical: 12,
+            color: colors.text,
+        },
+        h4: {
+            fontSize: 22,
+            fontWeight: 'bold',
+            marginVertical: 12,
+            color: colors.text,
+        },
+        h5: {
+            fontSize: 20,
+            fontWeight: 'bold',
+            marginVertical: 12,
+            color: colors.text,
+        },
+        h6: {
+            fontSize: 18,
+            fontWeight: 'bold',
+            marginVertical: 12,
+            color: colors.text,
+        },
+        caption: {
+            fontSize: 12,
+            color: colors.text,
+        },
+        smallCaption: {
+            fontSize: 10,
+            color: colors.text,
+        },
+        error: {
+            fontSize: 14,
+            color: colors.error,
+            marginBottom: 8,
+        },
+        link: {
+            fontSize: 16,
+            color: colors.link,
+            textDecorationLine: 'underline',
+        },
+        placeholderText: {
+            color: colors.placeholderText
+        },
 
-export {
-    styles,
-    stylesForm
+        // buttons
+        button: {
+            backgroundColor: colors.buttonBackground,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+        },
+        iconButton: {
+            height: 30,
+            width: 30,
+            backgroundColor: colors.accent,
+            padding: 8,
+            borderRadius: 100,
+            marginBottom: 6,
+            marginHorizontal: 6,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        buttonText: {
+            fontSize: 18,
+            fontWeight: 'bold',
+            textTransform: 'lowercase',
+            color: colors.buttonText,
+        },
+        iconButtonText: {
+            fontsize: 32,
+            fontWeight: 'bold',
+            color: colors.background,
+        },
+
+        // input fields
+        input: {
+            height: 40,
+            borderColor: colors.inputBorder,
+            borderWidth: 1,
+            borderRadius: 8,
+            marginBottom: 12,
+            paddingLeft: 8,
+            color: colors.text,
+            backgroundColor: colors.inputBackground,
+        },
+        passwordInput: {
+            height: 40,
+            borderColor: colors.inputBorder,
+            borderWidth: 1,
+            borderRadius: 8,
+            marginBottom: 12,
+            paddingLeft: 8,
+            color: colors.text,
+            secureTextEntry: true,
+            backgroundColor: colors.inputBackground,
+        },
+        multilineInput: {
+            borderColor: colors.inputBorder,
+            borderWidth: 1,
+            borderRadius: 8,
+            marginBottom: 12,
+            padding: 8,
+            textAlignVertical: 'top',
+            color: colors.text,
+            backgroundColor: colors.inputBackground,
+        },
+        flexInputContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            borderRadius: 8,
+            marginBottom: 12,
+        },
+        flexInput: {
+            flex: 1,
+            height: 40,
+            borderColor: colors.inputBorder,
+            borderWidth: 1,
+            borderRadius: 8,
+            paddingLeft: 8,
+            color: colors.text,
+            backgroundColor: colors.inputBackground,
+        },
+
+        // cards
+        cardContainer: {
+            width: 400,
+            padding: 16,
+            backgroundColor: colors.buttonBackground,
+            borderRadius: 8,
+            marginVertical: 16,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            elevation: 3,
+            alignSelf: 'center',
+        },
+        imageContainer: {
+            position: 'absolute',
+            top: '-5%',
+            left: '5%',
+            // width: '90%',
+            width: 360,
+            // height: 200,
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            elevation: 3,
+            borderRadius: 8,
+            overflow: 'hidden',
+        },
+        image: {
+            width: '100%',
+            height: 200,
+            borderRadius: 8,
+        },
+        cardContent: {
+            paddingTop: 170,  // adjust this value based on the image height
+            alignItems: 'center',
+        },
+
+        // QR
+        qrContainer: {
+            padding: 16,
+        },
+
+        // navigation
+        navigationBar: {
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            paddingVertical: 12,
+            backgroundColor: colors.accent,
+            position: 'fixed',
+            top: 0,
+            width: '100%',
+            height: 60,
+            zIndex: 1000,
+        },
+        navigationLink: {
+            padding: 8,
+            color: colors.background,
+            fontSize: 16,
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+        },
+    });
 };
+
+export default createStyles;

@@ -7,7 +7,7 @@ import { useParams } from '../Router';
 import apiUrl from '../utils/apiUrl';
 
 import { MealCard } from './ui/Card';
-import createStyles from '../styles/layout';
+import createStyles from '../styles/styles';
 
 /**
  * Render a restaurant specific meal list based on restaurantId.
