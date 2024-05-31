@@ -4,14 +4,11 @@ import { useContext } from 'react';
 import { themeContext } from '../controllers/themeController';
 
 const createStyles = () => {
-    // eslint-disable-next-line no-unused-vars
-    const { theme, colors } = useContext(themeContext);
+    const { colors } = useContext(themeContext);
 
     return StyleSheet.create({
     // general
         background: {
-            // maxWidth: 700,
-            // alignSelf: 'center',
             paddingTop: 60,
             flex: 1,
             flexGrow: 1,
@@ -96,7 +93,6 @@ const createStyles = () => {
             borderRadius: 8,
             alignItems: 'center',
             marginBottom: 12,
-            // maxWidth: 300,
         },
         iconButton: {
             height: 30,
@@ -196,6 +192,7 @@ const createStyles = () => {
             shadowRadius: 4,
             elevation: 3,
             borderRadius: 8,
+            padding: 12,
         },
         image: {
             width: '100%',
