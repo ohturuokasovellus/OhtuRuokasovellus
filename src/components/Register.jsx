@@ -6,7 +6,6 @@ import { Text, View, ScrollView } from 'react-native';
 import { Link, useNavigate } from '../Router';
 import { deleteSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
-
 import { registrationValidationSchema } from '../utils/formValidationSchemas';
 
 import createStyles from '../styles/layout';
