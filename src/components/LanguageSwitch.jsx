@@ -1,34 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Pressable, Text } from 'react-native';
+import { NavButton } from './ui/Buttons';
 
-const LanguageSwitch = () => {
+const LanguageSwitch = ({ styles }) => {
     const { i18n } = useTranslation();
-  
-    const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng);
-        // eslint-disable-next-line no-undef
-        localStorage.setItem('i18nextLng', lng);
-    };
-  
-    return (
-        <View>
-            <Pressable id='english_button'
-                onPress={() => changeLanguage('eng')}
-            >
-                <Text style={{ color: 'white' }}>
-                    {'English'}
-                </Text>
-            </Pressable>
-            <Pressable id='suomi_button'
-                onPress={() => changeLanguage('fin')}
-            >
-                <Text style={{ color: 'white' }}>
-                    {'Suomi'}
-                </Text>
-            </Pressable>
+    const [isEnglish, setIsEnglish] = useState(i18n.language === 'eng');
 
-        </View>
+    const toggleLang = () => {
+        const newLanguage = isEnglish ? 'fin' : 'eng';
+        setIsEnglish(!isEnglish);
+        i18n.changeLanguage(newLanguage);
+        // eslint-disable-next-line no-undef
+        localStorage.setItem('i18nextLng', newLanguage);
+    };
+
+    return (
+        <NavButton
+            styles={styles}
+            onPress={toggleLang}
+            text={isEnglish ? 'Suomeksi' : 'In English'}
+            id='language-toggle'
+        />
     );
 };
 
