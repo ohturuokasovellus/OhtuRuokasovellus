@@ -23,7 +23,7 @@ const getTokenFrom = request => {
  * @returns {Object} 500 -  Meal insertion failed.
  */
 router.post('/api/meals', express.json(), async (req, res) => {
-    const { mealName, restaurantUser } = req.body;
+    const { mealName } = req.body;
 
     // Token decoding from 
     // https://fullstackopen.com/en/part4/token_authentication
@@ -42,16 +42,13 @@ router.post('/api/meals', express.json(), async (req, res) => {
         return res.status(400).send('invalid meal name');
     }
 
-    if (!restaurantUser) {
-        return res.status(400).send('You are not logged in');
-    }
     else if (!loggedInUsersRestaurantId) {
         return res.status(400).send('You do not have permissions to add meals');
     }
 
     let mealId;
     try {
-        mealId = await insertMeal(mealName, restaurantUser.restaurantId);
+        mealId = await insertMeal(mealName, loggedInUsersRestaurantId);
     } catch (err) {
         console.error(err);
         return res.status(500).send('meal insertion failed');

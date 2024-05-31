@@ -110,12 +110,11 @@ const CreateMeal = (props) => {
 
     const onSubmit = async values => {
         const { mealName, imageUri } = values;
-        const restaurantUser = props.user;
 
         try {
             const response = await axios.post(
                 `${apiUrl}/meals`,
-                { mealName, restaurantUser },
+                { mealName },
                 {
                     headers: { Authorization: 'Bearer ' + getSession().token }
                 }
