@@ -1,47 +1,59 @@
 const request = require('supertest');
+const jwt = require('jsonwebtoken');
 const app = require('../app');
 // eslint-disable-next-line jest/no-mocks-import
 const postgresMock = require('../__mocks__/postgres');
 
+const token = jwt.sign({ username: 'moi', userId: 1 },
+    process.env.SECRET_KEY);
+
 describe('meal api', () => {
+    const headers = {'Authorization':'Bearer '+token, 
+        'Content-Type': 'application/json'};
+
     beforeEach(() => {
-        return postgresMock.clearDatabase();
+        return postgresMock.clearDatabase(); // why is this being returned?
     });
 
     test('new meal is saved to the database', async () => {
         postgresMock.setSqlResults([
-            [{ meal_id: 3141 }],    // eslint-disable-line camelcase
+            [{ restaurant_id: 2 }], // eslint-disable-line camelcase
+            [{ meal_id: 1234 }], // eslint-disable-line camelcase
             { count: 1 },
         ]);
-
+        
         const response = await request(app)
             .post('/api/meals')
-            .send({ mealName: 'pasta', restaurantUser: { restaurantId: 1} })
-            .set('Content-Type', 'application/json')
+            .send({ mealName: 'pasta' })
+            .set(headers)
             .expect(200)
             .expect('Content-Type', /application\/json/);
 
-        expect(response.body.mealId).toBe(3141);
+        expect(response.body.mealId).toBe(1234);
 
         const imageData = 'data:image/jpeg;base64,CNsCSUbjG7PyKI0x1lRkKdONzHG';
         await request(app)
-            .post('/api/meals/images/3141')
+            .post('/api/meals/images/1234')
             .send(imageData)
             .set('Content-Type', 'image/jpeg')
             .expect(200);
 
-        expect(postgresMock.runSqlCommands().length).toBe(2);
+        expect(postgresMock.runSqlCommands().length).toBe(3);
     });
 
     test('meal creation fails with missing name', async () => {
+        postgresMock.setSqlResults([
+            [{ restaurant_id: 2 }], // eslint-disable-line camelcase
+        ]);
+
         await request(app)
             .post('/api/meals')
             .send({ name: 'this key should actually be mealName' })
-            .set('Content-Type', 'application/json')
+            .set(headers)
             .expect(400)
             .expect('invalid meal name');
 
-        expect(postgresMock.runSqlCommands().length).toBe(0);
+        expect(postgresMock.runSqlCommands().length).toBe(1);
     });
 
     test('meal image creation fails with invalid meal id', async () => {

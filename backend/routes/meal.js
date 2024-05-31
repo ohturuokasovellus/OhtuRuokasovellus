@@ -53,7 +53,6 @@ router.post('/api/meals', express.json(), async (req, res) => {
         console.error(err);
         return res.status(500).send('meal insertion failed');
     }
-
     res.json({ mealId });
 });
 

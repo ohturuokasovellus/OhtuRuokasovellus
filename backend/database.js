@@ -91,6 +91,11 @@ const getUserIdByEmail = async (email) => {
     return result.at(0).user_id;
 };
 
+/**
+ * Get user's restaurant id based on user's id.
+ * @param {number} userId
+ * @returns {Promise<number|null>} - restaurant id or null if not found
+ */
 const getRestaurantIdByUserId = async (userId) => {
     const result = await sql`
     SELECT restaurant_id FROM users
@@ -166,7 +171,6 @@ const doesRestaurantExist = async name => {
  * @returns {Promise<number>} ID of the created meal.
  */
 const insertMeal = async (name, restaurantId) => {
-    // TODO: add another parameter for the restaurant id
     const result = await sql`
         INSERT INTO meals (name, restaurant_id)
         VALUES (${name}, ${restaurantId})
