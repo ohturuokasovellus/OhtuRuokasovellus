@@ -207,6 +207,11 @@ const createStyles = () => {
             alignItems: 'center',
         },
 
+        // QR
+        qrContainer: {
+            padding: 16,
+        },
+
         // navigation
         navigationBar: {
             flexDirection: 'row',
