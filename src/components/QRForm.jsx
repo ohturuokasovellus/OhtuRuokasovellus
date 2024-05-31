@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import QRGenerator from './QRGenerator';
 import { Text, Pressable, View, TextInput } from 'react-native';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const initialValues = {
     urlToBeGenerated: ''
@@ -15,6 +16,9 @@ const initialValues = {
  */
 const QRForm = () => {
     let [urlView, setUrlView] = useState(null);
+
+    const {t} = useTranslation();
+
     const onSubmit = urlObject => {
         const url = urlObject.urlToBeGenerated;
         setUrlView(QRGenerator(url));
@@ -28,12 +32,12 @@ const QRForm = () => {
     return (
         <View>
             <TextInput
-                placeholder = 'Type a URL'
+                placeholder = {t('TYPE_A_URL')}
                 value = {formik.values.urlToBeGenerated}
                 onChangeText={formik.handleChange('urlToBeGenerated')}
             />
             <Pressable onPress={formik.handleSubmit}>
-                <Text>Generate a URL</Text>
+                <Text>{t('GENERATE_A_URL')}</Text>
             </Pressable>
             <View style={{ background: 'white', padding: '16px' }}>
                 {urlView}

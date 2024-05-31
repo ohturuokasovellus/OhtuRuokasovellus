@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import apiUrl from '../utils/apiUrl';
 import { useNavigate } from '../Router';
 
@@ -21,6 +22,7 @@ const initialValues = {
 
 
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
+    const {t} = useTranslation();
     const [formError, setFormError] = useState('');
 
     const formik = useFormik({
@@ -73,7 +75,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 <Text>{formError}</Text>
             ) : null}
             <TextInput
-                placeholder='Aterian nimi'
+                placeholder={t('NAME_OF_THE_MEAL')}
                 value={formik.values.mealName}
                 onChangeText={formik.handleChange('mealName')}
             />
@@ -81,13 +83,13 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 <Text>{formik.errors.mealName}</Text>
             }
             <Pressable onPress={openImagePicker}>
-                <Text>Valitse kuva laitteelta</Text>
+                <Text>{t('SELECT_A_IMAGE_FROM_DEVICE')}</Text>
             </Pressable>
             {formik.touched.imageUri && formik.errors.imageUri && 
                 <Text>{formik.errors.imageUri}</Text>
             }
             <Pressable onPress={formik.handleSubmit}>
-                <Text>Luo ateria</Text>
+                <Text>{t('CREATE_A_MEAL')}</Text>
             </Pressable>
         </View>
     );
