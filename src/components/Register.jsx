@@ -72,7 +72,9 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     id='username-input'
                 />
                 {formik.touched.username && formik.errors.username && (
-                    <Text style={styles.error}>{formik.errors.username}</Text>
+                    <Text style={styles.error}>
+                        {t(formik.errors.username)}
+                    </Text>
                 )}
                 <Input
                     styles={styles}
@@ -83,7 +85,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     id='email-input'
                 />
                 {formik.touched.email && formik.errors.email && (
-                    <Text style={styles.error}>{formik.errors.email}</Text>
+                    <Text style={styles.error}>{t(formik.errors.email)}</Text>
                 )}
                 <PasswordInput
                     styles={styles}
@@ -94,7 +96,9 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     id='password-input'
                 />
                 {formik.touched.password && formik.errors.password && (
-                    <Text style={styles.error}>{formik.errors.password}</Text>
+                    <Text style={styles.error}>
+                        {t(formik.errors.password)}
+                    </Text>
                 )}
                 <PasswordInput
                     styles={styles}
@@ -118,7 +122,9 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 />
                 <Text style={styles.body}>{t('ALREADY_REGISTERED')}</Text>
                 <Link to='/login'>
-                    <Text style={styles.link}>{t('LOGIN')}</Text>
+                    <Text style={styles.link} id='login-link'>
+                        {t('LOGIN')}
+                    </Text>
                 </Link>
             </View>
         </ScrollView>

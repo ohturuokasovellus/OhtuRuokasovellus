@@ -19,7 +19,7 @@ test.describe('registration page', () => {
     });
 
     test('redirects to login page if already registered', async ({ page }) => {
-        await page.getByRole('link', { name: 'login' }).click();
+        await page.locator('#login-link').click();
         await expect(page).toHaveURL(/\/login$/);
     });
 
@@ -31,8 +31,8 @@ test.describe('registration page', () => {
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('Test123!');
-        await page.locator('#password-confirmation-input').click();
-        await page.locator('#password-confirmation-input').fill('Test123!');
+        await page.locator('#confirm-password-input').click();
+        await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/login$/);
     });
@@ -45,8 +45,8 @@ test.describe('registration page', () => {
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('Test123!');
-        await page.locator('#password-confirmation-input').click();
-        await page.locator('#password-confirmation-input').fill('Test123!');
+        await page.locator('#confirm-password-input').click();
+        await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
         await expect(page.locator('#root'))
@@ -60,8 +60,8 @@ test.describe('registration page', () => {
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('Test123!');
-        await page.locator('#password-confirmation-input').click();
-        await page.locator('#password-confirmation-input').fill('Test123!');
+        await page.locator('#confirm-password-input').click();
+        await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
         await expect(page.locator('#root'))
@@ -81,8 +81,8 @@ test.describe('registration page', () => {
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('Test123!');
-        await page.locator('#password-confirmation-input').click();
-        await page.locator('#password-confirmation-input').fill('Test123!');
+        await page.locator('#confirm-password-input').click();
+        await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
         await expect(page.locator('#root'))
@@ -97,8 +97,8 @@ test.describe('registration page', () => {
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('Test123!');
-        await page.locator('#password-confirmation-input').click();
-        await page.locator('#password-confirmation-input').fill('Test123!');
+        await page.locator('#confirm-password-input').click();
+        await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
         await expect(page.locator('#root'))
@@ -112,8 +112,8 @@ test.describe('registration page', () => {
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('Test123!');
-        await page.locator('#password-confirmation-input').click();
-        await page.locator('#password-confirmation-input').fill('Test123!');
+        await page.locator('#confirm-password-input').click();
+        await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
         await expect(page.locator('#root')).toContainText('Email is required');
@@ -134,8 +134,8 @@ test.describe('registration page', () => {
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('Test123!');
-        await page.locator('#password-confirmation-input').click();
-        await page.locator('#password-confirmation-input').fill('Test123!');
+        await page.locator('#confirm-password-input').click();
+        await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
     });
@@ -146,7 +146,7 @@ test.describe('registration page', () => {
         await page.locator('#email-input').click();
         await page.locator('#email-input').fill('test@test.fi');
         await page.locator('#password-input').click();
-        await page.locator('#password-confirmation-input').click();
+        await page.locator('#confirm-password-input').click();
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
         await expect(page.locator('#root'))
@@ -162,19 +162,19 @@ test.describe('registration page', () => {
         await page.locator('#email-input').fill('test@test.fi');
         await page.locator('#password-input').click();
         await page.locator('#password-input').fill('test');
-        await page.locator('#password-confirmation-input').click();
+        await page.locator('#confirm-password-input').click();
         await expect(page.locator('#root'))
             .toContainText('Password must be at least 8 characters');
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('123456789012345678901234567890123');
-        await page.locator('#password-confirmation-input').click();
+        await page.locator('#confirm-password-input').click();
         await expect(page.locator('#root'))
             .toContainText('Password cannot exceed 32 characters');
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('TESTTEST');
-        await page.locator('#password-confirmation-input').click();
+        await page.locator('#confirm-password-input').click();
         await expect(page.locator('#root'))
             .toContainText(
                 'Password must contain at least one lowercase letter'
@@ -182,7 +182,7 @@ test.describe('registration page', () => {
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('testtest');
-        await page.locator('#password-confirmation-input').click();
+        await page.locator('#confirm-password-input').click();
         await expect(page.locator('#root'))
             .toContainText(
                 'Password must contain at least one uppercase letter'
@@ -190,19 +190,19 @@ test.describe('registration page', () => {
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('testTEST');
-        await page.locator('#password-confirmation-input').click();
+        await page.locator('#confirm-password-input').click();
         await expect(page.locator('#root'))
             .toContainText('Password must contain at least one number');
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('test123A');
-        await page.locator('#password-confirmation-input').click();
+        await page.locator('#confirm-password-input').click();
         await expect(page.locator('#root'))
             .toContainText(
                 'Password must contain at least one special character'
             );
-        await page.locator('#password-confirmation-input').click();
-        await page.locator('#password-confirmation-input').fill('test123A!');
+        await page.locator('#confirm-password-input').click();
+        await page.locator('#confirm-password-input').fill('test123A!');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
     });
@@ -215,8 +215,8 @@ test.describe('registration page', () => {
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('Test123!');
-        await page.locator('#password-confirmation-input').click();
-        await page.locator('#password-confirmation-input').fill('Test123');
+        await page.locator('#confirm-password-input').click();
+        await page.locator('#confirm-password-input').fill('Test123');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
         await expect(page.locator('#root'))

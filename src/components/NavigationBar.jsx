@@ -18,7 +18,7 @@ const NavigationBar = ({ user, updateUser }) => {
         updateUser(null);
         navigate('/login');
     };
-    const { toggleTheme } = useContext(themeContext);
+    const { theme, toggleTheme } = useContext(themeContext);
     const styles = createStyles();
 
     return (
@@ -26,7 +26,7 @@ const NavigationBar = ({ user, updateUser }) => {
             <NavButton
                 styles={styles}
                 onPress={toggleTheme}
-                text='🌘︎'
+                text={(theme === 'dark') ? '🌞︎︎' : '🌘︎'}
                 id='theme-toggle'
             />
             {user &&

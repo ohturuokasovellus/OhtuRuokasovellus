@@ -39,7 +39,7 @@ const Survey = ({ surveyUrl } ) => {
 export const fetchSurveyUrl = async (setSurveyUrl, setLoading) => {
     try {
         const res = await axios.get(
-            `${apiUrl}/layout`
+            `${apiUrl}/url/survey`
         );
         setSurveyUrl(res.data);
     } catch (error) {

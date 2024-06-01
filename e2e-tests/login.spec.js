@@ -23,7 +23,7 @@ test.describe('login page', () => {
         await expect(page).toHaveURL(/\/login$/);
         await page.fill('input[id="username-input"]', 'testi');
         await page.fill('input[id="password-input"]', 'Testi123!');
-        await page.locator('#llogin-button').click();
+        await page.locator('#login-button').click();
         await expect(page).toHaveURL('/');
     });
 
@@ -67,7 +67,7 @@ test.describe('login page', () => {
         await page.fill('input[id="username-input"]', 'testi');
         await page.fill('input[id="password-input"]', 'Testi123!');
         await page.locator('#login-button').click();
-        await page.locator('#logout_button').click();
+        await page.locator('#navigation-logout').click();
         await expect(page).toHaveURL('/login');
     });
 });

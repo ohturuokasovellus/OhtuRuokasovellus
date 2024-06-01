@@ -83,7 +83,9 @@ const LoginForm = ({ updateUser }) => {
                             id='username-input'
                         />
                         {touched.username && errors.username && (
-                            <Text style={styles.error}>{errors.username}</Text>
+                            <Text style={styles.error}>
+                                {t(errors.username)}
+                            </Text>
                         )}
                         <PasswordInput
                             styles={styles}
@@ -94,7 +96,9 @@ const LoginForm = ({ updateUser }) => {
                             id='password-input'
                         />
                         {touched.password && errors.password && (
-                            <Text style={styles.error}>{errors.password}</Text>
+                            <Text style={styles.error}>
+                                {t(errors.password)}
+                            </Text>
                         )}
                         {errorMessage ? (
                             <Text style={styles.error}>{errorMessage}</Text>

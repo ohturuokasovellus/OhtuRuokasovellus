@@ -23,7 +23,7 @@ test.describe('restaurant registration page', () => {
     });
 
     test('redirects to login page if already registered', async ({ page }) => {
-        await page.getByRole('link', { name: 'login' }).click();
+        await page.locator('#login-link').click();
         await expect(page).toHaveURL(/\/login$/);
     });
 
