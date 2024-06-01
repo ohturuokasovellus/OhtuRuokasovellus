@@ -249,35 +249,6 @@ const createStyles = () => {
             fontFamily: 'Roboto-Black',
             textTransform: 'uppercase',
         },
-
-        // boxes (for displaying theme colours on layout mock)
-        box: {
-            width: 150,
-            height: 150,
-            borderRadius: 8,
-            margin: 8,
-            alignItems: 'center',
-            justifyContent: 'center',
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.2,
-            shadowRadius: 4,
-            elevation: 5,
-        },
-        boxTitle: {
-            fontSize: 16,
-            fontFamily: 'Roboto-Bold',
-        },
-        text: {
-            fontSize: 12,
-            fontWeight: 'bold',
-        },
-        row: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-around',
-            marginVertical: 8,
-        },
     });
 };
 
