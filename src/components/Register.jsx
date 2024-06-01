@@ -58,7 +58,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
         <ScrollView style={styles.background}>
             <View style={styles.container}>
                 <Text style={styles.h1}>
-                    Register
+                    {t('REGISTER')}
                 </Text>
                 {formError ? (
                     <Text style={styles.error}>{formError}</Text>

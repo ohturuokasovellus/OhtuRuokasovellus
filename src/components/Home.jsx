@@ -35,7 +35,7 @@ const Home = (props) => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
-                <Text style={styles.h1}>Home</Text>
+                <Text style={styles.h1}>{t('HOME')}</Text>
                 <Text style={styles.body}>
                     {t('WELCOME')}, {username}
                 </Text>

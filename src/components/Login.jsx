@@ -72,7 +72,7 @@ const LoginForm = ({ updateUser }) => {
                 <ScrollView style={styles.background}>
                     <View style={styles.container}>
                         <Text style={styles.h1}>
-                            Login
+                            {t('LOGIN')}
                         </Text>
                         <Input
                             styles={styles}

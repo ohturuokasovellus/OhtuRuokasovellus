@@ -39,7 +39,7 @@ const QRForm = () => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
-                <Text style={styles.h1}>Create a QR Code</Text>
+                <Text style={styles.h1}>{t('QR_FORM')}</Text>
                 <Input
                     styles={styles}
                     placeholder={t('TYPE_A_URL')}

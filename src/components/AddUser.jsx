@@ -62,7 +62,7 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
         <ScrollView style={styles.background}>
             <View style={styles.container}>
                 <Text style={styles.h1}>
-                    Add Users to a Restaurant
+                    {t('ADD_USERS')}
                 </Text>
                 {formError ? (
                     <Text style={styles.error}>{formError}</Text>

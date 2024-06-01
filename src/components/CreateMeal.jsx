@@ -66,7 +66,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
-                <Text style={styles.h1}>Luo ateria</Text>
+                <Text style={styles.h1}>{t('CREATE_A_MEAL')}</Text>
                 {formik.values.imageUri ? (
                     <Image
                         source={{ uri: formik.values.imageUri }}
