@@ -17,8 +17,8 @@ const Card = ({ styles, imgURI, title, body }) => {
                     style={styles.image} />
             </View>
             <View style={styles.cardContent}>
-                <Text style={styles.h5}>{title}</Text>
-                <Text style={styles.body}>{body}</Text>
+                <Text style={styles.cardTitle}>{title}</Text>
+                <Text style={styles.cardText}>{body}</Text>
             </View>
         </View>
     );
@@ -45,9 +45,9 @@ const MealCard = ({ styles, imgURI, title, body, onPress, isSelected }) => {
                     />
                 </View>
                 <View style={styles.cardContent}>
-                    <Text style={styles.h5}>{title}</Text>
+                    <Text style={styles.cardTitle}>{title}</Text>
                     {isSelected && (
-                        <Text style={styles.body}>{body}</Text>
+                        <Text style={styles.cardText}>{body}</Text>
                     )}
                 </View>
             </View>

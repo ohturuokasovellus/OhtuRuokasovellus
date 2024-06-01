@@ -24,7 +24,7 @@ Excepteur sint occaecat cupidatat non proident, \
 sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 const Layout = () => {
-    const { toggleTheme, colors } = useContext(themeContext);
+    const { theme, colors } = useContext(themeContext);
     const styles = createStyles(colors);
     const [inputs, setInputs] = useState([{ idx: 1, value: '' }]);
 
@@ -40,6 +40,45 @@ const Layout = () => {
         setInputs(inputs.map(
             input => (input.idx === idx ? { ...input, value: text } : input)
         ));
+    };
+
+    const renderBoxes = (currentTheme) => {
+        return Object.keys(currentTheme).map((key, index) => {
+            if (key.startsWith('on')) return null;
+            const onKey = `on${key.charAt(0).toUpperCase() + key.slice(1)}`;
+            return (
+                <View
+                    key={index}
+                    style={{flexDirection: 'row', marginBottom: 8}}
+                >
+                    <View
+                        style={{
+                            flex: 1, height: 50, justifyContent: 'center',
+                            alignItems: 'center', marginHorizontal:4,
+                            backgroundColor: currentTheme[key]}}
+                    >
+                        <Text
+                            style={[
+                                styles.body, { color: currentTheme[onKey] }
+                            ]}>
+                            {key}
+                        </Text>
+                    </View>
+                    <View
+                        style={{
+                            flex: 1, height: 50, justifyContent: 'center',
+                            alignItems: 'center', marginHorizontal:4,
+                            backgroundColor: currentTheme[onKey] 
+                        }}>
+                        <Text style={[
+                            styles.body, { color: currentTheme[key] }
+                        ]}>
+                            {onKey}
+                        </Text>
+                    </View>
+                </View>
+            );
+        });
     };
 
     return (
@@ -102,6 +141,10 @@ const Layout = () => {
                     title={'card title'}
                     body={loremIpsum}
                 />
+                {/* theme colours */}
+                <ScrollView contentContainerStyle={{padding: 16}}>
+                    {renderBoxes(colors)}
+                </ScrollView>
             </View>
         </ScrollView>
     );
