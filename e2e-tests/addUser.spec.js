@@ -51,7 +51,7 @@ test.describe('adding restaurant users: unauthorised', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/login');
-        await page.locator('#english_button').click();
+        await page.locator('#language-toggle').click();
     });
 
     test('redirects to home if a normal user tries to access the page',
@@ -61,7 +61,7 @@ test.describe('adding restaurant users: unauthorised', () => {
             await page.getByPlaceholder('Username').fill('test2');
             await page.getByPlaceholder('Password').click();
             await page.getByPlaceholder('Password').fill('Best456@');
-            await page.locator('#log_user_in_button').click();
+            await page.locator('#login-button').click();
 
             await page.waitForURL('/');
             await expect(page.locator('text=Welcome,')).toBeVisible();
@@ -82,12 +82,12 @@ test.describe('adding restaurant users: authorised', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/login');
-        await page.locator('#english_button').click();
+        await page.locator('#language-toggle').click();
         await page.getByPlaceholder('Username').click();
         await page.getByPlaceholder('Username').fill('test');
         await page.getByPlaceholder('Password').click();
         await page.getByPlaceholder('Password').fill('Test123!');
-        await page.locator('#log_user_in_button').click();
+        await page.locator('#login-button').click();
         await page.getByText('add user').click();
     });
 
@@ -103,7 +103,7 @@ test.describe('adding restaurant users: authorised', () => {
             await page.getByPlaceholder('confirm with password').click();
             await page.getByPlaceholder('confirm with password')
                 .fill('Test123!');
-            await page.getByText('add users').click();
+            await page.locator('#add-users-button').click();
             await expect(page).toHaveURL(/\/add-users$/);
             await expect(page.locator('#root'))
                 .toContainText('users have been successfully processed!');
@@ -121,7 +121,7 @@ test.describe('adding restaurant users: authorised', () => {
             await page.getByPlaceholder('confirm with password').click();
             await page.getByPlaceholder('confirm with password')
                 .fill('Test123!');
-            await page.getByText('add users').click();
+            await page.locator('#add-users-button').click();
             await expect(page).toHaveURL(/\/add-users$/);
             await expect(page.locator('#root'))
                 .toContainText('users have been successfully processed!');
@@ -153,7 +153,7 @@ test.describe('adding restaurant users: authorised', () => {
             await page.getByPlaceholder('confirm with password').click();
             await page.getByPlaceholder('confirm with password')
                 .fill('Test123!');
-            await page.getByText('add users').click();
+            await page.locator('#add-users-button').click();
             await expect(page).toHaveURL(/\/add-users$/);
             await expect(page.locator('#root'))
                 .toContainText('users have been successfully processed!');
@@ -173,7 +173,7 @@ test.describe('adding restaurant users: authorised', () => {
             await page.getByPlaceholder('confirm with password').click();
             await page.getByPlaceholder('confirm with password')
                 .fill('Test123!');
-            await page.getByText('add users').click();
+            await page.locator('#add-users-button').click();
             await expect(page).toHaveURL(/\/add-users$/);
             await expect(page.locator('#root'))
                 .toContainText('users have been successfully processed!');
@@ -188,7 +188,7 @@ test.describe('adding restaurant users: authorised', () => {
         async ({ page }) => {
             await page.getByPlaceholder('email').click();
             await page.getByPlaceholder('email').fill('test2@test.com');
-            await page.getByText('add users').click();
+            await page.locator('#add-users-button').click();
             await expect(page).toHaveURL(/\/add-users$/);
             await expect(page.locator('#root'))
                 .toContainText('invalid password');
@@ -197,14 +197,14 @@ test.describe('adding restaurant users: authorised', () => {
             await page.getByPlaceholder('confirm with password').click();
             await page.getByPlaceholder('confirm with password')
                 .fill('incorrect');
-            await page.getByText('add users').click();
+            await page.locator('#add-users-button').click();
             await expect(page).toHaveURL(/\/add-users$/);
             await expect(page.locator('#root'))
                 .toContainText('invalid password');
             await page.getByPlaceholder('confirm with password').click();
             await page.getByPlaceholder('confirm with password')
                 .fill('Test123!');
-            await page.getByText('add users').click();
+            await page.locator('#add-users-button').click();
             await expect(page).toHaveURL(/\/add-users$/);
             await expect(page.locator('#root'))
                 .toContainText('users have been successfully processed!');

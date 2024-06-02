@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Text, Pressable, View, TextInput } from 'react-native';
-import { Link, useNavigate } from '../Router';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { stylesForm } from '../styling/styles';
+import { Text, View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-const styles = stylesForm;
+import { Link, useNavigate } from '../Router';
+import apiUrl from '../utils/apiUrl';
+
+import createStyles from '../styles/styles';
+import { Button, SmallButton } from './ui/Buttons';
+import { FlexInput, PasswordInput } from './ui/InputFields';
 
 const initialValues = {
     emails: [''],
@@ -53,78 +56,86 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
         formik.setFieldValue('emails', updatedEmails);
     };
 
+    const styles = createStyles();
+
     return (
-        <View style={styles.container}>
-            {formError ? (
-                <Text style={styles.error}>{formError}</Text>
-            ) : null}
-            {successMessage ? (
-                <View>
-                    <Text>{successMessage}</Text>
+        <ScrollView style={styles.background}>
+            <View style={styles.container}>
+                <Text style={styles.h1}>
+                    {t('ADD_USERS')}
+                </Text>
+                {formError ? (
+                    <Text style={styles.error}>{formError}</Text>
+                ) : null}
+                {successMessage ? (
                     <View>
-                        {results.map((result, index) => (
-                            <Text
-                                key={index}
-                                style={result.status ===
+                        <Text style={styles.body}>{successMessage}</Text>
+                        <View>
+                            {results.map((result, index) => (
+                                <Text
+                                    key={index}
+                                    style={result.status ===
                                     'user added successfully' ?
-                                    styles.success : styles.error
-                                }>
-                                {result.email}: {result.status}
-                            </Text>
-                        ))}
-                    </View>
-                </View>
-            ) : (
-                <View>
-                    {formik.values.emails.map((email, index) => (
-                        <View key={index} style={styles.addEmailContainer}>
-                            <TextInput
-                                style={styles.addEmailInput}
-                                placeholder={t('EMAIL')}
-                                value={email}
-                                onChangeText={text => {
-                                    const updatedEmails =
-                                    [...formik.values.emails];
-                                    updatedEmails[index] = text;
-                                    formik.setFieldValue(
-                                        'emails', updatedEmails
-                                    );
-                                }}
-                            />
-                            {formik.values.emails.length > 1 && (
-                                <Pressable
-                                    style={styles.smallButton}
-                                    onPress={() => removeEmailInput(index)}>
-                                    <Text style={styles.smallButtonText}>
-                                        –
-                                    </Text>
-                                </Pressable>
-                            )}
+                                        styles.body : styles.error
+                                    }>
+                                    {result.email}: {result.status}
+                                </Text>
+                            ))}
                         </View>
-                    ))}
-                    <Pressable
-                        style={styles.smallButton}
-                        onPress={addEmailInput}>
-                        <Text style={styles.smallButtonText}>+</Text>
-                    </Pressable>
-                    <TextInput
-                        style={styles.input}
-                        placeholder={t('CONFIRM_WITH_PASSWORD')}
-                        secureTextEntry
-                        value={formik.values.password}
-                        onChangeText={formik.handleChange('password')}
-                    />
-                    <Pressable
-                        style={styles.button}
-                        onPress={formik.handleSubmit}>
-                        <Text style={styles.buttonText}>{t('ADD_USERS')}</Text>
-                    </Pressable>
-                </View>
-            )}
-            <Link to='/'>
-                <Text>{t('BACK_TO_HOME')}</Text>
-            </Link>
-        </View>
+                    </View>
+                ) : (
+                    <View>
+                        {formik.values.emails.map((email, index) => (
+                            <View key={index} style={styles.flexInputContainer}>
+                                <FlexInput
+                                    styles={styles}
+                                    placeholder={t('EMAIL')}
+                                    value={email}
+                                    onChangeText={text => {
+                                        const updatedEmails =
+                                    [...formik.values.emails];
+                                        updatedEmails[index] = text;
+                                        formik.setFieldValue(
+                                            'emails', updatedEmails
+                                        );
+                                    }}
+                                />
+                                {formik.values.emails.length > 1 && (
+                                    <SmallButton
+                                        styles={styles}
+                                        onPress={() => removeEmailInput(index)}
+                                        text='–'
+                                        id='remove-email-button'
+                                    />
+                                )}
+                            </View>
+                        ))}
+                        <SmallButton
+                            styles={styles}
+                            onPress={addEmailInput}
+                            text='+'
+                            id='add-email-button'
+                        />
+                        <PasswordInput
+                            styles={styles}
+                            placeholder={t('CONFIRM_WITH_PASSWORD')}
+                            value={formik.values.password}
+                            onChangeText={formik.handleChange('password')}
+                        />
+                        <Button
+                            styles={styles}
+                            onPress={formik.handleSubmit}
+                            text={t('ADD_USERS')}
+                            id='add-users-button'
+                        />
+                    </View>
+                )}
+                <Link to='/'>
+                    <Text style={styles.link}>{t('BACK_TO_HOME')}</Text>
+                </Link>
+            </View>
+        </ScrollView>
+        
     );
 };
 
@@ -149,7 +160,7 @@ const AddUser = (props) => {
         const { emails, password } = values;
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/add-users',
+                `${apiUrl}/add-users`,
                 {
                     emails,
                     restaurantId: user.restaurantId,
@@ -181,7 +192,7 @@ const AddUser = (props) => {
             results={results}
         />
     ) : (
-        <Text style={styles.error}>
+        <Text>
             401: unauthorised
         </Text>
     );

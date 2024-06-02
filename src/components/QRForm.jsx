@@ -1,8 +1,13 @@
-import { useFormik } from 'formik';
-import QRGenerator from './QRGenerator';
-import { Text, Pressable, View, TextInput } from 'react-native';
 import { useState } from 'react';
+import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { Text, View, ScrollView } from 'react-native';
+
+import QRGenerator from '../utils/QRGenerator';
+
+import createStyles from '../styles/styles';
+import { Input } from './ui/InputFields';
+import { Button } from './ui/Buttons';
 
 const initialValues = {
     urlToBeGenerated: ''
@@ -29,20 +34,28 @@ const QRForm = () => {
         onSubmit,
     });
 
+    const styles = createStyles();
+
     return (
-        <View>
-            <TextInput
-                placeholder = {t('TYPE_A_URL')}
-                value = {formik.values.urlToBeGenerated}
-                onChangeText={formik.handleChange('urlToBeGenerated')}
-            />
-            <Pressable onPress={formik.handleSubmit}>
-                <Text>{t('GENERATE_A_URL')}</Text>
-            </Pressable>
-            <View style={{ background: 'white', padding: '16px' }}>
-                {urlView}
+        <ScrollView style={styles.background}>
+            <View style={styles.container}>
+                <Text style={styles.h1}>{t('QR_FORM')}</Text>
+                <Input
+                    styles={styles}
+                    placeholder={t('TYPE_A_URL')}
+                    onChangeText={formik.handleChange('urlToBeGenerated')}
+                />
+                <Button
+                    styles={styles}
+                    onPress={formik.handleSubmit}
+                    text={t('GENERATE_A_URL')}
+                    id='generate-qr-button'
+                />
+                <View style={styles.qrContainer}>
+                    {urlView}
+                </View>
             </View>
-        </View>
+        </ScrollView>
     );
 };
 

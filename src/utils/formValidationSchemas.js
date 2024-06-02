@@ -66,9 +66,17 @@ const loginValidationSchema = yup.object().shape({
         .required('PASSWORD_IS_REQUIRED'),
 });
 
+const mealValidationSchema = yup.object().shape({
+    mealName: yup.string()
+        .required('Name for the meal is required'),
+    imageUri: yup.string()
+        .required('Image of the meal is required'),
+});
+
 export {
     registrationValidationSchema,
     restaurantValidationSchema,
     loginValidationSchema,
-    emailValidationSchema
+    emailValidationSchema,
+    mealValidationSchema
 };

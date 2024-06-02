@@ -1,23 +1,23 @@
-import { Text, Pressable, View, TextInput, Image } from 'react-native';
-import { useFormik } from 'formik';
 import { useState } from 'react';
-import { launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios';
-import * as yup from 'yup';
+import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import apiUrl from '../utils/apiUrl';
+import { Text, View, Image, ScrollView} from 'react-native';
+import { launchImageLibrary } from 'react-native-image-picker';
 
-const validationSchema = yup.object().shape({
-    mealName: yup.string()
-        .required('Name for the meal is required'),
-    imageUri: yup.string()
-        .required('Image of the meal is required'),
-});
+import apiUrl from '../utils/apiUrl';
+import { mealValidationSchema } from '../utils/formValidationSchemas';
+
+import createStyles from '../styles/styles';
+import { Button } from './ui/Buttons';
+import { Input } from './ui/InputFields';
 
 const initialValues = {
     mealName: '',
     imageUri: ''
 };
+
+const validationSchema = mealValidationSchema;
 
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const {t} = useTranslation();
@@ -61,40 +61,48 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
         }
     };
 
+    const styles = createStyles();
+
     return (
-        <View>
-            {formik.values.imageUri ? (
-                <Image
-                    source={{ uri: formik.values.imageUri }}
-                    style={{ width: 100, height: 100 }}
+        <ScrollView style={styles.background}>
+            <View style={styles.container}>
+                <Text style={styles.h1}>{t('CREATE_A_MEAL')}</Text>
+                {formik.values.imageUri ? (
+                    <Image
+                        source={{ uri: formik.values.imageUri }}
+                        style={{ width: 100, height: 100 }}
+                    />
+                ) : null}
+                {formError ? (
+                    <Text style={styles.error}>{formError}</Text>
+                ) : null}
+                <Input
+                    styles={styles}
+                    placeholder={t('NAME_OF_THE_MEAL')}
+                    value={formik.values.mealName}
+                    onChangeText={formik.handleChange('mealName')}
+                    id='meal-name-input'
                 />
-            ) : null}
-            {formError ? (
-                <Text>{formError}</Text>
-            ) : null}
-            <TextInput
-                placeholder={t('NAME_OF_THE_MEAL')}
-                value={formik.values.mealName}
-                onChangeText={formik.handleChange('mealName')}
-                id="name_of_the_meal_input"
-            />
-            {formik.touched.mealName && formik.errors.mealName && 
-                <Text>{formik.errors.mealName}</Text>
-            }
-            <Pressable onPress={openImagePicker}
-                id="select_image_button"
-            >
-                <Text>{t('SELECT_A_IMAGE_FROM_DEVICE')}</Text>
-            </Pressable>
-            {formik.touched.imageUri && formik.errors.imageUri && 
-                <Text>{formik.errors.imageUri}</Text>
-            }
-            <Pressable onPress={formik.handleSubmit}
-                id="create_a_meal_button"
-            >
-                <Text>{t('CREATE_A_MEAL')}</Text>
-            </Pressable>
-        </View>
+                {formik.touched.mealName && formik.errors.mealName && 
+                <Text style={styles.error}>{formik.errors.mealName}</Text>
+                }
+                <Button
+                    styles={styles}
+                    onPress={openImagePicker}
+                    text={t('SELECT_A_IMAGE_FROM_DEVICE')}
+                    id='image-picker-button'
+                />
+                {formik.touched.imageUri && formik.errors.imageUri &&
+                <Text style={styles.error}>{formik.errors.imageUri}</Text>
+                }
+                <Button
+                    styles={styles}
+                    onPress={formik.handleSubmit}
+                    text={t('CREATE_A_MEAL')}
+                    id='create-meal-button'
+                />
+            </View>
+        </ScrollView>
     );
 };
 

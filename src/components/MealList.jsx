@@ -1,12 +1,13 @@
 import { React, useState, useEffect } from 'react';
-import {
-    View, Text, Pressable, FlatList, Image
-} from 'react-native';
+import { View, Text, FlatList, ScrollView } from 'react-native';
 import axios from 'axios';
-import { useParams } from '../Router';
-import { styles } from '../styling/styles';
 import { useTranslation } from 'react-i18next';
+
+import { useParams } from '../Router';
 import apiUrl from '../utils/apiUrl';
+
+import { MealCard } from './ui/Card';
+import createStyles from '../styles/styles';
 
 /**
  * Render a restaurant specific meal list based on restaurantId.
@@ -26,6 +27,8 @@ const MealList = () => {
     const [restaurantId, setRestaurantId] = useState(restId);
     const [restaurantName, setRestaurantName] = useState(null);
     const [error, setError] = useState(null);
+
+    const styles = createStyles();
 
     useEffect(() => {
         const fetchMeals = async () => {
@@ -66,62 +69,39 @@ const MealList = () => {
         );
     }
 
+    const loremIpsum = 'Lorem ipsum dolor sit amet, \
+    consecteturadipiscing elit, sed do eiusmod tempor \
+    incididunt ut labore et dolore magna aliqua. \
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco \
+    laboris nisi ut aliquip ex ea commodo consequat. \
+    Duis aute irure dolor in reprehenderit in voluptate \
+    velit esse cillum dolore eu fugiat nulla pariatur. \
+    Excepteur sint occaecat cupidatat non proident, \
+    sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
     return (
-        <View style={styles.mealContainer}>
-            <Text style={styles.header}>
-                {t('RESTAURANT')} {restaurantName}
-            </Text>
-            <FlatList
-                data={meals}
-                keyExtractor={(item) => item.meal_id.toString()}
-                renderItem={({ item }) => (
-                    <View>
-                        <Pressable onPress={() => handlePress(item)}
-                            style={({ pressed }) => [
-                                {
-                                    opacity: pressed ? 0.5 : 1,
-                                },
-                                styles.pressable
-                            ]}
-                        >
-                            <View style={styles.itemContainer}>
-                                <Image
-                                    source={{
-                                        uri: item.image
-                                    }}
-                                    style={styles.image}
-                                />
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.itemName}>
-                                        {item.meal_name}
-                                    </Text>
-                                    {selectedMeal === item && (
-                                        <Text style={styles.additionalInfo}>
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit,
-                                            sed do eiusmod tempor incididunt
-                                            ut labore et dolore magna aliqua.
-                                            Ut enim ad minim veniam, quis
-                                            nostrud exercitation ullamco
-                                            laboris nisi ut aliquip ex ea
-                                            commodo consequat. Duis aute
-                                            irure dolor in reprehenderit
-                                            in voluptate velit esse
-                                            cillum dolore eu fugiat
-                                            nulla pariatur. Excepteur
-                                            sint occaecat cupidatat non
-                                            proident, sunt in culpa qui
-                                            officia deserunt mollit anim
-                                            id est laborum.
-                                        </Text>
-                                    )}
-                                </View>
-                            </View>
-                        </Pressable>
-                    </View>
-                )}
-            />
-        </View>
+        <ScrollView style={styles.background}>
+            <View style={styles.container}>
+                <Text style={styles.h1}>
+                    {t('RESTAURANT')} {restaurantName}
+                </Text>
+                <FlatList
+                    data={meals}
+                    keyExtractor={(item) => item.meal_id.toString()}
+                    renderItem={({ item }) => (
+                        <MealCard
+                            styles={styles}
+                            imgURI={item.image}
+                            title={item.meal_name}
+                            body={loremIpsum}
+                            onPress={() => handlePress(item)}
+                            isSelected={selectedMeal === item}
+                        />
+                    )}
+                />
+            </View>
+        </ScrollView>
+        
     );
 };
 

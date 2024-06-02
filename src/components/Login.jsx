@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { deleteSession } from '../controllers/sessionController';
-import { TextInput, View, Pressable, Text } from 'react-native';
-import { Formik } from 'formik';
 import axios from 'axios';
+import { Formik } from 'formik';
+import { View, Text, ScrollView } from 'react-native';
+
 import { useNavigate } from '../Router';
-import { styles } from '../styling/styles';
-import { createSession } from '../controllers/sessionController';
-import { useTranslation } from 'react-i18next';
+import { createSession, deleteSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
+import { useTranslation } from 'react-i18next';
 import { loginValidationSchema } from '../utils/formValidationSchemas';
+
+import createStyles from '../styles/styles';
+import { Button } from './ui/Buttons';
+import { Input, PasswordInput } from './ui/InputFields';
 
 /**
  * Render a form for user login, validate using a yup schema.
@@ -25,6 +28,8 @@ const LoginForm = ({ updateUser }) => {
         deleteSession();
         updateUser(null);
     }, []);
+
+    const styles = createStyles();
 
     const handleSubmit = async (values, actions) => {
         try {
@@ -64,65 +69,64 @@ const LoginForm = ({ updateUser }) => {
                 handleChange, handleBlur, handleSubmit,
                 values, errors, touched, isSubmitting
             }) => (
-                <View style={styles.login}>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={handleChange('username')}
-                        onBlur={handleBlur('username')}
-                        value={values.username}
-                        placeholder={t('USERNAME')}
-                        id="username_input"
-                    />
-                    {touched.username && errors.username && (
-                        <Text style={styles.errorText}>
-                            {t(errors.username)}
+                <ScrollView style={styles.background}>
+                    <View style={styles.container}>
+                        <Text style={styles.h1}>
+                            {t('LOGIN')}
                         </Text>
-                    )}
-
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={handleChange('password')}
-                        onBlur={handleBlur('password')}
-                        value={values.password}
-                        placeholder={t('PASSWORD')}
-                        id="password_input"
-                        secureTextEntry
-                    />
-                    {touched.password && errors.password && (
-                        <Text style={styles.errorText}>
-                            {t(errors.password)}
-                        </Text>
-                    )}
-                    {errorMessage ? (
-                        <Text style={styles.errorText}>{errorMessage}</Text>
-                    ) : null}
-                    <View style={ styles.button }>
-                        <Pressable onPress={handleSubmit} 
-                            id='log_user_in_button'
-                            title="Login" disabled={isSubmitting}>
-                            <Text style={ styles.buttonText }>
-                                {t('LOGIN')}
+                        <Input
+                            styles={styles}
+                            onChangeText={handleChange('username')}
+                            onBlur={handleBlur('username')}
+                            value={values.username}
+                            placeholder={t('USERNAME')}
+                            id='username-input'
+                        />
+                        {touched.username && errors.username && (
+                            <Text style={styles.error}>
+                                {t(errors.username)}
                             </Text>
-                        </Pressable>
-                    </View>
-                    <Text>{t('DONT_HAVE_AN_ACCOUNT_YET')}</Text>
-                    <View style={ styles.button }>
-                        <Pressable title="Register" id="navigate_to_register"
-                            onPress={() => navigate('/register')}>
-                            <Text style={ styles.buttonText }>
-                                {t('REGISTER')}
+                        )}
+                        <PasswordInput
+                            styles={styles}
+                            onChangeText={handleChange('password')}
+                            onBlur={handleBlur('password')}
+                            value={values.password}
+                            placeholder={t('PASSWORD')}
+                            id='password-input'
+                        />
+                        {touched.password && errors.password && (
+                            <Text style={styles.error}>
+                                {t(errors.password)}
                             </Text>
-                        </Pressable>
-                    </View>
-                    <Pressable style={styles.button}
-                        title='Register as a Restauraunt User'
-                        id="navigate_to_register_restaurant"
-                        onPress={() => navigate('/register-restaurant')}>
-                        <Text style={ styles.buttonText }>
-                            {t('REGISTER_RESTAURANT')}
+                        )}
+                        {errorMessage ? (
+                            <Text style={styles.error}>{errorMessage}</Text>
+                        ) : null}
+                        <Button
+                            styles={styles}
+                            onPress={handleSubmit}
+                            text={t('LOGIN')}
+                            id='login-button'
+                            disabled={isSubmitting}
+                        />
+                        <Text style={styles.body}>
+                            {t('DONT_HAVE_AN_ACCOUNT_YET')}
                         </Text>
-                    </Pressable>
-                </View>
+                        <Button
+                            styles={styles}
+                            onPress={() => navigate('/register')}
+                            text={t('REGISTER')}
+                            id='register-button'
+                        />
+                        <Button
+                            styles={styles}
+                            onPress={() => navigate('/register-restaurant')}
+                            text={t('REGISTER_RESTAURANT')}
+                            id='register-restaurant-button'
+                        />
+                    </View>
+                </ScrollView>
             )}
         </Formik>
     );
