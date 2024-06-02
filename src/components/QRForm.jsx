@@ -48,7 +48,7 @@ const QRForm = () => {
                 <Button
                     styles={styles}
                     onPress={formik.handleSubmit}
-                    text={t('GENERATE_A_URL')}
+                    text={t('GENERATE_A_QR')}
                     id='generate-qr-button'
                 />
                 <View style={styles.qrContainer}>
