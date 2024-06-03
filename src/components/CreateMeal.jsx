@@ -9,8 +9,33 @@ import { useNavigate } from '../Router';
 import { getSession } from '../controllers/sessionController';
 import { mealValidationSchema } from '../utils/formValidationSchemas';
 import createStyles from '../styles/styles';
-import { Button } from './ui/Buttons';
-import { Input } from './ui/InputFields';
+import { Button, SmallButton } from './ui/Buttons';
+import { Input, FlexInput,  } from './ui/InputFields';
+import { SelectList } from 'react-native-dropdown-select-list';
+
+const categories = [
+    'meat', 'fish', 'dairy', 'starches', 'vegetables', 'fats and oils'
+];
+
+const ingredients = {
+    meat: ['ribeye', 'ground beef', 'bacon'],
+    fish: ['salmon', 'tuna', 'white fish'],
+    dairy: ['milk', 'greek yoghurt', 'kefir'],
+    starches: ['potato', 'white rice', 'pasta'],
+    vegetables: ['lettuce', 'tomatoes', 'kale'],
+    fatsAndOils: ['butter', 'coconut oil', 'olive oil']
+};
+
+const data = [
+    {key:'1', value:'Mobiles', disabled:true},
+    {key:'2', value:'Appliances'},
+    {key:'3', value:'Cameras'},
+    {key:'4', value:'Computers', disabled:true},
+    {key:'5', value:'Vegetables'},
+    {key:'6', value:'Diary Products'},
+    {key:'7', value:'Drinks'},
+];
+
 
 const initialValues = {
     mealName: '',
@@ -22,6 +47,7 @@ const validationSchema = mealValidationSchema;
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const {t} = useTranslation();
     const [formError, setFormError] = useState('');
+    const [selected, setSelected] = useState('');
 
     const formik = useFormik({
         initialValues,
@@ -86,6 +112,11 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 {formik.touched.mealName && formik.errors.mealName && 
                 <Text style={styles.error}>{formik.errors.mealName}</Text>
                 }
+                <SelectList 
+                    setSelected={(val) => setSelected(val)} 
+                    data={data} 
+                    save="value"
+                />
                 <Button
                     styles={styles}
                     onPress={openImagePicker}
