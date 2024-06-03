@@ -45,6 +45,11 @@
         "USERNAME_IS_REQUIRED": "Username is required",
         "USERNAME_MUST_BE_AT_LEAST_3_CHARACTERS": "Username must be at least 3 characters",
         "WELCOME": "Welcome",
-        "YOU_ARE_LOGGED_AS_RESTAURANT_USER": "You are logged in as a restaurant user"
+        "YOU_ARE_LOGGED_AS_RESTAURANT_USER": "You are logged in as a restaurant user",
+        "ALLERGENS": "Allergens",
+        "CARBS": "Carbohydrates",
+        "FAT": "Fat",
+        "PROTEIN": "Protein",
+        "CO2_EMISSIONS": "CO2 emissions"
     }
 }

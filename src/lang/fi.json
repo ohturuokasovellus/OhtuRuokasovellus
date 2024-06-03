@@ -45,6 +45,11 @@
         "USERNAME_IS_REQUIRED": "Syötä käyttäjätunnus",
         "USERNAME_MUST_BE_AT_LEAST_3_CHARACTERS": "Käyttäjätunnuksen on oltava yli 3 merkkiä pitkä",
         "WELCOME": "Tervetuloa",
-        "YOU_ARE_LOGGED_AS_RESTAURANT_USER": "Olet kirjautunut sisään ravintolakäyttäjänä"
+        "YOU_ARE_LOGGED_AS_RESTAURANT_USER": "Olet kirjautunut sisään ravintolakäyttäjänä",
+        "ALLERGENS": "Allergeenit",
+        "CARBS": "Hiilihydraatit",
+        "FAT": "Rasva",
+        "PROTEIN": "Proteiini",
+        "CO2_EMISSIONS": "CO2-päästöt"
     }
 }
