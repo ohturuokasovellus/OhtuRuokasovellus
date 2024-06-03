@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useContext } from 'react';
 import {
-    View, Text, TextInput,
-    ScrollView, Image, Pressable
+    View, Text, ScrollView
 } from 'react-native';
 import createStyles from './styles';
 import { themeContext } from '../controllers/themeController';
@@ -11,7 +10,8 @@ import { Button, SmallButton } from '../components/ui/Buttons';
 import {
     Input, PasswordInput, FlexInput, MultilineInput
 } from '../components/ui/InputFields';
-import { Card } from '../components/ui/Card';
+import { Card, MealCard } from '../components/ui/Card';
+import DoughnutChart from '../components/ui/DoughnutChart';
 
 const loremIpsum = 'Lorem ipsum dolor sit amet, \
 consecteturadipiscing elit, sed do eiusmod tempor \
@@ -25,7 +25,7 @@ sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 const Layout = () => {
     const { theme, colors } = useContext(themeContext);
-    const styles = createStyles(colors);
+    const styles = createStyles();
     const [inputs, setInputs] = useState([{ idx: 1, value: '' }]);
 
     const addInput = () => {
@@ -41,6 +41,9 @@ const Layout = () => {
             input => (input.idx === idx ? { ...input, value: text } : input)
         ));
     };
+
+    const sliceColor = [colors.primary, colors.secondary, colors.tertiary];
+    const series = [99, 26, 17];
 
     const renderBoxes = (currentTheme) => {
         return Object.keys(currentTheme).map((key, index) => {
@@ -141,10 +144,28 @@ const Layout = () => {
                     title={'card title'}
                     body={loremIpsum}
                 />
+                <MealCard
+                    styles={styles}
+                    imgURI={require('./example.jpg')}
+                    title={'meal card title'}
+                    body={loremIpsum}
+                    onPress={() => {}}
+                    isSelected={true}
+                    series={series}
+                    sliceColor={sliceColor}
+                    co2={'CO2'}
+                    allergens={['maito', 'kala']}
+                />
                 {/* theme colours */}
                 <ScrollView contentContainerStyle={{padding: 16}}>
                     {renderBoxes(colors)}
                 </ScrollView>
+
+                {/* doughnut chart */}
+                {/* <DoughnutChart
+                    series={series}
+                    sliceColor={sliceColor}
+                /> */}
             </View>
         </ScrollView>
     );

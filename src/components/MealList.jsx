@@ -1,10 +1,11 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useContext } from 'react';
 import { View, Text, FlatList, ScrollView } from 'react-native';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
 import { useParams } from '../Router';
 import apiUrl from '../utils/apiUrl';
+import { themeContext } from '../controllers/themeController';
 
 import { MealCard } from './ui/Card';
 import createStyles from '../styles/styles';
@@ -29,6 +30,8 @@ const MealList = () => {
     const [error, setError] = useState(null);
 
     const styles = createStyles();
+    const { colors } = useContext(themeContext);
+    const sliceColor = [colors.primary, colors.secondary, colors.tertiary];
 
     useEffect(() => {
         const fetchMeals = async () => {
@@ -69,6 +72,8 @@ const MealList = () => {
         );
     }
 
+    // TODO: get the meal info from database
+
     const loremIpsum = 'Lorem ipsum dolor sit amet, \
     consecteturadipiscing elit, sed do eiusmod tempor \
     incididunt ut labore et dolore magna aliqua. \
@@ -78,6 +83,9 @@ const MealList = () => {
     velit esse cillum dolore eu fugiat nulla pariatur. \
     Excepteur sint occaecat cupidatat non proident, \
     sunt in culpa qui officia deserunt mollit anim id est laborum.';
+    const series = [29.8, 8.9, 8.2];
+    const co2 = '5 ekv/kg';
+    const allergens = ['gluteeni', 'maapähkinä'];
 
     return (
         <ScrollView style={styles.background}>
@@ -85,6 +93,8 @@ const MealList = () => {
                 <Text style={styles.h1}>
                     {t('RESTAURANT')} {restaurantName}
                 </Text>
+            </View>
+            <View style={styles.container}>
                 <FlatList
                     data={meals}
                     keyExtractor={(item) => item.meal_id.toString()}
@@ -96,6 +106,10 @@ const MealList = () => {
                             body={loremIpsum}
                             onPress={() => handlePress(item)}
                             isSelected={selectedMeal === item}
+                            series={series}
+                            sliceColor={sliceColor}
+                            co2={co2}
+                            allergens={allergens}
                         />
                     )}
                 />
