@@ -49,7 +49,8 @@ const App = () => {
                         <Route path='/qr-form' element={<QRForm />} />
                         <Route path='/restaurant/:restId'
                             element={<MealList />}/>
-                        <Route path='/create-meal' element={<CreateMeal />} />
+                        <Route path='/create-meal' element={<CreateMeal 
+                            user={user} />} />
                         <Route path='/register-restaurant'
                             element=
                                 {<RegisterRestaurant updateUser={updateUser}/>}

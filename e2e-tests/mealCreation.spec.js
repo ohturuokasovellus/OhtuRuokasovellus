@@ -37,11 +37,9 @@ test.describe('meal creation page', () => {
         await initTestDB();
 
         await page.goto('/login');
-        await page.getByPlaceholder('Username').click();
-        await page.getByPlaceholder('Username').fill('test');
-        await page.getByPlaceholder('Password').click();
-        await page.getByPlaceholder('Password').fill('Test123!');
-        await page.locator('#log_user_in_button').click();
+        await page.fill('input[id="username-input"]', 'test');
+        await page.fill('input[id="password-input"]', 'Test123!');
+        await page.locator('#login-button').click();
         await page.waitForURL('/');
 
         await page.goto('/create-meal');
