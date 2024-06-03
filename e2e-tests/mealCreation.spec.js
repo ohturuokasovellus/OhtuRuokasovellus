@@ -45,6 +45,7 @@ test.describe('meal creation page', () => {
         await page.waitForURL('/');
 
         await page.goto('/create-meal');
+        await page.locator('#language-toggle').click();
     });
 
     test('redirects to login if not currently logged in',
@@ -58,24 +59,24 @@ test.describe('meal creation page', () => {
         });
 
     test('does not create a meal without name', async ({page}) => {
-        await page.click('text=Create a meal');
+        await page.locator('#create-meal-button').click();
         await expect(page).toHaveURL('/create-meal');
         await expect(page.locator('#root'))
             .toContainText('Name for the meal is required');
     });
 
     test('does not create a meal without image selected', async ({page}) => {
-        await page.fill('input[placeholder="Name of the meal"]', 'ruoka');
-        await page.click('text=Create a meal');
+        await page.fill('input[id="meal-name-input"]', 'ruoka');
+        await page.locator('#create-meal-button').click();
         await expect(page).toHaveURL('/create-meal');
         await expect(page.locator('#root'))
             .toContainText('Image of the meal is required');
     });
 
     test('creating a meal works with name and a image', async ({ page}) => {
-        await page.fill('input[placeholder="Name of the meal"]', 'ruoka');
+        await page.fill('input[id="meal-name-input"]', 'ruoka');
         const fileChooserPromise = page.waitForEvent('filechooser');
-        await page.click('text=Select image from device');
+        await page.locator('#image-picker-button').click();
         const fileChooser = await fileChooserPromise;
         const filePath = path.join(__dirname, 'assets', 'image.png');
         await fileChooser.setFiles(filePath);

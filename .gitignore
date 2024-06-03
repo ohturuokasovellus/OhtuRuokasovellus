@@ -12,6 +12,7 @@ web-build/
 .env
 coverage/
 .vscode/
+database/
 
 # macOS
 .DS_Store
