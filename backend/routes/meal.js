@@ -1,7 +1,17 @@
 const express = require('express');
-const { insertMeal, addMealImage, getMeals, sql } = require('../database');
+const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
+    sql } = require('../database');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
+
+const getTokenFrom = request => {
+    const authorization = request.get('authorization');
+    if (authorization && authorization.startsWith('Bearer ')) {
+        return authorization.replace('Bearer ', '');
+    }
+    return null;
+};
 
 /**
  * Route for adding meal.
@@ -13,23 +23,36 @@ const router = express.Router();
  * @returns {Object} 500 -  Meal insertion failed.
  */
 router.post('/api/meals', express.json(), async (req, res) => {
-    // TODO: validate user login
-
     const { mealName } = req.body;
+
+    // Token decoding from 
+    // https://fullstackopen.com/en/part4/token_authentication
+    const decodedToken = jwt.verify(getTokenFrom(req), 
+        process.env.SECRET_KEY);
+
+    if (!decodedToken.userId) {
+        return res.status(401).json({ error: 'token invalid' });
+    }
+    
+    const loggedInUsersRestaurantId = await getRestaurantIdByUserId(
+        decodedToken.userId);
 
     // TODO: properly validate name
     if (!mealName) {
         return res.status(400).send('invalid meal name');
     }
 
+    else if (!loggedInUsersRestaurantId) {
+        return res.status(400).send('You do not have permissions to add meals');
+    }
+
     let mealId;
     try {
-        mealId = await insertMeal(mealName);
+        mealId = await insertMeal(mealName, loggedInUsersRestaurantId);
     } catch (err) {
         console.error(err);
         return res.status(500).send('meal insertion failed');
     }
-
     res.json({ mealId });
 });
 

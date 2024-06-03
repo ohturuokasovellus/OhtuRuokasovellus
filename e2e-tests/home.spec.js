@@ -28,9 +28,9 @@ const initTestDB = async () => {
     ];
 
     for (const user of users) {
-        // eslint-disable-next-line id-length
-        const pw = hash(user.password);
-        await insertUser(user.username, pw, user.email, user.restaurantId);
+        const password = hash(user.password);
+        await insertUser(user.username, password, 
+            user.email, user.restaurantId);
     }
 };
 

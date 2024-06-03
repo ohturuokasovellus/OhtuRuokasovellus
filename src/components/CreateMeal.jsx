@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Text, View, Image, ScrollView} from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
-
 import apiUrl from '../utils/apiUrl';
+import { useNavigate } from '../Router';
+import { getSession } from '../controllers/sessionController';
 import { mealValidationSchema } from '../utils/formValidationSchemas';
-
 import createStyles from '../styles/styles';
 import { Button } from './ui/Buttons';
 import { Input } from './ui/InputFields';
@@ -106,13 +106,28 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 
-const CreateMeal = () => {
+const CreateMeal = (props) => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!props.user) {
+            navigate('/login');
+        }
+        else if (!props.user.restaurantId) {
+            navigate('/');
+        }
+    });
+
     const onSubmit = async values => {
         const { mealName, imageUri } = values;
+
         try {
             const response = await axios.post(
                 `${apiUrl}/meals`,
-                { mealName }
+                { mealName },
+                {
+                    headers: { Authorization: 'Bearer ' + getSession().token }
+                }
             );
             const mealId = response.data.mealId;
             await axios.post(

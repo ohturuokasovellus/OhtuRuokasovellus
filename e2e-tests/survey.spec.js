@@ -2,7 +2,7 @@ import { sql, insertUser } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 
-const testSurveyUrl = '/create-meal';
+const testSurveyUrl = 'fi.wikipedia.org/';
 const prodSurveyUrl = '/create-meal';
 
 const initTestDB = async () => {

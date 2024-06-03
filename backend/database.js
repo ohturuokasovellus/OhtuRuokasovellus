@@ -92,6 +92,20 @@ const getUserIdByEmail = async (email) => {
 };
 
 /**
+ * Get user's restaurant id based on user's id.
+ * @param {number} userId
+ * @returns {Promise<number|null>} - restaurant id or null if not found
+ */
+const getRestaurantIdByUserId = async (userId) => {
+    const result = await sql`
+    SELECT restaurant_id FROM users
+    WHERE user_id = ${userId}
+    LIMIT 1
+    `;
+    return result.at(0).restaurant_id;
+};
+
+/**
  * Update user's restaurant id based on email.
  * @param {string} email
  * @param {number} restaurantId new restaurant id
@@ -156,11 +170,10 @@ const doesRestaurantExist = async name => {
  * @param {string} name Name of the meal.
  * @returns {Promise<number>} ID of the created meal.
  */
-const insertMeal = async name => {
-    // TODO: add another parameter for the restaurant id
+const insertMeal = async (name, restaurantId) => {
     const result = await sql`
         INSERT INTO meals (name, restaurant_id)
-        VALUES (${name}, 1)
+        VALUES (${name}, ${restaurantId})
         RETURNING meal_id;
     `;
     return result.at(0).meal_id;
@@ -233,6 +246,7 @@ module.exports = {
     doesUsernameExist,
     getUser,
     getUserIdByEmail,
+    getRestaurantIdByUserId,
     doesEmailExist,
     doesRestaurantExist,
     insertMeal,
