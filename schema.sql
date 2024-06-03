@@ -24,7 +24,18 @@ CREATE TABLE meals (
     name TEXT NOT NULL,
     image BYTEA DEFAULT NULL,
     -- TODO: change creator type to Restaurant ID
-    restaurant_id INT NOT NULL
+    restaurant_id INT NOT NULL,
+    meal_description TEXT,
+    co2_emissions NUMBER,
+    meal_allergens TEXT,
+    carbohydrates NUMBER,
+    protein NUMBER,
+    fat NUMBER,
+    fiber NUMBER,
+    sugar NUMBER,
+    sodium NUMBER,
+    saturated_fat NUMBER,
+    unsaturated_fat NUMBER
 );
 
 CREATE TABLE urls (

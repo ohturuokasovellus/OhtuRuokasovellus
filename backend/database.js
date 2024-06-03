@@ -168,12 +168,31 @@ const doesRestaurantExist = async name => {
 /**
  * Insert a new meal to the database.
  * @param {string} name Name of the meal.
+ * @param {number} restaurantId Id of the restaurant who created the meal.
+ * @param {string} mealDescription 
+ * @param {number} co2Emissions CO2 emissions of the meal.
+ * @param {string} mealAllergens Allergens of the meal.
+ * @param {Dictionary} nutrientDictionary Nutrients of a meal in a dictionary
  * @returns {Promise<number>} ID of the created meal.
  */
-const insertMeal = async (name, restaurantId) => {
+const insertMeal = async (name, restaurantId, mealDescription,
+    co2Emissions, mealAllergens, nutrientDictionary) => {
+    const carbohydrates = nutrientDictionary['carbohydrates'];
+    const protein = nutrientDictionary['protein'];
+    const fat = nutrientDictionary['fat'];
+    const fiber = nutrientDictionary['fiber'];
+    const sugar = nutrientDictionary['sugar'];
+    const sodium = nutrientDictionary['sodium'];
+    const saturatedFat = nutrientDictionary['saturatedFat'];
+    const unsaturatedFat = nutrientDictionary['unsaturatedFat'];
+
     const result = await sql`
-        INSERT INTO meals (name, restaurant_id)
-        VALUES (${name}, ${restaurantId})
+        INSERT INTO meals (name, restaurant_id, meal_description,
+            co2_emissions, meal_allergens, carbohydrates, protein,
+            fat, fiber, sugar, sodium, saturated_fat, unsaturated_fat)
+        VALUES (${name}, ${restaurantId}, ${mealDescription}, ${co2Emissions}, 
+            ${mealAllergens}, ${carbohydrates}, ${protein}, ${fat}, 
+            ${fiber}, ${sugar}, ${sodium}, ${saturatedFat}, ${unsaturatedFat})
         RETURNING meal_id;
     `;
     return result.at(0).meal_id;
