@@ -35,7 +35,7 @@ const ButtonVariant = ({ onPress, text, styles, ...props }) => {
             role='button'
             {...props}
         >
-            <Text style={styles.buttonText}>{text}</Text>
+            <Text style={styles.buttonVariantText}>{text}</Text>
         </Pressable>
     );
 };

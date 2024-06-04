@@ -127,6 +127,12 @@ const createStyles = () => {
             color: colors.onPrimaryContainer,
             fontFamily: 'Roboto-Bold',
         },
+        buttonVariantText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onSecondary,
+            fontFamily: 'Roboto-Bold',
+        },
         iconButtonText: {
             fontsize: 32,
             color: colors.onTertiary,
