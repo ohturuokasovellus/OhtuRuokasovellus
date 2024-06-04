@@ -33,6 +33,29 @@ const MealList = () => {
     const { colors } = useContext(themeContext);
     const sliceColor = [colors.primary, colors.secondary, colors.tertiary];
 
+    //TODO: get all this data from db
+    const loremIpsum = 'Lorem ipsum dolor sit amet, \
+    consecteturadipiscing elit, sed do eiusmod tempor \
+    incididunt ut labore et dolore magna aliqua. \
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco \
+    laboris nisi ut aliquip ex ea commodo consequat. \
+    Duis aute irure dolor in reprehenderit in voluptate \
+    velit esse cillum dolore eu fugiat nulla pariatur. \
+    Excepteur sint occaecat cupidatat non proident, \
+    sunt in culpa qui officia deserunt mollit anim id est laborum.';
+    const co2 = '5 ekv/kg';
+    const allergens = ['gluteeni', 'maapähkinä'];
+    const nutritionData = {
+        energy: 143,
+        protein: 2.6,
+        carbs: 29.6,
+        fat: 0.5,
+        sugars: 16.4,
+        fiber: 2.0,
+        saturatedFat: 0.1,
+        salt: 276.6
+    };
+
     useEffect(() => {
         const fetchMeals = async () => {
             setRestaurantId(restId);
@@ -72,21 +95,6 @@ const MealList = () => {
         );
     }
 
-    // TODO: get the meal info from database
-
-    const loremIpsum = 'Lorem ipsum dolor sit amet, \
-    consecteturadipiscing elit, sed do eiusmod tempor \
-    incididunt ut labore et dolore magna aliqua. \
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco \
-    laboris nisi ut aliquip ex ea commodo consequat. \
-    Duis aute irure dolor in reprehenderit in voluptate \
-    velit esse cillum dolore eu fugiat nulla pariatur. \
-    Excepteur sint occaecat cupidatat non proident, \
-    sunt in culpa qui officia deserunt mollit anim id est laborum.';
-    const series = [29.8, 8.9, 8.2];
-    const co2 = '5 ekv/kg';
-    const allergens = ['gluteeni', 'maapähkinä'];
-
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
@@ -106,10 +114,10 @@ const MealList = () => {
                             body={loremIpsum}
                             onPress={() => handlePress(item)}
                             isSelected={selectedMeal === item}
-                            series={series}
                             sliceColor={sliceColor}
                             co2={co2}
                             allergens={allergens}
+                            nutrition={nutritionData}
                         />
                     )}
                 />
