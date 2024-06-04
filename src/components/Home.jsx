@@ -21,7 +21,9 @@ const Home = (props) => {
             fetchSurveyUrl(setSurveyUrl, setLoading);
         }
     }, [props.user, navigate]);
-    
+
+    const styles = createStyles();
+
     if (!props.user || loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
     }
@@ -29,8 +31,6 @@ const Home = (props) => {
     const username = props.user.username;
     const restaurantId = props.user.restaurantId;
     const isRestaurantUser = restaurantId !== null;
-
-    const styles = createStyles();
 
     return (
         <ScrollView style={styles.background}>
