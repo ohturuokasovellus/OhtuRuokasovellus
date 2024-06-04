@@ -85,7 +85,9 @@ const Purchase = () => {
                     style={{ width: 100, height: 100 }}
                 />}
                 <Text style={styles.h1}>{meal.name}</Text>
-                <Button styles={styles} onPress={purchase} text={'Osta'} />
+                <Button styles={styles} onPress={purchase}
+                    text={'Osta'} id='purchase_button'
+                />
             </View>
         </ScrollView>
     );
