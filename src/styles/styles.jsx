@@ -16,10 +16,11 @@ const createStyles = () => {
         },
         container: {
             maxWidth: 700,
-            padding: 16,
+            padding: 8,
             backgroundColor: colors.surface,
             borderRadius: 8,
             marginVertical: 8,
+            marginBottom: 8,
             alignSelf: 'center',
         },
 
@@ -95,8 +96,8 @@ const createStyles = () => {
         // buttons
         button: {
             backgroundColor: colors.primaryContainer,
-            borderColor: colors.onPrimary,
-            borderWidth: 1,
+            // borderColor: colors.outlineVariant,
+            // borderWidth: 1,
             padding: 12,
             borderRadius: 8,
             alignItems: 'center',
@@ -176,7 +177,7 @@ const createStyles = () => {
 
         // cards
         cardContainer: {
-            width: 400,
+            maxWidth: 600,
             padding: 16,
             backgroundColor: colors.secondaryContainer,
             borderRadius: 8,
@@ -192,13 +193,13 @@ const createStyles = () => {
             position: 'absolute',
             top: '-5%',
             left: '5%',
-            // width: '90%',
-            width: 360,
+            width: '90%',
+            // width: 360,
             // height: 200,
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.2,
             shadowRadius: 4,
-            elevation: 3,
+            elevation: 1,
             borderRadius: 8,
             overflow: 'hidden',
         },
@@ -209,12 +210,12 @@ const createStyles = () => {
         },
         cardContent: {
             paddingTop: 170,  // adjust this value based on the image height
-            alignItems: 'center',
+            // alignItems: 'center',
         },
 
         cardTitle: {
-            fontSize: 20,
-            marginVertical: 12,
+            fontSize: 24,
+            marginVertical: 8,
             color: colors.onSecondaryContainer,
             fontFamily: 'Roboto-Bold',
         },
@@ -223,6 +224,23 @@ const createStyles = () => {
             fontSize: 16,
             color: colors.onSecondaryContainer,
             fontFamily: 'Roboto-Regular',
+        },
+
+        cardTextBold: {
+            fontFamily: 'Roboto-Bold',
+            textTransform: 'uppercase',
+        },
+        co2Container: {
+            alignItems: 'left',
+            marginBottom: 8,
+        },
+        chartDescrContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+        },
+        mealDescrContainer: {
+            flex: 1,
+            marginLeft: 10,
         },
 
         // QR
@@ -248,6 +266,37 @@ const createStyles = () => {
             fontSize: 16,
             fontFamily: 'Roboto-Black',
             textTransform: 'uppercase',
+        },
+
+        // doughnut chart
+        chartContainer: {
+            alignItems: 'center',
+            flexDirection: 'column',
+            marginBottom: 6,
+            marginHorizontal: 20,
+        },
+        legendContainer: {
+            flexDirection: 'column',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            marginTop: 8,
+            marginLeft: 8,
+        },
+        legendItem: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginRight: 8,
+            marginBottom: 6,
+        },
+        legendColor: {
+            width: 16,
+            height: 16,
+            marginRight: 8,
+        },
+        legendText: {
+            fontSize: 12,
+            color: colors.onSecondaryContainer,
+            fontFamily: 'Roboto-Regular'
         },
     });
 };
