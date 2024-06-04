@@ -27,6 +27,13 @@ CREATE TABLE meals (
     restaurant_id INT NOT NULL
 );
 
+CREATE TABLE purchases (
+    purchase_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users NOT NULL,
+    meal_id INT REFERENCES meals NOT NULL,
+    purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
 CREATE TABLE urls (
     id SERIAL PRIMARY KEY,
     name TEXT UNIQUE NOT NULL,

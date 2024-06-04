@@ -254,6 +254,12 @@ const getSurveyUrl = async (urlName) => {
     return result;
 };
 
+const addPurchase = async (userId, mealId) => {
+    await sql`
+        INSERT INTO purchases (user_id, meal_id) VALUES (${userId}, ${mealId});
+    `;
+};
+
 module.exports = {
     sql,
     insertUser,
@@ -271,5 +277,6 @@ module.exports = {
     isRestaurantUser,
     // doesRestaurantNameExist,
     getSurveyUrl,
-    updateUserRestaurantByEmail
+    updateUserRestaurantByEmail,
+    addPurchase,
 };
