@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { NavButton } from './ui/Buttons';
+import { NavButton } from './Buttons';
 
 const LanguageSwitch = ({ styles }) => {
     const { i18n } = useTranslation();
