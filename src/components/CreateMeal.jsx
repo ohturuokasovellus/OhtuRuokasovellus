@@ -14,33 +14,23 @@ import { Input, MultilineInput } from './ui/InputFields';
 import { SelectList } from 'react-native-dropdown-select-list';
 
 const categories = [
-    'meat', 'fish', 'dairy', 'starches', 'vegetables', 'fats and oils'
+    'all', 'meat', 'fish', 'dairy', 'starches', 'vegetables', 'fats and oils'
 ];
 
 const ingredients = {
-    meat: ['ribeye', 'ground beef', 'bacon'],
-    fish: ['salmon', 'tuna', 'white fish'],
-    dairy: ['milk', 'greek yoghurt', 'kefir'],
-    starches: ['potato', 'white rice', 'pasta'],
-    vegetables: ['lettuce', 'tomatoes', 'kale'],
-    fatsAndOils: ['butter', 'coconut oil', 'olive oil']
+    'meat': ['ribeye', 'ground beef', 'bacon'],
+    'fish': ['salmon', 'tuna', 'white fish'],
+    'dairy': ['milk', 'greek yoghurt', 'kefir'],
+    'starches': ['potato', 'white rice', 'pasta'],
+    'vegetables': ['lettuce', 'tomatoes', 'kale'],
+    'fats and oils': ['butter', 'coconut oil', 'olive oil']
 };
-
-const data = [
-    {key:'1', value:'Mobiles'},
-    {key:'2', value:'Appliances'},
-    {key:'3', value:'Cameras'},
-    {key:'4', value:'Computers'},
-    {key:'5', value:'Vegetables'},
-    {key:'6', value:'Diary Products'},
-    {key:'7', value:'Drinks'},
-];
 
 const initialValues = {
     mealName: '',
     imageUri: '',
     description: '',
-    ingredients: ['']
+    ingredients: [{ category: '', ingredient: '', weight: '' }]
 };
 
 const validationSchema = mealValidationSchema;
@@ -50,7 +40,6 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const [formError, setFormError] = useState('');
     const [createSuccess, setCreateSuccess] = useState(false);
     const [createError, setCreateError] = useState(false);
-    const [selected, setSelected] = useState('');
 
     const formik = useFormik({
         initialValues,
@@ -94,12 +83,36 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const styles = createStyles();
 
     const addIngredientInput = () => {
-        formik.setFieldValue('ingredients', [...formik.values.ingredients, '']);
+        formik.setFieldValue('ingredients',
+            [...formik.values.ingredients,
+                { category: '', ingredient: '', weight: '' }
+            ]
+        );
     };
 
     const removeIngredientInput = index => {
         const updatedIngredients = [...formik.values.ingredients];
         updatedIngredients.splice(index, 1);
+        formik.setFieldValue('ingredients', updatedIngredients);
+    };
+
+    const handleCategoryChange = (value, index) => {
+        const updatedIngredients = [...formik.values.ingredients];
+        updatedIngredients[index].category = value;
+        // updatedIngredients[index].ingredient = '';
+        formik.setFieldValue('ingredients', updatedIngredients);
+    };
+
+    const handleIngredientChange = (value, index) => {
+        const updatedIngredients = [...formik.values.ingredients];
+        updatedIngredients[index].ingredient = value;
+        formik.setFieldValue('ingredients', updatedIngredients);
+    };
+
+    const handleWeightChange = (value, index) => {
+        const updatedIngredients = [...formik.values.ingredients];
+        const numericValue = value.replace(/[^0-9]/g, '');
+        updatedIngredients[index].weight = numericValue;
         formik.setFieldValue('ingredients', updatedIngredients);
     };
 
@@ -126,11 +139,6 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 {formik.touched.mealName && formik.errors.mealName && 
                 <Text style={styles.error}>{formik.errors.mealName}</Text>
                 }
-                {/* <SelectList 
-                    setSelected={(val) => setSelected(val)} 
-                    data={data} 
-                    save="value"
-                /> */}
                 <MultilineInput
                     styles={styles}
                     placeholder={t('MEAL_DESCRIPTION')}
@@ -138,6 +146,63 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                     onChangeText={formik.handleChange('description')}
                     id='description-input'
                     rows={5}
+                />
+                {formik.values.ingredients.map((ingredient, index) => (
+                    <View key={index} style={styles.flexInputContainer}>
+                        <SelectList 
+                            search={false}
+                            placeholder={t('FOOD_CATEGORY')}
+                            setSelected={val => 
+                                handleCategoryChange(val, index)}
+                            data={categories.map(category =>
+                                ({ key: category, value: category })
+                            )}
+                            save="value"
+                        />
+                        <SelectList
+                            styles={styles}
+                            placeholder={t('INGREDIENT')}
+                            data={
+                                formik.values.ingredients[index].category ===
+                                'all' ||
+                                !formik.values.ingredients[index].category
+                                    ? Object.values(ingredients).flat()
+                                    : ingredients[
+                                        formik.values.ingredients[index]
+                                            .category
+                                    ]
+                            }
+                            // data={ingredients[
+                            //     formik.values.ingredients[index].category
+                            // ] || Object.values(ingredients).flat()}
+                            setSelected={val =>
+                                handleIngredientChange(val, index)
+                            }
+                            save="value"
+                        />
+                        <Input
+                            styles={styles}
+                            placeholder={t('INGREDIENT_WEIGHT')}
+                            value={formik.values.ingredients[index].weight}
+                            onChangeText={val => handleWeightChange(val, index)}
+                            inputMode="numeric"
+                            id={`weight-input-${index}`}
+                        />
+                        {formik.values.ingredients.length > 1 && (
+                            <SmallButton
+                                styles={styles}
+                                onPress={() => removeIngredientInput(index)}
+                                text='–'
+                                id='remove-ingredient-button'
+                            />
+                        )}
+                    </View>
+                ))}
+                <SmallButton
+                    styles={styles}
+                    onPress={addIngredientInput}
+                    text='+'
+                    id='add-ingredient-button'
                 />
                 <Button
                     styles={styles}

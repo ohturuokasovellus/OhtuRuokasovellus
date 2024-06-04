@@ -48,6 +48,9 @@
         "YOU_ARE_LOGGED_AS_RESTAURANT_USER": "Olet kirjautunut sisään ravintolakäyttäjänä",
         "MEAL_CREATED": "Ateria on luotu!",
         "MEAL_NOT_CREATED": "Ateria ei luotu",
-        "MEAL_DESCRIPTION": "Aterian kuvaus"
+        "MEAL_DESCRIPTION": "Aterian kuvaus",
+        "FOOD_CATEGORY": "Ruokakategoria",
+        "INGREDIENT": "Raaka-aine",
+        "INGREDIENT_WEIGHT": "Paino (g)"
     }
 }
