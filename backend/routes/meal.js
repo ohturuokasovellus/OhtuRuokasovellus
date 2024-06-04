@@ -2,6 +2,7 @@ const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
     sql } = require('../database');
 const jwt = require('jsonwebtoken');
+import { getNutrients } from '../services/calculateNutrients';
 
 const router = express.Router();
 
@@ -17,21 +18,22 @@ function getCO2Emissions(){
     return 1;
 }
 
-function getNutrients(){
-    return {};
-}
-
 /**
  * Route for adding meal.
  * @param {Object} req - The request object.
  * @param {Object} req.body - Request body.
  * @param {string} req.body.mealName - Name of the meal.
+ * @param {string} req.body.mealDescription
+ * @param {string} req.body.mealAllergens
+ * @param {Dictionary} req.body.ingredients - Ingredients in dictionary format,
+ * where the name of the ingredient is the key and ingredients
+ * mass in grams is the value
  * @param {Object} res - The response object.
  * @returns {Object} 400 - Invalid meal name
  * @returns {Object} 500 -  Meal insertion failed.
  */
 router.post('/api/meals', express.json(), async (req, res) => {
-    const { mealName, mealDescription, mealAllergens } = req.body;
+    const { mealName, mealDescription, mealAllergens, ingredients } = req.body;
 
     // Token decoding from 
     // https://fullstackopen.com/en/part4/token_authentication
@@ -55,7 +57,7 @@ router.post('/api/meals', express.json(), async (req, res) => {
     }
 
     const co2Emissions = getCO2Emissions();
-    const nutrients = getNutrients();
+    const nutrients = getNutrients(ingredients);
 
     let mealId;
     try {
