@@ -12,6 +12,7 @@ import {
 } from '../components/ui/InputFields';
 import { Card, MealCard } from '../components/ui/Card';
 import DoughnutChart from '../components/ui/DoughnutChart';
+import NutritionalValues from '../components/ui/NutritionalValuesContainer';
 
 const loremIpsum = 'Lorem ipsum dolor sit amet, \
 consecteturadipiscing elit, sed do eiusmod tempor \
@@ -44,6 +45,17 @@ const Layout = () => {
 
     const sliceColor = [colors.primary, colors.secondary, colors.tertiary];
     const series = [99, 26, 17];
+
+    const nutritionData = {
+        energy: 72,
+        protein: 1.3,
+        carbs: 14.8,
+        fat: 0.3,
+        sugars: 8.2,
+        fiber: 1,
+        saturatedFat: 0.1,
+        salt: 138.3
+    };
 
     const renderBoxes = (currentTheme) => {
         return Object.keys(currentTheme).map((key, index) => {
@@ -155,6 +167,10 @@ const Layout = () => {
                     sliceColor={sliceColor}
                     co2={'CO2'}
                     allergens={['maito', 'kala']}
+                />
+                <NutritionalValues
+                    styles={styles}
+                    nutrition={nutritionData}
                 />
                 {/* theme colours */}
                 <ScrollView contentContainerStyle={{padding: 16}}>

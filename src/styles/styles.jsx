@@ -103,6 +103,13 @@ const createStyles = () => {
             alignItems: 'center',
             marginBottom: 12,
         },
+        buttonVariant: {
+            backgroundColor: colors.secondary,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+        },
         iconButton: {
             height: 30,
             width: 30,
@@ -227,7 +234,7 @@ const createStyles = () => {
             fontSize: 16,
             color: colors.onSecondaryContainer,
             fontFamily: 'Roboto-Regular',
-            marginBottom: 8,
+            marginBottom: 12,
         },
 
         cardTextBold: {
@@ -301,6 +308,50 @@ const createStyles = () => {
             fontSize: 12,
             color: colors.onSecondaryContainer,
             fontFamily: 'Roboto-Regular'
+        },
+
+        // nutritional values
+        nutritionalValueContainer: {
+            padding: 16,
+            backgroundColor: colors.tertiaryContainer,
+            borderRadius: 8,
+            margin: 16,
+        },
+        nutritionalValueTitle: {
+            fontSize: 14,
+            fontFamily: 'Roboto-Bold',
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            marginBottom: 4,
+            color: colors.onTertiaryContainer,
+        },
+        nutritionalValueSubTitle: {
+            fontSize: 12,
+            fontFamily: 'Roboto-Regular',
+            textAlign: 'center',
+            marginBottom: 12,
+            color: colors.onTertiaryContainer,
+        },
+        nutritionalValueValueContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: 8,
+        },
+        nutritionalValueSubValueContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginLeft: 16,
+            marginBottom: 8,
+        },
+        nutritionalValueLabel: {
+            fontSize: 14,
+            fontFamily: 'Roboto-Regular',
+            color: colors.onTertiaryContainer,
+        },
+        nutritionalValueSubLabel: {
+            fontSize: 14,
+            fontFamily: 'Roboto-Thin',
+            color: colors.onTertiaryContainer,
         },
     });
 };

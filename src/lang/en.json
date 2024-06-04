@@ -57,6 +57,8 @@
         "CO2_EMISSIONS": "CO2 emissions",
         "SHOW_NUTR_INFO": "Show nutritional values",
         "HIDE_NUTR_INFO": "Hide nutritional values",
-        "NUTRITIONAL_VALUES": "Nutritional values"
+        "NUTRITIONAL_VALUES": "Nutritional values",
+        "ENERGY": "Energy",
+        "PER_PORTION": "per portion"
     }
 }
