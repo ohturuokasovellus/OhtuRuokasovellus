@@ -27,14 +27,17 @@ const ingredients = {
 };
 
 const data = [
-    {key:'1', value:'Mobiles', disabled:true},
+    {key:'1', value:'Mobiles'},
     {key:'2', value:'Appliances'},
     {key:'3', value:'Cameras'},
-    {key:'4', value:'Computers', disabled:true},
+    {key:'4', value:'Computers'},
     {key:'5', value:'Vegetables'},
     {key:'6', value:'Diary Products'},
     {key:'7', value:'Drinks'},
 ];
+
+let data1 = {};
+
 
 
 const initialValues = {
@@ -47,6 +50,8 @@ const validationSchema = mealValidationSchema;
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const {t} = useTranslation();
     const [formError, setFormError] = useState('');
+    const [createSuccess, setCreateSuccess] = useState(false);
+    const [createError, setCreateError] = useState(false);
     const [selected, setSelected] = useState('');
 
     const formik = useFormik({
@@ -55,9 +60,10 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
         onSubmit: async values => {
             try {
                 await onSubmit(values);
-                onSuccess();
+                onSuccess(setCreateSuccess);
+                
             } catch (err) {
-                onError(err);
+                onError(setCreateError);
                 setFormError(err.message);
                 formik.resetForm();
             }
@@ -132,6 +138,12 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                     text={t('CREATE_A_MEAL')}
                     id='create-meal-button'
                 />
+                {createSuccess &&
+                <Text>{t('MEAL_CREATED')}</Text>
+                }
+                {createError && 
+                <Text style={styles.error}>{t('MEAL_NOT_CREATED')}</Text>
+                }
             </View>
         </ScrollView>
     );
@@ -174,11 +186,19 @@ const CreateMeal = (props) => {
             throw new Error(errorMessage);
         }
     };
-    const onSuccess = () => {
-        console.log('meal creation successful!');
+
+    const setMessageTimeout = (setFunc) => {
+        setTimeout(() => {
+            setFunc(false);
+        }, 5000);
     };
-    const onError = err => {
-        console.error('meal creation error:', err);
+    const onSuccess = (setCreateSuccess) => {
+        setCreateSuccess(true);
+        setMessageTimeout(setCreateSuccess);
+    };
+    const onError = (setCreateError) => {
+        setCreateError(true);
+        setMessageTimeout(setCreateError);
     };
 
     return <CreateMealForm onSubmit={onSubmit}
