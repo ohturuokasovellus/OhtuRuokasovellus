@@ -6,7 +6,7 @@ import {
 import createStyles from './styles';
 import { themeContext } from '../controllers/themeController';
 
-import { Button, SmallButton } from '../components/ui/Buttons';
+import { Button, SmallButton, ButtonVariant } from '../components/ui/Buttons';
 import {
     Input, PasswordInput, FlexInput, MultilineInput
 } from '../components/ui/InputFields';
@@ -44,7 +44,6 @@ const Layout = () => {
     };
 
     const sliceColor = [colors.primary, colors.secondary, colors.tertiary];
-    const series = [99, 26, 17];
 
     const nutritionData = {
         energy: 72,
@@ -118,6 +117,11 @@ const Layout = () => {
 
                 {/* buttons */}
                 <Button onPress={() => {}} text='button' styles={styles}/>
+                <ButtonVariant
+                    onPress={() => {}}
+                    text='button variant'
+                    styles={styles}
+                />
                 <SmallButton onPress={() => {}} text='S' styles={styles}/>
 
                 {/* input fields */}
@@ -148,8 +152,19 @@ const Layout = () => {
                 <SmallButton
                     onPress={addInput} text='+' styles={styles}
                 />
+                {/* doughnut chart */}
+                <DoughnutChart
+                    styles={styles}
+                    series={[1, 2, 3]}
+                    sliceColor={sliceColor}
+                    labels={['a', 'b', 'c']}
+                />
 
                 {/* cards */}
+                <NutritionalValues
+                    styles={styles}
+                    nutrition={nutritionData}
+                />
                 <Card
                     styles={styles}
                     imgURI={require('./example.jpg')}
@@ -163,25 +178,16 @@ const Layout = () => {
                     body={loremIpsum}
                     onPress={() => {}}
                     isSelected={true}
-                    series={series}
                     sliceColor={sliceColor}
                     co2={'CO2'}
                     allergens={['maito', 'kala']}
-                />
-                <NutritionalValues
-                    styles={styles}
                     nutrition={nutritionData}
                 />
+
                 {/* theme colours */}
                 <ScrollView contentContainerStyle={{padding: 16}}>
                     {renderBoxes(colors)}
                 </ScrollView>
-
-                {/* doughnut chart */}
-                {/* <DoughnutChart
-                    series={series}
-                    sliceColor={sliceColor}
-                /> */}
             </View>
         </ScrollView>
     );

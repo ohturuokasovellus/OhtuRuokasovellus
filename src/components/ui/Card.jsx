@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import DoughnutChart from './DoughnutChart';
-import { Button } from './Buttons';
+import { ButtonVariant } from './Buttons';
+import NutritionalValues from './NutritionalValuesContainer';
 
 /** Custom wrapper for cards with images
  * @param {object} styles styles passed from the global stylesheet
@@ -29,34 +30,39 @@ const Card = ({ styles, imgURI, title, body }) => {
 
 /** Wrapper for meal cards. The container works as Pressable,
  * and renders the additional info if selected.
- * @param {object} styles
+ * @param {Object} styles
  * @param {string} imgURI
  * @param {string} title
  * @param {string} body
  * @param {function} onPress
  * @param {boolean} isSelected
- * @param {array} series list of macronutrients: [carbs, fat, protein]
  * @param {array} sliceColor colours of chart slices
  * @param {string} co2 CO2 emissions
  * @param {string} allergens
+ * @param {Object} nutrition nutritional info as a dict
  */
 const MealCard = ({
     styles, imgURI, title, body,
     onPress, isSelected,
-    series, sliceColor,
-    co2, allergens
+    sliceColor, co2, allergens,
+    nutrition
 }) => {
     const {t} = useTranslation();
+    const [expanded, setExpanded] = useState(false);
 
+    const series = [
+        nutrition.carbs,
+        nutrition.fat,
+        nutrition.protein
+    ];
     const labels = [
-        `${t('CARBS')}: ${series[0]} g`,
-        `${t('FAT')}: ${series[1]} g`,
-        `${t('PROTEIN')}: ${series[2]} g`
+        `${t('CARBS')}: ${nutrition.carbs} g`,
+        `${t('FAT')}: ${nutrition.fat} g`,
+        `${t('PROTEIN')}: ${nutrition.protein} g`
     ];
 
-    return (
-        <View style={styles.cardContainer}>
-                
+    const PressableImageContainer = () => {
+        return (
             <View style={styles.imageContainer}>
                 <Pressable
                     onPress={onPress}
@@ -68,18 +74,53 @@ const MealCard = ({
                     />
                 </Pressable>
             </View>
+        );
+    };
+
+    const CO2Container = () => {
+        const {t} = useTranslation();
+        return (
+            <View style={styles.co2Container}>
+                <Text style={styles.cardText}>
+                    <Text style={styles.cardTextBold}>
+                        {t('CO2_EMISSIONS')}:
+                    </Text>
+                    {` ${co2}`}
+                </Text>
+            </View>
+        );
+    };
+
+    const InfoContainer = () => {
+        return (
+            <View style={styles.mealDescrContainer}>
+                <Text style={styles.cardText}>{body}</Text>
+                <Text style={styles.cardText}>
+                    <Text style={styles.cardTextBold}>
+                        {t('ALLERGENS')}:
+                    </Text>
+                    {` ${allergens.join(', ')}`}
+                </Text>
+                <ButtonVariant
+                    styles={styles}
+                    text={expanded ?
+                        t('HIDE_NUTR_INFO') :
+                        t('SHOW_NUTR_INFO')
+                    }
+                    onPress={() => setExpanded(!expanded)}
+                />
+            </View>
+        );
+    };
+
+    return (
+        <View style={styles.cardContainer}>
+            <PressableImageContainer />
             <View style={styles.cardContent}>
                 <Text style={styles.cardTitle}>{title}</Text>
                 {isSelected && (
                     <View>
-                        <View style={styles.co2Container}>
-                            <Text style={styles.cardText}>
-                                <Text style={styles.cardTextBold}>
-                                    {t('CO2_EMISSIONS')}:
-                                </Text>
-                                {` ${co2}`}
-                            </Text>
-                        </View>
+                        <CO2Container />
                         <View style={styles.chartDescrContainer}>
                             <DoughnutChart
                                 styles={styles}
@@ -87,21 +128,16 @@ const MealCard = ({
                                 sliceColor={sliceColor}
                                 labels={labels}
                             />
-                            <View style={styles.mealDescrContainer}>
-                                <Text style={styles.cardText}>{body}</Text>
-                                <Text style={styles.cardText}>
-                                    <Text style={styles.cardTextBold}>
-                                        {t('ALLERGENS')}:
-                                    </Text>
-                                    {` ${allergens.join(', ')}`}
-                                </Text>
-                                <Button
-                                    styles={styles}
-                                    text=''
-                                    onPress
-                                />
-                            </View>
+                            <InfoContainer />
                         </View>
+                    </View>
+                )}
+                {isSelected && expanded && (
+                    <View>
+                        <NutritionalValues
+                            styles={styles}
+                            nutrition={nutrition}
+                        />
                     </View>
                 )}
             </View>

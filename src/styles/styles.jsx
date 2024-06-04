@@ -193,7 +193,7 @@ const createStyles = () => {
             maxWidth: 600,
             minWidth: 300,
             padding: 16,
-            backgroundColor: colors.secondaryContainer,
+            backgroundColor: colors.surfaceVariant,
             borderRadius: 8,
             marginVertical: 16,
             shadowColor: '#000',
@@ -209,8 +209,6 @@ const createStyles = () => {
             top: -16,
             left: '5%',
             width: '90%',
-            // width: 360,
-            // height: 200,
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.2,
             shadowRadius: 4,
@@ -226,19 +224,19 @@ const createStyles = () => {
         },
         cardContent: {
             paddingTop: 168,  // adjust this value based on the image height
-            // alignItems: 'center',
         },
 
         cardTitle: {
             fontSize: 24,
             marginVertical: 8,
-            color: colors.onSecondaryContainer,
+            marginLeft: 8,
+            color: colors.onSurfaceVariant,
             fontFamily: 'Roboto-Bold',
         },
 
         cardText: {
             fontSize: 16,
-            color: colors.onSecondaryContainer,
+            color: colors.onSurfaceVariant,
             fontFamily: 'Roboto-Regular',
             marginBottom: 12,
         },
@@ -250,14 +248,17 @@ const createStyles = () => {
         co2Container: {
             alignItems: 'left',
             marginBottom: 8,
+            marginLeft: 8,
         },
         chartDescrContainer: {
             flexDirection: 'row',
             justifyContent: 'space-between',
+            marginLeft: 8,
         },
         mealDescrContainer: {
             flex: 1,
-            marginLeft: 10,
+            marginLeft: 12,
+            marginRight: 8,
         },
 
         // QR
@@ -312,16 +313,16 @@ const createStyles = () => {
         },
         legendText: {
             fontSize: 12,
-            color: colors.onSecondaryContainer,
+            color: colors.onSurfaceVariant,
             fontFamily: 'Roboto-Regular'
         },
 
         // nutritional values
         nutritionalValueContainer: {
             padding: 16,
-            backgroundColor: colors.tertiaryContainer,
+            backgroundColor: colors.primaryContainer,
             borderRadius: 8,
-            margin: 16,
+            margin: 8,
         },
         nutritionalValueTitle: {
             fontSize: 14,
@@ -329,14 +330,14 @@ const createStyles = () => {
             textAlign: 'center',
             textTransform: 'uppercase',
             marginBottom: 4,
-            color: colors.onTertiaryContainer,
+            color: colors.onPrimaryContainer,
         },
         nutritionalValueSubTitle: {
             fontSize: 12,
             fontFamily: 'Roboto-Regular',
             textAlign: 'center',
             marginBottom: 12,
-            color: colors.onTertiaryContainer,
+            color: colors.onPrimaryContainer,
         },
         nutritionalValueValueContainer: {
             flexDirection: 'row',
@@ -352,12 +353,12 @@ const createStyles = () => {
         nutritionalValueLabel: {
             fontSize: 14,
             fontFamily: 'Roboto-Regular',
-            color: colors.onTertiaryContainer,
+            color: colors.onPrimaryContainer,
         },
         nutritionalValueSubLabel: {
             fontSize: 14,
             fontFamily: 'Roboto-Thin',
-            color: colors.onTertiaryContainer,
+            color: colors.onPrimaryContainer,
         },
     });
 };
