@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const express = require('express');
 const { hash } = require('../services/hash');
 const router = express.Router();

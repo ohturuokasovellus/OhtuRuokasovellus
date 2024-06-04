@@ -1,17 +1,8 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const { addPurchase } = require('../database');
 const { verifyToken } = require('../services/authorization');
 
 const router = express.Router();
-
-const getTokenFrom = request => {
-    const authorization = request.get('authorization');
-    if (authorization && authorization.startsWith('Bearer ')) {
-        return authorization.replace('Bearer ', '');
-    }
-    return null;
-};
 
 /**
  * Route for inserting a new purchase to database.
@@ -37,7 +28,7 @@ router.post('/api/purchases', express.json(), async (req, res) => {
 
     // insert into database
     try {
-        await addPurchase(decodedToken.userId, mealId);
+        await addPurchase(userInfo.userId, mealId);
     } catch (err) {
         console.error(err);
         return res.status(500).send('purchase insertion failed');
