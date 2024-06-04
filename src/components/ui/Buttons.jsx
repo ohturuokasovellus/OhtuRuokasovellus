@@ -23,6 +23,23 @@ const Button = ({ onPress, text, styles, ...props }) => {
         </Pressable>
     );
 };
+
+/** Colour variant of the regular button. */
+const ButtonVariant = ({ onPress, text, styles, ...props }) => {
+    return (
+        <Pressable
+            style={
+                ({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0 },
+                    styles.buttonVariant]}
+            onPress={onPress}
+            role='button'
+            {...props}
+        >
+            <Text style={styles.buttonText}>{text}</Text>
+        </Pressable>
+    );
+};
+
 /** Custom wrapper for small buttons */
 const SmallButton = ({ onPress, text, styles, ...props }) => {
     return (
@@ -57,4 +74,4 @@ const NavButton = ({ onPress, text, styles, ...props }) => {
     );
 };
 
-export { Button, SmallButton, NavButton };
+export { Button, ButtonVariant, SmallButton, NavButton };
