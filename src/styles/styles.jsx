@@ -178,6 +178,7 @@ const createStyles = () => {
         // cards
         cardContainer: {
             maxWidth: 600,
+            minWidth: 300,
             padding: 16,
             backgroundColor: colors.secondaryContainer,
             borderRadius: 8,
@@ -191,7 +192,7 @@ const createStyles = () => {
         },
         imageContainer: {
             position: 'absolute',
-            top: '-5%',
+            top: -16,
             left: '5%',
             width: '90%',
             // width: 360,
@@ -209,7 +210,7 @@ const createStyles = () => {
             borderRadius: 8,
         },
         cardContent: {
-            paddingTop: 170,  // adjust this value based on the image height
+            paddingTop: 168,  // adjust this value based on the image height
             // alignItems: 'center',
         },
 
