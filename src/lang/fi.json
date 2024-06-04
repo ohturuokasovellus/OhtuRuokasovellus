@@ -48,8 +48,15 @@
         "YOU_ARE_LOGGED_AS_RESTAURANT_USER": "Olet kirjautunut sisään ravintolakäyttäjänä",
         "ALLERGENS": "Allergeenit",
         "CARBS": "Hiilihydraatit",
+        "OF_WHICH_SUGARS": "joista sokereita",
         "FAT": "Rasva",
+        "OF_WHICH_SATURATES": "josta tyydyttynyttä",
+        "FIBER": "Ravintokuitu",
         "PROTEIN": "Proteiini",
-        "CO2_EMISSIONS": "CO2-päästöt"
+        "SALT": "Suola",
+        "CO2_EMISSIONS": "CO2-päästöt",
+        "SHOW_NUTR_INFO": "Näytä ravintoarvot",
+        "HIDE_NUTR_INFO": "Piilota ravintoarvot",
+        "NUTRITIONAL_VALUES": "Ravintoarvot"
     }
 }

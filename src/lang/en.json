@@ -48,8 +48,15 @@
         "YOU_ARE_LOGGED_AS_RESTAURANT_USER": "You are logged in as a restaurant user",
         "ALLERGENS": "Allergens",
         "CARBS": "Carbohydrates",
+        "OF_WHICH_SUGARS": "of which sugars",
         "FAT": "Fat",
+        "OF_WHICH_SATURATES": "of which saturates",
+        "FIBER": "Fiber",
         "PROTEIN": "Protein",
-        "CO2_EMISSIONS": "CO2 emissions"
+        "SALT": "Salt",
+        "CO2_EMISSIONS": "CO2 emissions",
+        "SHOW_NUTR_INFO": "Show nutritional values",
+        "HIDE_NUTR_INFO": "Hide nutritional values",
+        "NUTRITIONAL_VALUES": "Nutritional values"
     }
 }
