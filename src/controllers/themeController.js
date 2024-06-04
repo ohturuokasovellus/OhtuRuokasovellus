@@ -14,6 +14,7 @@ export const ThemeController = ({ children }) => {
     const [theme, setTheme] = useState('light');
 
     useEffect(() => {
+        // eslint-disable-next-line no-undef
         const storedTheme = localStorage.getItem('appTheme');
         if (storedTheme) {
             setTheme(storedTheme);
@@ -23,6 +24,7 @@ export const ThemeController = ({ children }) => {
     const toggleTheme = () => {
         setTheme((prevTheme) => {
             const newTheme = prevTheme === 'light' ? 'dark' : 'light';
+            // eslint-disable-next-line no-undef
             localStorage.setItem('appTheme', newTheme);
             return newTheme;
         });
