@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const { addPurchase } = require('../database')
+const { addPurchase } = require('../database');
+const { verifyToken } = require('../services/authorization');
 
 const router = express.Router();
 
@@ -23,9 +24,8 @@ const getTokenFrom = request => {
  * @returns {Object} 500 - User/meal ID invalid or internal server error.
  */
 router.post('/api/purchases', express.json(), async (req, res) => {
-    // authorize user
-    const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET_KEY);
-    if (!decodedToken.userId) {
+    const userInfo = verifyToken(req.header('Authorization'));
+    if (!userInfo) {
         return res.status(401).send('unauthorized');
     }
 
