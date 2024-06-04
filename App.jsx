@@ -15,6 +15,7 @@ import RegisterRestaurant from './src/components/RegisterRestaurant';
 import AddUser from './src/components/AddUser';
 import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
+import Purchase from './src/components/Purchase';
 
 import Layout from './src/styles/layoutMock';
 
@@ -58,6 +59,8 @@ const App = () => {
                         <Route path='/add-users'
                             element={<AddUser user={user} />} />
                         <Route path='/layout' element={<Layout/>}/>
+                        <Route path='/purchase/:mealId'
+                            element={<Purchase />} />
                     </Routes>
                 </View>
             </Router>
