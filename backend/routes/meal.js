@@ -1,6 +1,6 @@
 const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
-    sql } = require('../database');
+    sql, getMeal } = require('../database');
 const jwt = require('jsonwebtoken');
 
 const router = express.Router();
@@ -124,6 +124,21 @@ router.get('/api/meals/:restaurantId', async (req, res) => {
         return res.status(404).json('Page not found');
     }
     res.json(result);
+});
+
+/**
+ * Route for fetching the information of a single meal by its ID.
+ * @param {Object} req - The request object.
+ * @param {number} req.params.mealId - The ID of the meal.
+ * @param {Object} res - The response object.
+ * @returns {Object} 404 - The meal was not found.
+ */
+router.get('/api/meal/:mealId', async (req, res) => {
+    const meal = await getMeal(req.params.mealId);
+    if (meal === null) {
+        return res.status(404).send('meal not found');
+    }
+    res.json(meal);
 });
 
 module.exports = router;

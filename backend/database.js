@@ -214,6 +214,21 @@ const getMeals = async (restaurantId) => {
 };
 
 /**
+ * Fetch a single meal by its ID.
+ * @param {number} mealId The ID of the meal.
+ * @returns {Promise<{ name: string }?>} The meal information.
+ */
+const getMeal = async mealId => {
+    const result = await sql`
+        SELECT name FROM meals WHERE meal_id = ${mealId};
+    `;
+    if (result.length === 0) {
+        return null;
+    }
+    return result.at(0);
+};
+
+/**
  * Check if a user is associated with a restaurant.
  * @param {number} userId
  * @returns {Promise<boolean>} true if user is a restaurant user
@@ -252,6 +267,7 @@ module.exports = {
     insertMeal,
     addMealImage,
     getMeals,
+    getMeal,
     isRestaurantUser,
     // doesRestaurantNameExist,
     getSurveyUrl,
