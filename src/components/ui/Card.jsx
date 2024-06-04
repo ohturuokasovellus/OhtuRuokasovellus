@@ -3,6 +3,7 @@ import { View, Text, Image, Pressable } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import DoughnutChart from './DoughnutChart';
+import { Button } from './Buttons';
 
 /** Custom wrapper for cards with images
  * @param {object} styles styles passed from the global stylesheet
@@ -54,50 +55,57 @@ const MealCard = ({
     ];
 
     return (
-        <Pressable onPress={onPress} style={({ pressed }) => [
-            { opacity: pressed ? 0.5 : 1, },
-        ]}>
-            <View style={styles.cardContainer}>
-                <View style={styles.imageContainer}>
+        <View style={styles.cardContainer}>
+                
+            <View style={styles.imageContainer}>
+                <Pressable
+                    onPress={onPress}
+                    style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+                >
                     <Image
                         source={{ uri: imgURI }}
                         style={styles.image}
                     />
-                </View>
-                <View style={styles.cardContent}>
-                    <Text style={styles.cardTitle}>{title}</Text>
-                    {isSelected && (
-                        <View>
-                            <View style={styles.co2Container}>
+                </Pressable>
+            </View>
+            <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>{title}</Text>
+                {isSelected && (
+                    <View>
+                        <View style={styles.co2Container}>
+                            <Text style={styles.cardText}>
+                                <Text style={styles.cardTextBold}>
+                                    {t('CO2_EMISSIONS')}:
+                                </Text>
+                                {` ${co2}`}
+                            </Text>
+                        </View>
+                        <View style={styles.chartDescrContainer}>
+                            <DoughnutChart
+                                styles={styles}
+                                series={series}
+                                sliceColor={sliceColor}
+                                labels={labels}
+                            />
+                            <View style={styles.mealDescrContainer}>
+                                <Text style={styles.cardText}>{body}</Text>
                                 <Text style={styles.cardText}>
                                     <Text style={styles.cardTextBold}>
-                                        {t('CO2_EMISSIONS')}:
+                                        {t('ALLERGENS')}:
                                     </Text>
-                                    {` ${co2}`}
+                                    {` ${allergens.join(', ')}`}
                                 </Text>
-                            </View>
-                            <View style={styles.chartDescrContainer}>
-                                <DoughnutChart
+                                <Button
                                     styles={styles}
-                                    series={series}
-                                    sliceColor={sliceColor}
-                                    labels={labels}
+                                    text=''
+                                    onPress
                                 />
-                                <View style={styles.mealDescrContainer}>
-                                    <Text style={styles.cardText}>{body}</Text>
-                                    <Text style={styles.cardText}>
-                                        <Text style={styles.cardTextBold}>
-                                            {t('ALLERGENS')}:
-                                        </Text>
-                                        {` ${allergens.join(', ')}`}
-                                    </Text>
-                                </View>
                             </View>
                         </View>
-                    )}
-                </View>
+                    </View>
+                )}
             </View>
-        </Pressable>
+        </View>
     );
 };
 

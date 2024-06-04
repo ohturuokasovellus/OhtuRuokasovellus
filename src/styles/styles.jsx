@@ -191,6 +191,7 @@ const createStyles = () => {
             alignSelf: 'center',
         },
         imageContainer: {
+            backgroundColor: colors.surface,
             position: 'absolute',
             top: -16,
             left: '5%',
@@ -203,6 +204,7 @@ const createStyles = () => {
             elevation: 1,
             borderRadius: 8,
             overflow: 'hidden',
+            zIndex: 100, // this ensures the container can be used as pressable
         },
         image: {
             width: '100%',
@@ -225,6 +227,7 @@ const createStyles = () => {
             fontSize: 16,
             color: colors.onSecondaryContainer,
             fontFamily: 'Roboto-Regular',
+            marginBottom: 8,
         },
 
         cardTextBold: {

@@ -13,6 +13,7 @@ const Home = (props) => {
     const navigate = useNavigate();
     const [surveyUrl, setSurveyUrl] = useState(null);
     const [loading, setLoading] = useState(true);
+    const styles = createStyles();
 
     useEffect(() => {
         if (!props.user) {
@@ -29,8 +30,6 @@ const Home = (props) => {
     const username = props.user.username;
     const restaurantId = props.user.restaurantId;
     const isRestaurantUser = restaurantId !== null;
-
-    const styles = createStyles();
 
     return (
         <ScrollView style={styles.background}>
