@@ -47,6 +47,7 @@
         "WELCOME": "Welcome",
         "YOU_ARE_LOGGED_AS_RESTAURANT_USER": "You are logged in as a restaurant user",
         "MEAL_CREATED": "Meal created succesfully!",
-        "MEAL_NOT_CREATED": "Error occured, meal not created"
+        "MEAL_NOT_CREATED": "Error occured, meal not created",
+        "MEAL_DESCRIPTION": "Meal description"
     }
 }

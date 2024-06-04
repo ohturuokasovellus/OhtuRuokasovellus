@@ -10,7 +10,7 @@ import { getSession } from '../controllers/sessionController';
 import { mealValidationSchema } from '../utils/formValidationSchemas';
 import createStyles from '../styles/styles';
 import { Button, SmallButton } from './ui/Buttons';
-import { Input, FlexInput,  } from './ui/InputFields';
+import { Input, MultilineInput } from './ui/InputFields';
 import { SelectList } from 'react-native-dropdown-select-list';
 
 const categories = [
@@ -36,13 +36,11 @@ const data = [
     {key:'7', value:'Drinks'},
 ];
 
-let data1 = {};
-
-
-
 const initialValues = {
     mealName: '',
-    imageUri: ''
+    imageUri: '',
+    description: '',
+    ingredients: ['']
 };
 
 const validationSchema = mealValidationSchema;
@@ -95,6 +93,16 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
 
     const styles = createStyles();
 
+    const addIngredientInput = () => {
+        formik.setFieldValue('ingredients', [...formik.values.ingredients, '']);
+    };
+
+    const removeIngredientInput = index => {
+        const updatedIngredients = [...formik.values.ingredients];
+        updatedIngredients.splice(index, 1);
+        formik.setFieldValue('ingredients', updatedIngredients);
+    };
+
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
@@ -118,10 +126,18 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 {formik.touched.mealName && formik.errors.mealName && 
                 <Text style={styles.error}>{formik.errors.mealName}</Text>
                 }
-                <SelectList 
+                {/* <SelectList 
                     setSelected={(val) => setSelected(val)} 
                     data={data} 
                     save="value"
+                /> */}
+                <MultilineInput
+                    styles={styles}
+                    placeholder={t('MEAL_DESCRIPTION')}
+                    value={formik.values.description}
+                    onChangeText={formik.handleChange('description')}
+                    id='description-input'
+                    rows={5}
                 />
                 <Button
                     styles={styles}
