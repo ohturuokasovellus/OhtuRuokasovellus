@@ -67,7 +67,7 @@ async function getNutrients(mealIngredients, csvPathName){
                     //first word of the line is 'id' or a id number
                     
                     if(result.data.at(0) in mealIngredients) { // check if
-                        // ingredient is found in the mealIngredients
+                        // ingredient id is found in the mealIngredients
                         calculateNutrientsForIngredient(
                             mealIngredients[result.data.at(0)], 
                             result.data, nutrientsDictionary);

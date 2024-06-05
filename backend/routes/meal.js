@@ -22,7 +22,7 @@ const getTokenFrom = request => {
  * @param {string} req.body.mealDescription
  * @param {string} req.body.mealAllergens
  * @param {Dictionary} req.body.ingredients - Ingredients in dictionary format,
- * where the name of the ingredient is the key and ingredients
+ * where the id of the ingredient is the key and ingredients
  * mass in grams is the value
  * @param {Object} res - The response object.
  * @returns {Object} 400 - Invalid meal name
