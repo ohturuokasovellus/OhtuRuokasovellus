@@ -185,16 +185,15 @@ const insertMeal = async (name, restaurantId, mealDescription,
     const sugar = nutrientDictionary['sugar'];
     const salt = nutrientDictionary['salt'];
     const saturatedFat = nutrientDictionary['saturatedFat'];
-    const unsaturatedFat = nutrientDictionary['unsaturatedFat'];
     const energy = nutrientDictionary['energy'];
 
     const result = await sql`
         INSERT INTO meals (name, restaurant_id, meal_description,
             co2_emissions, meal_allergens, carbohydrates, protein, fat, 
-            fiber, sugar, salt, saturated_fat, unsaturated_fat, energy)
+            fiber, sugar, salt, saturated_fat, energy)
         VALUES (${name}, ${restaurantId}, ${mealDescription}, ${co2Emissions}, 
             ${mealAllergens}, ${carbohydrates}, ${protein}, ${fat}, ${fiber}, 
-            ${sugar}, ${salt}, ${saturatedFat}, ${unsaturatedFat}, ${energy})
+            ${sugar}, ${salt}, ${saturatedFat}, ${energy})
         RETURNING meal_id;
     `;
     return result.at(0).meal_id;
