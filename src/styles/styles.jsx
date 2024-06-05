@@ -25,7 +25,7 @@ const createStyles = () => {
             alignSelf: 'center',
         },
 
-        // text
+        // typography
         body: {
             fontSize: 16,
             color: colors.onSurface,
@@ -97,8 +97,6 @@ const createStyles = () => {
         // buttons
         button: {
             backgroundColor: colors.primaryContainer,
-            // borderColor: colors.outlineVariant,
-            // borderWidth: 1,
             padding: 12,
             borderRadius: 8,
             alignItems: 'center',

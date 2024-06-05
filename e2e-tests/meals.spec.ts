@@ -42,7 +42,7 @@ test.describe('restaurant meal page', () => {
     });
 
     test('renders meals additional info', async ({ page }) => {
-        await page.locator('text=Kana bolognese').click();
+        await page.locator('#kana-bolognese-button').click();
         await expect(page.locator('text=Lorem ipsum dolor sit amet')).toBeVisible();
     });
 

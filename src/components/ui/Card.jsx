@@ -60,6 +60,7 @@ const MealCard = ({
         `${t('FAT')}: ${nutrition.fat} g`,
         `${t('PROTEIN')}: ${nutrition.protein} g`
     ];
+    const buttonId = title.replace(/\s+/g, '-').toLowerCase();
 
     const PressableImageContainer = () => {
         return (
@@ -67,6 +68,8 @@ const MealCard = ({
                 <Pressable
                     onPress={onPress}
                     style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+                    id={`${buttonId}-button`}
+                    role='button'
                 >
                     <Image
                         source={{ uri: imgURI }}
