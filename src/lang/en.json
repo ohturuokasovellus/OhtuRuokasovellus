@@ -60,6 +60,9 @@
         "NUTRITIONAL_VALUES": "Nutritional values",
         "ENERGY": "Energy",
         "PER_PORTION": "per portion",
-        "DELETE": "delete"
+        "DELETE": "delete",
+        "BUY": "Buy",
+        "PURCHASE_CONFIRMED": "Purchase confirmed",
+        "FAILED_TO_LOAD_MEAL": "Failed to load the meal"
     }
 }

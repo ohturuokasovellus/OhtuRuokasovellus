@@ -22,7 +22,7 @@ const Home = (props) => {
             fetchSurveyUrl(setSurveyUrl, setLoading);
         }
     }, [props.user, navigate]);
-    
+
     if (!props.user || loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
     }
