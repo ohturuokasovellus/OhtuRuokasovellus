@@ -1,4 +1,4 @@
-const {getIngredientCategory} = require('../services/getIngredients');
+const {getIngredients} = require('../services/getIngredients');
 const filesystem = require('fs');
 
 const data = 'id,tuoteryhmä,name,energia. laskennallinen (kJ),'+
@@ -17,14 +17,27 @@ describe('get ingredients', () => {
                 if (err) throw err;
             });
     });
+    test('ingredient names are returned correctly', async () => {
+        const ingredients = await getIngredients(
+            'backend/csvFiles/example_nutrients.csv');
+        
+        const ingredientNames = ingredients[0];
+
+        const correctIngredientNames = {'1': 'potato', 
+            '2': 'fried fish'};
+
+        expect(ingredientNames).toEqual(correctIngredientNames);
+    });
 
     test('ingredients are returned correctly', async () => {
-        const ingredients = await getIngredientCategory(
+        const ingredients = await getIngredients(
             'backend/csvFiles/example_nutrients.csv');
+        
+        const ingredientCategories = ingredients[1];
 
         const correctIngredients = {'potatoes': ['potato'], 
             'fishes': ['fried fish']};
 
-        expect(ingredients).toEqual(correctIngredients);
+        expect(ingredientCategories).toEqual(correctIngredients);
     });
 });
