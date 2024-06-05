@@ -36,7 +36,6 @@ CREATE TABLE meals (
     sugar NUMERIC, -- in grams
     salt NUMERIC, -- in milligrams
     saturated_fat NUMERIC,
-    unsaturated_fat NUMERIC,
     energy NUMERIC -- in kilojoules
 );
 
