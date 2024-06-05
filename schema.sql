@@ -35,8 +35,7 @@ CREATE TABLE meals (
     sugar NUMBER, -- in grams
     salt NUMBER, -- in milligrams
     saturated_fat NUMBER,
-    unsaturated_fat NUMBER,
-    energy NUMBER -- in kilocalories
+    energy NUMBER -- in kilojoules
 );
 
 CREATE TABLE urls (
