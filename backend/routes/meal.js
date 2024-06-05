@@ -21,9 +21,9 @@ const getTokenFrom = request => {
  * @param {string} req.body.mealName - Name of the meal.
  * @param {string} req.body.mealDescription
  * @param {string} req.body.mealAllergens
- * @param {Dictionary} req.body.ingredients - Ingredients in dictionary format,
- * where the id of the ingredient is the key and ingredients
- * mass in grams is the value
+ * @param {Array<Dictionary>} req.body.ingredients - Ingredients in 
+ * array format. The array contains dictionaries, the keys of which
+ * are the id of the ingredient and ingredients mass in grams is the value
  * @param {Object} res - The response object.
  * @returns {Object} 400 - Invalid meal name
  * @returns {Object} 500 -  Meal insertion failed.
@@ -52,7 +52,13 @@ router.post('/api/meals', express.json(), async (req, res) => {
         return res.status(400).send('You do not have permissions to add meals');
     }
 
-    const nutrients = getNutrients(ingredients, 
+    let mealIngredients = {};
+
+    ingredients.forEach(element => {
+        mealIngredients[element.mealId] = element.mass;
+    });
+
+    const nutrients = getNutrients(mealIngredients, 
         'backend/csvFiles/raaka-ainetiedot.csv');
 
     let mealId;

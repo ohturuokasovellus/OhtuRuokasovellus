@@ -3,12 +3,12 @@ const papa = require('papaparse');
 
 /**
  * 
- * @param {number} amount 
+ * @param {number} mass - mass of the ingredient used, in grams
  * @param {Array} ingredientNutrients 
  * @param {Dictionary} nutrients 
  * @returns {Dictionary}
  */
-function calculateNutrientsForIngredient(amount, ingredientNutrients, 
+function calculateNutrientsForIngredient(mass, ingredientNutrients, 
     nutrients){
 
     // ingredientNutrients is of form: id, tuoteryhmä, name,
@@ -17,7 +17,8 @@ function calculateNutrientsForIngredient(amount, ingredientNutrients,
     // sokerit (g),kuitu. kokonais- (g),proteiini (g),suola (mg),
     // CO2 (g/100g tuotetta)
 
-    const nutrientCoefficient = amount / 100;
+    // coefficient is mass / 100, because the default mass is 100g
+    const nutrientCoefficient = mass / 100;
 
     try {
         const energy = Number(ingredientNutrients[3]);
@@ -49,7 +50,7 @@ function calculateNutrientsForIngredient(amount, ingredientNutrients,
 
 /**
  * Calculates nutrients from ingredients, https://stackoverflow.com/a/52350312
- * @param {Dictionary} mealIngredients 
+ * @param {Dictionary} mealIngredients - mealId is key, mass is value
  * @param {string} csvPathName - path of the csv that we want to read
  * @returns {Dictionary}
  */
