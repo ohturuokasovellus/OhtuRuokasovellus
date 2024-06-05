@@ -26,17 +26,16 @@ CREATE TABLE meals (
     -- TODO: change creator type to Restaurant ID
     restaurant_id INT NOT NULL,
     meal_description TEXT,
-    co2_emissions NUMBER,
+    co2_emissions NUMERIC,
     meal_allergens TEXT,
-    carbohydrates NUMBER,
-    protein NUMBER, -- in grams
-    fat NUMBER, -- in grams
-    fiber NUMBER,
-    sugar NUMBER, -- in grams
-    salt NUMBER, -- in milligrams
-    saturated_fat NUMBER,
-    unsaturated_fat NUMBER,
-    energy NUMBER -- in kilocalories
+    carbohydrates NUMERIC,
+    protein NUMERIC, -- in grams
+    fat NUMERIC, -- in grams
+    fiber NUMERIC,
+    sugar NUMERIC, -- in grams
+    salt NUMERIC, -- in milligrams
+    saturated_fat NUMERIC,
+    energy NUMERIC -- in kilojoules
 );
 
 CREATE TABLE urls (

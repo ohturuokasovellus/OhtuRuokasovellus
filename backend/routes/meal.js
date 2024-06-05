@@ -21,9 +21,9 @@ const getTokenFrom = request => {
  * @param {string} req.body.mealName - Name of the meal.
  * @param {string} req.body.mealDescription
  * @param {string} req.body.mealAllergens
- * @param {Dictionary} req.body.ingredients - Ingredients in dictionary format,
- * where the name of the ingredient is the key and ingredients
- * mass in grams is the value
+ * @param {Array<Dictionary>} req.body.ingredients - Ingredients in 
+ * array format. The array contains dictionaries, the keys of which
+ * are the id of the ingredient and ingredients mass in grams is the value
  * @param {Object} res - The response object.
  * @returns {Object} 400 - Invalid meal name
  * @returns {Object} 500 -  Meal insertion failed.
@@ -32,12 +32,11 @@ router.post('/api/meals', express.json(), async (req, res) => {
     const {
         mealName, mealDescription, mealAllergenString, ingredients
     } = req.body;
-    console.log(req.body)
     // Token decoding from 
     // https://fullstackopen.com/en/part4/token_authentication
     const decodedToken = jwt.verify(getTokenFrom(req), 
         process.env.SECRET_KEY);
-
+    
     if (!decodedToken.userId) {
         return res.status(401).json({ error: 'token invalid' });
     }
@@ -49,13 +48,19 @@ router.post('/api/meals', express.json(), async (req, res) => {
     if (!mealName) {
         return res.status(400).send('invalid meal name');
     }
-
+    
     else if (!loggedInUsersRestaurantId) {
         return res.status(400).send('You do not have permissions to add meals');
     }
-
-    const nutrients = await getNutrients(ingredients, 
-        'backend/example_nutrients.csv');
+    
+    let mealIngredients = {};
+    
+    ingredients.forEach(element => {
+        mealIngredients[element.mealId] = element.mass;
+    });
+    
+    const nutrients = await getNutrients(mealIngredients, 
+        'backend/csvFiles/raaka-ainetiedot.csv');
 
     let mealId;
     try {

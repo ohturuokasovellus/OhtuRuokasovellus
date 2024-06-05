@@ -1,4 +1,4 @@
-const {getNutrients} = require('../services/calculateNutrients');
+const {getIngredientCategory} = require('../services/getIngredients');
 const filesystem = require('fs');
 
 const data = 'id,tuoteryhmä,name,energia. laskennallinen (kJ),'+
@@ -9,7 +9,7 @@ const data = 'id,tuoteryhmä,name,energia. laskennallinen (kJ),'+
     '2,fishes,fried fish,150,4,2,0,0,0,20,600,10\n';
 
 
-describe('calculate nutrients', () => {
+describe('get ingredients', () => {
     beforeEach(() => {
         filesystem.writeFile('backend/csvFiles/example_nutrients.csv', 
             data, (err) => {
@@ -18,15 +18,13 @@ describe('calculate nutrients', () => {
             });
     });
 
-    test('nutrients are calculated correctly', async () => {
-        const nutrients = await getNutrients({'1': 100, '2':50}, 
+    test('ingredients are returned correctly', async () => {
+        const ingredients = await getIngredientCategory(
             'backend/csvFiles/example_nutrients.csv');
 
-        const correctNutrients = {'energy': 125, 'fat': 3 , 
-            'saturatedFat': 1.5, 'carbohydrates': 10, 'sugar': 1, 
-            'fiber': 5, 'protein': 10.1, 'salt': 300.1, 
-            'co2Emissions': 10};
+        const correctIngredients = {'potatoes': ['potato'], 
+            'fishes': ['fried fish']};
 
-        expect(nutrients).toEqual(correctNutrients);
+        expect(ingredients).toEqual(correctIngredients);
     });
 });
