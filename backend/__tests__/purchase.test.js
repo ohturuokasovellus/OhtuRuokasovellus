@@ -11,6 +11,7 @@ describe('purchase', () => {
 
     test('meal can be fetched with the purchase code', async () => {
         postgresMock.setSqlResults([
+            // eslint-disable-next-line camelcase
             [{ meal_id: 42, name: 'Meatballs' }],
         ]);
 
