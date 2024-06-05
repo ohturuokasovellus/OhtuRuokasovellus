@@ -41,7 +41,7 @@ function calculateNutrientsForIngredient(amount, ingredientNutrients,
 
 /**
  * Calculates nutrients from ingredients, https://stackoverflow.com/a/52350312
- * @param {Dictionary} ingredients 
+ * @param {Dictionary} mealIngredients 
  * @returns {Dictionary}
  */
 async function getNutrients(mealIngredients){
@@ -70,3 +70,5 @@ async function getNutrients(mealIngredients){
     });
 
 }
+
+module.exports = {getNutrients};
