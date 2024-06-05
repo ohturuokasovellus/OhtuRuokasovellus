@@ -79,9 +79,7 @@ async function getNutrients(mealIngredients, csvPathName){
                 resolve(nutrientsDictionary);
             }
         });
-        
     });
-
 }
 
 module.exports = {getNutrients};
