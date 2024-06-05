@@ -101,14 +101,6 @@ const MealCard = ({
                     </Text>
                     {` ${allergens.join(', ')}`}
                 </Text>
-                <ButtonVariant
-                    styles={styles}
-                    text={expanded ?
-                        t('HIDE_NUTR_INFO') :
-                        t('SHOW_NUTR_INFO')
-                    }
-                    onPress={() => setExpanded(!expanded)}
-                />
             </View>
         );
     };
@@ -130,6 +122,14 @@ const MealCard = ({
                             />
                             <InfoContainer />
                         </View>
+                        <ButtonVariant
+                            styles={styles}
+                            text={expanded ?
+                                t('HIDE_NUTR_INFO') :
+                                t('SHOW_NUTR_INFO')
+                            }
+                            onPress={() => setExpanded(!expanded)}
+                        />
                     </View>
                 )}
                 {isSelected && expanded && (

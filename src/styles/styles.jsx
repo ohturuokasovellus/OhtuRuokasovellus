@@ -16,6 +16,7 @@ const createStyles = () => {
         },
         container: {
             maxWidth: 700,
+            minWidth: 320,
             padding: 8,
             backgroundColor: colors.surface,
             borderRadius: 8,
@@ -109,6 +110,7 @@ const createStyles = () => {
             borderRadius: 8,
             alignItems: 'center',
             marginBottom: 12,
+            marginHorizontal: 8,
         },
         iconButton: {
             height: 30,
