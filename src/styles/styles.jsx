@@ -121,6 +121,15 @@ const createStyles = () => {
             alignItems: 'center',
             justifyContent: 'center',
         },
+        deleteButton: {
+            backgroundColor: colors.errorContainer,
+            padding: 8,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+            marginHorizontal: 8,
+            width: 80,
+        },
         buttonText: {
             fontSize: 18,
             textTransform: 'uppercase',
@@ -136,6 +145,12 @@ const createStyles = () => {
         iconButtonText: {
             fontsize: 32,
             color: colors.onTertiary,
+            fontFamily: 'Roboto-Bold',
+        },
+        deleteButtonText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onErrorContainer,
             fontFamily: 'Roboto-Bold',
         },
 

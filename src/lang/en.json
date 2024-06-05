@@ -59,6 +59,7 @@
         "HIDE_NUTR_INFO": "Hide nutritional values",
         "NUTRITIONAL_VALUES": "Nutritional values",
         "ENERGY": "Energy",
-        "PER_PORTION": "per portion"
+        "PER_PORTION": "per portion",
+        "DELETE": "delete"
     }
 }

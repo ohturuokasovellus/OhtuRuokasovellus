@@ -6,7 +6,12 @@ import {
 import createStyles from './styles';
 import { themeContext } from '../controllers/themeController';
 
-import { Button, SmallButton, ButtonVariant } from '../components/ui/Buttons';
+import {
+    Button,
+    SmallButton,
+    ButtonVariant,
+    DeleteButton
+} from '../components/ui/Buttons';
 import {
     Input, PasswordInput, FlexInput, MultilineInput
 } from '../components/ui/InputFields';
@@ -123,6 +128,7 @@ const Layout = () => {
                     styles={styles}
                 />
                 <SmallButton onPress={() => {}} text='S' styles={styles}/>
+                <DeleteButton onPress={() => {}} styles={styles}/>
 
                 {/* input fields */}
                 <Input styles={styles} placeholder='normal input'/>

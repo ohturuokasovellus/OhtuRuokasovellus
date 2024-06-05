@@ -59,6 +59,7 @@
         "HIDE_NUTR_INFO": "Piilota ravintoarvot",
         "NUTRITIONAL_VALUES": "Ravintoarvot",
         "ENERGY": "Energia",
-        "PER_PORTION": "/annos"
+        "PER_PORTION": "/annos",
+        "DELETE": "poista"
     }
 }
