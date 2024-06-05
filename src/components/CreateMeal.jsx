@@ -34,6 +34,14 @@ const allergens = [
     'celery', 'mustard', 'soy', 'lupine', 'sulfite', 'sulfur_oxide'
 ];
 
+const allergensFin = {
+    grains: 'Viljat', gluten: 'Gluteeni', dairy: 'Maito', lactose: 'Laktoosi',
+    egg: 'Kananmuna', nuts: 'Pähkinät', sesame_seeds: 'Seesaminsiemenet',
+    fish: 'Kala', shellfish: 'Äyriäiset', molluscs: 'Nilviäiset',
+    celery: 'Selleri', mustard: 'Sinappi', soy: 'Soija', lupine: 'Lupiini',
+    sulfite: 'Sulfiitti', sulfur_oxide: 'Rikkioksidi'
+};
+
 const initialValues = {
     mealName: '',
     imageUri: '',
@@ -287,16 +295,23 @@ const CreateMeal = (props) => {
         }
     });
 
+    const createAllergenString = (allergens) => {
+        return Object.keys(allergens)
+            .filter(key => allergens[key])
+            .map(key => allergensFin[key])
+            .join(', ');
+    };
+
     const onSubmit = async values => {
-        console.log(values);
         const {
             mealName, imageUri, description, ingredients, allergens
         } = values;
+        const allergenString = createAllergenString(allergens);
 
         try {
             const response = await axios.post(
                 `${apiUrl}/meals`,
-                { mealName },
+                { mealName, description, ingredients, allergenString },
                 {
                     headers: { Authorization: 'Bearer ' + getSession().token }
                 }
