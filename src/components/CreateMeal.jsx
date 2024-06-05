@@ -15,17 +15,21 @@ import { Input, MultilineInput } from './ui/InputFields';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { CheckBox } from 'react-native-elements';
 
-const categories = [
-    'all', 'meat', 'fish', 'dairy', 'starches', 'vegetables', 'fats and oils'
-];
-
-const ingredients = {
+const categorizedIngredients = {
     'meat': ['ribeye', 'ground beef', 'bacon'],
     'fish': ['salmon', 'tuna', 'white fish'],
     'dairy': ['milk', 'greek yoghurt', 'kefir'],
     'starches': ['potato', 'white rice', 'pasta'],
     'vegetables': ['lettuce', 'tomatoes', 'kale'],
     'fats and oils': ['butter', 'coconut oil', 'olive oil']
+};
+
+const ingredients = {
+    'ribeye': '1', 'ground beef': '2', 'bacon': '3', 'salmon': '4', 'tuna': '5',
+    'white fish': '6', 'milk': '7', 'greek yoghurt': '8', 'kefir': '9',
+    'potato': '10', 'white rice': '11', 'pasta': '12', 'lettuce': '13',
+    'tomatoes': '14', 'kale': '15', 'butter': '16', 'coconut oil': '17',
+    'olive oil': '18'
 };
 
 const allergens = [
@@ -45,8 +49,8 @@ const allergensFin = {
 const initialValues = {
     mealName: '',
     imageUri: '',
-    description: '',
-    ingredients: [{ category: '', ingredient: '', weight: '' }],
+    mealDescription: '',
+    ingredients: [{ mealId: '', category: '', ingredient: '', weight: '' }],
     allergens: {
         grains: false,
         gluten: false,
@@ -120,7 +124,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const addIngredientInput = () => {
         formik.setFieldValue('ingredients',
             [...formik.values.ingredients,
-                { category: '', ingredient: '', weight: '' }
+                { mealId: '', category: '', ingredient: '', weight: '' }
             ]
         );
     };
@@ -141,6 +145,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const handleIngredientChange = (value, index) => {
         const updatedIngredients = [...formik.values.ingredients];
         updatedIngredients[index].ingredient = value;
+        updatedIngredients[index].mealId = ingredients[value];
         formik.setFieldValue('ingredients', updatedIngredients);
     };
 
@@ -183,8 +188,8 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 <MultilineInput
                     styles={styles}
                     placeholder={t('MEAL_DESCRIPTION')}
-                    value={formik.values.description}
-                    onChangeText={formik.handleChange('description')}
+                    value={formik.values.mealDescription}
+                    onChangeText={formik.handleChange('mealDescription')}
                     id='description-input'
                     rows={5}
                 />
@@ -195,9 +200,12 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                             placeholder={t('FOOD_CATEGORY')}
                             setSelected={val => 
                                 handleCategoryChange(val, index)}
-                            data={categories.map(category =>
-                                ({ key: category, value: category })
-                            )}
+                            data={Object.keys(
+                                categorizedIngredients).map(category => ({
+                                key: category,
+                                value: category
+                            }))}
+                            
                             save="value"
                         />
                         <SelectList
@@ -207,8 +215,9 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                                 formik.values.ingredients[index].category ===
                                 'all' ||
                                 !formik.values.ingredients[index].category
-                                    ? Object.values(ingredients).flat()
-                                    : ingredients[
+                                    ? Object.values(categorizedIngredients)
+                                        .flat()
+                                    : categorizedIngredients[
                                         formik.values.ingredients[index]
                                             .category
                                     ]
@@ -304,14 +313,15 @@ const CreateMeal = (props) => {
 
     const onSubmit = async values => {
         const {
-            mealName, imageUri, description, ingredients, allergens
+            mealName, imageUri, mealDescription, ingredients, allergens
         } = values;
-        const allergenString = createAllergenString(allergens);
+        const mealAllergenString = createAllergenString(allergens);
+        console.log(ingredients);
 
         try {
             const response = await axios.post(
                 `${apiUrl}/meals`,
-                { mealName, description, ingredients, allergenString },
+                { mealName, mealDescription, ingredients, mealAllergenString },
                 {
                     headers: { Authorization: 'Bearer ' + getSession().token }
                 }

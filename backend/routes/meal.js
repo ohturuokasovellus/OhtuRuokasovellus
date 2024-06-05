@@ -29,8 +29,10 @@ const getTokenFrom = request => {
  * @returns {Object} 500 -  Meal insertion failed.
  */
 router.post('/api/meals', express.json(), async (req, res) => {
-    const { mealName, mealDescription, mealAllergens, ingredients } = req.body;
-
+    const {
+        mealName, mealDescription, mealAllergenString, ingredients
+    } = req.body;
+    console.log(req.body)
     // Token decoding from 
     // https://fullstackopen.com/en/part4/token_authentication
     const decodedToken = jwt.verify(getTokenFrom(req), 
@@ -52,13 +54,13 @@ router.post('/api/meals', express.json(), async (req, res) => {
         return res.status(400).send('You do not have permissions to add meals');
     }
 
-    const nutrients = getNutrients(ingredients, 
+    const nutrients = await getNutrients(ingredients, 
         'backend/example_nutrients.csv');
 
     let mealId;
     try {
         mealId = await insertMeal(mealName, loggedInUsersRestaurantId, 
-            mealDescription, mealAllergens, nutrients);
+            mealDescription, mealAllergenString, nutrients);
     } catch (err) {
         console.error(err);
         return res.status(500).send('meal insertion failed');
