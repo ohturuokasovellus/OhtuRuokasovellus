@@ -1,4 +1,4 @@
-const {getIngredients} = require('../services/getIngredients');
+const {getIngredientCategory} = require('../services/getIngredients');
 const filesystem = require('fs');
 
 const data = 'id,tuoteryhmä,name,energia. laskennallinen (kJ),'+
@@ -19,7 +19,7 @@ describe('get ingredients', () => {
     });
 
     test('ingredients are returned correctly', async () => {
-        const ingredients = await getIngredients(
+        const ingredients = await getIngredientCategory(
             'backend/csvFiles/example_nutrients.csv');
 
         const correctIngredients = {'potatoes': ['potato'], 

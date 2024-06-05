@@ -1,7 +1,7 @@
 const filesystem = require('fs');
 const papa = require('papaparse');
 
-async function getIngredients(csvFilePath){
+async function getIngredientCategory(csvFilePath){
     const csvFile = filesystem.createReadStream(csvFilePath);
     return new Promise(resolve => {
         let ingredientDictionary = {};
@@ -27,4 +27,4 @@ async function getIngredients(csvFilePath){
     });
 }
 
-module.exports = {getIngredients};
+module.exports = {getIngredientCategory};
