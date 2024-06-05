@@ -20,27 +20,28 @@ sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 const Purchase = () => {
     const navigate = useNavigate();
-    const { mealId } = useParams();
+    const { purchaseCode } = useParams();
     const [meal, setMeal] = useState(null);
     const [image, setImage] = useState(null);
     const userSession = getSession();
 
     const loadMeal = async () => {
+        let response;
         try {
-            const response = await axios.get(`${apiUrl}/meal/${mealId}`);
-            setMeal(response.data);
+            response = await axios.get(
+                `${apiUrl}/purchases/meal/${purchaseCode}`
+            );
         } catch (err) {
             console.error(err);
             alert('Annoksen lataus epäonnistui');
+            return;
         }
-    };
-
-    const loadImage = async () => {
+        setMeal(response.data);
         try {
-            const response = await axios.get(
-                `${apiUrl}/meals/images/${mealId}`
+            const imageResp = await axios.get(
+                `${apiUrl}/meals/images/${response.data.mealId}`
             );
-            setImage(response.data);
+            setImage(imageResp.data);
         } catch (err) {
             console.error(err);
         }
@@ -50,7 +51,7 @@ const Purchase = () => {
         try {
             await axios.post(
                 `${apiUrl}/purchases`,
-                { mealId },
+                { purchaseCode },
                 {
                     headers: {
                         Authorization: `Bearer ${userSession.token}`,
@@ -69,7 +70,6 @@ const Purchase = () => {
             return;
         }
         loadMeal();
-        loadImage();
     }, []);
 
     const styles = createStyles();

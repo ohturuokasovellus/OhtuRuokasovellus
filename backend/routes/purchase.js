@@ -1,8 +1,23 @@
 const express = require('express');
-const { addPurchase } = require('../database');
+const { addPurchase, getMealByPurchaseCode } = require('../database');
 const { verifyToken } = require('../services/authorization');
 
 const router = express.Router();
+
+/**
+ * Route for fetching the information of a single meal by its ID.
+ * @param {Object} req - The request object.
+ * @param {number} req.params.purchaseCode - The purchase code of the meal.
+ * @param {Object} res - The response object.
+ * @returns {Object} 404 - The meal was not found.
+ */
+router.get('/api/purchases/meal/:purchaseCode', async (req, res) => {
+    const meal = await getMealByPurchaseCode(req.params.purchaseCode);
+    if (meal === null) {
+        return res.status(404).send('meal not found');
+    }
+    res.json(meal);
+});
 
 /**
  * Route for inserting a new purchase to database.
@@ -21,14 +36,14 @@ router.post('/api/purchases', express.json(), async (req, res) => {
     }
 
     // get meal id from the request body
-    const mealId = req.body.mealId;
-    if (!mealId) {
+    const purchaseCode = req.body.purchaseCode;
+    if (!purchaseCode) {
         return res.status(400).send('invalid meal id');
     }
 
     // insert into database
     try {
-        await addPurchase(userInfo.userId, mealId);
+        await addPurchase(userInfo.userId, purchaseCode);
     } catch (err) {
         console.error(err);
         return res.status(500).send('purchase insertion failed');

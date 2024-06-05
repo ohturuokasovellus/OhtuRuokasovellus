@@ -59,7 +59,7 @@ const App = () => {
                         <Route path='/add-users'
                             element={<AddUser user={user} />} />
                         <Route path='/layout' element={<Layout/>}/>
-                        <Route path='/purchase/:mealId'
+                        <Route path='/purchase/:purchaseCode'
                             element={<Purchase />} />
                     </Routes>
                 </View>

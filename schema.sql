@@ -24,7 +24,8 @@ CREATE TABLE meals (
     name TEXT NOT NULL,
     image BYTEA DEFAULT NULL,
     -- TODO: change creator type to Restaurant ID
-    restaurant_id INT NOT NULL
+    restaurant_id INT NOT NULL,
+    purchase_code CHAR(8) UNIQUE NOT NULL
 );
 
 CREATE TABLE purchases (
@@ -41,4 +42,4 @@ CREATE TABLE urls (
 );
 
 -- let survey url be this for now
-INSERT INTO urls (name, url) VALUES ('survey', 'https://fi.wikipedia.org/')
+INSERT INTO urls (name, url) VALUES ('survey', 'https://fi.wikipedia.org/');
