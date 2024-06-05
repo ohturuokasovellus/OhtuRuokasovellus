@@ -14,27 +14,32 @@ function calculateNutrientsForIngredient(amount, ingredientNutrients,
 
     const nutrientCoefficient = amount / 100;
 
-    const carbs = Number(ingredientNutrients[1].replace(',','.'));
-    const protein = Number(ingredientNutrients[2].replace(',','.'));
-    const fat = Number(ingredientNutrients[3].replace(',','.'));
-    const fiber = Number(ingredientNutrients[4].replace(',','.'));
-    const sugar = Number(ingredientNutrients[5].replace(',','.'));
-    const sodium = Number(ingredientNutrients[6].replace(',','.'));
-    const saturatedFat = Number(ingredientNutrients[7].replace(',','.'));
-    const unsaturatedFat = Number(ingredientNutrients[8].replace(',','.'));
-    const energy = Number(ingredientNutrients[9].replace(',','.'));
-    const co2Emissions = Number(ingredientNutrients[10].replace(',','.'));
+    try {
+        const carbs = Number(ingredientNutrients[1]);
+        const protein = Number(ingredientNutrients[2]);
+        const fat = Number(ingredientNutrients[3]);
+        const fiber = Number(ingredientNutrients[4]);
+        const sugar = Number(ingredientNutrients[5]);
+        const sodium = Number(ingredientNutrients[6]);
+        const saturatedFat = Number(ingredientNutrients[7]);
+        const unsaturatedFat = Number(ingredientNutrients[8]);
+        const energy = Number(ingredientNutrients[9]);
+        const co2Emissions = Number(ingredientNutrients[10]);
 
-    nutrients['carbohydrates'] += carbs * nutrientCoefficient;
-    nutrients['protein'] += protein* nutrientCoefficient;
-    nutrients['fat'] += fat * nutrientCoefficient;
-    nutrients['fiber'] += fiber * nutrientCoefficient;
-    nutrients['sugar'] += sugar * nutrientCoefficient;
-    nutrients['sodium'] += sodium * nutrientCoefficient;
-    nutrients['saturatedFat'] += saturatedFat * nutrientCoefficient;
-    nutrients['unsaturatedFat'] += unsaturatedFat * nutrientCoefficient;
-    nutrients['energy'] += energy * nutrientCoefficient;
-    nutrients['co2Emissions'] += co2Emissions * nutrientCoefficient;
+        nutrients['carbohydrates'] += carbs * nutrientCoefficient;
+        nutrients['protein'] += protein* nutrientCoefficient;
+        nutrients['fat'] += fat * nutrientCoefficient;
+        nutrients['fiber'] += fiber * nutrientCoefficient;
+        nutrients['sugar'] += sugar * nutrientCoefficient;
+        nutrients['sodium'] += sodium * nutrientCoefficient;
+        nutrients['saturatedFat'] += saturatedFat * nutrientCoefficient;
+        nutrients['unsaturatedFat'] += unsaturatedFat * nutrientCoefficient;
+        nutrients['energy'] += energy * nutrientCoefficient;
+        nutrients['co2Emissions'] += co2Emissions * nutrientCoefficient;
+    }
+    catch(error){
+        console.log(error);
+    }
 
     return nutrients;
 }
