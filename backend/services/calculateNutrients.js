@@ -35,8 +35,7 @@ function calculateNutrientsForIngredient(amount, ingredientNutrients,
     nutrients['unsaturatedFat'] += unsaturatedFat * nutrientCoefficient;
     nutrients['energy'] += energy * nutrientCoefficient;
     nutrients['co2Emissions'] += co2Emissions * nutrientCoefficient;
-    
-    console.log(nutrients);
+
     return nutrients;
 }
 
@@ -51,7 +50,6 @@ async function getNutrients(mealIngredients){
             'fiber': 0, 'sugar': 0, 'sodium': 0, 'saturatedFat': 0, 
             'unsaturatedFat': 0, 'energy': 0, 'co2Emissions': 0};
 
-        var count = 0; // cache the running count
         papa.parse(file, {
             worker: true, // Don't bog down the main thread if its a big file
             step: function(result) {
@@ -65,7 +63,6 @@ async function getNutrients(mealIngredients){
                 }
             },
             complete: function() {
-                console.log('parsing complete read', count, 'records.');
                 resolve(nutrients);
             }
         });
@@ -73,10 +70,3 @@ async function getNutrients(mealIngredients){
     });
 
 }
-
-async function runFunction(){
-    const nuts = await getNutrients({'potato':100, 'fried_fish': 50});
-    console.log(nuts);
-}
-
-runFunction();
