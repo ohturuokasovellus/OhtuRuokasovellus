@@ -1,4 +1,4 @@
-﻿id,tuoteryhmä,name,energia. laskennallinen (kJ),rasva (g),rasvahapot tyydyttyneet (g),hiilihydraatti imeytyvä (g),sokerit (g),kuitu. kokonais- (g),proteiini (g),suola (mg),CO2 (g/100g tuotetta)
+﻿id,tuoteryhmä,name,energia, laskennallinen (kJ),rasva (g),rasvahapot tyydyttyneet (g),hiilihydraatti imeytyvä (g),sokerit (g),kuitu, kokonais- (g),proteiini (g),suola (mg),CO2 (g/100g tuotetta)
 11049,hedelmät ja marjat,Banaani kuorittu,366.4,0.4,0.0,18.3,13.5,1.8,1.2,12.7,100
 30572,proteiinin lähteet,Grillimakkara tuotekeskiarvo,960.4,17.3,6.7,8.4,1.1,0.2,10.4,1 854.6,450
 345,proteiinin lähteet,Herkkusieni,62.9,0.2,0.0,0.3,0.1,1.5,2.1,8.1,5

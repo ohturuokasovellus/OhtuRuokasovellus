@@ -24,7 +24,12 @@ describe('meal api', () => {
         
         const response = await request(app)
             .post('/api/meals')
-            .send({ mealName: 'pasta' })
+            .send({ mealName: 'pasta', mealDescription: 'good pasta',
+                mealAllergenString: 'Gluten, Dairy', ingredients: [{
+                    mealId: '1', category: 'starches', ingredient: 'wheat',
+                    weight: '150'
+                }]
+            })
             .set(headers)
             .expect(200)
             .expect('Content-Type', /application\/json/);

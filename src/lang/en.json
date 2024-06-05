@@ -49,7 +49,7 @@
         "MEAL_CREATED": "Meal created succesfully!",
         "MEAL_NOT_CREATED": "Error occured, meal not created",
         "MEAL_DESCRIPTION": "Meal description",
-        "FOOD_CATEGORY": "Food category",
+        "FOOD_GROUP": "Food group",
         "INGREDIENT": "Ingredient",
         "INGREDIENT_WEIGHT": "Weight (g)",
         "COMMON_ALLERGENS": "Common allergens",

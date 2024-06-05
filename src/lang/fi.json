@@ -49,7 +49,7 @@
         "MEAL_CREATED": "Ateria on luotu!",
         "MEAL_NOT_CREATED": "Ateria ei luotu",
         "MEAL_DESCRIPTION": "Aterian kuvaus",
-        "FOOD_CATEGORY": "Ruokakategoria",
+        "FOOD_GROUP": "Tuoteryhmä",
         "INGREDIENT": "Raaka-aine",
         "INGREDIENT_WEIGHT": "Paino (g)",
         "COMMON_ALLERGENS": "Yleiset allergeenit",

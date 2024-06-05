@@ -15,22 +15,25 @@ import { Input, MultilineInput } from './ui/InputFields';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { CheckBox } from 'react-native-elements';
 
-const categorizedIngredients = {
-    'meat': ['ribeye', 'ground beef', 'bacon'],
-    'fish': ['salmon', 'tuna', 'white fish'],
-    'dairy': ['milk', 'greek yoghurt', 'kefir'],
-    'starches': ['potato', 'white rice', 'pasta'],
-    'vegetables': ['lettuce', 'tomatoes', 'kale'],
-    'fats and oils': ['butter', 'coconut oil', 'olive oil']
-};
+// correct dictionary format for categorized ingredients
+// const categorizedIngredients = {
+//     'meat': ['ribeye', 'ground beef', 'bacon'],
+//     'fish': ['salmon', 'tuna', 'white fish'],
+//     'dairy': ['milk', 'greek yoghurt', 'kefir'],
+//     'starches': ['potato', 'white rice', 'pasta'],
+//     'vegetables': ['lettuce', 'tomatoes', 'kale'],
+//     'fats and oils': ['butter', 'coconut oil', 'olive oil']
+// };
 
-const ingredients = {
-    'ribeye': '1', 'ground beef': '2', 'bacon': '3', 'salmon': '4', 'tuna': '5',
-    'white fish': '6', 'milk': '7', 'greek yoghurt': '8', 'kefir': '9',
-    'potato': '10', 'white rice': '11', 'pasta': '12', 'lettuce': '13',
-    'tomatoes': '14', 'kale': '15', 'butter': '16', 'coconut oil': '17',
-    'olive oil': '18'
-};
+// correct dictionary format for ingredients
+// const ingredients = {
+// eslint-disable-next-line @stylistic/js/max-len
+//     'ribeye': '1', 'ground beef': '2', 'bacon': '3', 'salmon': '4', 'tuna': '5',
+//     'white fish': '6', 'milk': '7', 'greek yoghurt': '8', 'kefir': '9',
+//     'potato': '10', 'white rice': '11', 'pasta': '12', 'lettuce': '13',
+//     'tomatoes': '14', 'kale': '15', 'butter': '16', 'coconut oil': '17',
+//     'olive oil': '18'
+// };
 
 const allergens = [
     'grains', 'gluten', 'dairy', 'lactose', 'egg', 'nuts', 
@@ -38,6 +41,7 @@ const allergens = [
     'celery', 'mustard', 'soy', 'lupine', 'sulfite', 'sulfur_oxide'
 ];
 
+// finnish language is priority so for now we save allergens in finnish
 const allergensFin = {
     grains: 'Viljat', gluten: 'Gluteeni', dairy: 'Maito', lactose: 'Laktoosi',
     egg: 'Kananmuna', nuts: 'Pähkinät', sesame_seeds: 'Seesaminsiemenet',
@@ -76,9 +80,26 @@ const validationSchema = mealValidationSchema;
 
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const {t} = useTranslation();
+    const [ingredients, setIngredients] = useState({});
+    const [categorizedIngredients, setCategorizedIngredients] = useState({});
     const [formError, setFormError] = useState('');
     const [createSuccess, setCreateSuccess] = useState(false);
     const [createError, setCreateError] = useState(false);
+
+    useEffect(() => {
+        const fetchIngredients = async () => {
+            try {
+                const response = await axios.get(
+                    `${apiUrl}/ingredients`
+                );
+                setIngredients(response.data.ingredients);
+                setCategorizedIngredients(response.data.categorizedIngredients);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        fetchIngredients();
+    });
 
     const formik = useFormik({
         initialValues,
@@ -197,7 +218,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                     <View key={index} style={styles.flexInputContainer}>
                         <SelectList 
                             search={false}
-                            placeholder={t('FOOD_CATEGORY')}
+                            placeholder={t('FOOD_GROUP')}
                             setSelected={val => 
                                 handleCategoryChange(val, index)}
                             data={Object.keys(
@@ -316,7 +337,6 @@ const CreateMeal = (props) => {
             mealName, imageUri, mealDescription, ingredients, allergens
         } = values;
         const mealAllergenString = createAllergenString(allergens);
-        console.log(ingredients);
 
         try {
             const response = await axios.post(
@@ -356,7 +376,8 @@ const CreateMeal = (props) => {
     };
 
     return <CreateMealForm onSubmit={onSubmit}
-        onSuccess={onSuccess} onError={onError} />;
+        onSuccess={onSuccess} onError={onError}
+    />;
 };
 
 export default CreateMeal;

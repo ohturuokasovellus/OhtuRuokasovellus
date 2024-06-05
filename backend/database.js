@@ -183,7 +183,7 @@ const insertMeal = async (name, restaurantId, mealDescription,
     const fat = nutrientDictionary['fat'];
     const fiber = nutrientDictionary['fiber'];
     const sugar = nutrientDictionary['sugar'];
-    const sodium = nutrientDictionary['salt'];
+    const salt = nutrientDictionary['salt'];
     const saturatedFat = nutrientDictionary['saturatedFat'];
     const energy = nutrientDictionary['energy'];
 
@@ -193,7 +193,7 @@ const insertMeal = async (name, restaurantId, mealDescription,
             fiber, sugar, salt, saturated_fat, energy)
         VALUES (${name}, ${restaurantId}, ${mealDescription}, ${co2Emissions}, 
             ${mealAllergens}, ${carbohydrates}, ${protein}, ${fat}, ${fiber}, 
-            ${sugar}, ${sodium}, ${saturatedFat}, ${energy})
+            ${sugar}, ${salt}, ${saturatedFat}, ${energy})
         RETURNING meal_id;
     `;
     return result.at(0).meal_id;
