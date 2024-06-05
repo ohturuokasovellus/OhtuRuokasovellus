@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { convertKJ2Kcal } from '../../utils/KJKcalConverter';
 
 const NutritionalValues = ({ styles, nutrition }) => {
     const {t} = useTranslation();
+    const kcal = convertKJ2Kcal(nutrition.energy);
     return (
         <View style={styles.nutritionalValueContainer}>
             <Text style={styles.nutritionalValueTitle}>
@@ -17,7 +19,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
                     {t('ENERGY')}:
                 </Text>
                 <Text style={styles.nutritionalValueLabel}>
-                    {nutrition.energy} kcal
+                    {kcal} kcal
                 </Text>
             </View>
             <View style={styles.nutritionalValueValueContainer}>

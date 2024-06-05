@@ -1,6 +1,7 @@
 import { sql, insertRestaurant, insertUser, insertMeal, addMealImage } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
+import { convertKJ2Kcal } from '../src/utils/KJKcalConverter';
 
 const initTestDB = async () => {
     await sql`SET client_min_messages TO WARNING`;
@@ -24,13 +25,13 @@ const initTestDB = async () => {
         ('Kana bolognese', ${restaurantId}, '12345678',
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        50, 'gluteeni, selleri', 1.3, 11.7, 8.2, 0.1, 0.1, 654.7, 1.9, 125),
+        50, 'gluteeni, selleri', 1.3, 11.7, 8.2, 0.1, 0.1, 654.7, 1.9, 523),
         ('Pannacotta', ${restaurantId}, 'abcdefgh',
         'Ut enim ad minim veniam, quis nostrud exercitation ullamco
         laboris nisi ut aliquip ex ea commodo consequat.
         Duis aute irure dolor in reprehenderit in voluptate velit
         esse cillum dolore eu fugiat nulla pariatur.', 2,
-        'maito, kananmuna', 27.4, 2.9, 16.3, 0, 27.4, 78.5, 10.9, 267)`
+        'maito, kananmuna', 27.4, 2.9, 16.3, 0, 27.4, 78.5, 10.9, 1119)`
 
     // await insertMeal('Kana bolognese', restaurantId);
     // await insertMeal('Pannacotta', restaurantId);
@@ -84,9 +85,11 @@ test.describe('restaurant meal page', () => {
     });
 
     test('renders nutritional values correctly', async ({ page }) => {
+        const kcal = `text=Energy:${convertKJ2Kcal(523)} kcal`
+
         await page.locator('#kana-bolognese-button').click();
         await page.locator('#nutritional-values-button').click();
-        await expect(page.locator('text=Energy:125 kcal')).toBeVisible();
+        await expect(page.locator(kcal)).toBeVisible();
         await expect(page.locator('text=Fat:8.2 g')).toBeVisible();
         await expect(page.locator('text=of which saturates:1.9 g')).toBeVisible();
         await expect(page.locator('text=Carbohydrates:1.3 g')).toBeVisible();
@@ -96,7 +99,7 @@ test.describe('restaurant meal page', () => {
         await expect(page.locator('text=Salt:654.7 mg')).toBeVisible();
 
         await page.locator('#nutritional-values-button').click();
-        await expect(page.locator('text=Energy:125 kcal')).toBeHidden();
+        await expect(page.locator(kcal)).toBeHidden();
         await expect(page.locator('text=Fat:8.2 g')).toBeHidden();
         await expect(page.locator('text=of which saturates:1.9 g')).toBeHidden();
         await expect(page.locator('text=Carbohydrates:1.3 g')).toBeHidden();
