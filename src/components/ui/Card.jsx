@@ -133,6 +133,7 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
                                 t('SHOW_NUTR_INFO')
                             }
                             onPress={() => setExpanded(!expanded)}
+                            id='nutritional-values-button'
                         />
                     </View>
                 )}

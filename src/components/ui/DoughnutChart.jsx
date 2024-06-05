@@ -7,7 +7,7 @@ class DoughnutChart extends Component {
         const { styles, series, sliceColor, labels } = this.props;
 
         return (
-            <View style={styles.chartContainer}>
+            <View style={styles.chartContainer} id='doughnut-chart-container'>
                 <PieChart
                     widthAndHeight={150}
                     series={series}
