@@ -2,7 +2,7 @@ const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
     sql } = require('../database');
 const jwt = require('jsonwebtoken');
-import { getNutrients } from '../services/calculateNutrients';
+const {getNutrients}  = require('../services/calculateNutrients');
 
 const router = express.Router();
 
@@ -52,7 +52,8 @@ router.post('/api/meals', express.json(), async (req, res) => {
         return res.status(400).send('You do not have permissions to add meals');
     }
 
-    const nutrients = getNutrients(ingredients);
+    const nutrients = getNutrients(ingredients, 
+        'backend/example_nutrients.csv');
 
     let mealId;
     try {

@@ -1,6 +1,5 @@
 const filesystem = require('fs');
 const papa = require('papaparse');
-const file = filesystem.createReadStream('backend/example_nutrients.csv');
 
 /**
  * 
@@ -47,15 +46,18 @@ function calculateNutrientsForIngredient(amount, ingredientNutrients,
 /**
  * Calculates nutrients from ingredients, https://stackoverflow.com/a/52350312
  * @param {Dictionary} mealIngredients 
+ * @param {string} csvPathName - path of the csv that we want to read
  * @returns {Dictionary}
  */
-async function getNutrients(mealIngredients){
+async function getNutrients(mealIngredients, csvPathName){
+    const csvFile = filesystem.createReadStream(csvPathName);
+
     return new Promise(resolve => {
         let nutrients = {'carbohydrates':0, 'protein': 0, 'fat': 0, 
             'fiber': 0, 'sugar': 0, 'sodium': 0, 'saturatedFat': 0, 
             'unsaturatedFat': 0, 'energy': 0, 'co2Emissions': 0};
 
-        papa.parse(file, {
+        papa.parse(csvFile, {
             worker: true, // Don't bog down the main thread if its a big file
             step: function(result) {
                 if (result.data.at(0) != '') { // skip column names
