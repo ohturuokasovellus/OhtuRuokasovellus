@@ -23,7 +23,7 @@ import createStyles from '../styles/styles';
 const MealList = () => {
     const {t} = useTranslation();
     const { restId } = useParams();
-    const [selectedMeal, setSelectedMeal] = useState(null);
+    const [selectedMeals, setSelectedMeals] = useState([]);
     const [meals, setMeals] = useState([]);
     const [restaurantId, setRestaurantId] = useState(restId);
     const [restaurantName, setRestaurantName] = useState(null);
@@ -84,13 +84,20 @@ const MealList = () => {
     }, [restaurantId]);
 
     const handlePress = (meal) => {
-        setSelectedMeal(selectedMeal === meal ? null : meal);
+        setSelectedMeals((prevSelectedMeals) => {
+            if (prevSelectedMeals.includes(meal)) {
+                return prevSelectedMeals
+                    .filter((displayedMeal) => displayedMeal !== meal);
+            } else {
+                return [...prevSelectedMeals, meal];
+            }
+        });
     };
 
     if (error) {
         return (
             <View >
-                <Text>{error}</Text>
+                <Text style={styles.error}>{error}</Text>
             </View>
         );
     }
@@ -113,7 +120,7 @@ const MealList = () => {
                             title={item.meal_name}
                             body={loremIpsum}
                             onPress={() => handlePress(item)}
-                            isSelected={selectedMeal === item}
+                            isSelected={selectedMeals.includes(item)}
                             sliceColor={sliceColor}
                             co2={co2}
                             allergens={allergens}
