@@ -6,6 +6,7 @@ import { useParams, useNavigate } from '../Router';
 import createStyles from '../styles/styles';
 import apiUrl from '../utils/apiUrl';
 import { getSession } from '../controllers/sessionController';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
 const loremIpsum = 'Lorem ipsum dolor sit amet, \
@@ -19,6 +20,7 @@ Excepteur sint occaecat cupidatat non proident, \
 sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 const Purchase = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { purchaseCode } = useParams();
     const [meal, setMeal] = useState(null);
@@ -33,7 +35,7 @@ const Purchase = () => {
             );
         } catch (err) {
             console.error(err);
-            alert('Annoksen lataus epäonnistui');
+            alert(t('FAILED_TO_LOAD_MEAL'));
             return;
         }
         setMeal(response.data);
@@ -58,7 +60,7 @@ const Purchase = () => {
                     },
                 }
             );
-            alert('Osto varmistettu');
+            alert(t('PURCHASE_CONFIRMED'));
         } catch (err) {
             console.error(err);
         }
@@ -95,7 +97,7 @@ const Purchase = () => {
                     body={loremIpsum}
                 />
                 <Button styles={styles} onPress={purchase}
-                    text={'Osta'} id='purchase_button'
+                    text={t('BUY')} id='purchase_button'
                 />
             </View>
         </ScrollView>
