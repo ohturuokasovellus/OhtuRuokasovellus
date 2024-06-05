@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -12,6 +13,7 @@ import createStyles from '../styles/styles';
 import { Button, SmallButton } from './ui/Buttons';
 import { Input, MultilineInput } from './ui/InputFields';
 import { SelectList } from 'react-native-dropdown-select-list';
+import { CheckBox } from 'react-native-elements';
 
 const categories = [
     'all', 'meat', 'fish', 'dairy', 'starches', 'vegetables', 'fats and oils'
@@ -26,11 +28,36 @@ const ingredients = {
     'fats and oils': ['butter', 'coconut oil', 'olive oil']
 };
 
+const allergens = [
+    'grains', 'gluten', 'dairy', 'lactose', 'egg', 'nuts', 
+    'peanut', 'sesame_seeds', 'fish', 'shellfish', 'molluscs', 
+    'celery', 'mustard', 'soy', 'lupine', 'sulfite', 'sulfur_oxide'
+];
+
 const initialValues = {
     mealName: '',
     imageUri: '',
     description: '',
-    ingredients: [{ category: '', ingredient: '', weight: '' }]
+    ingredients: [{ category: '', ingredient: '', weight: '' }],
+    allergens: {
+        grains: false,
+        gluten: false,
+        dairy: false,
+        lactose: false,
+        egg: false,
+        nuts: false,
+        peanut: false,
+        sesame_seeds: false,
+        kala: false,
+        shellfish: false,
+        molluscs: false,
+        celery: false,
+        mustard: false,
+        soy: false,
+        lupine: false,
+        sulfite: false,
+        sulfur_oxide: false
+    }
 };
 
 const validationSchema = mealValidationSchema;
@@ -114,6 +141,12 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
         const numericValue = value.replace(/[^0-9]/g, '');
         updatedIngredients[index].weight = numericValue;
         formik.setFieldValue('ingredients', updatedIngredients);
+    };
+
+    const handleAllergenChange = (allergen) => {
+        const updatedAllergens = { ...formik.values.allergens };
+        updatedAllergens[allergen] = !formik.values.allergens[allergen];
+        formik.setFieldValue('allergens', updatedAllergens);
     };
 
     return (
@@ -204,6 +237,18 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                     text='+'
                     id='add-ingredient-button'
                 />
+                <Text style={styles.h2}>{t('COMMON_ALLERGENS')}</Text>
+                {allergens.map((allergen) => (
+                    <CheckBox
+                        key={allergen}
+                        title={t(`ALLERGENS.${allergen.toUpperCase()}`)}
+                        checked={formik.values.allergens[allergen]}
+                        onPress={() => handleAllergenChange(allergen)}
+                        containerStyle={
+                            { backgroundColor: 'transparent', borderWidth: 0 }
+                        }
+                    />
+                ))}
                 <Button
                     styles={styles}
                     onPress={openImagePicker}
@@ -243,7 +288,10 @@ const CreateMeal = (props) => {
     });
 
     const onSubmit = async values => {
-        const { mealName, imageUri } = values;
+        console.log(values);
+        const {
+            mealName, imageUri, description, ingredients, allergens
+        } = values;
 
         try {
             const response = await axios.post(

@@ -51,6 +51,26 @@
         "MEAL_DESCRIPTION": "Meal description",
         "FOOD_CATEGORY": "Food category",
         "INGREDIENT": "Ingredient",
-        "INGREDIENT_WEIGHT": "Weight (g)"
+        "INGREDIENT_WEIGHT": "Weight (g)",
+        "COMMON_ALLERGENS": "Common allergens",
+        "ALLERGENS": {
+            "GRAINS": "Grains",
+            "GLUTEN": "Gluten",
+            "DAIRY": "Dairy",
+            "LACTOSE": "Lactose",
+            "EGG": "Egg",
+            "NUTS": "Nuts",
+            "PEANUT": "Peanut",
+            "SESAME_SEEDS": "Sesame seeds",
+            "FISH": "Fish",
+            "SHELLFISH": "Shellfish",
+            "MOLLUSCS": "Molluscs",
+            "CELERY": "Celery",
+            "MUSTARD": "Mustard",
+            "SOY": "Soy",
+            "LUPINE": "Lupine",
+            "SULFITE": "Sulfite",
+            "SULFUR_OXIDE": "Sulfur oxide"
+        }
     }
 }

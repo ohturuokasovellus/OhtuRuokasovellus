@@ -51,6 +51,26 @@
         "MEAL_DESCRIPTION": "Aterian kuvaus",
         "FOOD_CATEGORY": "Ruokakategoria",
         "INGREDIENT": "Raaka-aine",
-        "INGREDIENT_WEIGHT": "Paino (g)"
+        "INGREDIENT_WEIGHT": "Paino (g)",
+        "COMMON_ALLERGENS": "Yleiset allergeenit",
+        "ALLERGENS": {
+            "GRAINS": "Viljat",
+            "GLUTEN": "Gluteeni",
+            "DAIRY": "Maito",
+            "LACTOSE": "Laktoosi",
+            "EGG": "Kananmuna",
+            "NUTS": "Pähkinät",
+            "PEANUT": "Maapähkinä",
+            "SESAME_SEEDS": "Seesaminsiemenet",
+            "FISH": "Kala",
+            "SHELLFISH": "Äyriäiset",
+            "MOLLUSCS": "Nilviäiset",
+            "CELERY": "Selleri",
+            "MUSTARD": "Sinappi",
+            "SOY": "Soija",
+            "LUPINE": "Lupiini",
+            "SULFITE": "Sulfitti",
+            "SULFUR_OXIDE": "Rikkioksidi"
+        }
     }
 }
