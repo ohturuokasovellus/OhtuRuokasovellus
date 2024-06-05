@@ -1,6 +1,6 @@
 const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
-    sql, getMeal } = require('../database');
+    sql } = require('../database');
 const jwt = require('jsonwebtoken');
 
 const router = express.Router();

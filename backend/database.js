@@ -246,7 +246,7 @@ const getMealByPurchaseCode = async purchaseCode => {
         mealId: result[0].meal_id,
         name: result[0].name,
     };
-}
+};
 
 /**
  * Check if a user is associated with a restaurant.
