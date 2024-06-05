@@ -41,7 +41,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
                     {t('CARBS')}:
                 </Text>
                 <Text style={styles.nutritionalValueLabel}>
-                    {nutrition.carbs} g
+                    {nutrition.carbohydrates} g
                 </Text>
             </View>
             <View style={styles.nutritionalValueSubValueContainer}>
@@ -49,7 +49,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
                     {t('OF_WHICH_SUGARS')}:
                 </Text>
                 <Text style={styles.nutritionalValueLabel}>
-                    {nutrition.sugars} g
+                    {nutrition.sugar} g
                 </Text>
             </View>
             <View style={styles.nutritionalValueValueContainer}>

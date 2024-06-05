@@ -30,37 +30,38 @@ const Card = ({ styles, imgURI, title, body }) => {
 
 /** Wrapper for meal cards. The container works as Pressable,
  * and renders the additional info if selected.
- * @param {Object} styles
- * @param {string} imgURI
- * @param {string} title
- * @param {string} body
+ * @param {Object} styles styles passed from the global stylesheet
+ * @param {Object} meal meal item including nutritional info, image, etc.
  * @param {function} onPress
  * @param {boolean} isSelected
  * @param {array} sliceColor colours of chart slices
- * @param {string} co2 CO2 emissions
- * @param {string} allergens
- * @param {Object} nutrition nutritional info as a dict
  */
-const MealCard = ({
-    styles, imgURI, title, body,
-    onPress, isSelected,
-    sliceColor, co2, allergens,
-    nutrition
-}) => {
+const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
     const {t} = useTranslation();
     const [expanded, setExpanded] = useState(false);
 
+    const nutrition = {
+        energy: meal.energy,
+        carbohydrates: meal.carbohydrates,
+        fat: meal.fat,
+        protein: meal.protein,
+        sugar: meal.sugar,
+        fiber: meal.fiber,
+        saturatedFat: meal.saturated_fat,
+        salt: meal.salt,
+    };
+
     const series = [
-        nutrition.carbs,
+        nutrition.carbohydrates,
         nutrition.fat,
         nutrition.protein
     ];
     const labels = [
-        `${t('CARBS')}: ${nutrition.carbs} g`,
+        `${t('CARBS')}: ${nutrition.carbohydrates} g`,
         `${t('FAT')}: ${nutrition.fat} g`,
         `${t('PROTEIN')}: ${nutrition.protein} g`
     ];
-    const buttonId = title.replace(/\s+/g, '-').toLowerCase();
+    const buttonId = meal.meal_name.replace(/\s+/g, '-').toLowerCase();
 
     const PressableImageContainer = () => {
         return (
@@ -72,7 +73,7 @@ const MealCard = ({
                     role='button'
                 >
                     <Image
-                        source={{ uri: imgURI }}
+                        source={{ uri: meal.image }}
                         style={styles.image}
                     />
                 </Pressable>
@@ -88,7 +89,7 @@ const MealCard = ({
                     <Text style={styles.cardTextBold}>
                         {t('CO2_EMISSIONS')}:
                     </Text>
-                    {` ${co2}`}
+                    {` ${meal.co2_emissions} g/100g`}
                 </Text>
             </View>
         );
@@ -97,12 +98,12 @@ const MealCard = ({
     const InfoContainer = () => {
         return (
             <View style={styles.mealDescrContainer}>
-                <Text style={styles.cardText}>{body}</Text>
+                <Text style={styles.cardText}>{meal.meal_description}</Text>
                 <Text style={styles.cardText}>
                     <Text style={styles.cardTextBold}>
                         {t('ALLERGENS')}:
                     </Text>
-                    {` ${allergens.join(', ')}`}
+                    {` ${meal.meal_allergens}`}
                 </Text>
             </View>
         );
@@ -112,7 +113,7 @@ const MealCard = ({
         <View style={styles.cardContainer}>
             <PressableImageContainer />
             <View style={styles.cardContent}>
-                <Text style={styles.cardTitle}>{title}</Text>
+                <Text style={styles.cardTitle}>{meal.meal_name}</Text>
                 {isSelected && (
                     <View>
                         <CO2Container />
