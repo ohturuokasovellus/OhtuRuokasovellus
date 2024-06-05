@@ -11,29 +11,33 @@ const papa = require('papaparse');
 function calculateNutrientsForIngredient(amount, ingredientNutrients, 
     nutrients){
 
+    // ingredientNutrients is of form: id, tuoteryhmä, name,
+    // energia. laskennallinen (kJ),  rasva (g),
+    // rasvahapot tyydyttyneet (g), hiilihydraatti imeytyvä (g),
+    // sokerit (g),kuitu. kokonais- (g),proteiini (g),suola (mg),
+    // CO2 (g/100g tuotetta)
+
     const nutrientCoefficient = amount / 100;
 
     try {
-        const carbs = Number(ingredientNutrients[1]);
-        const protein = Number(ingredientNutrients[2]);
-        const fat = Number(ingredientNutrients[3]);
-        const fiber = Number(ingredientNutrients[4]);
-        const sugar = Number(ingredientNutrients[5]);
-        const sodium = Number(ingredientNutrients[6]);
-        const saturatedFat = Number(ingredientNutrients[7]);
-        const unsaturatedFat = Number(ingredientNutrients[8]);
-        const energy = Number(ingredientNutrients[9]);
-        const co2Emissions = Number(ingredientNutrients[10]);
+        const energy = Number(ingredientNutrients[3]);
+        const fat = Number(ingredientNutrients[4]);
+        const saturatedFat = Number(ingredientNutrients[5]);
+        const carbs = Number(ingredientNutrients[6]);
+        const sugar = Number(ingredientNutrients[7]);
+        const fiber = Number(ingredientNutrients[8]);
+        const protein = Number(ingredientNutrients[9]);
+        const salt = Number(ingredientNutrients[10]);
+        const co2Emissions = Number(ingredientNutrients[11]);
 
-        nutrients['carbohydrates'] += carbs * nutrientCoefficient;
-        nutrients['protein'] += protein* nutrientCoefficient;
-        nutrients['fat'] += fat * nutrientCoefficient;
-        nutrients['fiber'] += fiber * nutrientCoefficient;
-        nutrients['sugar'] += sugar * nutrientCoefficient;
-        nutrients['sodium'] += sodium * nutrientCoefficient;
-        nutrients['saturatedFat'] += saturatedFat * nutrientCoefficient;
-        nutrients['unsaturatedFat'] += unsaturatedFat * nutrientCoefficient;
         nutrients['energy'] += energy * nutrientCoefficient;
+        nutrients['fat'] += fat * nutrientCoefficient;
+        nutrients['saturatedFat'] += saturatedFat * nutrientCoefficient;
+        nutrients['carbohydrates'] += carbs * nutrientCoefficient;
+        nutrients['sugar'] += sugar * nutrientCoefficient;
+        nutrients['fiber'] += fiber * nutrientCoefficient;
+        nutrients['protein'] += protein* nutrientCoefficient;
+        nutrients['salt'] += salt * nutrientCoefficient;
         nutrients['co2Emissions'] += co2Emissions * nutrientCoefficient;
     }
     catch(error){
@@ -51,26 +55,27 @@ function calculateNutrientsForIngredient(amount, ingredientNutrients,
  */
 async function getNutrients(mealIngredients, csvPathName){
     const csvFile = filesystem.createReadStream(csvPathName);
-
     return new Promise(resolve => {
-        let nutrients = {'carbohydrates':0, 'protein': 0, 'fat': 0, 
-            'fiber': 0, 'sugar': 0, 'sodium': 0, 'saturatedFat': 0, 
-            'unsaturatedFat': 0, 'energy': 0, 'co2Emissions': 0};
+        let nutrientsDictionary = {'energy': 0, 'fat': 0,  'saturatedFat': 0, 
+            'carbohydrates':0, 'sugar': 0, 'fiber': 0, 'protein': 0, 
+            'salt': 0, 'co2Emissions': 0};
 
         papa.parse(csvFile, {
             worker: true, // Don't bog down the main thread if its a big file
             step: function(result) {
-                if (result.data.at(0) != '') { // skip column names
+                if (result.data.at(0) != 'id') { // skip column names, 
+                    //first word of the line is 'id' or a id number
+                    
                     if(result.data.at(0) in mealIngredients) { // check if
                         // ingredient is found in the mealIngredients
                         calculateNutrientsForIngredient(
                             mealIngredients[result.data.at(0)], 
-                            result.data, nutrients);
+                            result.data, nutrientsDictionary);
                     }
                 }
             },
             complete: function() {
-                resolve(nutrients);
+                resolve(nutrientsDictionary);
             }
         });
         
