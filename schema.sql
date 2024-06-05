@@ -29,13 +29,14 @@ CREATE TABLE meals (
     co2_emissions NUMBER,
     meal_allergens TEXT,
     carbohydrates NUMBER,
-    protein NUMBER,
-    fat NUMBER,
+    protein NUMBER, -- in grams
+    fat NUMBER, -- in grams
     fiber NUMBER,
-    sugar NUMBER,
-    sodium NUMBER,
+    sugar NUMBER, -- in grams
+    sodium NUMBER, -- in milligrams
     saturated_fat NUMBER,
-    unsaturated_fat NUMBER
+    unsaturated_fat NUMBER,
+    energy NUMBER -- in kilocalories
 );
 
 CREATE TABLE urls (

@@ -13,6 +13,7 @@ function calculateNutrientsForIngredient(amount, ingredientNutrients,
     nutrients){
 
     const nutrientCoefficient = amount / 100;
+
     const carbs = Number(ingredientNutrients[1].replace(',','.'));
     const protein = Number(ingredientNutrients[2].replace(',','.'));
     const fat = Number(ingredientNutrients[3].replace(',','.'));
@@ -22,6 +23,7 @@ function calculateNutrientsForIngredient(amount, ingredientNutrients,
     const saturatedFat = Number(ingredientNutrients[7].replace(',','.'));
     const unsaturatedFat = Number(ingredientNutrients[8].replace(',','.'));
     const energy = Number(ingredientNutrients[9].replace(',','.'));
+    const co2Emissions = Number(ingredientNutrients[10].replace(',','.'));
 
     nutrients['carbohydrates'] += carbs * nutrientCoefficient;
     nutrients['protein'] += protein* nutrientCoefficient;
@@ -32,6 +34,7 @@ function calculateNutrientsForIngredient(amount, ingredientNutrients,
     nutrients['saturatedFat'] += saturatedFat * nutrientCoefficient;
     nutrients['unsaturatedFat'] += unsaturatedFat * nutrientCoefficient;
     nutrients['energy'] += energy * nutrientCoefficient;
+    nutrients['co2Emissions'] += co2Emissions * nutrientCoefficient;
     
     console.log(nutrients);
     return nutrients;
@@ -43,31 +46,32 @@ function calculateNutrientsForIngredient(amount, ingredientNutrients,
  * @returns {Dictionary}
  */
 async function getNutrients(mealIngredients){
-    let nutrients = {'carbohydrates':0, 'protein': 0, 'fat': 0, 
-        'fiber': 0, 'sugar': 0, 'sodium': 0, 'saturatedFat': 0, 
-        'unsaturatedFat': 0, 'energy': 0};
+    return new Promise(resolve => {
+        let nutrients = {'carbohydrates':0, 'protein': 0, 'fat': 0, 
+            'fiber': 0, 'sugar': 0, 'sodium': 0, 'saturatedFat': 0, 
+            'unsaturatedFat': 0, 'energy': 0, 'co2Emissions': 0};
 
-    var count = 0; // cache the running count
-    papa.parse(file, {
-        worker: true, // Don't bog down the main thread if its a big file
-        step: function(result) {
-            if (result.data.at(0) != '') { // skip column names
-                if(result.data.at(0) in mealIngredients) { // check if
-                    // ingredient is found in the mealIngredients
-                    calculateNutrientsForIngredient(
-                        mealIngredients[result.data.at(0)], 
-                        result.data, nutrients);
+        var count = 0; // cache the running count
+        papa.parse(file, {
+            worker: true, // Don't bog down the main thread if its a big file
+            step: function(result) {
+                if (result.data.at(0) != '') { // skip column names
+                    if(result.data.at(0) in mealIngredients) { // check if
+                        // ingredient is found in the mealIngredients
+                        calculateNutrientsForIngredient(
+                            mealIngredients[result.data.at(0)], 
+                            result.data, nutrients);
+                    }
                 }
+            },
+            complete: function() {
+                console.log('parsing complete read', count, 'records.');
+                resolve(nutrients);
             }
-        },
-        complete: function(results, file) {
-            console.log('parsing complete read', count, 'records.');
-            console.log('pitäisi olla kolmanneks vika log');
-        }
+        });
+        
     });
 
-    console.log('pitäisi olla tokavika log');
-    return nutrients;
 }
 
 async function runFunction(){

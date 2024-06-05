@@ -175,8 +175,9 @@ const doesRestaurantExist = async name => {
  * @param {Dictionary} nutrientDictionary Nutrients of a meal in a dictionary
  * @returns {Promise<number>} ID of the created meal.
  */
-const insertMeal = async (name, restaurantId, mealDescription,
-    co2Emissions, mealAllergens, nutrientDictionary) => {
+const insertMeal = async (name, restaurantId, mealDescription, 
+    mealAllergens, nutrientDictionary) => {
+    const co2Emissions = nutrientDictionary['co2Emissions'];
     const carbohydrates = nutrientDictionary['carbohydrates'];
     const protein = nutrientDictionary['protein'];
     const fat = nutrientDictionary['fat'];

@@ -14,10 +14,6 @@ const getTokenFrom = request => {
     return null;
 };
 
-function getCO2Emissions(){
-    return 1;
-}
-
 /**
  * Route for adding meal.
  * @param {Object} req - The request object.
@@ -56,13 +52,12 @@ router.post('/api/meals', express.json(), async (req, res) => {
         return res.status(400).send('You do not have permissions to add meals');
     }
 
-    const co2Emissions = getCO2Emissions();
     const nutrients = getNutrients(ingredients);
 
     let mealId;
     try {
         mealId = await insertMeal(mealName, loggedInUsersRestaurantId, 
-            mealDescription, co2Emissions, mealAllergens, nutrients);
+            mealDescription, mealAllergens, nutrients);
     } catch (err) {
         console.error(err);
         return res.status(500).send('meal insertion failed');
