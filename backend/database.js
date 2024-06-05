@@ -191,7 +191,7 @@ const insertMeal = async (name, restaurantId, mealDescription,
     const result = await sql`
         INSERT INTO meals (name, restaurant_id, meal_description,
             co2_emissions, meal_allergens, carbohydrates, protein, fat, 
-            fiber, sugar, sodium, saturated_fat, unsaturated_fat, energy)
+            fiber, sugar, salt, saturated_fat, unsaturated_fat, energy)
         VALUES (${name}, ${restaurantId}, ${mealDescription}, ${co2Emissions}, 
             ${mealAllergens}, ${carbohydrates}, ${protein}, ${fat}, ${fiber}, 
             ${sugar}, ${sodium}, ${saturatedFat}, ${unsaturatedFat}, ${energy})

@@ -33,7 +33,7 @@ CREATE TABLE meals (
     fat NUMBER, -- in grams
     fiber NUMBER,
     sugar NUMBER, -- in grams
-    sodium NUMBER, -- in milligrams
+    salt NUMBER, -- in milligrams
     saturated_fat NUMBER,
     unsaturated_fat NUMBER,
     energy NUMBER -- in kilocalories
