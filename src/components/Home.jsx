@@ -13,6 +13,7 @@ const Home = (props) => {
     const navigate = useNavigate();
     const [surveyUrl, setSurveyUrl] = useState(null);
     const [loading, setLoading] = useState(true);
+    const styles = createStyles();
 
     useEffect(() => {
         if (!props.user) {
@@ -21,8 +22,6 @@ const Home = (props) => {
             fetchSurveyUrl(setSurveyUrl, setLoading);
         }
     }, [props.user, navigate]);
-
-    const styles = createStyles();
 
     if (!props.user || loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;

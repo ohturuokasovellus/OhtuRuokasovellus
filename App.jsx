@@ -33,6 +33,7 @@ const App = () => {
         'Roboto-Bold': require('./assets/fonts/Roboto-Bold.ttf'),
         'Roboto-Black': require('./assets/fonts/Roboto-Black.ttf'),
         'Roboto-Italic': require('./assets/fonts/Roboto-Italic.ttf'),
+        'Roboto-Thin': require('./assets/fonts/Roboto-Thin.ttf'),
     });
 
     return (

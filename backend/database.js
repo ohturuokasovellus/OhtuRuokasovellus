@@ -198,20 +198,37 @@ const addMealImage = async (mealId, imageData) => {
 /**
  * Fetch restaurant specific meals from database.
  * @param {number} restaurantId
- * @returns {Promise<{ meal_id: number, meal_name: string, image: string,
- * restaurant_name: string }[]>}
- */
+ * @returns {Promise<{ 
+*      meal_id: number, 
+*      meal_name: string, 
+*      image: string, 
+*      restaurant_name: string,
+*      meal_description: string,
+*      co2_emissions: number,
+*      meal_allergens: string,
+*      carbohydrates: number,
+*      protein: number,
+*      fat: number,
+*      fiber: number,
+*      sugar: number,
+*      salt: number,
+*      saturated_fat: number,
+*      energy: number
+*  }[]>}
+*/
 const getMeals = async (restaurantId) => {
     const result = await sql`
-        SELECT m.meal_id, m.name as meal_name, m.image, 
-        CASE 
-            WHEN r.restaurant_id IS NOT NULL THEN r.name 
-            ELSE NULL 
-        END as restaurant_name 
-        FROM meals m
-        LEFT JOIN restaurants r ON m.restaurant_id = r.restaurant_id
-        WHERE m.restaurant_id = ${restaurantId};
-    `;
+       SELECT m.meal_id, m.name as meal_name, m.image, m.meal_description, 
+       m.co2_emissions, m.meal_allergens, m.carbohydrates, m.protein, m.fat,
+       m.fiber, m.sugar, m.salt, m.saturated_fat, m.energy,
+       CASE 
+           WHEN r.restaurant_id IS NOT NULL THEN r.name 
+           ELSE NULL 
+       END as restaurant_name 
+       FROM meals m
+       LEFT JOIN restaurants r ON m.restaurant_id = r.restaurant_id
+       WHERE m.restaurant_id = ${restaurantId};
+   `;
     return result;
 };
 
@@ -304,7 +321,6 @@ module.exports = {
     getMeal,
     getMealByPurchaseCode,
     isRestaurantUser,
-    // doesRestaurantNameExist,
     getSurveyUrl,
     updateUserRestaurantByEmail,
     addPurchase,

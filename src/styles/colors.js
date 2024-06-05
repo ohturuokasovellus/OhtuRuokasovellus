@@ -78,7 +78,7 @@ export const darkTheme = {
     onBackground: '#E7E1E5',
     surface: '#1D1B1E',
     onSurface: '#E7E1E5',
-    surfaceVariant: '#4A454E',
+    surfaceVariant: '#222224',
     onSurfaceVariant: '#CCC4CE',
     outline: '#968E98',
     outlineVariant: '#4A454E',

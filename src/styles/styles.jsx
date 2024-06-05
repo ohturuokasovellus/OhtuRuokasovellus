@@ -16,6 +16,7 @@ const createStyles = () => {
         },
         container: {
             maxWidth: 700,
+            minWidth: 320,
             padding: 8,
             backgroundColor: colors.surface,
             borderRadius: 8,
@@ -24,7 +25,7 @@ const createStyles = () => {
             alignSelf: 'center',
         },
 
-        // text
+        // typography
         body: {
             fontSize: 16,
             color: colors.onSurface,
@@ -96,12 +97,18 @@ const createStyles = () => {
         // buttons
         button: {
             backgroundColor: colors.primaryContainer,
-            // borderColor: colors.outlineVariant,
-            // borderWidth: 1,
             padding: 12,
             borderRadius: 8,
             alignItems: 'center',
             marginBottom: 12,
+        },
+        buttonVariant: {
+            backgroundColor: colors.secondary,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+            marginHorizontal: 8,
         },
         iconButton: {
             height: 30,
@@ -114,15 +121,36 @@ const createStyles = () => {
             alignItems: 'center',
             justifyContent: 'center',
         },
+        deleteButton: {
+            backgroundColor: colors.errorContainer,
+            padding: 8,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+            marginHorizontal: 8,
+            width: 80,
+        },
         buttonText: {
             fontSize: 18,
             textTransform: 'uppercase',
             color: colors.onPrimaryContainer,
             fontFamily: 'Roboto-Bold',
         },
+        buttonVariantText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onSecondary,
+            fontFamily: 'Roboto-Bold',
+        },
         iconButtonText: {
             fontsize: 32,
             color: colors.onTertiary,
+            fontFamily: 'Roboto-Bold',
+        },
+        deleteButtonText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onErrorContainer,
             fontFamily: 'Roboto-Bold',
         },
 
@@ -178,8 +206,9 @@ const createStyles = () => {
         // cards
         cardContainer: {
             maxWidth: 600,
+            minWidth: 300,
             padding: 16,
-            backgroundColor: colors.secondaryContainer,
+            backgroundColor: colors.surfaceVariant,
             borderRadius: 8,
             marginVertical: 16,
             shadowColor: '#000',
@@ -190,18 +219,18 @@ const createStyles = () => {
             alignSelf: 'center',
         },
         imageContainer: {
+            backgroundColor: colors.surface,
             position: 'absolute',
-            top: '-5%',
+            top: -16,
             left: '5%',
             width: '90%',
-            // width: 360,
-            // height: 200,
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.2,
             shadowRadius: 4,
             elevation: 1,
             borderRadius: 8,
             overflow: 'hidden',
+            zIndex: 100, // this ensures the container can be used as pressable
         },
         image: {
             width: '100%',
@@ -209,21 +238,22 @@ const createStyles = () => {
             borderRadius: 8,
         },
         cardContent: {
-            paddingTop: 170,  // adjust this value based on the image height
-            // alignItems: 'center',
+            paddingTop: 168,  // adjust this value based on the image height
         },
 
         cardTitle: {
             fontSize: 24,
             marginVertical: 8,
-            color: colors.onSecondaryContainer,
+            marginLeft: 8,
+            color: colors.onSurfaceVariant,
             fontFamily: 'Roboto-Bold',
         },
 
         cardText: {
             fontSize: 16,
-            color: colors.onSecondaryContainer,
+            color: colors.onSurfaceVariant,
             fontFamily: 'Roboto-Regular',
+            marginBottom: 12,
         },
 
         cardTextBold: {
@@ -233,14 +263,17 @@ const createStyles = () => {
         co2Container: {
             alignItems: 'left',
             marginBottom: 8,
+            marginLeft: 8,
         },
         chartDescrContainer: {
             flexDirection: 'row',
             justifyContent: 'space-between',
+            marginLeft: 8,
         },
         mealDescrContainer: {
             flex: 1,
-            marginLeft: 10,
+            marginLeft: 12,
+            marginRight: 8,
         },
 
         // QR
@@ -295,8 +328,52 @@ const createStyles = () => {
         },
         legendText: {
             fontSize: 12,
-            color: colors.onSecondaryContainer,
+            color: colors.onSurfaceVariant,
             fontFamily: 'Roboto-Regular'
+        },
+
+        // nutritional values
+        nutritionalValueContainer: {
+            padding: 16,
+            backgroundColor: colors.primaryContainer,
+            borderRadius: 8,
+            margin: 8,
+        },
+        nutritionalValueTitle: {
+            fontSize: 14,
+            fontFamily: 'Roboto-Bold',
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            marginBottom: 4,
+            color: colors.onPrimaryContainer,
+        },
+        nutritionalValueSubTitle: {
+            fontSize: 12,
+            fontFamily: 'Roboto-Regular',
+            textAlign: 'center',
+            marginBottom: 12,
+            color: colors.onPrimaryContainer,
+        },
+        nutritionalValueValueContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: 8,
+        },
+        nutritionalValueSubValueContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginLeft: 16,
+            marginBottom: 8,
+        },
+        nutritionalValueLabel: {
+            fontSize: 14,
+            fontFamily: 'Roboto-Regular',
+            color: colors.onPrimaryContainer,
+        },
+        nutritionalValueSubLabel: {
+            fontSize: 14,
+            fontFamily: 'Roboto-Thin',
+            color: colors.onPrimaryContainer,
         },
     });
 };
