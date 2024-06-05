@@ -1,11 +1,22 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, Text, View, Image } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { Button } from './ui/Buttons';
+import { Card } from './ui/Card';
 import { useParams, useNavigate } from '../Router';
 import createStyles from '../styles/styles';
 import apiUrl from '../utils/apiUrl';
 import { getSession } from '../controllers/sessionController';
 import axios from 'axios';
+
+const loremIpsum = 'Lorem ipsum dolor sit amet, \
+consecteturadipiscing elit, sed do eiusmod tempor \
+incididunt ut labore et dolore magna aliqua. \
+Ut enim ad minim veniam, quis nostrud exercitation ullamco \
+laboris nisi ut aliquip ex ea commodo consequat. \
+Duis aute irure dolor in reprehenderit in voluptate \
+velit esse cillum dolore eu fugiat nulla pariatur. \
+Excepteur sint occaecat cupidatat non proident, \
+sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 const Purchase = () => {
     const navigate = useNavigate();
@@ -80,11 +91,9 @@ const Purchase = () => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
-                {image && <Image
-                    source={{ uri: image }}
-                    style={{ width: 100, height: 100 }}
-                />}
-                <Text style={styles.h1}>{meal.name}</Text>
+                <Card styles={styles} imgURI={image} title={meal.name}
+                    body={loremIpsum}
+                />
                 <Button styles={styles} onPress={purchase}
                     text={'Osta'} id='purchase_button'
                 />
