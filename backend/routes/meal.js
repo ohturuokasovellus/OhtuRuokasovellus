@@ -53,7 +53,7 @@ router.post('/api/meals', express.json(), async (req, res) => {
     }
 
     const nutrients = getNutrients(ingredients, 
-        'backend/example_nutrients.csv');
+        'backend/csvFiles/raaka-ainetiedot.csv');
 
     let mealId;
     try {
