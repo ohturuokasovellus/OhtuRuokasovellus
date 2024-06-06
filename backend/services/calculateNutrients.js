@@ -1,6 +1,6 @@
 const filesystem = require('fs');
 const papa = require('papaparse');
-const { getVegetablesAndFruits }  = require('./calculateNutrients');
+const { getVegetablesAndFruits }  = require('./services/calculateNutrients');
 
 /**
  * 
@@ -58,7 +58,7 @@ function calculateNutrientsForIngredient(mass, ingredientNutrients,
 async function getNutrients(mealIngredients, csvPathName){
     const csvFile = filesystem.createReadStream(csvPathName);
 
-    const vegetablesAndFruits = getVegetablesAndFruits(csvPathName);
+    const vegetablesAndFruits = await getVegetablesAndFruits(csvPathName);
 
     return new Promise(resolve => {
         let nutrientsDictionary = {'energy': 0, 'fat': 0,  'saturatedFat': 0, 
