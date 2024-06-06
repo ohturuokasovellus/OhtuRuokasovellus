@@ -54,6 +54,14 @@ router.post('/api/purchases', express.json(), async (req, res) => {
     res.sendStatus(200);
 });
 
+/**
+ * Route to get the purchases of a single user.
+ * User identity is taken from the authorization header.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} 401 - Invalid authorization header was given.
+ * @returns {Object} 500 - Unexpected internal server error.
+ */
 router.get('/api/purchases', async (req, res) => {
     const userInfo = verifyToken(req.header('Authorization'));
     if (!userInfo) {

@@ -24,7 +24,7 @@ const HistoryItem = ({ meal, images, styles }) => {
 
     return (
         <Card styles={styles} imgURI={images[meal.mealId]}
-            title={meal.name} body={dateString}
+            title={meal.mealName} body={dateString}
         />
     );
 };
@@ -52,7 +52,7 @@ const PurchaseHistory = () => {
     };
 
     /**
-     * 
+     * Loads images for the meals.
      * @param {{ mealId: number, name: string, date: Date }[]} meals 
      */
     const loadImages = async meals => {

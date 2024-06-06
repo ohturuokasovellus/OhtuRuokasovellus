@@ -306,9 +306,10 @@ const addPurchase = async (userId, purchaseCode) => {
 };
 
 /**
- * 
- * @param {number} userId 
- * @returns {Promise<object[]>}
+ * Fetch all purchases of a single user.
+ * @param {number} userId The ID of the user whose purchases to return.
+ * @returns {Promise<{ date: string, mealId: number, mealName: string }[]>}
+ *  All of the purchases of the user. Date is in ISO8601 format.
  */
 const getPurchases = async userId => {
     const result = await sql`
@@ -319,7 +320,7 @@ const getPurchases = async userId => {
     return result.map(row => ({
         date: row.purchased_at,
         mealId: row.meal_id,
-        name: row.name,
+        mealName: row.name,
     }));
 };
 
