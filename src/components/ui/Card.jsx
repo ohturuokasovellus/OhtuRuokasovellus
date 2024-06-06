@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import DoughnutChart from './DoughnutChart';
 import { ButtonVariant } from './Buttons';
 import NutritionalValues from './NutritionalValuesContainer';
+import { Nutriscore } from './Nutriscore';
 
 /** Custom wrapper for cards with images
  * @param {object} styles styles passed from the global stylesheet
@@ -109,6 +110,8 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
         );
     };
 
+    const nutri = Nutriscore(meal);
+
     return (
         <View style={styles.cardContainer}>
             <PressableImageContainer />
@@ -143,6 +146,7 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
                             styles={styles}
                             nutrition={nutrition}
                         />
+                        {nutri}
                     </View>
                 )}
             </View>
