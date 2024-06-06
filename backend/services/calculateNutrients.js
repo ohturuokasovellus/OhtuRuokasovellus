@@ -90,7 +90,7 @@ async function getNutrients(mealIngredients, csvPathName){
             },
             complete: function() {
                 const mealMass = nutrientsDictionary['mealMass'];
-                const vegetablePercent = vegetableMass / mealMass;
+                const vegetablePercent = vegetableMass / mealMass * 100;
                 nutrientsDictionary['vegetablePercent'] = vegetablePercent;
 
                 resolve(nutrientsDictionary);
