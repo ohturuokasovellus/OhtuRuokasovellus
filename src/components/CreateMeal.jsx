@@ -113,16 +113,28 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
         initialValues,
         validationSchema,
         onSubmit: async values => {
-            try {
-                await onSubmit(values);
-                onSuccess(setCreateSuccess);
-                
-            } catch (err) {
-                onError(setCreateError);
-                setFormError(err.message);
-                formik.resetForm();
+            // with ingredients formik validation schema doesnt work 
+            // for some reason so use this for now
+            const hasIngredientWithWeight = values.ingredients.some(item => {
+                return item.ingredient.trim() !== '' &&
+                item.weight.trim() !== '';
+            });
+
+            if (hasIngredientWithWeight) {
+                try {
+                    await onSubmit(values);
+                    onSuccess(setCreateSuccess);
+                    
+                } catch (err) {
+                    onError(setCreateError);
+                    setFormError(err.message);
+                    formik.resetForm();
+                }
             }
-        },
+            setFormError(
+                'At least one ingredient with weight required'
+            );
+        }
     });
 
     const openImagePicker = () => {
@@ -201,9 +213,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                         style={{ width: 100, height: 100 }}
                     />
                 ) : null}
-                {formError ? (
-                    <Text style={styles.error}>{formError}</Text>
-                ) : null}
+                
                 <Input
                     styles={styles}
                     placeholder={t('NAME_OF_THE_MEAL')}
@@ -276,6 +286,12 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                                 id='remove-ingredient-button'
                             />
                         )}
+                        {formik.values.ingredients.length < 2 && 
+                        formik.errors.ingredients && 
+                        <Text style={styles.error}>
+                            {formik.errors.ingredients}
+                        </Text>
+                        }
                     </View>
                 ))}
                 <SmallButton
@@ -318,6 +334,9 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 {createError && 
                 <Text style={styles.error}>{t('MEAL_NOT_CREATED')}</Text>
                 }
+                {formError ? (
+                    <Text style={styles.error}>{formError}</Text>
+                ) : null}
             </View>
         </ScrollView>
     );
