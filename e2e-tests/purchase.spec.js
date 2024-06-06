@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { sql, insertUser, insertMeal, addMealImage } from '../backend/database';
+import { sql, insertUser, addMealImage } from '../backend/database';
 import { hash } from '../backend/services/hash';
 
 /**
@@ -34,11 +34,15 @@ test.describe('purchase', () => {
         await expect(page).toHaveURL(/\/login$/);
     });
 
-    test('logged-in user can view the page and purchase the meal', async ({ page }) => {
+    test('logged-in user can purchase meal and see history', async ({ page }) => {
+        // purchase a meal
         await logIn(page);
         await page.goto('/purchase/testabc1');
         await expect(page.getByText('Meatballs')).toBeVisible();
         await page.click('#purchase_button');
-        // TODO: check here later that the meal is added to the purchase history
+
+        // expect the meal to appear in the history
+        await page.goto('/history');
+        await expect(page.getByText('Meatballs')).toBeVisible();
     });
 });
