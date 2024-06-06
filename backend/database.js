@@ -305,6 +305,23 @@ const addPurchase = async (userId, purchaseCode) => {
     `;
 };
 
+/**
+ * 
+ * @param {number} userId 
+ * @returns {Promise<object[]>}
+ */
+const getPurchases = async userId => {
+    const result = await sql`
+        SELECT p.purchased_at, m.name
+        FROM purchases AS p, meals AS m
+        WHERE p.user_id = ${userId} AND p.meal_id = m.meal_id
+    `;
+    return result.map(row => ({
+        date: row.purchased_at,
+        name: row.name,
+    }));
+};
+
 module.exports = {
     sql,
     insertUser,
@@ -324,4 +341,5 @@ module.exports = {
     getSurveyUrl,
     updateUserRestaurantByEmail,
     addPurchase,
+    getPurchases,
 };

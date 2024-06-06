@@ -1,5 +1,7 @@
 const express = require('express');
-const { addPurchase, getMealByPurchaseCode } = require('../database');
+const {
+    addPurchase, getMealByPurchaseCode, getPurchases
+} = require('../database');
 const { verifyToken } = require('../services/authorization');
 
 const router = express.Router();
@@ -50,6 +52,23 @@ router.post('/api/purchases', express.json(), async (req, res) => {
     }
 
     res.sendStatus(200);
+});
+
+router.get('/api/purchases', async (req, res) => {
+    const userInfo = verifyToken(req.header('Authorization'));
+    if (!userInfo) {
+        return res.status(401).send('unauthorized');
+    }
+
+    let purchases;
+    try {
+        purchases = await getPurchases(userInfo.userId);
+    } catch (err) {
+        console.error(err);
+        return res.sendStatus(500);
+    }
+
+    res.json(purchases);
 });
 
 module.exports = router;
