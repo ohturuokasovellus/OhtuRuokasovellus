@@ -68,4 +68,36 @@ describe('purchase', () => {
 
         expect(postgresMock.runSqlCommands().length).toBe(0);
     });
+
+    test('authorized user can fetch meal history', async () => {
+        postgresMock.setSqlResults([
+            [{
+                purchased_at: '2024-06-06T11:39:40.601Z',
+                name: 'Meatballs',
+                meal_id: 42,
+            }],
+        ]);
+
+        await request(app)
+            .get('/api/purchases')
+            .set('Authorization', `Bearer ${createToken('test', 1)}`)
+            .expect(200)
+            .expect([
+                {
+                    mealId: 42,
+                    mealName: 'Meatballs',
+                    date: '2024-06-06T11:39:40.601Z',
+                },
+            ]);
+
+        expect(postgresMock.runSqlCommands().length).toBe(1);
+    });
+
+    test('unauthorized user cannot fetch meal history', async () => {
+        // no authorization header set
+        await request(app)
+            .get('/api/purchases')
+            .expect(401);
+        expect(postgresMock.runSqlCommands().length).toBe(0);
+    });
 });
