@@ -35,19 +35,20 @@ const PurchaseHistory = () => {
     const [images, setImages] = useState({});
 
     const loadHistory = async () => {
-        let response;
+        let meals;
         try {
-            response = await axios.get(`${apiUrl}/purchases`, {
+            const response = await axios.get(`${apiUrl}/purchases`, {
                 headers: {
                     Authorization: `Bearer ${getSession().token}`,
                 },
             });
+            meals = response.data.sort((a, b) => a.date < b.date);
         } catch (err) {
             console.error(err);
             return;
         }
-        setHistory(response.data);
-        loadImages(response.data);
+        setHistory(meals);
+        loadImages(meals);
     };
 
     /**
@@ -61,10 +62,7 @@ const PurchaseHistory = () => {
                 const response = await axios.get(
                     `${apiUrl}/meals/images/${meal.mealId}`
                 );
-                // setImages({ ...images, [meal.mealId]: response.data });
-                setImages(current => {
-                    return { ...current, [meal.mealId]: response.data };
-                });
+                setImages(current => ({ ...current, [meal.mealId]: response.data }));
             } catch (err) {
                 console.error(err);
             }
