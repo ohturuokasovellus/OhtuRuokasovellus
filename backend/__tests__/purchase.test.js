@@ -72,8 +72,10 @@ describe('purchase', () => {
     test('authorized user can fetch meal history', async () => {
         postgresMock.setSqlResults([
             [{
+                // eslint-disable-next-line camelcase
                 purchased_at: '2024-06-06T11:39:40.601Z',
                 name: 'Meatballs',
+                // eslint-disable-next-line camelcase
                 meal_id: 42,
             }],
         ]);
