@@ -63,6 +63,7 @@
         "DELETE": "delete",
         "BUY": "Buy",
         "PURCHASE_CONFIRMED": "Purchase confirmed",
-        "FAILED_TO_LOAD_MEAL": "Failed to load the meal"
+        "FAILED_TO_LOAD_MEAL": "Failed to load the meal",
+        "MEAL_HISTORY": "Meal history"
     }
 }

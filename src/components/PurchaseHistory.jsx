@@ -5,6 +5,7 @@ import createStyles from '../styles/styles';
 import apiUrl from '../utils/apiUrl';
 import axios from 'axios';
 import { getSession } from '../controllers/sessionController';
+import { useTranslation } from 'react-i18next';
 
 /**
  * 
@@ -13,14 +14,21 @@ import { getSession } from '../controllers/sessionController';
  * @returns 
  */
 const HistoryItem = ({ meal, images, styles }) => {
-    const dateString = new Date(meal.date).toLocaleString(undefined, {
-        weekday: 'short',
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-    });
+    const { i18n } = useTranslation();
+
+    const isFinnish = i18n.language === 'fin';
+
+    const dateString = new Date(meal.date).toLocaleString(
+        isFinnish ? 'fi-FI' : 'en-GB',
+        {
+            weekday: 'short',
+            day: 'numeric',
+            month: isFinnish ? 'numeric' : 'short',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+        }
+    );
 
     return (
         <Card styles={styles} imgURI={images[meal.mealId]}
@@ -30,6 +38,7 @@ const HistoryItem = ({ meal, images, styles }) => {
 };
 
 const PurchaseHistory = () => {
+    const { t } = useTranslation();
     const styles = createStyles();
     const [history, setHistory] = useState([]);
     const [images, setImages] = useState({});
@@ -79,7 +88,7 @@ const PurchaseHistory = () => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
-                <Text style={styles.h1}>Ateriahistoria</Text>
+                <Text style={styles.h1}>{t('MEAL_HISTORY')}</Text>
                 <FlatList data={history}
                     keyExtractor={item => item.date.toString()}
                     renderItem={({ item }) =>
