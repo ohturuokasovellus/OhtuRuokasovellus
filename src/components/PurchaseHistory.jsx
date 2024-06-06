@@ -42,7 +42,8 @@ const PurchaseHistory = () => {
                     Authorization: `Bearer ${getSession().token}`,
                 },
             });
-            meals = response.data.sort((a, b) => a.date < b.date);
+            meals = response.data
+                .sort((first, second) => first.date < second.date);
         } catch (err) {
             console.error(err);
             return;
@@ -62,7 +63,9 @@ const PurchaseHistory = () => {
                 const response = await axios.get(
                     `${apiUrl}/meals/images/${meal.mealId}`
                 );
-                setImages(current => ({ ...current, [meal.mealId]: response.data }));
+                setImages(current => (
+                    { ...current, [meal.mealId]: response.data }
+                ));
             } catch (err) {
                 console.error(err);
             }
