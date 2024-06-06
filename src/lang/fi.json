@@ -53,7 +53,7 @@
         "INGREDIENT": "Raaka-aine",
         "INGREDIENT_WEIGHT": "Paino (g)",
         "COMMON_ALLERGENS": "Yleiset allergeenit",
-        "ALLERGENS": {
+        "ALLERGEN_GROUP": {
             "GRAINS": "Viljat",
             "GLUTEN": "Gluteeni",
             "DAIRY": "Maito",
@@ -71,6 +71,24 @@
             "LUPINE": "Lupiini",
             "SULFITE": "Sulfitti",
             "SULFUR_OXIDE": "Rikkioksidi"
-        }
+        },
+        "ALLERGENS": "Allergeenit",
+        "CARBS": "Hiilihydraatit",
+        "OF_WHICH_SUGARS": "joista sokereita",
+        "FAT": "Rasva",
+        "OF_WHICH_SATURATES": "josta tyydyttynyttä",
+        "FIBER": "Ravintokuitu",
+        "PROTEIN": "Proteiini",
+        "SALT": "Suola",
+        "CO2_EMISSIONS": "CO2-päästöt",
+        "SHOW_NUTR_INFO": "Näytä ravintoarvot",
+        "HIDE_NUTR_INFO": "Piilota ravintoarvot",
+        "NUTRITIONAL_VALUES": "Ravintoarvot",
+        "ENERGY": "Energia",
+        "PER_PORTION": "/annos",
+        "DELETE": "poista",
+        "BUY": "Osta",
+        "PURCHASE_CONFIRMED": "Osto varmistettu",
+        "FAILED_TO_LOAD_MEAL": "Annoksen lataus epäonnistui"
     }
 }

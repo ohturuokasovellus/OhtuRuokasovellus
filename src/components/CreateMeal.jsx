@@ -279,7 +279,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 {allergens.map((allergen) => (
                     <CheckBox
                         key={allergen}
-                        title={t(`ALLERGENS.${allergen.toUpperCase()}`)}
+                        title={t(`ALLERGEN_GROUP.${allergen.toUpperCase()}`)}
                         checked={formik.values.allergens[allergen]}
                         onPress={() => handleAllergenChange(allergen)}
                         containerStyle={

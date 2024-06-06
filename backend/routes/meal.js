@@ -56,7 +56,7 @@ router.post('/api/meals', express.json(), async (req, res) => {
     let mealIngredients = {};
     
     ingredients.forEach(element => {
-        mealIngredients[element.mealId] = element.mass;
+        mealIngredients[element.mealId] = element.weight;
     });
     
     const nutrients = await getNutrients(mealIngredients, 

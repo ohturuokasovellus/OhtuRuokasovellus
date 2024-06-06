@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS restaurants CASCADE;
 DROP TABLE IF EXISTS meals CASCADE;
-
+DROP TABLE IF EXISTS purchases CASCADE;
 DROP TABLE IF EXISTS urls CASCADE;
 
 CREATE TABLE restaurants (
@@ -25,6 +25,7 @@ CREATE TABLE meals (
     image BYTEA DEFAULT NULL,
     -- TODO: change creator type to Restaurant ID
     restaurant_id INT NOT NULL,
+    purchase_code CHAR(8) UNIQUE NOT NULL,
     meal_description TEXT,
     co2_emissions NUMERIC,
     meal_allergens TEXT,
@@ -38,6 +39,13 @@ CREATE TABLE meals (
     energy NUMERIC -- in kilojoules
 );
 
+CREATE TABLE purchases (
+    purchase_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users NOT NULL,
+    meal_id INT REFERENCES meals NOT NULL,
+    purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
 CREATE TABLE urls (
     id SERIAL PRIMARY KEY,
     name TEXT UNIQUE NOT NULL,
@@ -45,4 +53,4 @@ CREATE TABLE urls (
 );
 
 -- let survey url be this for now
-INSERT INTO urls (name, url) VALUES ('survey', 'https://fi.wikipedia.org/')
+INSERT INTO urls (name, url) VALUES ('survey', 'https://fi.wikipedia.org/');

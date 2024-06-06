@@ -13,6 +13,7 @@ const Home = (props) => {
     const navigate = useNavigate();
     const [surveyUrl, setSurveyUrl] = useState(null);
     const [loading, setLoading] = useState(true);
+    const styles = createStyles();
 
     useEffect(() => {
         if (!props.user) {
@@ -21,7 +22,7 @@ const Home = (props) => {
             fetchSurveyUrl(setSurveyUrl, setLoading);
         }
     }, [props.user, navigate]);
-    
+
     if (!props.user || loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
     }
@@ -29,8 +30,6 @@ const Home = (props) => {
     const username = props.user.username;
     const restaurantId = props.user.restaurantId;
     const isRestaurantUser = restaurantId !== null;
-
-    const styles = createStyles();
 
     return (
         <ScrollView style={styles.background}>

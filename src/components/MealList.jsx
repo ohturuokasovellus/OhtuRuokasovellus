@@ -1,10 +1,11 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useContext } from 'react';
 import { View, Text, FlatList, ScrollView } from 'react-native';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
 import { useParams } from '../Router';
 import apiUrl from '../utils/apiUrl';
+import { themeContext } from '../controllers/themeController';
 
 import { MealCard } from './ui/Card';
 import createStyles from '../styles/styles';
@@ -22,13 +23,15 @@ import createStyles from '../styles/styles';
 const MealList = () => {
     const {t} = useTranslation();
     const { restId } = useParams();
-    const [selectedMeal, setSelectedMeal] = useState(null);
+    const [selectedMeals, setSelectedMeals] = useState([]);
     const [meals, setMeals] = useState([]);
     const [restaurantId, setRestaurantId] = useState(restId);
     const [restaurantName, setRestaurantName] = useState(null);
     const [error, setError] = useState(null);
 
     const styles = createStyles();
+    const { colors } = useContext(themeContext);
+    const sliceColor = [colors.primary, colors.secondary, colors.tertiary];
 
     useEffect(() => {
         const fetchMeals = async () => {
@@ -58,26 +61,23 @@ const MealList = () => {
     }, [restaurantId]);
 
     const handlePress = (meal) => {
-        setSelectedMeal(selectedMeal === meal ? null : meal);
+        setSelectedMeals((prevSelectedMeals) => {
+            if (prevSelectedMeals.includes(meal)) {
+                return prevSelectedMeals
+                    .filter((displayedMeal) => displayedMeal !== meal);
+            } else {
+                return [...prevSelectedMeals, meal];
+            }
+        });
     };
 
     if (error) {
         return (
             <View >
-                <Text>{error}</Text>
+                <Text style={styles.error}>{error}</Text>
             </View>
         );
     }
-
-    const loremIpsum = 'Lorem ipsum dolor sit amet, \
-    consecteturadipiscing elit, sed do eiusmod tempor \
-    incididunt ut labore et dolore magna aliqua. \
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco \
-    laboris nisi ut aliquip ex ea commodo consequat. \
-    Duis aute irure dolor in reprehenderit in voluptate \
-    velit esse cillum dolore eu fugiat nulla pariatur. \
-    Excepteur sint occaecat cupidatat non proident, \
-    sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
     return (
         <ScrollView style={styles.background}>
@@ -85,17 +85,18 @@ const MealList = () => {
                 <Text style={styles.h1}>
                     {t('RESTAURANT')} {restaurantName}
                 </Text>
+            </View>
+            <View style={styles.container}>
                 <FlatList
                     data={meals}
                     keyExtractor={(item) => item.meal_id.toString()}
                     renderItem={({ item }) => (
                         <MealCard
                             styles={styles}
-                            imgURI={item.image}
-                            title={item.meal_name}
-                            body={loremIpsum}
+                            meal={item}
                             onPress={() => handlePress(item)}
-                            isSelected={selectedMeal === item}
+                            isSelected={selectedMeals.includes(item)}
+                            sliceColor={sliceColor}
                         />
                     )}
                 />

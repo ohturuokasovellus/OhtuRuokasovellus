@@ -1,5 +1,6 @@
 require('dotenv').config();
 const postgres = require('postgres');
+const { generatePurchaseCode } = require('./services/random');
 
 //const sql = postgres('postgres://username:password@host:port/database', {
 //  host: process.env.POSTGRES_IP, // Postgres ip address[s] or domain name[s]
@@ -187,15 +188,17 @@ const insertMeal = async (name, restaurantId, mealDescription,
     const saturatedFat = nutrientDictionary['saturatedFat'];
     const energy = nutrientDictionary['energy'];
 
+    const purchaseCode = generatePurchaseCode();
+
     const result = await sql`
-        INSERT INTO meals (name, restaurant_id, meal_description,
+        INSERT INTO meals (name, restaurant_id, purchase_code, meal_description,
             co2_emissions, meal_allergens, carbohydrates, protein, fat, 
             fiber, sugar, salt, saturated_fat, energy)
-        VALUES (${name}, ${restaurantId}, ${mealDescription}, ${co2Emissions}, 
-            ${mealAllergens}, ${carbohydrates}, ${protein}, ${fat}, ${fiber}, 
-            ${sugar}, ${salt}, ${saturatedFat}, ${energy})
-        RETURNING meal_id;
-    `;
+        VALUES (${name}, ${restaurantId}, ${purchaseCode}, ${mealDescription},
+            ${co2Emissions}, ${mealAllergens}, ${carbohydrates}, ${protein},
+            ${fat}, ${fiber}, ${sugar}, ${salt}, ${saturatedFat}, ${energy})
+            RETURNING meal_id;`;
+
     return result.at(0).meal_id;
 };
 
@@ -216,21 +219,71 @@ const addMealImage = async (mealId, imageData) => {
 /**
  * Fetch restaurant specific meals from database.
  * @param {number} restaurantId
- * @returns {Promise<{ meal_id: number, meal_name: string, image: string,
- * restaurant_name: string }[]>}
- */
+ * @returns {Promise<{ 
+*      meal_id: number, 
+*      meal_name: string, 
+*      image: string, 
+*      restaurant_name: string,
+*      meal_description: string,
+*      co2_emissions: number,
+*      meal_allergens: string,
+*      carbohydrates: number,
+*      protein: number,
+*      fat: number,
+*      fiber: number,
+*      sugar: number,
+*      salt: number,
+*      saturated_fat: number,
+*      energy: number
+*  }[]>}
+*/
 const getMeals = async (restaurantId) => {
     const result = await sql`
-        SELECT m.meal_id, m.name as meal_name, m.image, 
-        CASE 
-            WHEN r.restaurant_id IS NOT NULL THEN r.name 
-            ELSE NULL 
-        END as restaurant_name 
-        FROM meals m
-        LEFT JOIN restaurants r ON m.restaurant_id = r.restaurant_id
-        WHERE m.restaurant_id = ${restaurantId};
-    `;
+       SELECT m.meal_id, m.name as meal_name, m.image, m.meal_description, 
+       m.co2_emissions, m.meal_allergens, m.carbohydrates, m.protein, m.fat,
+       m.fiber, m.sugar, m.salt, m.saturated_fat, m.energy,
+       CASE 
+           WHEN r.restaurant_id IS NOT NULL THEN r.name 
+           ELSE NULL 
+       END as restaurant_name 
+       FROM meals m
+       LEFT JOIN restaurants r ON m.restaurant_id = r.restaurant_id
+       WHERE m.restaurant_id = ${restaurantId};
+   `;
     return result;
+};
+
+/**
+ * Fetch a single meal by its ID.
+ * @param {number} mealId The ID of the meal.
+ * @returns {Promise<{ name: string }?>} The meal information.
+ */
+const getMeal = async mealId => {
+    const result = await sql`
+        SELECT name FROM meals WHERE meal_id = ${mealId};
+    `;
+    if (result.length === 0) {
+        return null;
+    }
+    return result.at(0);
+};
+
+/**
+ * Fetch a single meal by its purchase code.
+ * @param {number} purchaseCode The purchase code of the meal.
+ * @returns {Promise<{ mealId: number, name: string }?>} The meal information.
+ */
+const getMealByPurchaseCode = async purchaseCode => {
+    const result = await sql`
+        SELECT meal_id, name FROM meals WHERE purchase_code = ${purchaseCode};
+    `;
+    if (result.length === 0) {
+        return null;
+    }
+    return {
+        mealId: result[0].meal_id,
+        name: result[0].name,
+    };
 };
 
 /**
@@ -252,11 +305,25 @@ const isRestaurantUser = async userId => {
  * @returns {Promise<string>} url as a string
  */
 const getSurveyUrl = async (urlName) => {
-    // const result = 'http://localhost:19006/restaurant/1';
     const result = await sql`
         SELECT url FROM urls WHERE name = ${urlName};
     `;
     return result;
+};
+
+/**
+ * Save purchase to the database.
+ * @param {number} userId ID of the user who made the purchase.
+ * @param {string} purchaseCode The 8-character purchase code of the meal.
+ */
+const addPurchase = async (userId, purchaseCode) => {
+    await sql`
+        INSERT INTO purchases (user_id, meal_id)
+        VALUES (
+            ${userId},
+            (SELECT meal_id FROM meals WHERE purchase_code = ${purchaseCode})
+        );
+    `;
 };
 
 module.exports = {
@@ -272,8 +339,10 @@ module.exports = {
     insertMeal,
     addMealImage,
     getMeals,
+    getMeal,
+    getMealByPurchaseCode,
     isRestaurantUser,
-    // doesRestaurantNameExist,
     getSurveyUrl,
-    updateUserRestaurantByEmail
+    updateUserRestaurantByEmail,
+    addPurchase,
 };

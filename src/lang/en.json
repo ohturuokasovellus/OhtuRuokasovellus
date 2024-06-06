@@ -53,7 +53,7 @@
         "INGREDIENT": "Ingredient",
         "INGREDIENT_WEIGHT": "Weight (g)",
         "COMMON_ALLERGENS": "Common allergens",
-        "ALLERGENS": {
+        "ALLERGEN_GROUP": {
             "GRAINS": "Grains",
             "GLUTEN": "Gluten",
             "DAIRY": "Dairy",
@@ -71,6 +71,24 @@
             "LUPINE": "Lupine",
             "SULFITE": "Sulfite",
             "SULFUR_OXIDE": "Sulfur oxide"
-        }
+        },
+        "ALLERGENS": "Allergens",
+        "CARBS": "Carbohydrates",
+        "OF_WHICH_SUGARS": "of which sugars",
+        "FAT": "Fat",
+        "OF_WHICH_SATURATES": "of which saturates",
+        "FIBER": "Fiber",
+        "PROTEIN": "Protein",
+        "SALT": "Salt",
+        "CO2_EMISSIONS": "CO2 emissions",
+        "SHOW_NUTR_INFO": "Show nutritional values",
+        "HIDE_NUTR_INFO": "Hide nutritional values",
+        "NUTRITIONAL_VALUES": "Nutritional values",
+        "ENERGY": "Energy",
+        "PER_PORTION": "per portion",
+        "DELETE": "delete",
+        "BUY": "Buy",
+        "PURCHASE_CONFIRMED": "Purchase confirmed",
+        "FAILED_TO_LOAD_MEAL": "Failed to load the meal"
     }
 }

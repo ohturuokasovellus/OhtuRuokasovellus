@@ -1,17 +1,23 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useContext } from 'react';
 import {
-    View, Text, TextInput,
-    ScrollView, Image, Pressable
+    View, Text, ScrollView
 } from 'react-native';
 import createStyles from './styles';
 import { themeContext } from '../controllers/themeController';
 
-import { Button, SmallButton } from '../components/ui/Buttons';
+import {
+    Button,
+    SmallButton,
+    ButtonVariant,
+    DeleteButton
+} from '../components/ui/Buttons';
 import {
     Input, PasswordInput, FlexInput, MultilineInput
 } from '../components/ui/InputFields';
-import { Card } from '../components/ui/Card';
+import { Card, MealCard } from '../components/ui/Card';
+import DoughnutChart from '../components/ui/DoughnutChart';
+import NutritionalValues from '../components/ui/NutritionalValuesContainer';
 
 const loremIpsum = 'Lorem ipsum dolor sit amet, \
 consecteturadipiscing elit, sed do eiusmod tempor \
@@ -25,7 +31,7 @@ sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
 const Layout = () => {
     const { theme, colors } = useContext(themeContext);
-    const styles = createStyles(colors);
+    const styles = createStyles();
     const [inputs, setInputs] = useState([{ idx: 1, value: '' }]);
 
     const addInput = () => {
@@ -40,6 +46,19 @@ const Layout = () => {
         setInputs(inputs.map(
             input => (input.idx === idx ? { ...input, value: text } : input)
         ));
+    };
+
+    const sliceColor = [colors.primary, colors.secondary, colors.tertiary];
+
+    const nutritionData = {
+        energy: 72,
+        protein: 1.3,
+        carbs: 14.8,
+        fat: 0.3,
+        sugars: 8.2,
+        fiber: 1,
+        saturatedFat: 0.1,
+        salt: 138.3
     };
 
     const renderBoxes = (currentTheme) => {
@@ -103,7 +122,13 @@ const Layout = () => {
 
                 {/* buttons */}
                 <Button onPress={() => {}} text='button' styles={styles}/>
+                <ButtonVariant
+                    onPress={() => {}}
+                    text='button variant'
+                    styles={styles}
+                />
                 <SmallButton onPress={() => {}} text='S' styles={styles}/>
+                <DeleteButton onPress={() => {}} styles={styles}/>
 
                 {/* input fields */}
                 <Input styles={styles} placeholder='normal input'/>
@@ -133,14 +158,38 @@ const Layout = () => {
                 <SmallButton
                     onPress={addInput} text='+' styles={styles}
                 />
+                {/* doughnut chart */}
+                <DoughnutChart
+                    styles={styles}
+                    series={[1, 2, 3]}
+                    sliceColor={sliceColor}
+                    labels={['a', 'b', 'c']}
+                />
 
                 {/* cards */}
+                <NutritionalValues
+                    styles={styles}
+                    nutrition={nutritionData}
+                />
                 <Card
                     styles={styles}
                     imgURI={require('./example.jpg')}
                     title={'card title'}
                     body={loremIpsum}
                 />
+                <MealCard
+                    styles={styles}
+                    imgURI={require('./example.jpg')}
+                    title={'meal card title'}
+                    body={loremIpsum}
+                    onPress={() => {}}
+                    isSelected={true}
+                    sliceColor={sliceColor}
+                    co2={'CO2'}
+                    allergens={['maito', 'kala']}
+                    nutrition={nutritionData}
+                />
+
                 {/* theme colours */}
                 <ScrollView contentContainerStyle={{padding: 16}}>
                     {renderBoxes(colors)}
