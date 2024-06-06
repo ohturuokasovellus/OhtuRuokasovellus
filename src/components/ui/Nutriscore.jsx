@@ -4,19 +4,9 @@ import { Text, View, StyleSheet } from 'react-native';
 /** Wrapper for Nutriscore
  * https://en.wikipedia.org/wiki/Nutri-Score 
  * @param {Object} styles styles passed from the global stylesheet
- * @param {Object} meal meal item including nutritional info, image, etc.
+ * @param {Object} nutrition meal item including nutritional info, image, etc.
  */
-const Nutriscore = ({meal}) => {
-    const nutrition = {
-        energy: meal.energy,
-        carbohydrates: meal.carbohydrates,
-        protein: meal.protein,
-        sugar: meal.sugar,
-        fiber: meal.fiber,
-        saturatedFat: meal.saturated_fat,
-        salt: meal.salt,
-    };
-
+const Nutriscore = (nutrition) => {
     const kilocalories = nutrition.energy / 4.184;
 
     let negativePoints = 0;
@@ -184,94 +174,72 @@ const Nutriscore = ({meal}) => {
     switch(nutriScore) {
     case nutriScore < 0:
         return (
-            <View style={styles.container}>
-                <Text>Nutri-score</Text>
-                <View style={styles.rectangleA}><Text>A</Text></View>
-                <View style={styles.rectangleB}><Text>B</Text></View>
-                <View style={styles.rectangleC}><Text>C</Text></View>
-                <View style={styles.rectangleD}><Text>D</Text></View>
-                <View style={styles.rectangleE}><Text>E</Text></View>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+                <Text>Nutri-score: </Text>
+                <View style={styles.rectangleA}><Text
+                    style={{fontWeight: 'bold', textAlignVertical: 'center',
+                        textAlign: 'center'}}>A</Text></View>
             </View>);
     case nutrition.protein < 3:
         return (
-            <View style={styles.container}>
-                <Text>Nutri-score</Text>
-                <View style={styles.rectangleA}><Text>A</Text></View>
-                <View style={styles.rectangleB}><Text>B</Text></View>
-                <View style={styles.rectangleC}><Text>C</Text></View>
-                <View style={styles.rectangleD}><Text>D</Text></View>
-                <View style={styles.rectangleE}><Text>E</Text></View>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+                <Text>Nutri-score: </Text>
+                <View style={styles.rectangleB}><Text
+                    style={{fontWeight: 'bold', textAlignVertical: 'center',
+                        textAlign: 'center'}}>B</Text></View>
             </View>);
     case nutrition.protein < 11:
         return (
-            <View style={styles.container}>
-                <Text>Nutri-score</Text>
-                <View style={styles.rectangleA}><Text>A</Text></View>
-                <View style={styles.rectangleB}><Text>B</Text></View>
-                <View style={styles.rectangleC}><Text>C</Text></View>
-                <View style={styles.rectangleD}><Text>D</Text></View>
-                <View style={styles.rectangleE}><Text>E</Text></View>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+                <Text>Nutri-score: </Text>
+                <View style={styles.rectangleC}><Text
+                    style={{fontWeight: 'bold', textAlignVertical: 'center',
+                        textAlign: 'center'}}>C</Text></View>
             </View>);
     case nutrition.protein < 19:
         return (
-            <View style={styles.container}>
-                <Text>Nutri-score</Text>
-                <View style={styles.rectangleA}><Text>A</Text></View>
-                <View style={styles.rectangleB}><Text>B</Text></View>
-                <View style={styles.rectangleC}><Text>C</Text></View>
-                <View style={styles.rectangleD}><Text>D</Text></View>
-                <View style={styles.rectangleE}><Text>E</Text></View>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+                <Text>Nutri-score: </Text>
+                <View style={styles.rectangleD}><Text
+                    style={{fontWeight: 'bold', textAlignVertical: 'center',
+                        textAlign: 'center'}}>D</Text></View>
             </View>);
     default:
         return (
-            <View style={styles.container}>
-                <Text>Nutri-score</Text>
-                <View style={styles.rectangleA}><Text>A</Text></View>
-                <View style={styles.rectangleB}><Text>B</Text></View>
-                <View style={styles.rectangleC}><Text>C</Text></View>
-                <View style={styles.rectangleD}><Text>D</Text></View>
-                <View style={styles.rectangleE}><Text>E</Text></View>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+                <Text>Nutri-score: </Text>
+                <View style={styles.rectangleE}><Text
+                    style={{fontWeight: 'bold', textAlignVertical: 'center',
+                        textAlign: 'center'}}>E</Text></View>
             </View>);
     }
 };
 
 const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        padding: 8,
-        position: 'relative',
-    },
     rectangleA: {
-        height: 128,
-        width: 128,
+        height: '100%',
+        width: '5%',
         backgroundColor: 'green',
-        position: 'absolute'
     },
     rectangleB: {
-        height: 128,
-        width: 128,
+        height: '100%',
+        width: '5%',
         backgroundColor: 'lightgreen',
-        position: 'absolute'
     },
     rectangleC: {
-        height: 128,
-        width: 128,
+        height: '100%',
+        width: '5%',
         backgroundColor: 'yellow',
-        position: 'absolute'
     },
     rectangleD: {
-        height: 128,
-        width: 128,
+        height: '100%',
+        width: '5%',
         backgroundColor: 'orange',
-        position: 'absolute'
     },
     rectangleE: {
-        height: 128,
-        width: 128,
+        height: '90%',
+        width: '5%',
         backgroundColor: 'red',
-        position: 'absolute'
     },
 });
 

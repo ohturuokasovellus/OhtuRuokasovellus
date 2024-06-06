@@ -21,15 +21,15 @@ function calculateNutrientsForIngredient(mass, ingredientNutrients,
     const nutrientCoefficient = mass / 100;
 
     try {
-        const energy = Number(ingredientNutrients[3]);
-        const fat = Number(ingredientNutrients[4]);
-        const saturatedFat = Number(ingredientNutrients[5]);
-        const carbs = Number(ingredientNutrients[6]);
-        const sugar = Number(ingredientNutrients[7]);
-        const fiber = Number(ingredientNutrients[8]);
-        const protein = Number(ingredientNutrients[9]);
-        const salt = Number(ingredientNutrients[10]);
-        const co2Emissions = Number(ingredientNutrients[11]);
+        const energy = Number(ingredientNutrients[3].replace(' ', ''));
+        const fat = Number(ingredientNutrients[4].replace(' ', ''));
+        const saturatedFat = Number(ingredientNutrients[5].replace(' ', ''));
+        const carbs = Number(ingredientNutrients[6].replace(' ', ''));
+        const sugar = Number(ingredientNutrients[7].replace(' ', ''));
+        const fiber = Number(ingredientNutrients[8].replace(' ', ''));
+        const protein = Number(ingredientNutrients[9].replace(' ', ''));
+        const salt = Number(ingredientNutrients[10].replace(' ', ''));
+        const co2Emissions = Number(ingredientNutrients[11].replace(' ', ''));
 
         nutrients['energy'] += energy * nutrientCoefficient;
         nutrients['fat'] += fat * nutrientCoefficient;

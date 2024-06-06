@@ -110,7 +110,7 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
         );
     };
 
-    const nutri = Nutriscore(meal);
+    const nutri = Nutriscore(nutrition);
 
     return (
         <View style={styles.cardContainer}>
