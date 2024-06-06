@@ -1,5 +1,6 @@
 const filesystem = require('fs');
 const papa = require('papaparse');
+const { getVegetablesAndFruits }  = require('./calculateNutrients');
 
 /**
  * 
@@ -56,10 +57,15 @@ function calculateNutrientsForIngredient(mass, ingredientNutrients,
  */
 async function getNutrients(mealIngredients, csvPathName){
     const csvFile = filesystem.createReadStream(csvPathName);
+
+    const vegetablesAndFruits = getVegetablesAndFruits(csvPathName);
+
     return new Promise(resolve => {
         let nutrientsDictionary = {'energy': 0, 'fat': 0,  'saturatedFat': 0, 
             'carbohydrates':0, 'sugar': 0, 'fiber': 0, 'protein': 0, 
-            'salt': 0, 'co2Emissions': 0};
+            'salt': 0, 'co2Emissions': 0, 'vegetablePercent': 0, 'mealMass': 0};
+        
+        let vegetableMass = 0;
 
         papa.parse(csvFile, {
             worker: true, // Don't bog down the main thread if its a big file
@@ -69,13 +75,24 @@ async function getNutrients(mealIngredients, csvPathName){
                     
                     if(result.data.at(0) in mealIngredients) { // check if
                         // ingredient id is found in the mealIngredients
-                        calculateNutrientsForIngredient(
-                            mealIngredients[result.data.at(0)], 
+                        const mass = mealIngredients[result.data.at(0)]
+                            .replace(' ', '');
+                        nutrientsDictionary['mealMass'] += Number(mass);
+
+                        if(result.data.at(2) in vegetablesAndFruits){
+                            vegetableMass += mealIngredients[result.data.at(0)];
+                        }
+
+                        calculateNutrientsForIngredient(mass, 
                             result.data, nutrientsDictionary);
                     }
                 }
             },
             complete: function() {
+                const mealMass = nutrientsDictionary['mealMass'];
+                const vegetablePercent = vegetableMass / mealMass;
+                nutrientsDictionary['vegetablePercent'] = vegetablePercent;
+
                 resolve(nutrientsDictionary);
             }
         });
