@@ -27,14 +27,15 @@ import { CheckBox } from 'react-native-elements';
 
 // correct dictionary format for ingredients
 // const ingredients = {
-// eslint-disable-next-line @stylistic/js/max-len
-//     'ribeye': '1', 'ground beef': '2', 'bacon': '3', 'salmon': '4', 'tuna': '5',
+//     'ribeye': '1', 'ground beef': '2', 'bacon': '3', 'salmon': '4',
+//      'tuna': '5',
 //     'white fish': '6', 'milk': '7', 'greek yoghurt': '8', 'kefir': '9',
 //     'potato': '10', 'white rice': '11', 'pasta': '12', 'lettuce': '13',
 //     'tomatoes': '14', 'kale': '15', 'butter': '16', 'coconut oil': '17',
 //     'olive oil': '18'
 // };
 
+// if changes remember to edit translation files
 const allergens = [
     'grains', 'gluten', 'dairy', 'lactose', 'egg', 'nuts', 
     'peanut', 'sesame_seeds', 'fish', 'shellfish', 'molluscs', 
@@ -78,6 +79,13 @@ const initialValues = {
 
 const validationSchema = mealValidationSchema;
 
+/**
+ * Form for creating new meals.
+ * @param {Function} onSubmit
+ * @param {Function} onSuccess
+ * @param {Function} onError
+ * @returns {JSX.Element} 
+ */
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const {t} = useTranslation();
     const [ingredients, setIngredients] = useState({});
@@ -226,10 +234,10 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                                 key: category,
                                 value: category
                             }))}
-                            
                             save="value"
                         />
                         <SelectList
+                            search={false}
                             styles={styles}
                             placeholder={t('INGREDIENT')}
                             data={
@@ -250,6 +258,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                                 handleIngredientChange(val, index)
                             }
                             save="value"
+                            id={`ingredient-dropdown-${index}`}
                         />
                         <Input
                             styles={styles}
@@ -285,6 +294,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                         containerStyle={
                             { backgroundColor: 'transparent', borderWidth: 0 }
                         }
+                        id={`checkbox-${allergen}`}
                     />
                 ))}
                 <Button
@@ -313,6 +323,9 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 
+/**
+ * CreateMeal component for managing user addition.
+ */
 const CreateMeal = (props) => {
     const navigate = useNavigate();
 
@@ -325,6 +338,8 @@ const CreateMeal = (props) => {
         }
     });
 
+    // Takes dictionary with allergens as keys and values as boolean
+    // and transforms allergens with true values into single string
     const createAllergenString = (allergens) => {
         return Object.keys(allergens)
             .filter(key => allergens[key])
