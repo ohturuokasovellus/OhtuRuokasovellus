@@ -9,10 +9,10 @@ import { getSession } from '../controllers/sessionController';
 /**
  * 
  * @param {object} props
- * @param {{ date: Date }} props.meal
+ * @param {{ mealId: number, name: string, date: Date }} props.meal
  * @returns 
  */
-const HistoryItem = ({ meal, styles }) => {
+const HistoryItem = ({ meal, images, styles }) => {
     const dateString = new Date(meal.date).toLocaleString(undefined, {
         weekday: 'short',
         day: 'numeric',
@@ -23,24 +23,51 @@ const HistoryItem = ({ meal, styles }) => {
     });
 
     return (
-        <Card styles={styles} imgURI='' title={meal.name} body={dateString} />
+        <Card styles={styles} imgURI={images[meal.mealId]}
+            title={meal.name} body={dateString}
+        />
     );
 };
 
 const PurchaseHistory = () => {
     const styles = createStyles();
     const [history, setHistory] = useState([]);
+    const [images, setImages] = useState({});
 
     const loadHistory = async () => {
+        let response;
         try {
-            const response = await axios.get(`${apiUrl}/purchases`, {
+            response = await axios.get(`${apiUrl}/purchases`, {
                 headers: {
                     Authorization: `Bearer ${getSession().token}`,
                 },
             });
-            setHistory(response.data);
         } catch (err) {
             console.error(err);
+            return;
+        }
+        setHistory(response.data);
+        loadImages(response.data);
+    };
+
+    /**
+     * 
+     * @param {{ mealId: number, name: string, date: Date }[]} meals 
+     */
+    const loadImages = async meals => {
+        for (let meal of meals) {
+            if (Object.keys(images).includes(meal.mealId)) continue;
+            try {
+                const response = await axios.get(
+                    `${apiUrl}/meals/images/${meal.mealId}`
+                );
+                // setImages({ ...images, [meal.mealId]: response.data });
+                setImages(current => {
+                    return { ...current, [meal.mealId]: response.data };
+                });
+            } catch (err) {
+                console.error(err);
+            }
         }
     };
 
@@ -55,7 +82,9 @@ const PurchaseHistory = () => {
                 <FlatList data={history}
                     keyExtractor={item => item.date.toString()}
                     renderItem={({ item }) =>
-                        <HistoryItem meal={item} styles={styles} />
+                        <HistoryItem
+                            meal={item} styles={styles} images={images}
+                        />
                     }
                 />
             </View>

@@ -312,12 +312,13 @@ const addPurchase = async (userId, purchaseCode) => {
  */
 const getPurchases = async userId => {
     const result = await sql`
-        SELECT p.purchased_at, m.name
+        SELECT p.purchased_at, m.name, m.meal_id
         FROM purchases AS p, meals AS m
         WHERE p.user_id = ${userId} AND p.meal_id = m.meal_id
     `;
     return result.map(row => ({
         date: row.purchased_at,
+        mealId: row.meal_id,
         name: row.name,
     }));
 };
