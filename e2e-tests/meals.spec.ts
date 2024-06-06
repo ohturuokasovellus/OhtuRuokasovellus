@@ -42,6 +42,11 @@ const initTestDB = async () => {
 test.describe('restaurant meal page', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
+        await page.goto('/login');
+        await page.fill('input[id="username-input"]', 'test');
+        await page.fill('input[id="password-input"]', 'Test123!');
+        await page.locator('#login-button').click();
+        await page.waitForURL('/');
         await page.goto('/restaurant/1');
         await page.locator('#language-toggle').click();
     });

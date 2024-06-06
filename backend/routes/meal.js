@@ -2,6 +2,7 @@ const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
     sql } = require('../database');
 const jwt = require('jsonwebtoken');
+const {getNutrients}  = require('../services/calculateNutrients');
 
 const router = express.Router();
 
@@ -18,18 +19,24 @@ const getTokenFrom = request => {
  * @param {Object} req - The request object.
  * @param {Object} req.body - Request body.
  * @param {string} req.body.mealName - Name of the meal.
+ * @param {string} req.body.mealDescription
+ * @param {string} req.body.mealAllergens
+ * @param {Array<Dictionary>} req.body.ingredients - Ingredients in 
+ * array format. The array contains dictionaries, the keys of which
+ * are the id of the ingredient and ingredients mass in grams is the value
  * @param {Object} res - The response object.
  * @returns {Object} 400 - Invalid meal name
  * @returns {Object} 500 -  Meal insertion failed.
  */
 router.post('/api/meals', express.json(), async (req, res) => {
-    const { mealName } = req.body;
-
+    const {
+        mealName, mealDescription, mealAllergenString, ingredients
+    } = req.body;
     // Token decoding from 
     // https://fullstackopen.com/en/part4/token_authentication
     const decodedToken = jwt.verify(getTokenFrom(req), 
         process.env.SECRET_KEY);
-
+    
     if (!decodedToken.userId) {
         return res.status(401).json({ error: 'token invalid' });
     }
@@ -41,14 +48,24 @@ router.post('/api/meals', express.json(), async (req, res) => {
     if (!mealName) {
         return res.status(400).send('invalid meal name');
     }
-
+    
     else if (!loggedInUsersRestaurantId) {
         return res.status(400).send('You do not have permissions to add meals');
     }
+    
+    let mealIngredients = {};
+    
+    ingredients.forEach(element => {
+        mealIngredients[element.mealId] = element.weight;
+    });
+    
+    const nutrients = await getNutrients(mealIngredients, 
+        'backend/csvFiles/raaka-ainetiedot.csv');
 
     let mealId;
     try {
-        mealId = await insertMeal(mealName, loggedInUsersRestaurantId);
+        mealId = await insertMeal(mealName, loggedInUsersRestaurantId, 
+            mealDescription, mealAllergenString, nutrients);
     } catch (err) {
         console.error(err);
         return res.status(500).send('meal insertion failed');

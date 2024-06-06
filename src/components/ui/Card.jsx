@@ -58,9 +58,9 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
         nutrition.protein
     ];
     const labels = [
-        `${t('CARBS')}: ${nutrition.carbohydrates} g`,
-        `${t('FAT')}: ${nutrition.fat} g`,
-        `${t('PROTEIN')}: ${nutrition.protein} g`
+        `${t('CARBS')}: ${(Number(nutrition.carbohydrates)).toFixed(1)} g`,
+        `${t('FAT')}: ${(Number(nutrition.fat)).toFixed(1)} g`,
+        `${t('PROTEIN')}: ${(Number(nutrition.protein)).toFixed(1)} g`
     ];
     const buttonId = meal.meal_name.replace(/\s+/g, '-').toLowerCase();
 

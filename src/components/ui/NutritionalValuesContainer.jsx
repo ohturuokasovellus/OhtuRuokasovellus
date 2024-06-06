@@ -19,7 +19,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
                     {t('ENERGY')}:
                 </Text>
                 <Text style={styles.nutritionalValueLabel}>
-                    {kcal} kcal
+                    {Number(kcal).toFixed(0)} kcal
                 </Text>
             </View>
             <View style={styles.nutritionalValueValueContainer}>
@@ -27,7 +27,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
                     {t('FAT')}:
                 </Text>
                 <Text style={styles.nutritionalValueLabel}>
-                    {nutrition.fat} g
+                    {Number(nutrition.fat).toFixed(1)} g
                 </Text>
             </View>
             <View style={styles.nutritionalValueSubValueContainer}>
@@ -35,7 +35,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
                     {t('OF_WHICH_SATURATES')}:
                 </Text>
                 <Text style={styles.nutritionalValueLabel}>
-                    {nutrition.saturatedFat} g
+                    {Number(nutrition.saturatedFat).toFixed(1)} g
                 </Text>
             </View>
             <View style={styles.nutritionalValueValueContainer}>
@@ -43,7 +43,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
                     {t('CARBS')}:
                 </Text>
                 <Text style={styles.nutritionalValueLabel}>
-                    {nutrition.carbohydrates} g
+                    {Number(nutrition.carbohydrates).toFixed(1)} g
                 </Text>
             </View>
             <View style={styles.nutritionalValueSubValueContainer}>
@@ -51,7 +51,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
                     {t('OF_WHICH_SUGARS')}:
                 </Text>
                 <Text style={styles.nutritionalValueLabel}>
-                    {nutrition.sugar} g
+                    {Number(nutrition.sugar).toFixed(1)} g
                 </Text>
             </View>
             <View style={styles.nutritionalValueValueContainer}>
@@ -59,7 +59,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
                     {t('FIBER')}:
                 </Text>
                 <Text style={styles.nutritionalValueLabel}>
-                    {nutrition.fiber} g
+                    {Number(nutrition.fiber).toFixed(1)} g
                 </Text>
             </View>
             <View style={styles.nutritionalValueValueContainer}>
@@ -67,7 +67,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
                     {t('PROTEIN')}:
                 </Text>
                 <Text style={styles.nutritionalValueLabel}>
-                    {nutrition.protein} g
+                    {Number(nutrition.protein).toFixed(1)} g
                 </Text>
             </View>
             <View style={styles.nutritionalValueValueContainer}>
@@ -75,7 +75,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
                     {t('SALT')}:
                 </Text>
                 <Text style={styles.nutritionalValueLabel}>
-                    {nutrition.salt} mg
+                    {Number(nutrition.salt).toFixed(1)} mg
                 </Text>
             </View>
         </View>
