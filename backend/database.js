@@ -78,6 +78,17 @@ const getUser = async (username, password) => {
 };
 
 /**
+ * Check whether the given password matches the correct password of a user.
+ * @param {number} userId ID of the user whose password to check
+ * @param {string} password Hashed password
+ * @returns {Promise<boolean>} Whether the password is correct
+ */
+const checkPassword = async (userId, password) => {
+    // TODO: validate the password
+    return true;
+};
+
+/**
  * Get user id based on email.
  * @param {string} email
  * @returns {Promise<number|null>} - user id or null if not found
@@ -330,6 +341,7 @@ module.exports = {
     insertRestaurant,
     doesUsernameExist,
     getUser,
+    checkPassword,
     getUserIdByEmail,
     getRestaurantIdByUserId,
     doesEmailExist,
