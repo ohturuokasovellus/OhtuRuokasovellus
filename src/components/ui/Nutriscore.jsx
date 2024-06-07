@@ -1,212 +1,52 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View } from 'react-native';
+import { CalculateNutriScore } from '../../utils/calculateNutriScore';
 
 // Next developer, heed my warning: switch statements that use
 // < or > cant be used in javascript... or at least they wont 
 // make anything faster :(
 
 /** Wrapper for Nutriscore
- * https://en.wikipedia.org/wiki/Nutri-Score 
- * @param {Object} styles styles passed from the global stylesheet
+ * https://en.wikipedia.org/wiki/Nutri-Score
  * @param {Object} nutrition meal item including nutritional info, image, etc.
+ * @param {Object} styles styles passed from the global stylesheet
  */
-const Nutriscore = (nutrition) => {
-    console.log(nutrition);
-
-    const kilocalories = Number(nutrition.energy) / 4.184;
-
-    let negativePoints = 0;
-    let positivePoints = 0;
-
-    if (kilocalories > 800){
-        negativePoints += 10;
-    } else if (kilocalories > 720){
-        negativePoints += 9;
-    } else if (kilocalories > 640){
-        negativePoints += 8;
-    } else if (kilocalories > 560){
-        negativePoints += 7;
-    } else if (kilocalories > 480){
-        negativePoints += 6;
-    } else if (kilocalories > 400){
-        negativePoints += 5;
-    } else if (kilocalories > 320){
-        negativePoints += 4;
-    } else if (kilocalories > 240){
-        negativePoints += 3;
-    } else if (kilocalories > 160){
-        negativePoints += 2;
-    } else if (kilocalories > 80){
-        negativePoints += 1;
-    }
-
-    const simpleSugars = Number(nutrition.carbohydrates) 
-        + Number(nutrition.sugar);
-
-    if (simpleSugars > 45){
-        negativePoints += 10;
-    } else if (simpleSugars > 40){
-        negativePoints += 9;
-    } else if (simpleSugars > 36){
-        negativePoints += 8;
-    } else if (simpleSugars > 31){
-        negativePoints += 7;
-    } else if (simpleSugars > 27){
-        negativePoints += 6;
-    } else if (simpleSugars > 22.5){
-        negativePoints += 5;
-    } else if (simpleSugars > 18){
-        negativePoints += 4;
-    } else if (simpleSugars > 13.5){
-        negativePoints += 3;
-    } else if (simpleSugars > 9){
-        negativePoints += 2;
-    } else if (simpleSugars > 4.5){
-        negativePoints += 1;
-    }
-
-    const saturatedFats = Number(nutrition.saturatedFat);
-
-    if(saturatedFats > 10){
-        negativePoints += 10;
-    }
-    else{
-        // for example, if saturatedFats is 9.9, 9 is added 
-        // to the negativePoints. If saturatedFats is 2.2, 2 is added.
-        negativePoints += Math.floor(saturatedFats);
-    }
-
-    const salts = Number(nutrition.salt);
-
-    if (salts > 900){
-        negativePoints += 10;
-    } else if (salts > 810){
-        negativePoints += 9;
-    } else if (salts > 720){
-        negativePoints += 8;
-    } else if (salts > 630){
-        negativePoints += 7;
-    } else if (salts > 540){
-        negativePoints += 6;
-    } else if (salts > 450){
-        negativePoints += 5;
-    } else if (salts > 360){
-        negativePoints += 4;
-    } else if (salts > 270){
-        negativePoints += 3;
-    } else if (salts > 180){
-        negativePoints += 2;
-    } else if (salts > 90){
-        negativePoints += 1;
-    }
-
-    const percentageOfVegetables = Number(nutrition.vegetablePercent);
-
-    if (percentageOfVegetables > 80){
-        positivePoints += 5;
-    } else if (percentageOfVegetables > 60) {
-        positivePoints += 2;
-    } else if (percentageOfVegetables > 40) {
-        positivePoints += 1;
-    }
-
-    const fibre = Number(nutrition.fiber);
-
-    if (fibre > 4.5) {
-        positivePoints += 5;
-    } else if (fibre > 2.8) {
-        positivePoints += 4;
-    } else if (fibre > 2.1) {
-        positivePoints += 3;
-    } else if (fibre > 1.4) {
-        positivePoints += 2;
-    } else if(fibre > 0.7) {
-        positivePoints += 1;
-    }
-
-    const proteins = Number(nutrition.protein);
-
-    if (proteins > 8) {
-        positivePoints += 5;
-    } else if (proteins > 6.4) {
-        positivePoints += 4;
-    } else if (proteins > 4.8) {
-        positivePoints += 3;
-    } else if (proteins > 3.2) {
-        positivePoints += 2;
-    } else if (proteins > 1.6) {
-        positivePoints += 1;
-    }
-
-    const nutriScore = negativePoints - positivePoints;
-
+const Nutriscore = (nutrition, styles) => {
+    const nutriScore = CalculateNutriScore(nutrition);
     let nutriScoreLabel = null;
 
     if (nutriScore < 0) {
         nutriScoreLabel = (
-            <View style={styles.rectangleA}>
-                <Text style={{fontWeight: 'bold', textAlignVertical: 'center',
-                    textAlign: 'center'}}>A</Text>
+            <View style={styles.backgroundA}>
+                <Text style={styles.nutriScoreText}>A</Text>
             </View>);
     } else if (nutriScore < 3){
         nutriScoreLabel = (
-            <View style={styles.rectangleB}>
-                <Text style={{fontWeight: 'bold', textAlignVertical: 'center',
-                    textAlign: 'center'}}>B</Text>
+            <View style={styles.backgroundB}>
+                <Text style={styles.nutriScoreText}>B</Text>
             </View>);
     } else if (nutriScore < 11){
         nutriScoreLabel = (
-            <View style={styles.rectangleC}>
-                <Text style={{fontWeight: 'bold', textAlignVertical: 'center',
-                    textAlign: 'center'}}>C</Text>
+            <View style={styles.backgroundC}>
+                <Text style={styles.nutriScoreText}>C</Text>
             </View>);
     } else if (nutriScore < 19){
         nutriScoreLabel = (
-            <View style={styles.rectangleD}>
-                <Text style={{fontWeight: 'bold', textAlignVertical: 'center',
-                    textAlign: 'center'}}>D</Text>
+            <View style={styles.backgroundD}>
+                <Text style={styles.nutriScoreText}>D</Text>
             </View>);
     } else {
         nutriScoreLabel = (
-            <View style={styles.rectangleE}>
-                <Text style={{fontWeight: 'bold', textAlignVertical: 'center',
-                    textAlign: 'center'}}>E</Text>
+            <View style={styles.backgroundE}>
+                <Text style={styles.nutriScoreText}>E</Text>
             </View>);
     }  
     
     return (
-        <View style={{display: 'flex', flexDirection: 'row'}}>
+        <View style={styles.nutriScoreBackground}>
             <Text>Nutri-score: </Text>
             {nutriScoreLabel}
         </View>);
 };
 
-const styles = StyleSheet.create({
-    rectangleA: {
-        height: '100%',
-        width: '5%',
-        backgroundColor: 'green',
-    },
-    rectangleB: {
-        height: '100%',
-        width: '5%',
-        backgroundColor: 'lightgreen',
-    },
-    rectangleC: {
-        height: '100%',
-        width: '5%',
-        backgroundColor: 'yellow',
-    },
-    rectangleD: {
-        height: '100%',
-        width: '5%',
-        backgroundColor: 'orange',
-    },
-    rectangleE: {
-        height: '90%',
-        width: '5%',
-        backgroundColor: 'red',
-    },
-});
-
-export { Nutriscore };
+export { Nutriscore, CalculateNutriScore };

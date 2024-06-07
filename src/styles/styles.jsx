@@ -431,6 +431,45 @@ const createStyles = () => {
         checkedIcon: {
             backgroundColor: colors.primary,
         },
+
+        // Nutri-score labels
+        backgroundA: {
+            height: '100%',
+            width: '5%',
+            backgroundColor: 'green',
+        },
+        backgroundB: {
+            height: '100%',
+            width: '5%',
+            backgroundColor: 'lightgreen',
+        },
+        backgroundC: {
+            height: '100%',
+            width: '5%',
+            backgroundColor: 'yellow',
+        },
+        backgroundD: {
+            height: '100%',
+            width: '5%',
+            backgroundColor: 'orange',
+        },
+        backgroundE: {
+            height: '100%',
+            width: '5%',
+            backgroundColor: 'red',
+        },
+        nutriScoreText: {
+            fontWeight: 'bold', 
+            textAlignVertical: 'center',
+            textAlign: 'center',
+            fontFamily: 'Roboto-Bold',
+            color: colors.onSurfaceVariant,
+        },
+        nutriScoreBackground: {
+            display: 'flex', 
+            flexDirection: 'row',
+            backgroundColor: colors.primaryContainer,
+        },
     });
 };
 
