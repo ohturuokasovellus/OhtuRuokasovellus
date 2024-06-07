@@ -202,7 +202,7 @@ const createStyles = () => {
             color: colors.onSurfaceVariant,
             backgroundColor: colors.surfaceVariant,
         },
-
+        
         // cards
         cardContainer: {
             maxWidth: 600,
@@ -374,6 +374,55 @@ const createStyles = () => {
             fontSize: 14,
             fontFamily: 'Roboto-Thin',
             color: colors.onPrimaryContainer,
+        },
+
+        // selectList
+        selectList: {
+            height: 40,
+            borderColor: colors.outlineVariant,
+            borderWidth: 1,
+            borderRadius: 8,
+            marginBottom: 12,
+            marginRight: 6,
+            paddingLeft: 8,
+            color: colors.outline,
+            backgroundColor: colors.surfaceVariant,
+        },
+        inputStyles: {
+            color: colors.outline,
+        },
+        dropdownStyles: {
+            borderColor: colors.outlineVariant,
+            borderwidth: 1,
+            borderRadius: 8,
+            backgroundColor: colors.surfaceVariant,
+        },
+        dropdownItemStyles: {
+            color: colors.outline,
+        },
+        dropdownTextStyles : {
+            color: colors.outline,
+            fontFamily: 'Roboto-Regular'
+        }, 
+        
+        // checkboxes
+        checkboxContainer: {
+            backgroundColor: colors.surfaceVariant,
+            borderColor: colors.outlineVariant,
+            borderRadius: 8,
+            borderwidth: 1,
+            padding: 8,
+            marginBottom: 12,
+        },
+        checkboxText: {
+            color: colors.outline,
+            fontFamily: 'Roboto-Regular',
+        },
+        checkboxIcon:{
+            borderColor: colors.onSurface,
+        },
+        checkedIcon: {
+            backgroundColor: colors.primary,
         },
     });
 };
