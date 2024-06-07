@@ -59,6 +59,14 @@ const Home = (props) => {
                         />
                     </>
                 ) : null}
+                {!isRestaurantUser && (
+                    <Button
+                        styles={styles}
+                        onPress={() => navigate('/history')}
+                        text={t('MEAL_HISTORY')}
+                        id='history-button'
+                    />
+                )}
                 {surveyUrl && (
                     <Survey surveyUrl={surveyUrl}/>
                 )}
