@@ -2,7 +2,7 @@ import { sql, insertUser } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 
-const testSurveyUrl = '/create-meal';
+const testSurveyUrl = 'fi.wikipedia.org/';
 const prodSurveyUrl = '/create-meal';
 
 const initTestDB = async () => {
@@ -33,9 +33,10 @@ test.describe('survey', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/login');
-        await page.fill('input[placeholder="Username"]', 'testi');
-        await page.fill('input[placeholder="Password"]', 'Testi123@');
-        await page.locator('#log_user_in_button').click();
+        await page.locator('#language-toggle').click();
+        await page.fill('input[id="username-input"]', 'testi');
+        await page.fill('input[id="password-input"]', 'Testi123@');
+        await page.locator('#login-button').click();
     });
 
     test('survey link displays on the homepage and it opens in a new tab',

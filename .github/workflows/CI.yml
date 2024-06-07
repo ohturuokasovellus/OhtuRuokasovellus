@@ -12,6 +12,9 @@ on:
 jobs:
     simple_deployment_pipeline:
       runs-on: ubuntu-20.04
+      concurrency:
+        group: e2e-tests
+        cancel-in-progress: false
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
       steps:

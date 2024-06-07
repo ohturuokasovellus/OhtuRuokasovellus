@@ -1,65 +1,83 @@
+import { useContext } from 'react';
+import { View } from 'react-native';
+
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from '../Router';
-import { Text, Pressable,View } from 'react-native';
 import { deleteSession } from '../controllers/sessionController';
+import { themeContext } from '../controllers/themeController';
+
+import { NavButton } from './ui/Buttons';
+import LanguageSwitch from './ui/LanguageSwitch';
+import createStyles from '../styles/styles';
 
 const NavigationBar = ({ user, updateUser }) => {
+    const {t} = useTranslation();
     const navigate = useNavigate();
     const logOutPress = () => {
         deleteSession();
         updateUser(null);
         navigate('/login');
     };
+    const { toggleTheme } = useContext(themeContext);
+    const styles = createStyles();
 
     return (
-        <View style={{padding: '10px', marginBottom: '10', background: 'green', 
-            fontFamily: 'system-ui', width:'100%', flexDirection: 'row'}}>
+        <View style={styles.navigationBar}>
+            <NavButton
+                styles={styles}
+                onPress={toggleTheme}
+                text='🌗︎'
+                id='theme-toggle'
+            />
             {user &&
-                <Pressable id='to_home_button' 
-                    style={{marginRight: '10px'}}
-                    onPress={() => navigate('/')}>
-                    <Text style={{textDecoration: 'none', 
-                        color: 'white'}}>Home</Text>
-                </Pressable>
+                    <NavButton
+                        styles={styles}
+                        onPress={() => navigate('/')}
+                        text={t('HOME')}
+                        id='navigation-home'
+                    />
             }
             {!user &&
-                <Pressable id='navbar_login_button' 
-                    style={{marginRight: '10px'}}
-                    onPress={() => navigate('/login')}>
-                    <Text style={{textDecoration: 'none', 
-                        color: 'white'}}>Login</Text>
-                </Pressable>
+                    <NavButton
+                        styles={styles}
+                        onPress={() => navigate('/login')}
+                        text={t('LOGIN')}
+                        id='navigation-login'
+                    />
             }
             {!user &&
-                <Pressable id='navbar_register_button' 
-                    style={{marginRight: '10px'}}
-                    onPress={() => navigate('/register')}>
-                    <Text style={{textDecoration: 'none', 
-                        color: 'white'}}>Register</Text>
-                </Pressable>
+                    <NavButton
+                        styles={styles}
+                        onPress={() => navigate('/register')}
+                        text={t('REGISTER')}
+                        id='navigation-register'
+                    />
             }
             {user &&
-                <Pressable id='to_qr_form_button'
-                    style={{marginRight: '10px'}} 
-                    onPress={() => navigate('/qr-form')}>
-                    <Text style={{textDecoration: 'none',
-                        color: 'white'}}>QR Form</Text>
-                </Pressable>
+                    <NavButton
+                        styles={styles}
+                        onPress={() => navigate('/qr-form')}
+                        text={t('QR_FORM')}
+                        id='navigation-qr-form'
+                    />
             }
             {(user && user.restaurantId) &&
-                <Pressable id='to_create_meal_form_button'
-                    style={{marginRight: '10px'}} 
-                    onPress={() => navigate('/create-meal')}>
-                    <Text style={{textDecoration: 'none',
-                        color: 'white'}}>Add a meal</Text>
-                </Pressable>
+                    <NavButton
+                        styles={styles}
+                        onPress={() => navigate('/create-meal')}
+                        text={t('ADD_A_MEAL')}
+                        id='navigation-add-meal'
+                    />
             }
-            {user && 
-                <Pressable style={{marginRight: '10px'}} 
-                    title="Logout" onPress={logOutPress}>
-                    <Text style={{textDecoration: 'none',
-                        color: 'white'}}>Logout</Text>
-                </Pressable>      
+            {user &&
+                    <NavButton
+                        styles={styles}
+                        onPress={logOutPress}
+                        text={t('LOGOUT')}
+                        id='navigation-logout'
+                    />
             }
+            <LanguageSwitch styles={styles}/>
         </View>
     );
 };

@@ -21,27 +21,28 @@ test.describe('navbar', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/');
+        await page.locator('#language-toggle').click();
     });
 
     test('navbar login button keeps user in login page', async ({ page }) => {
-        await page.locator('#navbar_login_button').click();
+        await page.locator('#navigation-login').click();
         await expect(page).toHaveURL(/\/login$/);
     });
 
     test('navbar register button takes to register', async ({ page }) => {
-        await page.locator('#navbar_register_button').click();
+        await page.locator('#navigation-register').click();
         await expect(page).toHaveURL(/\/register$/);
     });
     
     test('logged in user can use navbar home button', async ({ page }) => {
         await expect(page).toHaveURL(/\/login$/);
-        await page.fill('input[placeholder="Username"]', 'testi');
-        await page.fill('input[placeholder="Password"]', 'Testi123!');
-        await page.locator('#log_user_in_button').click();
+        await page.fill('input[id="username-input"]', 'testi');
+        await page.fill('input[id="password-input"]', 'Testi123!');
+        await page.locator('#login-button').click();
         await page.waitForURL('/');
-        await page.locator('#to_qr_form_button').click();
+        await page.locator('#navigation-qr-form').click();
         await expect(page).toHaveURL('/qr-form');
-        await page.locator('#to_home_button').click();
+        await page.locator('#navigation-home').click();
         await expect(page).toHaveURL('/');
     });
 
@@ -49,11 +50,11 @@ test.describe('navbar', () => {
         await createRestaurantUser();
         
         await expect(page).toHaveURL(/\/login$/);
-        await page.fill('input[placeholder="Username"]', 'testaurante');
-        await page.fill('input[placeholder="Password"]', 'Testaurante123!');
-        await page.locator('#log_user_in_button').click();
+        await page.fill('input[id="username-input"]', 'testaurante');
+        await page.fill('input[id="password-input"]', 'Testaurante123!');
+        await page.locator('#login-button').click();
         await page.waitForURL('/');
-        await page.locator('#to_create_meal_form_button').click();
+        await page.locator('#navigation-add-meal').click();
         await expect(page).toHaveURL('/create-meal');
     });
 });

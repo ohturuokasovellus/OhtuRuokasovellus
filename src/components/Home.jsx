@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ActivityIndicator, Pressable } from 'react-native';
+import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
+
 import { useNavigate } from '../Router';
-import { styles } from '../styling/styles';
 import { useTranslation } from 'react-i18next';
 import Survey, { fetchSurveyUrl } from './Survey';
+
+import createStyles from '../styles/styles';
+import { Button } from './ui/Buttons';
 
 const Home = (props) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [surveyUrl, setSurveyUrl] = useState(null);
     const [loading, setLoading] = useState(true);
+    const styles = createStyles();
 
     useEffect(() => {
         if (!props.user) {
@@ -18,7 +22,7 @@ const Home = (props) => {
             fetchSurveyUrl(setSurveyUrl, setLoading);
         }
     }, [props.user, navigate]);
-    
+
     if (!props.user || loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
     }
@@ -28,34 +32,39 @@ const Home = (props) => {
     const isRestaurantUser = restaurantId !== null;
 
     return (
-        <View>
-            <Text style={styles.welcomeText}>
-                {t('WELCOME')}, {username}
-            </Text>
-            {isRestaurantUser ? (
-                <>
-                    <Text style={styles.welcomeText}>
-                        You are logged in as a restaurant user.
-                    </Text>
-                    <Pressable style={styles.button} title='Add user' onPress={
-                        () => navigate('/add-users')
-                    }>
-                        <Text style={styles.buttonText}>add user</Text>
-                    </Pressable>
-                    <Pressable style={styles.button} title='restaurant page'
-                        onPress={
-                            () => navigate(
-                                `/restaurant/${restaurantId}`
-                            )
-                        }>
-                        <Text style={styles.buttonText}>restaurant page</Text>
-                    </Pressable>
-                </>
-            ) : null}
-            {surveyUrl && (
-                <Survey surveyUrl={surveyUrl}/>
-            )}
-        </View>
+        <ScrollView style={styles.background}>
+            <View style={styles.container}>
+                <Text style={styles.h1}>{t('HOME')}</Text>
+                <Text style={styles.body}>
+                    {t('WELCOME')}, {username}
+                </Text>
+                {isRestaurantUser ? (
+                    <>
+                        <Text style={styles.body}>
+                            {t('YOU_ARE_LOGGED_AS_RESTAURANT_USER')}
+                        </Text>
+                        <Button
+                            styles={styles}
+                            onPress={() => navigate('/add-users')}
+                            text={t('ADD_USER')}
+                            id='add-users-button'
+                        />
+                        <Button
+                            styles={styles}
+                            onPress={
+                                () => navigate(`/restaurant/${restaurantId}`)
+                            }
+                            text={t('RESTAURANT_PAGE')}
+                            id='restaurant-page-button'
+                        />
+                    </>
+                ) : null}
+                {surveyUrl && (
+                    <Survey surveyUrl={surveyUrl}/>
+                )}
+            </View>
+        </ScrollView>
+    
     );
 };
 
