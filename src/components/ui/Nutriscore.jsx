@@ -1,89 +1,71 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
+// Next developer, heed my warning: switch statements that use
+// < or > cant be used in javascript... or at least they wont 
+// make anything faster :(
+
 /** Wrapper for Nutriscore
  * https://en.wikipedia.org/wiki/Nutri-Score 
  * @param {Object} styles styles passed from the global stylesheet
  * @param {Object} nutrition meal item including nutritional info, image, etc.
  */
 const Nutriscore = (nutrition) => {
-    const kilocalories = nutrition.energy / 4.184;
+    console.log(nutrition);
+
+    const kilocalories = Number(nutrition.energy) / 4.184;
 
     let negativePoints = 0;
     let positivePoints = 0;
 
-    switch(kilocalories) {
-    case kilocalories > 800:
+    if (kilocalories > 800){
         negativePoints += 10;
-        break;
-    case kilocalories > 720:
+    } else if (kilocalories > 720){
         negativePoints += 9;
-        break;
-    case kilocalories > 640:
+    } else if (kilocalories > 640){
         negativePoints += 8;
-        break;
-    case kilocalories > 560:
+    } else if (kilocalories > 560){
         negativePoints += 7;
-        break;
-    case kilocalories > 480:
+    } else if (kilocalories > 480){
         negativePoints += 6;
-        break;
-    case kilocalories > 400:
+    } else if (kilocalories > 400){
         negativePoints += 5;
-        break;
-    case kilocalories > 320:
+    } else if (kilocalories > 320){
         negativePoints += 4;
-        break;
-    case kilocalories > 240:
+    } else if (kilocalories > 240){
         negativePoints += 3;
-        break;
-    case kilocalories > 160:
+    } else if (kilocalories > 160){
         negativePoints += 2;
-        break;
-    case kilocalories > 80:
+    } else if (kilocalories > 80){
         negativePoints += 1;
-        break;
-    default:
-        break;
     }
 
-    const simpleSugars = nutrition.carbohydrates + nutrition.sugar;
-    switch(simpleSugars) {
-    case simpleSugars > 45:
+    const simpleSugars = Number(nutrition.carbohydrates) 
+        + Number(nutrition.sugar);
+
+    if (simpleSugars > 45){
         negativePoints += 10;
-        break;
-    case simpleSugars > 40:
+    } else if (simpleSugars > 40){
         negativePoints += 9;
-        break;
-    case simpleSugars > 36:
+    } else if (simpleSugars > 36){
         negativePoints += 8;
-        break;
-    case simpleSugars > 31:
+    } else if (simpleSugars > 31){
         negativePoints += 7;
-        break;
-    case simpleSugars > 27:
+    } else if (simpleSugars > 27){
         negativePoints += 6;
-        break;
-    case simpleSugars > 22.5:
+    } else if (simpleSugars > 22.5){
         negativePoints += 5;
-        break;
-    case simpleSugars > 18:
+    } else if (simpleSugars > 18){
         negativePoints += 4;
-        break;
-    case simpleSugars > 13.5:
+    } else if (simpleSugars > 13.5){
         negativePoints += 3;
-        break;
-    case simpleSugars > 9:
+    } else if (simpleSugars > 9){
         negativePoints += 2;
-        break;
-    case simpleSugars > 4.5:
+    } else if (simpleSugars > 4.5){
         negativePoints += 1;
-        break;
-    default:
-        break;
     }
 
-    const saturatedFats = nutrition.saturatedFat;
+    const saturatedFats = Number(nutrition.saturatedFat);
 
     if(saturatedFats > 10){
         negativePoints += 10;
@@ -94,139 +76,109 @@ const Nutriscore = (nutrition) => {
         negativePoints += Math.floor(saturatedFats);
     }
 
-    switch(nutrition.salt) {
-    case nutrition.salt > 900:
+    const salts = Number(nutrition.salt);
+
+    if (salts > 900){
         negativePoints += 10;
-        break;
-    case nutrition.salt > 810:
+    } else if (salts > 810){
         negativePoints += 9;
-        break;
-    case nutrition.salt > 720:
+    } else if (salts > 720){
         negativePoints += 8;
-        break;
-    case nutrition.salt > 630:
+    } else if (salts > 630){
         negativePoints += 7;
-        break;
-    case nutrition.salt > 540:
+    } else if (salts > 540){
         negativePoints += 6;
-        break;
-    case nutrition.salt > 450:
+    } else if (salts > 450){
         negativePoints += 5;
-        break;
-    case nutrition.salt > 360:
+    } else if (salts > 360){
         negativePoints += 4;
-        break;
-    case nutrition.salt > 270:
+    } else if (salts > 270){
         negativePoints += 3;
-        break;
-    case nutrition.salt > 180:
+    } else if (salts > 180){
         negativePoints += 2;
-        break;
-    case nutrition.salt > 90:
+    } else if (salts > 90){
         negativePoints += 1;
-        break;
-    default:
-        break;
     }
 
-    switch(nutrition.vegetablePercent) {
-    case nutrition.vegetablePercent > 80:
+    const percentageOfVegetables = Number(nutrition.vegetablePercent);
+
+    if (percentageOfVegetables > 80){
         positivePoints += 5;
-        break;
-    case nutrition.vegetablePercent > 60:
+    } else if (percentageOfVegetables > 60) {
         positivePoints += 2;
-        break;
-    case nutrition.vegetablePercent > 40:
+    } else if (percentageOfVegetables > 40) {
         positivePoints += 1;
-        break;
-    default:
-        break;
     }
 
-    switch(nutrition.fiber) {
-    case nutrition.fiber > 4.5:
+    const fibre = Number(nutrition.fiber);
+
+    if (fibre > 4.5) {
         positivePoints += 5;
-        break;
-    case nutrition.fiber > 2.8:
+    } else if (fibre > 2.8) {
         positivePoints += 4;
-        break;
-    case nutrition.fiber > 2.1:
+    } else if (fibre > 2.1) {
         positivePoints += 3;
-        break;
-    case nutrition.fiber > 1.4:
+    } else if (fibre > 1.4) {
         positivePoints += 2;
-        break;
-    case nutrition.fiber > 0.7:
+    } else if(fibre > 0.7) {
         positivePoints += 1;
-        break;
-    default:
-        break;
     }
 
-    switch(nutrition.protein) {
-    case nutrition.protein > 8:
+    const proteins = Number(nutrition.protein);
+
+    if (proteins > 8) {
         positivePoints += 5;
-        break;
-    case nutrition.protein > 6.4:
+    } else if (proteins > 6.4) {
         positivePoints += 4;
-        break;
-    case nutrition.protein > 4.8:
+    } else if (proteins > 4.8) {
         positivePoints += 3;
-        break;
-    case nutrition.protein > 3.2:
+    } else if (proteins > 3.2) {
         positivePoints += 2;
-        break;
-    case nutrition.protein > 1.6:
+    } else if (proteins > 1.6) {
         positivePoints += 1;
-        break;
-    default:
-        break;
     }
 
     const nutriScore = negativePoints - positivePoints;
 
-    switch(nutriScore) {
-    case nutriScore < 0:
-        return (
-            <View style={{display: 'flex', flexDirection: 'row'}}>
-                <Text>Nutri-score: </Text>
-                <View style={styles.rectangleA}><Text
-                    style={{fontWeight: 'bold', textAlignVertical: 'center',
-                        textAlign: 'center'}}>A</Text></View>
+    let nutriScoreLabel = null;
+
+    if (nutriScore < 0) {
+        nutriScoreLabel = (
+            <View style={styles.rectangleA}>
+                <Text style={{fontWeight: 'bold', textAlignVertical: 'center',
+                    textAlign: 'center'}}>A</Text>
             </View>);
-    case nutrition.protein < 3:
-        return (
-            <View style={{display: 'flex', flexDirection: 'row'}}>
-                <Text>Nutri-score: </Text>
-                <View style={styles.rectangleB}><Text
-                    style={{fontWeight: 'bold', textAlignVertical: 'center',
-                        textAlign: 'center'}}>B</Text></View>
+    } else if (nutriScore < 3){
+        nutriScoreLabel = (
+            <View style={styles.rectangleB}>
+                <Text style={{fontWeight: 'bold', textAlignVertical: 'center',
+                    textAlign: 'center'}}>B</Text>
             </View>);
-    case nutrition.protein < 11:
-        return (
-            <View style={{display: 'flex', flexDirection: 'row'}}>
-                <Text>Nutri-score: </Text>
-                <View style={styles.rectangleC}><Text
-                    style={{fontWeight: 'bold', textAlignVertical: 'center',
-                        textAlign: 'center'}}>C</Text></View>
+    } else if (nutriScore < 11){
+        nutriScoreLabel = (
+            <View style={styles.rectangleC}>
+                <Text style={{fontWeight: 'bold', textAlignVertical: 'center',
+                    textAlign: 'center'}}>C</Text>
             </View>);
-    case nutrition.protein < 19:
-        return (
-            <View style={{display: 'flex', flexDirection: 'row'}}>
-                <Text>Nutri-score: </Text>
-                <View style={styles.rectangleD}><Text
-                    style={{fontWeight: 'bold', textAlignVertical: 'center',
-                        textAlign: 'center'}}>D</Text></View>
+    } else if (nutriScore < 19){
+        nutriScoreLabel = (
+            <View style={styles.rectangleD}>
+                <Text style={{fontWeight: 'bold', textAlignVertical: 'center',
+                    textAlign: 'center'}}>D</Text>
             </View>);
-    default:
-        return (
-            <View style={{display: 'flex', flexDirection: 'row'}}>
-                <Text>Nutri-score: </Text>
-                <View style={styles.rectangleE}><Text
-                    style={{fontWeight: 'bold', textAlignVertical: 'center',
-                        textAlign: 'center'}}>E</Text></View>
+    } else {
+        nutriScoreLabel = (
+            <View style={styles.rectangleE}>
+                <Text style={{fontWeight: 'bold', textAlignVertical: 'center',
+                    textAlign: 'center'}}>E</Text>
             </View>);
-    }
+    }  
+    
+    return (
+        <View style={{display: 'flex', flexDirection: 'row'}}>
+            <Text>Nutri-score: </Text>
+            {nutriScoreLabel}
+        </View>);
 };
 
 const styles = StyleSheet.create({
