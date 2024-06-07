@@ -26,12 +26,15 @@ describe('POST /api/add-users', () => {
     });
 
     test('handles non-existing emails', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
         postgresMock.setSqlResults([
             [{
                 // eslint-disable-next-line camelcase
                 user_id: 1,
                 username: 'testuser',
-                password: 'password',
+                password,
                 // eslint-disable-next-line camelcase
                 restaurant_id: 123
             }], // mock getUser
@@ -55,12 +58,15 @@ describe('POST /api/add-users', () => {
     });
 
     test('handles emails already associated with a restaurant', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
         postgresMock.setSqlResults([
             [{
                 // eslint-disable-next-line camelcase
                 user_id: 1,
                 username: 'testuser',
-                password: 'password',
+                password,
                 // eslint-disable-next-line camelcase
                 restaurant_id: 123
             }], // getUser
@@ -90,12 +96,15 @@ describe('POST /api/add-users', () => {
     });
 
     test('handles error during email existence check', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
         postgresMock.setSqlResults([
             [{
                 // eslint-disable-next-line camelcase
                 user_id: 1,
                 username: 'testuser',
-                password: 'password',
+                password,
                 // eslint-disable-next-line camelcase
                 restaurant_id: 123
             }], // getUser
@@ -122,12 +131,15 @@ describe('POST /api/add-users', () => {
     });
 
     test('handles error during updating user', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
         postgresMock.setSqlResults([
             [{
                 // eslint-disable-next-line camelcase
                 user_id: 1,
                 username: 'testuser',
-                password: 'password',
+                password,
                 // eslint-disable-next-line camelcase
                 restaurant_id: 123
             }], // getUser
@@ -158,12 +170,15 @@ describe('POST /api/add-users', () => {
     });
 
     test('adds users successfully', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
         postgresMock.setSqlResults([
             [{
                 // eslint-disable-next-line camelcase
                 user_id: 1,
                 username: 'testuser',
-                password: 'password',
+                password,
                 // eslint-disable-next-line camelcase
                 restaurant_id: 123
             }], // getUser

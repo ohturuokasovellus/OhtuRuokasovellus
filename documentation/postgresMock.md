@@ -55,6 +55,8 @@ postgresMock.setSqlResults([
 
 The only argument contains an array of returns values.
 The first item will be returned during the first database query, etc.
+This array may also contain errors (`new Error('your message')`) that
+simulate an error during SQL query.
 
 If multiple tests use database, the initial state of the database can be restored before each test with
 
