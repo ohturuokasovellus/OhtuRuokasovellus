@@ -71,12 +71,11 @@ async function getNutrients(mealIngredients, csvPathName){
             worker: true, // Don't bog down the main thread if its a big file
             step: function(result) {
                 if (result.data.at(0) != 'id') { // skip column names, 
-                    //first word of the line is 'id' or a id number
+                    // first word of a line is 'id' or a id number
                     
                     if(result.data.at(0) in mealIngredients) { // check if
                         // ingredient id is found in the mealIngredients
-                        const mass = mealIngredients[result.data.at(0)]
-                            .replace(' ', '');
+                        const mass = mealIngredients[result.data.at(0)];
                         nutrientsDictionary['mealMass'] += Number(mass);
 
                         if(result.data.at(2) in vegetablesAndFruits){
@@ -92,6 +91,18 @@ async function getNutrients(mealIngredients, csvPathName){
                 const mealMass = nutrientsDictionary['mealMass'];
                 const vegetablePercent = vegetableMass / mealMass * 100;
                 nutrientsDictionary['vegetablePercent'] = vegetablePercent;
+
+                // we have thus far saved all the nutrients in the meal,
+                // so now we have to save the nutrients to be per 100g
+                // nutrients / 100g = allNutrients / allMass
+                // nutrients = allNutrients / allMass * 100g
+                for(let key in nutrientsDictionary){
+                    if(key in 'co2Emissions vegetablePercent mealMass'){
+                        continue;
+                    }
+                    nutrientsDictionary[key] = nutrientsDictionary[key] / 
+                    nutrientsDictionary['mealMass'] * 100;
+                }
 
                 resolve(nutrientsDictionary);
             }
