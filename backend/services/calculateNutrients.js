@@ -11,7 +11,6 @@ const { getVegetablesAndFruits }  = require('../services/getIngredients');
  */
 function calculateNutrientsForIngredient(mass, ingredientNutrients, 
     nutrients){
-
     // ingredientNutrients is of form: id, tuoteryhmä, name,
     // energia. laskennallinen (kJ),  rasva (g),
     // rasvahapot tyydyttyneet (g), hiilihydraatti imeytyvä (g),

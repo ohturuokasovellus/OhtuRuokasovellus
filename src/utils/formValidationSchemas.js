@@ -71,6 +71,16 @@ const mealValidationSchema = yup.object().shape({
         .required('Name for the meal is required'),
     imageUri: yup.string()
         .required('Image of the meal is required'),
+    mealDescription: yup.string(),
+    ingredients: yup.array().of(
+        yup.object().shape({
+            mealId: yup.string(),
+            category: yup.string(),
+            ingredient: yup.string(),
+            weight: yup.string()
+        })
+    ),
+    allergens: yup.object()
 });
 
 export {

@@ -1,5 +1,6 @@
 require('dotenv').config();
 const postgres = require('postgres');
+const { compareHashes } = require('./services/hash');
 const { generatePurchaseCode } = require('./services/random');
 
 //const sql = postgres('postgres://username:password@host:port/database', {
@@ -62,8 +63,8 @@ const insertRestaurant = async (restaurantName) => {
 /**
  * @param {string} username 
  * @param {string} password hashed password 
- * @returns {Promise<{ user_id: number, username: string, password: string
- * restaurant_id: number}n>} Whether there exists user with given credentials
+ * @returns {Promise<{ userId: number, username: string,
+ *  restaurantId: number?}?>} Whether there exists user with given credentials
  */
 const getUser = async (username, password) => {
     const result = await sql`
@@ -72,9 +73,19 @@ const getUser = async (username, password) => {
             password, restaurant_id FROM users
         WHERE pgp_sym_decrypt(username::bytea, 
             ${process.env.DATABASE_ENCRYPTION_KEY}) 
-            = ${username} and password = ${password};
+            = ${username};
     `;
-    return result[0];
+    if (result.length !== 1) {
+        return null;
+    }
+    if (compareHashes(password, result[0].password) !== true) {
+        return null;
+    }
+    return {
+        userId: result[0].user_id,
+        username: result[0].username,
+        restaurantId: result[0].restaurant_id,
+    };
 };
 
 /**

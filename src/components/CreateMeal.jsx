@@ -27,14 +27,15 @@ import { CheckBox } from 'react-native-elements';
 
 // correct dictionary format for ingredients
 // const ingredients = {
-// eslint-disable-next-line @stylistic/js/max-len
-//     'ribeye': '1', 'ground beef': '2', 'bacon': '3', 'salmon': '4', 'tuna': '5',
+//     'ribeye': '1', 'ground beef': '2', 'bacon': '3', 'salmon': '4',
+//      'tuna': '5',
 //     'white fish': '6', 'milk': '7', 'greek yoghurt': '8', 'kefir': '9',
 //     'potato': '10', 'white rice': '11', 'pasta': '12', 'lettuce': '13',
 //     'tomatoes': '14', 'kale': '15', 'butter': '16', 'coconut oil': '17',
 //     'olive oil': '18'
 // };
 
+// if changes remember to edit translation files
 const allergens = [
     'grains', 'gluten', 'dairy', 'lactose', 'egg', 'nuts', 
     'peanut', 'sesame_seeds', 'fish', 'shellfish', 'molluscs', 
@@ -43,11 +44,11 @@ const allergens = [
 
 // finnish language is priority so for now we save allergens in finnish
 const allergensFin = {
-    grains: 'Viljat', gluten: 'Gluteeni', dairy: 'Maito', lactose: 'Laktoosi',
-    egg: 'Kananmuna', nuts: 'Pähkinät', sesame_seeds: 'Seesaminsiemenet',
-    fish: 'Kala', shellfish: 'Äyriäiset', molluscs: 'Nilviäiset',
-    celery: 'Selleri', mustard: 'Sinappi', soy: 'Soija', lupine: 'Lupiini',
-    sulfite: 'Sulfiitti', sulfur_oxide: 'Rikkioksidi'
+    grains: 'viljat', gluten: 'gluteeni', dairy: 'maito', lactose: 'laktoosi',
+    egg: 'kananmuna', nuts: 'pähkinät', sesame_seeds: 'seesaminsiemenet',
+    fish: 'kala', shellfish: 'äyriäiset', molluscs: 'nilviäiset',
+    celery: 'selleri', mustard: 'sinappi', soy: 'soija', lupine: 'lupiini',
+    sulfite: 'sulfiitti', sulfur_oxide: 'rikkioksidi'
 };
 
 const initialValues = {
@@ -78,6 +79,13 @@ const initialValues = {
 
 const validationSchema = mealValidationSchema;
 
+/**
+ * Form for creating new meals.
+ * @param {Function} onSubmit
+ * @param {Function} onSuccess
+ * @param {Function} onError
+ * @returns {JSX.Element} 
+ */
 const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const {t} = useTranslation();
     const [ingredients, setIngredients] = useState({});
@@ -99,22 +107,35 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
             }
         };
         fetchIngredients();
-    });
+    }), [];
 
     const formik = useFormik({
         initialValues,
         validationSchema,
         onSubmit: async values => {
-            try {
-                await onSubmit(values);
-                onSuccess(setCreateSuccess);
-                
-            } catch (err) {
-                onError(setCreateError);
-                setFormError(err.message);
-                formik.resetForm();
+            // with ingredients formik validation schema doesnt work 
+            // for some reason so use this for now
+            const hasIngredientWithWeight = values.ingredients.some(item => {
+                return item.ingredient.trim() !== '' &&
+                item.weight.trim() !== '';
+            });
+
+            if (hasIngredientWithWeight) {
+                try {
+                    await onSubmit(values);
+                    onSuccess(setCreateSuccess);
+                    formik.resetForm();
+                } catch (err) {
+                    onError(setCreateError);
+                    setFormError(err.message);
+                    formik.resetForm();
+                }
+            } else {
+                setFormError(
+                    'At least one ingredient with weight required'
+                );
             }
-        },
+        }
     });
 
     const openImagePicker = () => {
@@ -186,6 +207,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
+                
                 <Text style={styles.h1}>{t('CREATE_A_MEAL')}</Text>
                 {formik.values.imageUri ? (
                     <Image
@@ -193,9 +215,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                         style={{ width: 100, height: 100 }}
                     />
                 ) : null}
-                {formError ? (
-                    <Text style={styles.error}>{formError}</Text>
-                ) : null}
+                
                 <Input
                     styles={styles}
                     placeholder={t('NAME_OF_THE_MEAL')}
@@ -216,7 +236,12 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 />
                 {formik.values.ingredients.map((ingredient, index) => (
                     <View key={index} style={styles.flexInputContainer}>
-                        <SelectList 
+                        <SelectList
+                            boxStyles={styles.selectList}
+                            inputStyles={styles.inputStyles}
+                            dropdownStyles={styles.dropdownStyles}
+                            dropdownItemStyles={styles.dropdownItemStyles}
+                            dropdownTextStyles={styles.dropdownTextStyles}
                             search={false}
                             placeholder={t('FOOD_GROUP')}
                             setSelected={val => 
@@ -226,11 +251,15 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                                 key: category,
                                 value: category
                             }))}
-                            
                             save="value"
                         />
                         <SelectList
-                            styles={styles}
+                            boxStyles={styles.selectList}
+                            inputStyles={styles.inputStyles}
+                            dropdownStyles={styles.dropdownStyles}
+                            dropdownItemStyles={styles.dropdownItemStyles}
+                            dropdownTextStyles={styles.dropdownTextStyles}
+                            search={false}
                             placeholder={t('INGREDIENT')}
                             data={
                                 formik.values.ingredients[index].category ===
@@ -250,6 +279,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                                 handleIngredientChange(val, index)
                             }
                             save="value"
+                            id={`ingredient-dropdown-${index}`}
                         />
                         <Input
                             styles={styles}
@@ -267,6 +297,12 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                                 id='remove-ingredient-button'
                             />
                         )}
+                        {formik.values.ingredients.length < 2 && 
+                        formik.errors.ingredients && 
+                        <Text style={styles.error}>
+                            {formik.errors.ingredients}
+                        </Text>
+                        }
                     </View>
                 ))}
                 <SmallButton
@@ -278,15 +314,26 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 <Text style={styles.h2}>{t('COMMON_ALLERGENS')}</Text>
                 {allergens.map((allergen) => (
                     <CheckBox
+                        containerStyle={styles.checkboxContainer}
+                        textStyle={styles.checkboxText}
+                        checkedColor={styles.checkedIcon.backgroundColor}
+                        uncheckedColor={styles.checkboxIcon.borderColor}
                         key={allergen}
                         title={t(`ALLERGEN_GROUP.${allergen.toUpperCase()}`)}
                         checked={formik.values.allergens[allergen]}
                         onPress={() => handleAllergenChange(allergen)}
-                        containerStyle={
-                            { backgroundColor: 'transparent', borderWidth: 0 }
-                        }
+                        id={`checkbox-${allergen}`}
                     />
                 ))}
+                {createSuccess &&
+                <Text style={styles.h3}>{t('MEAL_CREATED')}</Text>
+                }
+                {createError && 
+                <Text style={styles.error}>{t('MEAL_NOT_CREATED')}</Text>
+                }
+                {formError ? (
+                    <Text style={styles.error}>{formError}</Text>
+                ) : null}
                 <Button
                     styles={styles}
                     onPress={openImagePicker}
@@ -302,17 +349,14 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                     text={t('CREATE_A_MEAL')}
                     id='create-meal-button'
                 />
-                {createSuccess &&
-                <Text>{t('MEAL_CREATED')}</Text>
-                }
-                {createError && 
-                <Text style={styles.error}>{t('MEAL_NOT_CREATED')}</Text>
-                }
             </View>
         </ScrollView>
     );
 };
 
+/**
+ * CreateMeal component for managing meal addition.
+ */
 const CreateMeal = (props) => {
     const navigate = useNavigate();
 
@@ -325,6 +369,8 @@ const CreateMeal = (props) => {
         }
     });
 
+    // Takes dictionary with allergens as keys and values as boolean
+    // and transforms allergens with true values into single string
     const createAllergenString = (allergens) => {
         return Object.keys(allergens)
             .filter(key => allergens[key])
