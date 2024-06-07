@@ -18,6 +18,14 @@
     "env": {
         "react-native/react-native": true
     },
+    "overrides": [
+        {
+            "files": ["backend/**/*.js"],
+            "env": {
+                "node": true
+            }
+        }
+    ],
     "rules": {
         "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",
