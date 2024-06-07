@@ -95,8 +95,13 @@ const getUser = async (username, password) => {
  * @returns {Promise<boolean>} Whether the password is correct
  */
 const checkPassword = async (userId, password) => {
-    // TODO: validate the password
-    return true;
+    const result = await sql`
+        SELECT password FROM users WHERE user_id = ${userId};
+    `;
+    if (result.length !== 1) {
+        return false;
+    }
+    return compareHashes(password, result[0].password);
 };
 
 /**
