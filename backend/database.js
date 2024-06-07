@@ -245,7 +245,7 @@ const getMeals = async (restaurantId) => {
     const result = await sql`
        SELECT m.meal_id, m.name as meal_name, m.image, m.meal_description, 
        m.co2_emissions, m.meal_allergens, m.carbohydrates, m.protein, m.fat,
-       m.fiber, m.sugar, m.salt, m.saturated_fat, m.energy, m.vegetable_percent
+       m.fiber, m.sugar, m.salt, m.saturated_fat, m.energy, m.vegetable_percent,
        CASE 
            WHEN r.restaurant_id IS NOT NULL THEN r.name 
            ELSE NULL 
