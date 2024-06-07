@@ -40,7 +40,7 @@ async function getIngredients(csvFilePath){
  * Returns all names that are in the vegetables or fruits and berries
  * category.
  * @param {string} csvFilePath 
- * @returns 
+ * @returns {Promise<Array<string>>}
  */
 async function getVegetablesAndFruits(csvFilePath){
     const csvFile = filesystem.createReadStream(csvFilePath);
@@ -50,13 +50,10 @@ async function getVegetablesAndFruits(csvFilePath){
         papa.parse(csvFile, {
             worker: true, // Don't bog down the main thread if its a big file
             step: function(result) {
-                if (result.data.at(0) != 'id' && result.data.at(2) != 'name')
-                { // skip column names, 
-                    //first word of the line is 'id' or a id number
+                //skip column names, first word of the line is 'id' or id number
+                if (result.data.at(0) != 'id' && result.data.at(2) != 'name') { 
                     if(result.data.at(1) == 'vihannekset' || 
                         result.data.at(1) == 'hedelmät ja marjat') {
-                        // check if ingredient category is not already 
-                        // in the ingredientCategoryDictionary
                         vegetablesAndFruits.push(result.data.at(2));
                     }
                 }

@@ -1,6 +1,6 @@
 const filesystem = require('fs');
 const papa = require('papaparse');
-const { getVegetablesAndFruits }  = require('./services/calculateNutrients');
+const { getVegetablesAndFruits }  = require('../services/getIngredients');
 
 /**
  * 
@@ -58,6 +58,8 @@ function calculateNutrientsForIngredient(mass, ingredientNutrients,
 async function getNutrients(mealIngredients, csvPathName){
     const csvFile = filesystem.createReadStream(csvPathName);
 
+    // find every ingredient name that belongs to the vegetables or fruits
+    // category.
     const vegetablesAndFruits = await getVegetablesAndFruits(csvPathName);
 
     return new Promise(resolve => {
@@ -78,7 +80,8 @@ async function getNutrients(mealIngredients, csvPathName){
                         const mass = mealIngredients[result.data.at(0)];
                         nutrientsDictionary['mealMass'] += Number(mass);
 
-                        if(result.data.at(2) in vegetablesAndFruits){
+                        // if ingredient name is found in vegetablesAndFruits
+                        if(vegetablesAndFruits.includes(result.data.at(2))){
                             vegetableMass += mealIngredients[result.data.at(0)];
                         }
 
@@ -89,25 +92,43 @@ async function getNutrients(mealIngredients, csvPathName){
             },
             complete: function() {
                 const mealMass = nutrientsDictionary['mealMass'];
-                const vegetablePercent = vegetableMass / mealMass * 100;
+                const vegetablePercent = (vegetableMass / mealMass 
+                    * 100).toFixed(2);
                 nutrientsDictionary['vegetablePercent'] = vegetablePercent;
 
-                // we have thus far saved all the nutrients in the meal,
-                // so now we have to save the nutrients to be per 100g
-                // nutrients / 100g = allNutrients / allMass
-                // nutrients = allNutrients / allMass * 100g
-                for(let key in nutrientsDictionary){
-                    if(key in 'co2Emissions vegetablePercent mealMass'){
-                        continue;
-                    }
-                    nutrientsDictionary[key] = nutrientsDictionary[key] / 
-                    nutrientsDictionary['mealMass'] * 100;
-                }
-
+                nutrientsDictionary = updateNutrients(nutrientsDictionary);
+               
                 resolve(nutrientsDictionary);
             }
         });
     });
+}
+
+function updateNutrients(nutrientsDictionary){
+    const allMass = nutrientsDictionary['mealMass'];
+
+    // we have thus far saved all the nutrients in the meal,
+    // so now we have to save the nutrients to be per 100g
+    // nutrients / 100g = allNutrients / allMass
+    // nutrients = allNutrients / allMass * 100g
+    nutrientsDictionary['energy'] = (nutrientsDictionary['energy'] 
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['fat'] = (nutrientsDictionary['fat'] 
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['saturatedFat'] = (nutrientsDictionary['saturatedFat'] 
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['carbohydrates'] = (nutrientsDictionary['carbohydrates']
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['sugar'] = (nutrientsDictionary['sugar'] 
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['fiber'] = (nutrientsDictionary['fiber'] 
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['protein'] = (nutrientsDictionary['protein'] 
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['salt'] = (nutrientsDictionary['salt'] 
+        / allMass * 100).toFixed(2);
+
+    return nutrientsDictionary;
 }
 
 module.exports = {getNutrients};
