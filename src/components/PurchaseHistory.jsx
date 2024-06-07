@@ -6,6 +6,7 @@ import apiUrl from '../utils/apiUrl';
 import axios from 'axios';
 import { getSession } from '../controllers/sessionController';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from '../Router'
 
 /**
  * 
@@ -39,6 +40,8 @@ const HistoryItem = ({ meal, images, styles }) => {
 
 const PurchaseHistory = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
+    const userSession = getSession();
     const styles = createStyles();
     const [history, setHistory] = useState([]);
     const [images, setImages] = useState({});
@@ -48,7 +51,7 @@ const PurchaseHistory = () => {
         try {
             const response = await axios.get(`${apiUrl}/purchases`, {
                 headers: {
-                    Authorization: `Bearer ${getSession().token}`,
+                    Authorization: `Bearer ${userSession.token}`,
                 },
             });
             meals = response.data
@@ -82,6 +85,10 @@ const PurchaseHistory = () => {
     };
 
     useEffect(() => {
+        if (!userSession) {
+            navigate('/login');
+            return;
+        }
         loadHistory();
     }, []);
 
