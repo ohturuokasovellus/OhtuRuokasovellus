@@ -292,6 +292,7 @@ const createStyles = () => {
             width: '100%',
             height: 60,
             zIndex: 1000,
+            overflowX: 'auto',
         },
         navigationLink: {
             padding: 8,
@@ -299,6 +300,12 @@ const createStyles = () => {
             fontSize: 16,
             fontFamily: 'Roboto-Black',
             textTransform: 'uppercase',
+            textDecorationLine: 'none',
+            whiteSpace: 'nowrap',
+        },
+
+        activeNavigationLink: {
+            color: colors.primary,
         },
 
         // doughnut chart

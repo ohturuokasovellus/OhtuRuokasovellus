@@ -1,5 +1,5 @@
 import { NativeRouter as Router, Link, Routes,
-    Route, Navigate, useNavigate } from 'react-router-native';
+    Route, Navigate, useNavigate, useLocation } from 'react-router-native';
 
 export default Router;
 
@@ -8,5 +8,6 @@ export {
     Routes,
     Route,
     Navigate,
-    useNavigate
+    useNavigate,
+    useLocation
 };
