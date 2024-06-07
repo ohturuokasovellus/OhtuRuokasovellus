@@ -4,6 +4,7 @@ import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 
 const initTestDB = async () => {
+    await sql`SET client_min_messages TO WARNING`;
     await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
     const user = 'testi';
     const password = hash('Testi123!');
