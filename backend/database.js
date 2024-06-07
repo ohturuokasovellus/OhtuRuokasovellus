@@ -89,6 +89,22 @@ const getUser = async (username, password) => {
 };
 
 /**
+ * Check whether the given password matches the correct password of a user.
+ * @param {number} userId ID of the user whose password to check
+ * @param {string} password Hashed password
+ * @returns {Promise<boolean>} Whether the password is correct
+ */
+const checkPassword = async (userId, password) => {
+    const result = await sql`
+        SELECT password FROM users WHERE user_id = ${userId};
+    `;
+    if (result.length !== 1) {
+        return false;
+    }
+    return compareHashes(password, result[0].password);
+};
+
+/**
  * Get user id based on email.
  * @param {string} email
  * @returns {Promise<number|null>} - user id or null if not found
@@ -341,6 +357,7 @@ module.exports = {
     insertRestaurant,
     doesUsernameExist,
     getUser,
+    checkPassword,
     getUserIdByEmail,
     getRestaurantIdByUserId,
     doesEmailExist,
