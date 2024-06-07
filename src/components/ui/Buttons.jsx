@@ -78,8 +78,10 @@ const SmallButton = ({ onPress, text, styles, ...props }) => {
     );
 };
 
-/** Custom wrapper for navigation bar links. */
-const NavButton = ({ onPress, text, styles, ...props }) => {
+/** Custom wrapper for navigation bar buttons.
+ * Use only for toggles etc. actual buttons, not links.
+*/
+const NavButton = ({ styles, onPress, text, ...props }) => {
     return (
         <Pressable
             style={

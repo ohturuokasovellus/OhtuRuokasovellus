@@ -7,6 +7,7 @@ import { deleteSession } from '../controllers/sessionController';
 import { themeContext } from '../controllers/themeController';
 
 import { NavButton } from './ui/Buttons';
+import NavLink from './ui/NavigationLink';
 import LanguageSwitch from './ui/LanguageSwitch';
 import createStyles from '../styles/styles';
 
@@ -30,41 +31,41 @@ const NavigationBar = ({ user, updateUser }) => {
                 id='theme-toggle'
             />
             {user &&
-                    <NavButton
+                    <NavLink
                         styles={styles}
-                        onPress={() => navigate('/')}
+                        path='/'
                         text={t('HOME')}
                         id='navigation-home'
                     />
             }
             {!user &&
-                    <NavButton
+                    <NavLink
                         styles={styles}
-                        onPress={() => navigate('/login')}
+                        path='/login'
                         text={t('LOGIN')}
                         id='navigation-login'
                     />
             }
             {!user &&
-                    <NavButton
+                    <NavLink
                         styles={styles}
-                        onPress={() => navigate('/register')}
+                        path='/register'
                         text={t('REGISTER')}
                         id='navigation-register'
                     />
             }
             {user &&
-                    <NavButton
+                    <NavLink
                         styles={styles}
-                        onPress={() => navigate('/qr-form')}
+                        path='/qr-form'
                         text={t('QR_FORM')}
                         id='navigation-qr-form'
                     />
             }
             {(user && user.restaurantId) &&
-                    <NavButton
+                    <NavLink
                         styles={styles}
-                        onPress={() => navigate('/create-meal')}
+                        path='/create-meal'
                         text={t('ADD_A_MEAL')}
                         id='navigation-add-meal'
                     />

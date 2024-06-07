@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 import React, { useState, useContext } from 'react';
 import {
@@ -50,15 +51,31 @@ const Layout = () => {
 
     const sliceColor = [colors.primary, colors.secondary, colors.tertiary];
 
+    const meal = {
+        energy: 72,
+        protein: 1.3,
+        carbohydrates: 14.8,
+        fat: 0.3,
+        sugar: 8.2,
+        fiber: 1,
+        saturated_fat: 0.1,
+        salt: 138.3,
+        meal_name: 'meal name',
+        meal_allergens: 'kaito, kananmuna',
+        co2_emissions: '5',
+        image: require('./example.jpg'),
+        meal_description: loremIpsum
+    };
+
     const nutritionData = {
         energy: 72,
         protein: 1.3,
-        carbs: 14.8,
+        carbohydrates: 14.8,
         fat: 0.3,
-        sugars: 8.2,
+        sugar: 8.2,
         fiber: 1,
-        saturatedFat: 0.1,
-        salt: 138.3
+        saturated_fat: 0.1,
+        salt: 138.3,
     };
 
     const renderBoxes = (currentTheme) => {
@@ -179,15 +196,10 @@ const Layout = () => {
                 />
                 <MealCard
                     styles={styles}
-                    imgURI={require('./example.jpg')}
-                    title={'meal card title'}
-                    body={loremIpsum}
+                    meal={meal}
                     onPress={() => {}}
                     isSelected={true}
                     sliceColor={sliceColor}
-                    co2={'CO2'}
-                    allergens={['maito', 'kala']}
-                    nutrition={nutritionData}
                 />
 
                 {/* theme colours */}
