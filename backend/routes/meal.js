@@ -1,6 +1,6 @@
 const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
-    sql } = require('../database');
+    getMealRestaurantId, sql } = require('../database');
 const jwt = require('jsonwebtoken');
 const { verifyToken } = require('../services/authorization');
 
@@ -127,12 +127,14 @@ router.get('/api/meals/:restaurantId', async (req, res) => {
     res.json(result);
 });
 
-router.get('/api/meals/delete/:mealId', express.json(), async (req, res) => {
-    console.log(req.params.mealId);
-    const userInfo = verifyToken(req.header('Authorization'));
-    if (!userInfo) {
+router.put('/api/meals/delete/:mealId', express.json(), async (req, res) => {
+    const result = await getMealRestaurantId(req.params.mealId);
+    const userInfo = verifyToken(req.body.headers.Authorization);
+    if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
         return res.status(401).send('Unauthorized');
     }
+    res.sendStatus(200);
+
 });
 
 module.exports = router;

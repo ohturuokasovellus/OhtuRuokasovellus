@@ -93,6 +93,11 @@ const createStyles = () => {
             color: colors.outline,
             fontFamily: 'Roboto-Regular',
         },
+        underline: {
+            borderBottomWidth: 1,
+            borderBottomColor: 'lightgray',
+            marginVertical: 8,
+        },
 
         // buttons
         button: {
@@ -381,6 +386,48 @@ const createStyles = () => {
             fontSize: 14,
             fontFamily: 'Roboto-Thin',
             color: colors.onPrimaryContainer,
+        },
+
+        // Meal list
+        mealContainer: {
+            marginVertical: 8,
+            borderWidth: 1,
+            borderColor: 'lightgray',
+            borderRadius: 8,
+        },
+        mealContent: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingHorizontal: 16,
+            paddingVertical: 8,
+        },
+        mealListContainer: {
+            maxHeight: 400,
+        },
+
+        // Modal
+        modalContainer: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        },
+        modalContent: {
+            width: 300,
+            padding: 20,
+            backgroundColor: 'white',
+            borderRadius: 10,
+            alignItems: 'center',
+        },
+        modalText: {
+            fontSize: 18,
+            marginBottom: 20,
+        },
+        modalButtons: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%',
         },
     });
 };
