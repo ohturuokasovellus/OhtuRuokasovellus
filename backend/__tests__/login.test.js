@@ -10,7 +10,7 @@ describe('login api', () => {
 
     test('login fails with incorrect username', async () => {
         postgresMock.setSqlResults([
-            [undefined],
+            [],
         ]);
 
         await request(app)
@@ -24,8 +24,18 @@ describe('login api', () => {
     });
 
     test('login fails with incorrect password', async () => {
+        // hash of Testi123@
+        const password =
+            '7b9961d78d9c99ddf6ff0eabded3ebcad6a3c29e5dccdb140423beea82c6593f';
         postgresMock.setSqlResults([
-            [undefined],
+            [{
+                // eslint-disable-next-line camelcase
+                user_id: 7,
+                username: 'testi',
+                password,
+                // eslint-disable-next-line camelcase
+                restaurant_id: null,
+            }],
         ]);
 
         await request(app)
@@ -38,9 +48,9 @@ describe('login api', () => {
         expect(postgresMock.runSqlCommands().length).toBe(1);
     });
 
-    test('login fails with incorrent username password', async () => {
+    test('login fails with incorrent username and password', async () => {
         postgresMock.setSqlResults([
-            [undefined],
+            [],
         ]);
 
         await request(app)
@@ -62,7 +72,8 @@ describe('login api', () => {
                 user_id: 7,
                 username: 'testi',
                 password,
-                email: 'testi@gmail.com'
+                // eslint-disable-next-line camelcase
+                restaurant_id: null,
             }],
         ]);
 
