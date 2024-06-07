@@ -50,6 +50,7 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
         fiber: meal.fiber,
         saturatedFat: meal.saturated_fat,
         salt: meal.salt,
+        vegetablePercent: meal.vegetable_percent
     };
 
     const series = [
@@ -110,8 +111,6 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
         );
     };
 
-    const nutri = Nutriscore(nutrition);
-
     return (
         <View style={styles.cardContainer}>
             <PressableImageContainer />
@@ -146,7 +145,7 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
                             styles={styles}
                             nutrition={nutrition}
                         />
-                        {nutri}
+                        {Nutriscore(nutrition)}
                     </View>
                 )}
             </View>

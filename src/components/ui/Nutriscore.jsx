@@ -129,6 +129,20 @@ const Nutriscore = (nutrition) => {
         break;
     }
 
+    switch(nutrition.vegetablePercent) {
+    case nutrition.vegetablePercent > 80:
+        positivePoints += 5;
+        break;
+    case nutrition.vegetablePercent > 60:
+        positivePoints += 2;
+        break;
+    case nutrition.vegetablePercent > 40:
+        positivePoints += 1;
+        break;
+    default:
+        break;
+    }
+
     switch(nutrition.fiber) {
     case nutrition.fiber > 4.5:
         positivePoints += 5;

@@ -36,6 +36,12 @@ async function getIngredients(csvFilePath){
     });
 }
 
+/**
+ * Returns all names that are in the vegetables or fruits and berries
+ * category.
+ * @param {string} csvFilePath 
+ * @returns 
+ */
 async function getVegetablesAndFruits(csvFilePath){
     const csvFile = filesystem.createReadStream(csvFilePath);
     return new Promise(resolve => {
