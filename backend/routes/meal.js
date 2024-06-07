@@ -2,6 +2,7 @@ const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
     sql } = require('../database');
 const jwt = require('jsonwebtoken');
+const { verifyToken } = require('../services/authorization');
 
 const router = express.Router();
 
@@ -124,6 +125,14 @@ router.get('/api/meals/:restaurantId', async (req, res) => {
         return res.status(404).json('Page not found');
     }
     res.json(result);
+});
+
+router.get('/api/meals/delete/:mealId', express.json(), async (req, res) => {
+    console.log(req.params.mealId);
+    const userInfo = verifyToken(req.header('Authorization'));
+    if (!userInfo) {
+        return res.status(401).send('Unauthorized');
+    }
 });
 
 module.exports = router;
