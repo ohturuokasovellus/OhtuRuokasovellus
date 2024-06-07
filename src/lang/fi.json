@@ -63,6 +63,7 @@
         "DELETE": "poista",
         "BUY": "Osta",
         "PURCHASE_CONFIRMED": "Osto varmistettu",
-        "FAILED_TO_LOAD_MEAL": "Annoksen lataus epäonnistui"
+        "FAILED_TO_LOAD_MEAL": "Annoksen lataus epäonnistui",
+        "MEAL_HISTORY": "Ateriahistoria"
     }
 }
