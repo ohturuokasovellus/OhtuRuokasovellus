@@ -6,7 +6,7 @@ import apiUrl from '../utils/apiUrl';
 import axios from 'axios';
 import { getSession } from '../controllers/sessionController';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from '../Router'
+import { useNavigate } from '../Router';
 
 /**
  * 
