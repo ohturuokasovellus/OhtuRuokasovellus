@@ -95,7 +95,7 @@ describe('POST /api/add-users', () => {
         ]);
     });
 
-    /*test('handles error during email existence check', async () => {
+    test('handles error during email existence check', async () => {
         // hash of "password"
         const password =
             '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
@@ -128,15 +128,18 @@ describe('POST /api/add-users', () => {
                 status: 'error checking email existence'
             }
         ]);
-    });*/
+    });
 
-    /*test('handles error during updating user', async () => {
+    test('handles error during updating user', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
         postgresMock.setSqlResults([
             [{
                 // eslint-disable-next-line camelcase
                 user_id: 1,
                 username: 'testuser',
-                password: 'password',
+                password,
                 // eslint-disable-next-line camelcase
                 restaurant_id: 123
             }], // getUser
@@ -164,7 +167,7 @@ describe('POST /api/add-users', () => {
                 status: 'failed to update user with email error@example.com'
             }
         ]);
-    });*/
+    });
 
     test('adds users successfully', async () => {
         // hash of "password"

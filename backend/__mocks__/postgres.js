@@ -52,7 +52,11 @@ const connect = () => {
      */
     return (sql, ...values) => {
         runSqlCommands.push({ sql, values });
-        return sqlResults.shift();
+        const returnValue = sqlResults.shift();
+        if (returnValue instanceof Error) {
+            throw returnValue;
+        }
+        return returnValue;
     };
 };
 
