@@ -25,7 +25,7 @@ const Home = (props) => {
     const fetchMeals = async () => {
         try {
             const response = await axios.get(
-                `${apiUrl}/meals/${restaurantId}`,
+                `${apiUrl}/meals/${props.user.restaurantId}`,
             );
             const responseMeals = response.data;
             setMeals(responseMeals);

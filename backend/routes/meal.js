@@ -143,8 +143,12 @@ router.put('/api/meals/delete/:mealId', express.json(), async (req, res) => {
     if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
         return res.status(401).send('Unauthorized');
     }
+    
+    const setToInactive = await setMealInactive(mealId);
+    if (!setToInactive) {
+        return res.status(500).json({ errorMessage: 'Meal deletion failed' });
+    }
 
-    await setMealInactive(mealId);
     res.status(200).json('Meal deleted');
 });
 
