@@ -51,9 +51,14 @@ async function getVegetablesAndFruits(csvFilePath){
             worker: true, // Don't bog down the main thread if its a big file
             step: function(result) {
                 //skip column names, first word of the line is 'id' or id number
-                if (result.data.at(0) != 'id' && result.data.at(2) != 'name') { 
+                if (result.data.at(0) != 'id' && result.data.at(2) != 'name') {
+                    // check if ingredient is a vegetable, used for calculating
+                    // nutriscore. Carbohydrates can be found in meat in very
+                    // small quantaties, but I don't think meats can be
+                    // considered as sources of carbohydrates
                     if(result.data.at(1) == 'vihannekset' || 
-                        result.data.at(1) == 'hedelmät ja marjat') {
+                        result.data.at(1) == 'hedelmät ja marjat' ||
+                        result.data.at(1) == 'hiilihydraattien lähteet') {
                         vegetablesAndFruits.push(result.data.at(2));
                     }
                 }
