@@ -91,7 +91,7 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
                     <Text style={styles.cardTextBold}>
                         {t('CO2_EMISSIONS')}:
                     </Text>
-                    {` ${meal.co2_emissions}g`}
+                    {` ${meal.co2_emissions} g${t('PER_PORTION')}`}
                 </Text>
             </View>
         );

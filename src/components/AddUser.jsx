@@ -161,11 +161,11 @@ const AddUser = (props) => {
         try {
             const response = await axios.post(
                 `${apiUrl}/add-users`,
+                { emails, password },
                 {
-                    emails,
-                    restaurantId: user.restaurantId,
-                    username: user.username,
-                    password
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
                 }
             );
             setResults(response.data.results);
