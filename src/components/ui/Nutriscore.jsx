@@ -15,30 +15,30 @@ import { CalculateNutriScore } from '../../utils/calculateNutriScore';
 const Nutriscore = (nutrition, styles) => {
     const nutriScore = CalculateNutriScore(nutrition);
     const scoreColors = {
-        A: '#038C3E',
-        B: '#8FBF26',
-        C: '#F2B705',
-        D: '#F27405',
-        E: '#D92414',
+        ScoreA: '#038C3E',
+        ScoreB: '#8FBF26',
+        ScoreC: '#F2B705',
+        ScoreD: '#F27405',
+        ScoreE: '#D92414',
     };
 
     let score;
     let color;
 
     if (nutriScore < 0) {
-        score = 'A';
+        score = 'ScoreA';
         color = scoreColors.A;
     } else if (nutriScore < 3) {
-        score = 'B';
+        score = 'ScoreB';
         color = scoreColors.B;
     } else if (nutriScore < 11) {
-        score = 'C';
+        score = 'ScoreC';
         color = scoreColors.C;
     } else if (nutriScore < 19) {
-        score = 'D';
+        score = 'ScoreD';
         color = scoreColors.D;
     } else {
-        score = 'E';
+        score = 'ScoreE';
         color = scoreColors.E;
     }
 
