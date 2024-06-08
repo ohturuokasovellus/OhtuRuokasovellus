@@ -2,11 +2,6 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { CalculateNutriScore } from '../../utils/calculateNutriScore';
 
-// Next developer, heed my warning: switch statements that use
-// < or > cant be used in javascript... or at least they wont 
-// make anything faster :(
-// ↑ RIP ): /merz
-
 /** Wrapper for Nutriscore
  * https://en.wikipedia.org/wiki/Nutri-Score
  * @param {Object} nutrition meal item including nutritional info, image, etc.

@@ -1,5 +1,9 @@
+// Next developer, heed my warning: switch statements that use
+// < or > cant be used in javascript... or at least they wont 
+// make anything faster :(
+
 /**
- * 
+ * Calculates a Nutri-Score from given nutritional data
  * @param {Dictionary} nutrition 
  * @returns {number} nutriScore
  */
