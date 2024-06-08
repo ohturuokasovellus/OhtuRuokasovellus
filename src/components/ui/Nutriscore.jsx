@@ -46,7 +46,8 @@ const Nutriscore = (nutrition, styles) => {
                     { backgroundColor: color }
                 ]}
             >
-                <Text style={styles.nutriscoreScore} id='nutri-score'>{score}</Text>
+                <Text style={styles.nutriscoreScore} 
+                    id='nutri-score'>{score}</Text>
             </View>
         </View>
     );
