@@ -1,6 +1,6 @@
 const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
-    getMealRestaurantId, sql } = require('../database');
+    getMealRestaurantId, setMealInactive, sql } = require('../database');
 const jwt = require('jsonwebtoken');
 const { verifyToken } = require('../services/authorization');
 
@@ -127,14 +127,25 @@ router.get('/api/meals/:restaurantId', async (req, res) => {
     res.json(result);
 });
 
+/**
+ * Route for setting a meal to inactive.
+ * @param {Object} req - The request object.
+ * @param {number} req.params.mealid - meal id.
+ * @param {Object} res - The response object.
+ * @returns {Object} 401 - Unauthorized.
+ * @returns {Object} 200 - Success status.
+ */
 router.put('/api/meals/delete/:mealId', express.json(), async (req, res) => {
-    const result = await getMealRestaurantId(req.params.mealId);
-    const userInfo = verifyToken(req.body.headers.Authorization);
+    const mealId = req.params.mealId;
+    const result = await getMealRestaurantId(mealId);
+    const userInfo = verifyToken(req.header('Authorization'));
+
     if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
         return res.status(401).send('Unauthorized');
     }
-    res.sendStatus(200);
 
+    await setMealInactive(mealId);
+    res.status(200).json('Meal deleted');
 });
 
 module.exports = router;

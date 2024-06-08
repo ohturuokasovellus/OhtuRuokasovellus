@@ -63,6 +63,10 @@
         "DELETE": "delete",
         "BUY": "Buy",
         "PURCHASE_CONFIRMED": "Purchase confirmed",
-        "FAILED_TO_LOAD_MEAL": "Failed to load the meal"
+        "FAILED_TO_LOAD_MEAL": "Failed to load the meal",
+        "MANAGE_RESTAURANT_MEALS": "Manage restaurant meals",
+        "NO_MEALS": "No meals.",
+        "CANCEL": "Cancel",
+        "CONFIRM_DELETE": "Delete meal?"
     }
 }

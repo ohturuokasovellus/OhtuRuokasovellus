@@ -36,7 +36,8 @@ CREATE TABLE meals (
     sugar NUMERIC, -- in grams
     salt NUMERIC, -- in milligrams
     saturated_fat NUMERIC,
-    energy NUMERIC -- in kilojoules
+    energy NUMERIC, -- in kilojoules
+    is_active BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE purchases (

@@ -22,17 +22,12 @@ const Home = (props) => {
     const styles = createStyles();
     const userSession = getSession();
 
-    const username = props.user.username;
-    const restaurantId = props.user.restaurantId;
-    const isRestaurantUser = restaurantId !== null;
-
     const fetchMeals = async () => {
         try {
             const response = await axios.get(
                 `${apiUrl}/meals/${restaurantId}`,
             );
             const responseMeals = response.data;
-            console.log(responseMeals);
             setMeals(responseMeals);
         } catch (err) {
             console.error(err);
@@ -42,10 +37,11 @@ const Home = (props) => {
     useEffect(() => {
         if (!props.user) {
             navigate('/login');
-        } else {
-            fetchSurveyUrl(setSurveyUrl, setLoading);
+            return;
         }
-        if (isRestaurantUser) {
+        fetchSurveyUrl(setSurveyUrl, setLoading);
+
+        if (props.user.restaurantId) {
             fetchMeals();
         }
     }, [props.user, navigate]);
@@ -60,13 +56,14 @@ const Home = (props) => {
         try {
             await axios.put(
                 `${apiUrl}/meals/delete/${mealToDelete}`,
+                {},
                 {
                     headers: {
                         Authorization: `Bearer ${userSession.token}`,
                     },
                 }
             );
-            setMeals(meals.filter(meal => meal.id !== mealToDelete));
+            setMeals(meals.filter(meal => meal.meal_id !== mealToDelete));
         } catch (err) {
             console.error(err);
         }
@@ -74,6 +71,9 @@ const Home = (props) => {
         setShowModal(false);
     };
 
+    const username = props.user.username;
+    const restaurantId = props.user.restaurantId;
+    const isRestaurantUser = restaurantId !== null;
 
     return (
         <ScrollView style={styles.background}>
@@ -102,7 +102,7 @@ const Home = (props) => {
                             id='restaurant-page-button'
                         />
                         <ScrollView style={styles.mealListContainer}>
-                            <Text style={styles.h2}>
+                            <Text style={styles.h3}>
                                 {t('MANAGE_RESTAURANT_MEALS')}
                             </Text>
                             {meals.length > 0 ? (
