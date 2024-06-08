@@ -1,5 +1,6 @@
 const filesystem = require('fs');
 const papa = require('papaparse');
+const { getVegetablesAndFruits }  = require('../services/getIngredients');
 
 /**
  * 
@@ -55,30 +56,78 @@ function calculateNutrientsForIngredient(mass, ingredientNutrients,
  */
 async function getNutrients(mealIngredients, csvPathName){
     const csvFile = filesystem.createReadStream(csvPathName);
+
+    // find every ingredient name that belongs to the vegetables or fruits
+    // category.
+    const vegetablesAndFruits = await getVegetablesAndFruits(csvPathName);
+
     return new Promise(resolve => {
         let nutrientsDictionary = {'energy': 0, 'fat': 0,  'saturatedFat': 0, 
             'carbohydrates':0, 'sugar': 0, 'fiber': 0, 'protein': 0, 
-            'salt': 0, 'co2Emissions': 0};
+            'salt': 0, 'co2Emissions': 0, 'vegetablePercent': 0, 'mealMass': 0};
+        
+        let vegetableMass = 0;
 
         papa.parse(csvFile, {
             worker: true, // Don't bog down the main thread if its a big file
             step: function(result) {
                 if (result.data.at(0) != 'id') { // skip column names, 
-                    //first word of the line is 'id' or a id number
+                    // first word of a line is 'id' or a id number
                     
                     if(result.data.at(0) in mealIngredients) { // check if
                         // ingredient id is found in the mealIngredients
-                        calculateNutrientsForIngredient(
-                            mealIngredients[result.data.at(0)], 
+                        const mass = mealIngredients[result.data.at(0)];
+                        nutrientsDictionary['mealMass'] += Number(mass);
+
+                        // if ingredient name is found in vegetablesAndFruits
+                        if(vegetablesAndFruits.includes(result.data.at(2))){
+                            vegetableMass += mealIngredients[result.data.at(0)];
+                        }
+
+                        calculateNutrientsForIngredient(mass, 
                             result.data, nutrientsDictionary);
                     }
                 }
             },
             complete: function() {
+                const mealMass = nutrientsDictionary['mealMass'];
+                const vegetablePercent = (vegetableMass / mealMass 
+                    * 100).toFixed(2);
+                nutrientsDictionary['vegetablePercent'] = vegetablePercent;
+
+                nutrientsDictionary = updateNutrients(nutrientsDictionary);
+               
                 resolve(nutrientsDictionary);
             }
         });
     });
+}
+
+function updateNutrients(nutrientsDictionary){
+    const allMass = nutrientsDictionary['mealMass'];
+
+    // we have thus far saved all the nutrients in the meal,
+    // so now we have to save the nutrients to be per 100g
+    // nutrients / 100g = allNutrients / allMass
+    // nutrients = allNutrients / allMass * 100g
+    nutrientsDictionary['energy'] = (nutrientsDictionary['energy'] 
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['fat'] = (nutrientsDictionary['fat'] 
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['saturatedFat'] = (nutrientsDictionary['saturatedFat'] 
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['carbohydrates'] = (nutrientsDictionary['carbohydrates']
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['sugar'] = (nutrientsDictionary['sugar'] 
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['fiber'] = (nutrientsDictionary['fiber'] 
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['protein'] = (nutrientsDictionary['protein'] 
+        / allMass * 100).toFixed(2);
+    nutrientsDictionary['salt'] = (nutrientsDictionary['salt'] 
+        / allMass * 100).toFixed(2);
+
+    return nutrientsDictionary;
 }
 
 module.exports = {getNutrients};

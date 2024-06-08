@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import DoughnutChart from './DoughnutChart';
 import { ButtonVariant } from './Buttons';
 import NutritionalValues from './NutritionalValuesContainer';
+import { Nutriscore } from './Nutriscore';
 
 /** Custom wrapper for cards with images
  * @param {object} styles styles passed from the global stylesheet
@@ -49,6 +50,7 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
         fiber: meal.fiber,
         saturatedFat: meal.saturated_fat,
         salt: meal.salt,
+        vegetablePercent: meal.vegetable_percent
     };
 
     const series = [
@@ -89,7 +91,7 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
                     <Text style={styles.cardTextBold}>
                         {t('CO2_EMISSIONS')}:
                     </Text>
-                    {` ${meal.co2_emissions} g/100g`}
+                    {` ${meal.co2_emissions} g${t('PER_PORTION')}`}
                 </Text>
             </View>
         );
@@ -143,6 +145,7 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
                             styles={styles}
                             nutrition={nutrition}
                         />
+                        {Nutriscore(nutrition)}
                     </View>
                 )}
             </View>

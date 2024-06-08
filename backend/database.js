@@ -215,15 +215,19 @@ const insertMeal = async (name, restaurantId, mealDescription,
     const saturatedFat = nutrientDictionary['saturatedFat'];
     const energy = nutrientDictionary['energy'];
 
+    const mealMass = nutrientDictionary['mealMass'];
+    const vegetablePercent = Math.floor(nutrientDictionary['vegetablePercent']);
+
     const purchaseCode = generatePurchaseCode();
 
     const result = await sql`
         INSERT INTO meals (name, restaurant_id, purchase_code, meal_description,
             co2_emissions, meal_allergens, carbohydrates, protein, fat, 
-            fiber, sugar, salt, saturated_fat, energy)
+            fiber, sugar, salt, saturated_fat, energy, mass, vegetable_percent)
         VALUES (${name}, ${restaurantId}, ${purchaseCode}, ${mealDescription},
             ${co2Emissions}, ${mealAllergens}, ${carbohydrates}, ${protein},
-            ${fat}, ${fiber}, ${sugar}, ${salt}, ${saturatedFat}, ${energy})
+            ${fat}, ${fiber}, ${sugar}, ${salt}, ${saturatedFat}, ${energy}, 
+            ${mealMass}, ${vegetablePercent})
             RETURNING meal_id;`;
 
     return result.at(0).meal_id;
@@ -268,7 +272,7 @@ const getMeals = async (restaurantId) => {
     const result = await sql`
        SELECT m.meal_id, m.name as meal_name, m.image, m.meal_description, 
        m.co2_emissions, m.meal_allergens, m.carbohydrates, m.protein, m.fat,
-       m.fiber, m.sugar, m.salt, m.saturated_fat, m.energy,
+       m.fiber, m.sugar, m.salt, m.saturated_fat, m.energy, m.vegetable_percent,
        CASE 
            WHEN r.restaurant_id IS NOT NULL THEN r.name 
            ELSE NULL 
