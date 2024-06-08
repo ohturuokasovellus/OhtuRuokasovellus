@@ -21,20 +21,20 @@ const Nutriscore = (nutrition, styles) => {
     let color;
 
     if (nutriScore < 0) {
-        score = 'ScoreA';
-        color = scoreColors.A;
+        score = 'A';
+        color = scoreColors.ScoreA;
     } else if (nutriScore < 3) {
-        score = 'ScoreB';
-        color = scoreColors.B;
+        score = 'B';
+        color = scoreColors.ScoreB;
     } else if (nutriScore < 11) {
-        score = 'ScoreC';
-        color = scoreColors.C;
+        score = 'C';
+        color = scoreColors.ScoreC;
     } else if (nutriScore < 19) {
-        score = 'ScoreD';
-        color = scoreColors.D;
+        score = 'D';
+        color = scoreColors.ScoreD;
     } else {
-        score = 'ScoreE';
-        color = scoreColors.E;
+        score = 'E';
+        color = scoreColors.ScoreE;
     }
 
     return (
@@ -46,7 +46,7 @@ const Nutriscore = (nutrition, styles) => {
                     { backgroundColor: color }
                 ]}
             >
-                <Text style={styles.nutriscoreScore}>{score}</Text>
+                <Text style={styles.nutriscoreScore} id='nutri-score'>{score}</Text>
             </View>
         </View>
     );

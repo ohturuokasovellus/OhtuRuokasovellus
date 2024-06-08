@@ -32,7 +32,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
             </View>
             <View style={styles.nutritionalValueSubValueContainer}>
                 <Text style={styles.nutritionalValueSubLabel}>
-                    {t('OF_WHICH_SATURATES')}:
+                    {t('OF_WHICH_SATURATED')}:
                 </Text>
                 <Text style={styles.nutritionalValueLabel}>
                     {Number(nutrition.saturatedFat).toFixed(1)} g
