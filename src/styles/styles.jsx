@@ -432,43 +432,29 @@ const createStyles = () => {
             backgroundColor: colors.primary,
         },
 
-        // Nutri-score labels
-        backgroundA: {
-            height: '100%',
-            width: '5%',
-            backgroundColor: 'green',
-        },
-        backgroundB: {
-            height: '100%',
-            width: '5%',
-            backgroundColor: 'lightgreen',
-        },
-        backgroundC: {
-            height: '100%',
-            width: '5%',
-            backgroundColor: 'yellow',
-        },
-        backgroundD: {
-            height: '100%',
-            width: '5%',
-            backgroundColor: 'orange',
-        },
-        backgroundE: {
-            height: '100%',
-            width: '5%',
-            backgroundColor: 'red',
-        },
-        nutriScoreText: {
-            fontWeight: 'bold', 
-            textAlignVertical: 'center',
-            textAlign: 'center',
-            fontFamily: 'Roboto-Bold',
-            color: colors.onSurfaceVariant,
-        },
-        nutriScoreBackground: {
-            display: 'flex', 
+        // nutriscore
+        nutriscoreContainer: {
+            margin: 8,
             flexDirection: 'row',
-            backgroundColor: colors.primaryContainer,
+            alignItems: 'center',
+        },
+        nutriscoreText: {
+            fontFamily: 'Roboto-Bold',
+            fontSize: 16,
+            color: colors.onSurfaceVariant,
+            marginRight: 8,
+        },
+        nutriscoreScoreContainer: {
+            height: 30,
+            width: 30,
+            borderRadius: 8,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        nutriscoreScore: {
+            fontFamily: 'Roboto-Black',
+            fontSize: 18,
+            color: '#fff',
         },
     });
 };
