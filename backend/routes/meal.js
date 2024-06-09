@@ -1,18 +1,10 @@
 const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
-    sql } = require('../database');
-const jwt = require('jsonwebtoken');
-const {getNutrients}  = require('../services/calculateNutrients');
+    getMealRestaurantId, setMealInactive, sql } = require('../database');
+const { verifyToken } = require('../services/authorization');
+const { getNutrients }  = require('../services/calculateNutrients');
 
 const router = express.Router();
-
-const getTokenFrom = request => {
-    const authorization = request.get('authorization');
-    if (authorization && authorization.startsWith('Bearer ')) {
-        return authorization.replace('Bearer ', '');
-    }
-    return null;
-};
 
 /**
  * Route for adding meal.
@@ -34,9 +26,8 @@ router.post('/api/meals', express.json(), async (req, res) => {
     } = req.body;
     // Token decoding from 
     // https://fullstackopen.com/en/part4/token_authentication
-    const decodedToken = jwt.verify(getTokenFrom(req), 
-        process.env.SECRET_KEY);
-    
+    const decodedToken = verifyToken(req.header('Authorization'));
+        
     if (!decodedToken.userId) {
         return res.status(401).json({ error: 'token invalid' });
     }
@@ -58,7 +49,6 @@ router.post('/api/meals', express.json(), async (req, res) => {
     ingredients.forEach(element => {
         mealIngredients[element.mealId] = element.weight;
     });
-    
     const nutrients = await getNutrients(mealIngredients, 
         'backend/csvFiles/raaka-ainetiedot.csv');
 
@@ -141,6 +131,31 @@ router.get('/api/meals/:restaurantId', async (req, res) => {
         return res.status(404).json('Page not found');
     }
     res.json(result);
+});
+
+/**
+ * Route for setting a meal to inactive.
+ * @param {Object} req - The request object.
+ * @param {number} req.params.mealid - meal id.
+ * @param {Object} res - The response object.
+ * @returns {Object} 401 - Unauthorized.
+ * @returns {Object} 200 - Success status.
+ */
+router.put('/api/meals/delete/:mealId', express.json(), async (req, res) => {
+    const mealId = req.params.mealId;
+    const result = await getMealRestaurantId(mealId);
+    const userInfo = verifyToken(req.header('Authorization'));
+
+    if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
+        return res.status(401).send('Unauthorized');
+    }
+    
+    const setToInactive = await setMealInactive(mealId);
+    if (!setToInactive) {
+        return res.status(500).json({ errorMessage: 'Meal deletion failed' });
+    }
+
+    res.status(200).json('Meal deleted');
 });
 
 module.exports = router;

@@ -55,7 +55,6 @@ test.describe('meal creation page', () => {
             await expect(page).toHaveURL(/\/login$/);
 
             await page.goto('/create-meal');
-            // await page.waitForURL(/\/create-meal$/);
             await expect(page).toHaveURL(/\/login$/);
         });
 

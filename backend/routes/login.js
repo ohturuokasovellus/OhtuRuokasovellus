@@ -24,7 +24,9 @@ router.post('/api/login', async (req, res) => {
             .status(200)
             .send(
                 {
-                    token: createToken(user.username, user.userId),
+                    token: createToken(
+                        user.username, user.userId, user.restaurantId
+                    ),
                     username: user.username,
                     restaurantId: user.restaurantId,
                     message: 'Login succesful'

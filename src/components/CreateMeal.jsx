@@ -389,7 +389,7 @@ const CreateMeal = (props) => {
                 `${apiUrl}/meals`,
                 { mealName, mealDescription, ingredients, mealAllergenString },
                 {
-                    headers: { Authorization: 'Bearer ' + getSession().token }
+                    headers: { Authorization: `Bearer ${getSession().token}` }
                 }
             );
             const mealId = response.data.mealId;

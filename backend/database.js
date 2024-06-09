@@ -279,7 +279,7 @@ const getMeals = async (restaurantId) => {
        END as restaurant_name 
        FROM meals m
        LEFT JOIN restaurants r ON m.restaurant_id = r.restaurant_id
-       WHERE m.restaurant_id = ${restaurantId};
+       WHERE m.restaurant_id = ${restaurantId} AND m.is_active = TRUE;
    `;
     return result;
 };
@@ -358,22 +358,46 @@ const addPurchase = async (userId, purchaseCode) => {
 };
 
 /**
+ * Get restaurantId of the meal.
+ * @param {number} mealId
+ * @returns {Promise<Number>} restaurant_id
+ */
+const getMealRestaurantId = async (mealId) => {
+    const result = await sql`
+        SELECT restaurant_id FROM meals where meal_id = ${mealId}
+    `;
+    return result.at(0);
+};
+
+/**
  * Fetch all purchases of a single user.
  * @param {number} userId The ID of the user whose purchases to return.
  * @returns {Promise<{ date: string, mealId: number, mealName: string }[]>}
  *  All of the purchases of the user. Date is in ISO8601 format.
- */
+*/
 const getPurchases = async userId => {
     const result = await sql`
-        SELECT p.purchased_at, m.name, m.meal_id
-        FROM purchases AS p, meals AS m
-        WHERE p.user_id = ${userId} AND p.meal_id = m.meal_id
+    SELECT p.purchased_at, m.name, m.meal_id
+    FROM purchases AS p, meals AS m
+    WHERE p.user_id = ${userId} AND p.meal_id = m.meal_id
     `;
     return result.map(row => ({
         date: row.purchased_at,
         mealId: row.meal_id,
         mealName: row.name,
     }));
+};
+
+/**
+ * Set meal to inactive.
+ * @param {number} mealId
+ * @returns {Promise<Boolean>} true if success
+ */
+const setMealInactive = async (mealId) => {
+    const result = await sql`
+        UPDATE meals SET is_active = FALSE WHERE meal_id = ${mealId}
+    `;
+    return result.count === 1;
 };
 
 module.exports = {
@@ -396,5 +420,7 @@ module.exports = {
     getSurveyUrl,
     updateUserRestaurantByEmail,
     addPurchase,
+    getMealRestaurantId,
     getPurchases,
+    setMealInactive,
 };

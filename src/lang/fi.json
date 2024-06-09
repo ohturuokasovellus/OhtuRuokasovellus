@@ -90,6 +90,10 @@
         "BUY": "Osta",
         "PURCHASE_CONFIRMED": "Osto varmistettu",
         "FAILED_TO_LOAD_MEAL": "Annoksen lataus epäonnistui",
+        "MANAGE_RESTAURANT_MEALS": "Muokkaa ravintolan aterioita",
+        "NO_MEALS": "Ei aterioita.",
+        "CANCEL": "Peruuta",
+        "CONFIRM_DELETE": "Poista ateria?",
         "MEAL_HISTORY": "Ateriahistoria"
     }
 }

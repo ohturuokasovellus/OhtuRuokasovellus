@@ -38,7 +38,8 @@ CREATE TABLE meals (
     saturated_fat NUMERIC,
     energy NUMERIC, -- in kilojoules
     mass NUMERIC,
-    vegetable_percent INT
+    vegetable_percent INT,
+    is_active BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE purchases (
