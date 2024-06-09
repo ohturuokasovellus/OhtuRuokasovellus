@@ -431,6 +431,31 @@ const createStyles = () => {
         checkedIcon: {
             backgroundColor: colors.primary,
         },
+
+        // nutriscore
+        nutriscoreContainer: {
+            margin: 8,
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        nutriscoreText: {
+            fontFamily: 'Roboto-Bold',
+            fontSize: 16,
+            color: colors.onSurfaceVariant,
+            marginRight: 8,
+        },
+        nutriscoreScoreContainer: {
+            height: 30,
+            width: 30,
+            borderRadius: 8,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        nutriscoreScore: {
+            fontFamily: 'Roboto-Black',
+            fontSize: 18,
+            color: '#fff',
+        },
     });
 };
 

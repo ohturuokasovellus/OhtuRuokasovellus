@@ -145,7 +145,7 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
                             styles={styles}
                             nutrition={nutrition}
                         />
-                        {Nutriscore(nutrition)}
+                        {Nutriscore(nutrition, styles)}
                     </View>
                 )}
             </View>
