@@ -75,6 +75,8 @@ const Home = (props) => {
     const restaurantId = props.user.restaurantId;
     const isRestaurantUser = restaurantId !== null;
 
+    const deleteMealButtonId = (index) => `delete-meal-button-${index}`;
+
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
@@ -106,7 +108,7 @@ const Home = (props) => {
                                 {t('MANAGE_RESTAURANT_MEALS')}
                             </Text>
                             {meals.length > 0 ? (
-                                meals.map((meal) => (
+                                meals.map((meal, index) => (
                                     <View key={meal.meal_id} 
                                         style={styles.mealContainer}
                                     >
@@ -124,8 +126,7 @@ const Home = (props) => {
                                                 }
                                                 }
                                                 text={t('DELETE')}
-                                                id={`delete-meal-button-
-                                                    ${meal.meal_id}`}
+                                                id={deleteMealButtonId(index)}
                                             />
                                         </View>
                                     </View>
@@ -164,9 +165,11 @@ const Home = (props) => {
                         <View style={styles.modalButtons}>
                             <Button styles={styles} text={t('CANCEL')}
                                 onPress={() => setShowModal(false)}
+                                id="cancel-button"
                             />
                             <DeleteButton styles={styles}
                                 onPress={confirmMealDeletion}
+                                id="confirm-delete-button"
                             />
                         </View>
                     </View>
