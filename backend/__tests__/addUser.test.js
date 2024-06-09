@@ -3,38 +3,78 @@ const request = require('supertest');
 const app = require('../app');
 // eslint-disable-next-line jest/no-mocks-import
 const postgresMock = require('../__mocks__/postgres');
+const { createToken } = require('../services/authorization');
 
 describe('POST /api/add-users', () => {
     afterEach(() => {
         postgresMock.clearDatabase();
     });
 
+    test('fails if not logged in', async () => {
+        // no authorization header set
+        await request(app)
+            .post('/api/add-users')
+            .send({
+                emails: ['test1@example.com'],
+                password: 'password',
+            })
+            .set('Content-Type', 'application/json')
+            .expect(401)
+            .expect({ error: 'unauthorized' });
+
+        expect(postgresMock.runSqlCommands().length).toBe(0);
+    });
+
     test('fails with invalid password', async () => {
-        postgresMock.setSqlResults([[]]); // getUser
+        // hash of "rightpassword"
+        const password =
+            '314eee236177a721d0e58d3ca4ff01795cdcad1e8478ba8183a2e58d69c648c0';
+        postgresMock.setSqlResults([
+            [{ password }],  // checkPassword
+        ]);
 
         await request(app)
             .post('/api/add-users')
             .send({
                 emails: ['test1@example.com'],
-                restaurantId: 123,
-                username: 'testuser',
-                password: 'wrongpassword'
+                password: 'wrongpassword',
             })
+            .set('Authorization', `Bearer ${createToken('testuser', 42)}`)
             .set('Content-Type', 'application/json')
             .expect(401)
             .expect({ error: 'invalid password' });
     });
 
-    test('handles non-existing emails', async () => {
+    test('fails if user is not restaurant user', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
         postgresMock.setSqlResults([
-            [{
-                // eslint-disable-next-line camelcase
-                user_id: 1,
-                username: 'testuser',
+            [{ password }],  // checkPassword
+            // eslint-disable-next-line camelcase
+            [{ restaurant_id: null }],  // getRestaurantIdByUserId
+        ]);
+
+        await request(app)
+            .post('/api/add-users')
+            .send({
+                emails: ['test1@example.com'],
                 password: 'password',
-                // eslint-disable-next-line camelcase
-                restaurant_id: 123
-            }], // mock getUser
+            })
+            .set('Content-Type', 'application/json')
+            .set('Authorization', `Bearer ${createToken('testuser', 42)}`)
+            .expect(403)
+            .expect({ error: 'user does not belong to any restaurant' });
+    });
+
+    test('handles non-existing emails', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
+        postgresMock.setSqlResults([
+            [{ password }], // checkPassword
+            // eslint-disable-next-line camelcase
+            [{ restaurant_id: 123 }], // getRestaurantIdByUserId
             [{ exists: false }], // doesEmailExist
         ]);
 
@@ -42,10 +82,9 @@ describe('POST /api/add-users', () => {
             .post('/api/add-users')
             .send({
                 emails: ['nonexistent@example.com'],
-                restaurantId: 123,
-                username: 'testuser',
-                password: 'password'
+                password: 'password',
             })
+            .set('Authorization', `Bearer ${createToken('testuser', 42)}`)
             .set('Content-Type', 'application/json')
             .expect(207);
 
@@ -55,15 +94,13 @@ describe('POST /api/add-users', () => {
     });
 
     test('handles emails already associated with a restaurant', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
         postgresMock.setSqlResults([
-            [{
-                // eslint-disable-next-line camelcase
-                user_id: 1,
-                username: 'testuser',
-                password: 'password',
-                // eslint-disable-next-line camelcase
-                restaurant_id: 123
-            }], // getUser
+            [{ password }], // checkPassword
+            // eslint-disable-next-line camelcase
+            [{ restaurant_id: 123 }],  // getRestaurantIdByUserId
             [{ exists: true }], // doesEmailExist
             // eslint-disable-next-line camelcase
             [{ user_id: 2 }], // getUserIdByEmail
@@ -74,11 +111,10 @@ describe('POST /api/add-users', () => {
             .post('/api/add-users')
             .send({
                 emails: ['existing@example.com'],
-                restaurantId: 123,
-                username: 'testuser',
-                password: 'password'
+                password: 'password',
             })
             .set('Content-Type', 'application/json')
+            .set('Authorization', `Bearer ${createToken('testuser', 42)}`)
             .expect(207);
 
         expect(response.body.results).toEqual([
@@ -90,15 +126,13 @@ describe('POST /api/add-users', () => {
     });
 
     test('handles error during email existence check', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
         postgresMock.setSqlResults([
-            [{
-                // eslint-disable-next-line camelcase
-                user_id: 1,
-                username: 'testuser',
-                password: 'password',
-                // eslint-disable-next-line camelcase
-                restaurant_id: 123
-            }], // getUser
+            [{ password }], // checkPassword
+            // eslint-disable-next-line camelcase
+            [{ restaurant_id: 123 }], // getRestaurantIdByUserId
             new Error('db error'), // doesEmailExist
         ]);
 
@@ -106,11 +140,10 @@ describe('POST /api/add-users', () => {
             .post('/api/add-users')
             .send({
                 emails: ['test@example.com'],
-                restaurantId: 123,
-                username: 'testuser',
-                password: 'password'
+                password: 'password',
             })
             .set('Content-Type', 'application/json')
+            .set('Authorization', `Bearer ${createToken('testuser', 42)}`)
             .expect(207);
 
         expect(response.body.results).toEqual([
@@ -122,15 +155,13 @@ describe('POST /api/add-users', () => {
     });
 
     test('handles error during updating user', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
         postgresMock.setSqlResults([
-            [{
-                // eslint-disable-next-line camelcase
-                user_id: 1,
-                username: 'testuser',
-                password: 'password',
-                // eslint-disable-next-line camelcase
-                restaurant_id: 123
-            }], // getUser
+            [{ password }], // checkPassword
+            // eslint-disable-next-line camelcase
+            [{ restaurant_id: 123 }], // getRestaurantIdByUserId
             [{ exists: true }], // doesEmailExist
             // eslint-disable-next-line camelcase
             [{ user_id: 2 }], // getUserIdByEmail
@@ -142,11 +173,10 @@ describe('POST /api/add-users', () => {
             .post('/api/add-users')
             .send({
                 emails: ['error@example.com'],
-                restaurantId: 123,
-                username: 'testuser',
-                password: 'password'
+                password: 'password',
             })
             .set('Content-Type', 'application/json')
+            .set('Authorization', `Bearer ${createToken('testuser', 42)}`)
             .expect(207);
 
         expect(response.body.results).toEqual([
@@ -158,15 +188,13 @@ describe('POST /api/add-users', () => {
     });
 
     test('adds users successfully', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
         postgresMock.setSqlResults([
-            [{
-                // eslint-disable-next-line camelcase
-                user_id: 1,
-                username: 'testuser',
-                password: 'password',
-                // eslint-disable-next-line camelcase
-                restaurant_id: 123
-            }], // getUser
+            [{ password }], // checkPassword
+            // eslint-disable-next-line camelcase
+            [{ restaurant_id: 123 }], // getRestaurantIdByUserId
             [{ exists: true }], // doesEmailExist
             // eslint-disable-next-line camelcase
             [{ user_id: 2 }], // getUserIdByEmail
@@ -183,11 +211,10 @@ describe('POST /api/add-users', () => {
             .post('/api/add-users')
             .send({
                 emails: ['test1@example.com', 'test2@example.com'],
-                restaurantId: 123,
-                username: 'testuser',
-                password: 'password'
+                password: 'password',
             })
             .set('Content-Type', 'application/json')
+            .set('Authorization', `Bearer ${createToken('testuser', 42)}`)
             .expect(207);
 
         expect(response.body.results).toEqual([

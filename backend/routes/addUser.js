@@ -3,11 +3,13 @@ const router = express.Router();
 const {
     doesEmailExist,
     updateUserRestaurantByEmail,
-    getUser,
+    checkPassword,
     getUserIdByEmail,
+    getRestaurantIdByUserId,
     isRestaurantUser
 } = require('../database.js');
 const { hash } = require('../services/hash');
+const { verifyToken } = require('../services/authorization');
 
 router.use(express.json());
 
@@ -19,10 +21,20 @@ router.use(express.json());
  */
 
 router.post('/api/add-users', async (req, res) => {
-    const { emails, restaurantId, username, password } = req.body;
-    const user = await getUser(username, hash(password));
+    const { emails, password } = req.body;
+
+    const user = verifyToken(req.header('Authorization'));
     if (!user) {
+        return res.status(401).json({ error: 'unauthorized' });
+    }
+    if (!(await checkPassword(user.userId, hash(password)))) {
         return res.status(401).json({ error: 'invalid password' });
+    }
+    const restaurantId = await getRestaurantIdByUserId(user.userId);
+    if (!restaurantId) {
+        return res.status(403).json({
+            error: 'user does not belong to any restaurant',
+        });
     }
 
     const results = emails.map(email => ({ email, status: 'pending' }));
@@ -61,7 +73,6 @@ router.post('/api/add-users', async (req, res) => {
     }
 
     res.status(207).json({ results });
-
 });
 
 module.exports = router;

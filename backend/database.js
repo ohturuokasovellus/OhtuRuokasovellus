@@ -1,5 +1,6 @@
 require('dotenv').config();
 const postgres = require('postgres');
+const { compareHashes } = require('./services/hash');
 const { generatePurchaseCode } = require('./services/random');
 
 //const sql = postgres('postgres://username:password@host:port/database', {
@@ -62,8 +63,8 @@ const insertRestaurant = async (restaurantName) => {
 /**
  * @param {string} username 
  * @param {string} password hashed password 
- * @returns {Promise<{ user_id: number, username: string, password: string
- * restaurant_id: number}n>} Whether there exists user with given credentials
+ * @returns {Promise<{ userId: number, username: string,
+ *  restaurantId: number?}?>} Whether there exists user with given credentials
  */
 const getUser = async (username, password) => {
     const result = await sql`
@@ -72,9 +73,35 @@ const getUser = async (username, password) => {
             password, restaurant_id FROM users
         WHERE pgp_sym_decrypt(username::bytea, 
             ${process.env.DATABASE_ENCRYPTION_KEY}) 
-            = ${username} and password = ${password};
+            = ${username};
     `;
-    return result[0];
+    if (result.length !== 1) {
+        return null;
+    }
+    if (compareHashes(password, result[0].password) !== true) {
+        return null;
+    }
+    return {
+        userId: result[0].user_id,
+        username: result[0].username,
+        restaurantId: result[0].restaurant_id,
+    };
+};
+
+/**
+ * Check whether the given password matches the correct password of a user.
+ * @param {number} userId ID of the user whose password to check
+ * @param {string} password Hashed password
+ * @returns {Promise<boolean>} Whether the password is correct
+ */
+const checkPassword = async (userId, password) => {
+    const result = await sql`
+        SELECT password FROM users WHERE user_id = ${userId};
+    `;
+    if (result.length !== 1) {
+        return false;
+    }
+    return compareHashes(password, result[0].password);
 };
 
 /**
@@ -169,15 +196,40 @@ const doesRestaurantExist = async name => {
 /**
  * Insert a new meal to the database.
  * @param {string} name Name of the meal.
+ * @param {number} restaurantId Id of the restaurant who created the meal.
+ * @param {string} mealDescription 
+ * @param {number} co2Emissions CO2 emissions of the meal.
+ * @param {string} mealAllergens Allergens of the meal.
+ * @param {Dictionary} nutrientDictionary Nutrients of a meal in a dictionary
  * @returns {Promise<number>} ID of the created meal.
  */
-const insertMeal = async (name, restaurantId) => {
+const insertMeal = async (name, restaurantId, mealDescription, 
+    mealAllergens, nutrientDictionary) => {
+    const co2Emissions = nutrientDictionary['co2Emissions'];
+    const carbohydrates = nutrientDictionary['carbohydrates'];
+    const protein = nutrientDictionary['protein'];
+    const fat = nutrientDictionary['fat'];
+    const fiber = nutrientDictionary['fiber'];
+    const sugar = nutrientDictionary['sugar'];
+    const salt = nutrientDictionary['salt'];
+    const saturatedFat = nutrientDictionary['saturatedFat'];
+    const energy = nutrientDictionary['energy'];
+
+    const mealMass = nutrientDictionary['mealMass'];
+    const vegetablePercent = Math.floor(nutrientDictionary['vegetablePercent']);
+
     const purchaseCode = generatePurchaseCode();
+
     const result = await sql`
-        INSERT INTO meals (name, restaurant_id, purchase_code)
-        VALUES (${name}, ${restaurantId}, ${purchaseCode})
-        RETURNING meal_id;
-    `;
+        INSERT INTO meals (name, restaurant_id, purchase_code, meal_description,
+            co2_emissions, meal_allergens, carbohydrates, protein, fat, 
+            fiber, sugar, salt, saturated_fat, energy, mass, vegetable_percent)
+        VALUES (${name}, ${restaurantId}, ${purchaseCode}, ${mealDescription},
+            ${co2Emissions}, ${mealAllergens}, ${carbohydrates}, ${protein},
+            ${fat}, ${fiber}, ${sugar}, ${salt}, ${saturatedFat}, ${energy}, 
+            ${mealMass}, ${vegetablePercent})
+            RETURNING meal_id;`;
+
     return result.at(0).meal_id;
 };
 
@@ -220,7 +272,7 @@ const getMeals = async (restaurantId) => {
     const result = await sql`
        SELECT m.meal_id, m.name as meal_name, m.image, m.meal_description, 
        m.co2_emissions, m.meal_allergens, m.carbohydrates, m.protein, m.fat,
-       m.fiber, m.sugar, m.salt, m.saturated_fat, m.energy,
+       m.fiber, m.sugar, m.salt, m.saturated_fat, m.energy, m.vegetable_percent,
        CASE 
            WHEN r.restaurant_id IS NOT NULL THEN r.name 
            ELSE NULL 
@@ -318,6 +370,25 @@ const getMealRestaurantId = async (mealId) => {
 };
 
 /**
+ * Fetch all purchases of a single user.
+ * @param {number} userId The ID of the user whose purchases to return.
+ * @returns {Promise<{ date: string, mealId: number, mealName: string }[]>}
+ *  All of the purchases of the user. Date is in ISO8601 format.
+*/
+const getPurchases = async userId => {
+    const result = await sql`
+    SELECT p.purchased_at, m.name, m.meal_id
+    FROM purchases AS p, meals AS m
+    WHERE p.user_id = ${userId} AND p.meal_id = m.meal_id
+    `;
+    return result.map(row => ({
+        date: row.purchased_at,
+        mealId: row.meal_id,
+        mealName: row.name,
+    }));
+};
+
+/**
  * Set meal to inactive.
  * @param {number} mealId
  * @returns {Promise<Boolean>} true if success
@@ -335,6 +406,7 @@ module.exports = {
     insertRestaurant,
     doesUsernameExist,
     getUser,
+    checkPassword,
     getUserIdByEmail,
     getRestaurantIdByUserId,
     doesEmailExist,
@@ -349,5 +421,6 @@ module.exports = {
     updateUserRestaurantByEmail,
     addPurchase,
     getMealRestaurantId,
-    setMealInactive
+    getPurchases,
+    setMealInactive,
 };
