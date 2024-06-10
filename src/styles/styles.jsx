@@ -128,7 +128,7 @@ const createStyles = () => {
         },
         deleteButton: {
             backgroundColor: colors.errorContainer,
-            padding: 8,
+            padding: 12,
             borderRadius: 8,
             alignItems: 'center',
             marginBottom: 12,
@@ -322,7 +322,6 @@ const createStyles = () => {
         // doughnut chart
         chartContainer: {
             alignItems: 'center',
-            maxWidth: '50%',
             flexDirection: 'column',
             marginBottom: 6,
             marginHorizontal: 20,
@@ -399,13 +398,15 @@ const createStyles = () => {
         mealContainer: {
             marginVertical: 8,
             borderWidth: 1,
-            borderColor: 'lightgray',
+            borderColor: colors.outlineVariant,
+            backgroundColor: colors.surfaceVariant,
             borderRadius: 8,
         },
         mealContent: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+            flexWrap: 'wrap',
             paddingHorizontal: 16,
             paddingVertical: 8,
         },
@@ -421,14 +422,17 @@ const createStyles = () => {
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
         },
         modalContent: {
-            width: 300,
+            maxWidth: 300,
+            width: '100%',
             padding: 20,
-            backgroundColor: 'white',
+            backgroundColor: colors.surface,
             borderRadius: 10,
             alignItems: 'center',
         },
         modalText: {
             fontSize: 18,
+            fontFamily: 'Roboto-Regular',
+            color: colors.onSurface,
             marginBottom: 20,
         },
         modalButtons: {
@@ -483,7 +487,7 @@ const createStyles = () => {
             borderColor: colors.onSurface,
         },
         checkedIcon: {
-            backgroundColor: colors.primary,
+            backgroundColor: colors.secondary,
         },
 
         // nutriscore
