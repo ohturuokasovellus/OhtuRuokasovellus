@@ -404,17 +404,30 @@ const CreateMeal = (props) => {
             .join(', ');
     };
 
+    const formatPrice = (priceString)  => {
+        const parts = priceString.split(',');
+        const integerPart = parseInt(parts[0], 10);
+        let fractionalPart = parts[1] ? parts[1] : '00';
+        if (fractionalPart.length === 1) {
+            fractionalPart += '0';
+        }
+        const result = (integerPart * 100) + parseInt(fractionalPart, 10);
+        return result.toString();
+    };
+
     const onSubmit = async values => {
         const {
             mealName, imageUri, mealDescription, ingredients, allergens, price
         } = values;
         const mealAllergenString = createAllergenString(allergens);
 
+        const formattedPrice = formatPrice(price);
+
         try {
             const response = await axios.post(
                 `${apiUrl}/meals`,
                 { mealName, mealDescription, ingredients,
-                    mealAllergenString, price
+                    mealAllergenString, formattedPrice
                 },
                 {
                     headers: { Authorization: `Bearer ${getSession().token}` }

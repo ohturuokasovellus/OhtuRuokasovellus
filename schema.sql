@@ -39,7 +39,7 @@ CREATE TABLE meals (
     energy NUMERIC, -- in kilojoules
     mass NUMERIC,
     vegetable_percent INT,
-    price INT
+    price INT,
     is_active BOOLEAN DEFAULT TRUE
 );
 

@@ -22,9 +22,9 @@ const router = express.Router();
  */
 router.post('/api/meals', express.json(), async (req, res) => {
     const {
-        mealName, mealDescription, mealAllergenString, ingredients, price
+        mealName, mealDescription, mealAllergenString,
+        ingredients, formattedPrice
     } = req.body;
-    console.log(req.body)
     // Token decoding from 
     // https://fullstackopen.com/en/part4/token_authentication
     const decodedToken = verifyToken(req.header('Authorization'));
@@ -56,7 +56,7 @@ router.post('/api/meals', express.json(), async (req, res) => {
     let mealId;
     try {
         mealId = await insertMeal(mealName, loggedInUsersRestaurantId, 
-            mealDescription, mealAllergenString, nutrients);
+            mealDescription, mealAllergenString, nutrients, formattedPrice);
     } catch (err) {
         console.error(err);
         return res.status(500).send('meal insertion failed');
