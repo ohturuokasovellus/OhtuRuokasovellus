@@ -121,7 +121,7 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
         } else {
             formatted += ',00';
         }
-        return formatted += '€';
+        return formatted += ' €';
     };
     const formattedPrice = formatPrice(meal.price);
 
