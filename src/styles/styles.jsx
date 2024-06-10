@@ -273,18 +273,19 @@ const createStyles = () => {
             marginLeft: 8,
         },
         chartDescrContainer: {
+            display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            alignItems: 'top',
+            justifyContent: 'space-evenly',
             marginLeft: 8,
-        },
-        chartDescrContainerNarrow: {
-            flexDirection: 'column',
-            alignItems: 'center',
+            rowGap: 10,
         },
         mealDescrContainer: {
             flex: 1,
             marginLeft: 12,
             marginRight: 8,
+            minWidth: 120,
         },
 
         // QR
