@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Text, Image, Pressable,
+    useWindowDimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import DoughnutChart from './DoughnutChart';
@@ -40,6 +41,8 @@ const Card = ({ styles, imgURI, title, body }) => {
 const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
     const {t} = useTranslation();
     const [expanded, setExpanded] = useState(false);
+    const { width } = useWindowDimensions();
+    const isNarrow = width < 480;
 
     const nutrition = {
         energy: meal.energy,
@@ -119,7 +122,9 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
                 {isSelected && (
                     <View>
                         <CO2Container />
-                        <View style={styles.chartDescrContainer}>
+                        <View style={[
+                            styles.chartDescrContainer, isNarrow &&
+                            styles.chartDescrContainerNarrow]}>
                             <DoughnutChart
                                 styles={styles}
                                 series={series}
