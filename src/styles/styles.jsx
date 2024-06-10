@@ -16,7 +16,7 @@ const createStyles = () => {
         },
         container: {
             maxWidth: 700,
-            minWidth: 320,
+            width: '100%',
             padding: 8,
             backgroundColor: colors.surface,
             borderRadius: 8,
@@ -193,7 +193,9 @@ const createStyles = () => {
         },
         flexInputContainer: {
             flexDirection: 'row',
-            alignItems: 'center',
+            flexWrap: 'wrap',
+            alignItems: 'space-between',
+            width: '100%',
             borderRadius: 8,
             marginBottom: 12,
         },
@@ -211,7 +213,7 @@ const createStyles = () => {
         // cards
         cardContainer: {
             maxWidth: 600,
-            minWidth: 300,
+            width: '100%',
             padding: 16,
             backgroundColor: colors.surfaceVariant,
             borderRadius: 8,
@@ -275,6 +277,10 @@ const createStyles = () => {
             justifyContent: 'space-between',
             marginLeft: 8,
         },
+        chartDescrContainerNarrow: {
+            flexDirection: 'column',
+            alignItems: 'center',
+        },
         mealDescrContainer: {
             flex: 1,
             marginLeft: 12,
@@ -316,6 +322,7 @@ const createStyles = () => {
         // doughnut chart
         chartContainer: {
             alignItems: 'center',
+            maxWidth: '50%',
             flexDirection: 'column',
             marginBottom: 6,
             marginHorizontal: 20,
