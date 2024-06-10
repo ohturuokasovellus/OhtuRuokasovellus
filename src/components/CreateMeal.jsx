@@ -65,7 +65,7 @@ const initialValues = {
         nuts: false,
         peanut: false,
         sesame_seeds: false,
-        kala: false,
+        fish: false,
         shellfish: false,
         molluscs: false,
         celery: false,
