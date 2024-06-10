@@ -349,7 +349,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                     id='price-input'
                 />
                 {formik.touched.price && formik.errors.price && 
-                <Text style={styles.error}>{formik.errors.price}</Text>
+                <Text style={styles.error}>{t(formik.errors.price)}</Text>
                 }
                 {createSuccess &&
                 <Text style={styles.h3}>{t('MEAL_CREATED')}</Text>

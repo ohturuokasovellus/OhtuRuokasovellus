@@ -94,6 +94,9 @@
         "NO_MEALS": "No meals.",
         "CANCEL": "Cancel",
         "CONFIRM_DELETE": "Delete meal?",
-        "MEAL_HISTORY": "Meal history"
+        "MEAL_HISTORY": "Meal history",
+        "PRICE": "Price in euros (use comma instead of dot)",
+        "PRICE_IS_REQUIRED": "Price is required",
+        "PRICE_CANNOT_BE_ZERO": "Price cannot be zero"
     }
 }
