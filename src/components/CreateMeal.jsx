@@ -12,8 +12,8 @@ import { mealValidationSchema } from '../utils/formValidationSchemas';
 import createStyles from '../styles/styles';
 import { Button, SmallButton } from './ui/Buttons';
 import { Input, MultilineInput } from './ui/InputFields';
-import { SelectList } from 'react-native-dropdown-select-list';
 import { CheckBox } from 'react-native-elements';
+import { Dropdown } from './ui/Dropdown';
 
 // correct dictionary format for categorized ingredients
 // const categorizedIngredients = {
@@ -236,12 +236,8 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 />
                 {formik.values.ingredients.map((ingredient, index) => (
                     <View key={index} style={styles.flexInputContainer}>
-                        <SelectList
-                            boxStyles={styles.selectList}
-                            inputStyles={styles.inputStyles}
-                            dropdownStyles={styles.dropdownStyles}
-                            dropdownItemStyles={styles.dropdownItemStyles}
-                            dropdownTextStyles={styles.dropdownTextStyles}
+                        <Dropdown
+                            styles={styles}
                             search={false}
                             placeholder={t('FOOD_GROUP')}
                             setSelected={val => 
@@ -253,12 +249,8 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                             }))}
                             save="value"
                         />
-                        <SelectList
-                            boxStyles={styles.selectList}
-                            inputStyles={styles.inputStyles}
-                            dropdownStyles={styles.dropdownStyles}
-                            dropdownItemStyles={styles.dropdownItemStyles}
-                            dropdownTextStyles={styles.dropdownTextStyles}
+                        <Dropdown
+                            styles={styles}
                             search={false}
                             placeholder={t('INGREDIENT')}
                             data={
