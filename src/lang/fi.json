@@ -105,6 +105,9 @@
         "LOWEST_TERTIARY_LEVEL": "Alin korkea-aste",
         "BACHELORS_DEGREE": "Alempi korkeakouluaste",
         "MASTERS_DEGREE": "Ylempi korkeakouluaste",
-        "DOCTORAL": "Tutkijakoulutusaste"
+        "DOCTORAL": "Tutkijakoulutusaste",
+        "MAN": "Mies",
+        "WOMAN": "Nainen",
+        "OTHER": "Muu"
     }
 }

@@ -105,6 +105,9 @@
         "LOWEST_TERTIARY_LEVEL": "Lowest tertiary level",
         "BACHELORS_DEGREE": "Lower university degree (Bachelor's)",
         "MASTERS_DEGREE": "Higher university level (Master's)",
-        "DOCTORAL": "Doctoral education"
+        "DOCTORAL": "Doctoral education",
+        "MAN": "Man",
+        "WOMAN": "Woman",
+        "OTHER": "Other"
     }
 }
