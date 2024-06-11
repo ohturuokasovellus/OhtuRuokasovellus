@@ -11,11 +11,13 @@ const data = 'id,tuoteryhmä,name,energia laskennallinen (kJ),'+
 
 describe('calculate nutrients', () => {
     beforeEach(() => {
-        filesystem.writeFile('backend/csvFiles/example_nutrients.csv', 
-            data, (err) => {
-            // In case of a error throw err.
-                if (err) throw err;
-            });
+        filesystem.writeFileSync('backend/csvFiles/example_nutrients.csv', 
+            data
+        );
+    });
+
+    afterEach(() => {
+        filesystem.rmSync('backend/csvFiles/example_nutrients.csv');
     });
 
     test('nutrients are calculated correctly', async () => {

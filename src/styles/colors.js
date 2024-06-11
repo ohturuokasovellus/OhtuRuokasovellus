@@ -1,35 +1,3 @@
-
-// export const lightTheme = {
-//     background: '#EEF3ED',
-//     containerBackground: '#EDF2E9',
-//     text: '#002B1D',
-//     error: '#C45851',
-//     link: '#008780',
-//     accent: '#A0C230',
-//     buttonBackground: '#008780',
-//     buttonText: '#EEF3ED',
-//     inputBackground: '#F8FCF7',
-//     inputBorder: '#D7ED5C',
-//     placeholderText: '#888',
-//     scannerBackground: '#EDF2E9',
-// };
-
-// export const darkTheme = {
-//     background: '#002B1D',
-//     containerBackground: '#00291B',
-//     text: '#EEF3ED',
-//     error: '#FFAC98',
-//     link: '#73C7C6',
-//     // accent: '#DBF227',
-//     accent: '#404D13',
-//     buttonBackground: '#005752',
-//     buttonText: '#EEF3ED',
-//     inputBorder: '#00422C',
-//     inputBackground: '#002619',
-//     placeholderText: '#777',
-//     scannerBackground: '#00291B',
-// };
-
 export const lightTheme = {
     primary: '#207875',
     onPrimary: '#F3F3F3',
@@ -55,6 +23,7 @@ export const lightTheme = {
     onSurfaceVariant: '#4A4A4A',
     outline: '#7C757E',
     outlineVariant: '#CCC4CE',
+    sliceColor: ['#81A500', '#D8C600', '#207875',],
 };
 
 export const darkTheme = {
@@ -82,4 +51,5 @@ export const darkTheme = {
     onSurfaceVariant: '#CCC4CE',
     outline: '#968E98',
     outlineVariant: '#4A454E',
+    sliceColor: ['#556D00', '#A09200', '#103F3C',],
 };
