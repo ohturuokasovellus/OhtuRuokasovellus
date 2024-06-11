@@ -2,18 +2,21 @@ import { ScrollView, Text, View } from 'react-native';
 import createStyles from '../styles/styles';
 import { DeleteButton } from './ui/Buttons';
 import { PasswordInput } from './ui/InputFields';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
-import { getSession } from '../controllers/sessionController';
+import { deleteSession, getSession } from '../controllers/sessionController';
 import { useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 const DataRemoval = ({ styles, token }) => {
+    const navigate = useNavigate();
+    
     const removeAccount = async values => {
+        setFormError(null);
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${apiUrl}/remove-account`,
                 { password: values.password },
                 {
@@ -22,10 +25,11 @@ const DataRemoval = ({ styles, token }) => {
                     },
                 }
             );
-            console.log(response);
+            deleteSession();
+            navigate('/register');
         } catch (err) {
             console.error(err);
-            alert('Tietojen poisto epäonnistui');
+            setFormError('Tietojen poisto epäonnistui');
         }
     };
 
@@ -33,6 +37,7 @@ const DataRemoval = ({ styles, token }) => {
         password: yup.string().required('Salasana vaaditaan'),
     });
 
+    const [formError, setFormError] = useState(null);
     const formik = useFormik({
         validationSchema,
         initialValues: { password: '' },
@@ -53,6 +58,7 @@ const DataRemoval = ({ styles, token }) => {
             {formik.touched.password && formik.errors.password &&
                 <Text style={styles.error}>{formik.errors.password}</Text>
             }
+            {formError && <Text style={styles.error}>{formError}</Text>}
             <DeleteButton
                 onPress={formik.handleSubmit}
                 text='Poista' styles={styles}
