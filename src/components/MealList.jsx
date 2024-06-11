@@ -114,11 +114,12 @@ const MealList = () => {
                         (itemValue) => handleSortChange(itemValue, sortOrder)
                     }
                 >
-                    <Picker.Item label="Price" value="price" />
-                    <Picker.Item label="CO2 Emissions" value="co2_emissions" />
-                    <Picker.Item label="Protein" value="protein" />
-                    <Picker.Item label="Sugar" value="sugar" />
-                    <Picker.Item label="Fiber" value="fiber" />
+                    <Picker.Item label={t('PRICE_CRITERIA')} value="price" />
+                    <Picker.Item label={t('CO2_EMISSIONS')}
+                        value="co2_emissions" />
+                    <Picker.Item label={t('PROTEIN')} value="protein" />
+                    <Picker.Item label={t('SUGAR')} value="sugar" />
+                    <Picker.Item label={t('FIBER')} value="fiber" />
                 </Picker>
                 <Picker
                     selectedValue={sortOrder}
@@ -127,8 +128,8 @@ const MealList = () => {
                         (itemValue) => handleSortChange(sortCriteria, itemValue)
                     }
                 >
-                    <Picker.Item label="Ascending" value="asc" />
-                    <Picker.Item label="Descending" value="desc" />
+                    <Picker.Item label={t('ASCENDING')} value="asc" />
+                    <Picker.Item label={t('DESCENDING')} value="desc" />
                 </Picker>
             </View>
             <View style={styles.container}>
