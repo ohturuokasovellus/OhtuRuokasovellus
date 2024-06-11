@@ -15,7 +15,7 @@ function calculateNutrientsForIngredient(mass, ingredientNutrients,
     // energia. laskennallinen (kJ),  rasva (g),
     // rasvahapot tyydyttyneet (g), hiilihydraatti imeytyvä (g),
     // sokerit (g),kuitu. kokonais- (g),proteiini (g),suola (mg),
-    // CO2 (g/100g tuotetta)
+    // CO2 (g/100g tuotetta), kasvis
 
     // coefficient is mass / 100, because the default mass is 100g
     const nutrientCoefficient = mass / 100;
@@ -64,9 +64,10 @@ async function getNutrients(mealIngredients, csvPathName){
     return new Promise(resolve => {
         let nutrientsDictionary = {'energy': 0, 'fat': 0,  'saturatedFat': 0, 
             'carbohydrates':0, 'sugar': 0, 'fiber': 0, 'protein': 0, 
-            'salt': 0, 'co2Emissions': 0, 'vegetablePercent': 0, 'mealMass': 0};
+            'salt': 0, 'co2Emissions': 0, 'vegetablePercent': 0};
         
         let vegetableMass = 0;
+        let mealMass = 0;
 
         papa.parse(csvFile, {
             worker: true, // Don't bog down the main thread if its a big file
@@ -77,7 +78,7 @@ async function getNutrients(mealIngredients, csvPathName){
                     if(result.data.at(0) in mealIngredients) { // check if
                         // ingredient id is found in the mealIngredients
                         const mass = mealIngredients[result.data.at(0)];
-                        nutrientsDictionary['mealMass'] += Number(mass);
+                        mealMass += Number(mass);
 
                         // if ingredient name is found in vegetablesAndFruits
                         if(vegetablesAndFruits.includes(result.data.at(2))){
@@ -90,7 +91,6 @@ async function getNutrients(mealIngredients, csvPathName){
                 }
             },
             complete: function() {
-                const mealMass = nutrientsDictionary['mealMass'];
                 const vegetablePercent = (vegetableMass / mealMass 
                     * 100).toFixed(2);
                 nutrientsDictionary['vegetablePercent'] = vegetablePercent;
@@ -104,28 +104,16 @@ async function getNutrients(mealIngredients, csvPathName){
 }
 
 function updateNutrients(nutrientsDictionary){
-    const allMass = nutrientsDictionary['mealMass'];
-
-    // we have thus far saved all the nutrients in the meal,
-    // so now we have to save the nutrients to be per 100g
-    // nutrients / 100g = allNutrients / allMass
-    // nutrients = allNutrients / allMass * 100g
-    nutrientsDictionary['energy'] = (nutrientsDictionary['energy'] 
-        / allMass * 100).toFixed(2);
-    nutrientsDictionary['fat'] = (nutrientsDictionary['fat'] 
-        / allMass * 100).toFixed(2);
-    nutrientsDictionary['saturatedFat'] = (nutrientsDictionary['saturatedFat'] 
-        / allMass * 100).toFixed(2);
-    nutrientsDictionary['carbohydrates'] = (nutrientsDictionary['carbohydrates']
-        / allMass * 100).toFixed(2);
-    nutrientsDictionary['sugar'] = (nutrientsDictionary['sugar'] 
-        / allMass * 100).toFixed(2);
-    nutrientsDictionary['fiber'] = (nutrientsDictionary['fiber'] 
-        / allMass * 100).toFixed(2);
-    nutrientsDictionary['protein'] = (nutrientsDictionary['protein'] 
-        / allMass * 100).toFixed(2);
-    nutrientsDictionary['salt'] = (nutrientsDictionary['salt'] 
-        / allMass * 100).toFixed(2);
+    nutrientsDictionary['energy'] = nutrientsDictionary['energy'].toFixed(2);
+    nutrientsDictionary['fat'] = nutrientsDictionary['fat'] .toFixed(2);
+    nutrientsDictionary['saturatedFat'] = nutrientsDictionary['saturatedFat']
+        .toFixed(2);
+    nutrientsDictionary['carbohydrates'] = nutrientsDictionary['carbohydrates']
+        .toFixed(2);
+    nutrientsDictionary['sugar'] = nutrientsDictionary['sugar'].toFixed(2);
+    nutrientsDictionary['fiber'] = nutrientsDictionary['fiber'].toFixed(2);
+    nutrientsDictionary['protein'] = nutrientsDictionary['protein'].toFixed(2);
+    nutrientsDictionary['salt'] = nutrientsDictionary['salt'].toFixed(2);
 
     return nutrientsDictionary;
 }
