@@ -111,11 +111,28 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
         );
     };
 
+    const formatPrice = (price) => {
+        let formatted =(price/100).toString().replace(/\./, ',');
+        if (formatted.indexOf(',') !== -1) {
+            const fractionalPart = formatted.split(',')[1];
+            if (fractionalPart.length === 1) {
+                formatted += '0';
+            }
+        } else {
+            formatted += ',00';
+        }
+        return formatted += ' €';
+    };
+    const formattedPrice = formatPrice(meal.price);
+
     return (
         <View style={styles.cardContainer}>
             <PressableImageContainer />
             <View style={styles.cardContent}>
-                <Text style={styles.cardTitle}>{meal.meal_name}</Text>
+                <Text style={styles.cardTitle}>
+                    {meal.meal_name}{'   '}
+                    {formattedPrice}
+                </Text>
                 {isSelected && (
                     <View>
                         <CO2Container />

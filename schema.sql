@@ -38,6 +38,7 @@ CREATE TABLE meals (
     saturated_fat NUMERIC,
     energy NUMERIC, -- in kilojoules
     vegetable_percent INT,
+    price INT,
     is_active BOOLEAN DEFAULT TRUE
 );
 
