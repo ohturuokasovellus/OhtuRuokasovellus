@@ -45,7 +45,6 @@ const App = () => {
                         element={<Register updateUser={updateUser}/>} />
                     <Route path='/login'
                         element={<LoginForm updateUser={updateUser}/>} />
-                    <Route path='/qr-form' element={<QRForm />} />
                     <Route path='/restaurant/:restId'
                         element={<MealList />}/>
                     <Route path='/create-meal' element={<CreateMeal 
