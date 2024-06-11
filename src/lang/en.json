@@ -112,6 +112,9 @@
         "YEAR_MUST_BE_NUMBER": "The year must be a number",
         "YEAR_IS_REQUIRED": "Year of birth is required",
         "YEAR_1900_LATER": "The year cannot be before 1900",
-        "OVER_15": "You must be over 15 to register"
+        "OVER_15": "You must be over 15 to register",
+        "GENDER_REQUIRED": "Gender is required",
+        "EDUCATION_REQUIRED": "Education is required",
+        "INCOME_REQUIRED": "Monthly income is required"
     }
 }
