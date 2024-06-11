@@ -24,11 +24,10 @@ describe('calculate nutrients', () => {
         const nutrients = await getNutrients({'1': 100, '2':50}, 
             'backend/csvFiles/example_nutrients.csv');
 
-        // changed to per 100g
-        const correctNutrients = {'energy': '83.33', 'fat': '2.00' , 
-            'saturatedFat': '1.00', 'carbohydrates': '6.67', 'sugar': '0.67', 
-            'fiber': '3.33', 'protein': '6.73', 'salt': '200.07', 
-            'co2Emissions': 10, 'vegetablePercent': '66.67', 'mealMass': 150};
+        const correctNutrients = {'energy': '125.00', 'fat': '3.00' , 
+            'saturatedFat': '1.50', 'carbohydrates': '10.00', 'sugar': '1.00', 
+            'fiber': '5.00', 'protein': '10.10', 'salt': '300.10', 
+            'co2Emissions': 10, 'vegetablePercent': '66.67'};
 
         expect(nutrients).toEqual(correctNutrients);
     });
