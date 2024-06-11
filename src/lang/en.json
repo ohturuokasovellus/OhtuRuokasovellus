@@ -94,6 +94,10 @@
         "NO_MEALS": "No meals.",
         "CANCEL": "Cancel",
         "CONFIRM_DELETE": "Delete meal?",
-        "MEAL_HISTORY": "Meal history"
+        "MEAL_HISTORY": "Meal history",
+        "BIRTH_YEAR": "Year of birth",
+        "EDUCATION": "Education",
+        "GENDER": "Gender",
+        "INCOME_MO": "Monthly income"
     }
 }

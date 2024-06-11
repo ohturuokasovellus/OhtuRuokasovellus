@@ -94,6 +94,10 @@
         "NO_MEALS": "Ei aterioita.",
         "CANCEL": "Peruuta",
         "CONFIRM_DELETE": "Poista ateria?",
-        "MEAL_HISTORY": "Ateriahistoria"
+        "MEAL_HISTORY": "Ateriahistoria",
+        "BIRTH_YEAR": "Syntymävuosi",
+        "EDUCATION": "Koulutus",
+        "GENDER": "Sukupuoli",
+        "INCOME_MO": "Kuukausitulot"
     }
 }
