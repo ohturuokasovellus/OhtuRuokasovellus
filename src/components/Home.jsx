@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Survey, { fetchSurveyUrl } from './Survey';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
+import { ExportQRAsImage } from '../utils/QRToJPG';
 import { getSession } from '../controllers/sessionController';
 
 import createStyles from '../styles/styles';
@@ -102,6 +103,15 @@ const Home = (props) => {
                             }
                             text={t('RESTAURANT_PAGE')}
                             id='restaurant-page-button'
+                        />
+                        <Button
+                            styles={styles}
+                            onPress={
+                                () => ExportQRAsImage(`
+                                    /restaurant/${restaurantId}`)
+                            }
+                            text={t('EXPORT_MENU_QR')}
+                            id='export-menu-qr'
                         />
                         <ScrollView style={styles.mealListContainer}>
                             <Text style={styles.h3}>
