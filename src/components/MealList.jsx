@@ -25,7 +25,6 @@ const MealList = () => {
     const { restId } = useParams();
     const [selectedMeals, setSelectedMeals] = useState([]);
     const [meals, setMeals] = useState([]);
-    const [restaurantId, setRestaurantId] = useState(restId);
     const [restaurantName, setRestaurantName] = useState(null);
     const [sortCriteria, setSortCriteria] = useState('co2_emissions');
     const [sortOrder, setSortOrder] = useState('asc');
@@ -35,9 +34,8 @@ const MealList = () => {
     const { colors } = useContext(themeContext);
 
     const fetchMeals = async () => {
-        setRestaurantId(restId);
         try {
-            const response = await axios.get(`${apiUrl}/meals/${restaurantId}`);
+            const response = await axios.get(`${apiUrl}/meals/${restId}`);
             const responseMeals = response.data;
             const updatedMeals = await Promise.all(
                 responseMeals.map(async (meal) => {
@@ -82,13 +80,16 @@ const MealList = () => {
     useEffect(() => {
         const fetchAndSortMeals = async () => {
             const fetchedMeals = await fetchMeals();
-            const sortedMeals = sortMeals(
-                fetchedMeals, sortCriteria, sortOrder
-            );
-            setMeals(sortedMeals);
+            setMeals(sortMeals(fetchedMeals, sortCriteria, sortOrder));
         };
         fetchAndSortMeals();
-    }, [sortCriteria, sortOrder]);
+    }, []);
+
+    const handleSortChange = (criteria, order) => {
+        setSortCriteria(criteria);
+        setSortOrder(order);
+        setMeals(sortMeals(meals, criteria, order));
+    };
 
     if (error) {
         return (
@@ -97,6 +98,7 @@ const MealList = () => {
             </View>
         );
     }
+
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
@@ -108,7 +110,9 @@ const MealList = () => {
                 <Picker
                     selectedValue={sortCriteria}
                     style={styles.picker}
-                    onValueChange={(itemValue) => setSortCriteria(itemValue)}
+                    onValueChange={
+                        (itemValue) => handleSortChange(itemValue, sortOrder)
+                    }
                 >
                     <Picker.Item label="Price" value="price" />
                     <Picker.Item label="CO2 Emissions" value="co2_emissions" />
@@ -119,7 +123,9 @@ const MealList = () => {
                 <Picker
                     selectedValue={sortOrder}
                     style={styles.picker}
-                    onValueChange={(itemValue) => setSortOrder(itemValue)}
+                    onValueChange={
+                        (itemValue) => handleSortChange(sortCriteria, itemValue)
+                    }
                 >
                     <Picker.Item label="Ascending" value="asc" />
                     <Picker.Item label="Descending" value="desc" />
