@@ -100,7 +100,7 @@ const MealList = () => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
-                <Text style={styles.h1}>
+                <Text style={[styles.h1, { alignSelf: 'center' }]}>
                     {t('RESTAURANT')} {restaurantName}
                 </Text>
             </View>
