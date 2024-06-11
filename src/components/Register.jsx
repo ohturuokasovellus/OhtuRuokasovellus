@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView, Linking } from 'react-native';
 
 import { Link, useNavigate } from '../Router';
 import { deleteSession } from '../controllers/sessionController';
@@ -13,6 +13,7 @@ import createStyles from '../styles/styles';
 import { Button } from './ui/Buttons';
 import { Input, PasswordInput } from './ui/InputFields';
 import { Dropdown } from './ui/Dropdown';
+import { CheckboxVariant } from './ui/Checkbox';
 
 const initialValues = {
     username: '',
@@ -22,7 +23,9 @@ const initialValues = {
     education: '',
     income: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    terms: false,
+    privacy: false
 };
 
 const validationSchema = registrationValidationSchema;
@@ -81,9 +84,31 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
         {key: 'over5500', value: '>5500 €/kk'},
     ];
     
-    // const handleGenderChange = (val, idx) => {
-    //     const 
-    // };
+    const openTCLink = () => {
+        Linking
+            .openURL('https://github.com/ohturuokasovellus/OhtuRuokasovellus');
+    };
+    const openPrivacyLink = () => {
+        Linking
+            .openURL('https://github.com/ohturuokasovellus/OhtuRuokasovellus');
+    };
+
+    const renderCheckboxTitle = (isTerms) => {
+        const title = isTerms ?
+            t('TC_PRIVACY_CHECK.T_AND_C') :
+            t('TC_PRIVACY_CHECK.PRIVACY_POLICY');
+        const openLink = isTerms ? openTCLink : openPrivacyLink;
+
+        return (
+            <Text style={styles.body}>
+                {t('TC_PRIVACY_CHECK.ACCEPTED')}
+                <Text style={styles.link} onPress={openLink}>
+                    {title}
+                </Text>
+            </Text>
+        );
+    };
+
 
     return (
         <ScrollView style={styles.background}>
@@ -146,7 +171,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                         {t(formik.errors.gender)}
                     </Text>
                 )}
-                {console.log(formik.values.gender, formik.errors.gender)}
                 <Dropdown
                     styles={styles}
                     search={false}
@@ -204,6 +228,34 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     {t(formik.errors.confirmPassword)}
                 </Text>
                 }
+                <CheckboxVariant
+                    styles={styles}
+                    title={renderCheckboxTitle(true)}
+                    checked={formik.values.terms}
+                    onPress={() => formik.setFieldValue(
+                        'terms', !formik.values.terms
+                    )}
+                    id='terms-checkbox'
+                />
+                {formik.errors.terms && formik.touched.terms && (
+                    <Text style={styles.error}>
+                        {t(formik.errors.terms)}
+                    </Text>
+                )}
+                <CheckboxVariant
+                    styles={styles}
+                    title={renderCheckboxTitle(false)}
+                    checked={formik.values.privacy}
+                    onPress={() => formik.setFieldValue(
+                        'privacy', !formik.values.privacy
+                    )}
+                    id='privacy-checkbox'
+                />
+                {formik.errors.privacy && formik.touched.privacy && (
+                    <Text style={styles.error}>
+                        {t(formik.errors.privacy)}
+                    </Text>
+                )}
                 <Button
                     styles={styles}
                     onPress={formik.handleSubmit}
