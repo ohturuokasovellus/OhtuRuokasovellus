@@ -31,7 +31,6 @@ const MealList = () => {
 
     const styles = createStyles();
     const { colors } = useContext(themeContext);
-    const sliceColor = [colors.primary, colors.secondary, colors.tertiary];
 
     useEffect(() => {
         const fetchMeals = async () => {
@@ -96,7 +95,7 @@ const MealList = () => {
                             meal={item}
                             onPress={() => handlePress(item)}
                             isSelected={selectedMeals.includes(item)}
-                            sliceColor={sliceColor}
+                            sliceColor={colors.sliceColor}
                         />
                     )}
                 />

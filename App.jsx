@@ -17,8 +17,6 @@ import CreateMeal from './src/components/CreateMeal';
 import Purchase from './src/components/Purchase';
 import PurchaseHistory from './src/components/PurchaseHistory';
 
-import Layout from './src/styles/layoutMock';
-
 import './src/lang/i18n'; // should be inported in index.js, but idk if
 //they mean the backend's index.js or frontend's app.jsx. Works when imported
 // here.
@@ -58,7 +56,6 @@ const App = () => {
                     />
                     <Route path='/add-users'
                         element={<AddUser user={user} />} />
-                    <Route path='/layout' element={<Layout/>}/>
                     <Route path='/purchase/:purchaseCode'
                         element={<Purchase />} />
                     <Route path='/history' element={<PurchaseHistory />} />

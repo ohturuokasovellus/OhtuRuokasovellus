@@ -12,11 +12,9 @@ const data = 'id,tuoteryhmä,name,energia. laskennallinen (kJ),'+
 
 describe('get ingredients', () => {
     beforeEach(() => {
-        filesystem.writeFile('backend/csvFiles/example_nutrients.csv', 
-            data, (err) => {
-            // In case of a error throw err.
-                if (err) throw err;
-            });
+        filesystem.writeFileSync('backend/csvFiles/example_nutrients.csv', 
+            data
+        );
     });
     test('ingredient names are returned correctly', async () => {
         const ingredients = await getIngredients(
