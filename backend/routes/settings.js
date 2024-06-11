@@ -1,6 +1,7 @@
 const express = require('express');
 const { verifyToken } = require('../services/authorization');
 const { checkPassword, deleteUser } = require('../database');
+const { hash } = require('../services/hash');
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.post('/api/remove-account', async (req, res) => {
         return res.status(401).json({ error: 'unauthorized' });
     }
 
-    if (!(await checkPassword(decodedToken.userId, password))) {
+    if (!(await checkPassword(decodedToken.userId, hash(password)))) {
         return res.status(401).json({ error: 'incorrect password' });
     }
 

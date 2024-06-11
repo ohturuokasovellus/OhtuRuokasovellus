@@ -187,7 +187,10 @@ const doesEmailExist = async email => {
  * @param {number} userId ID of the user.
  */
 const deleteUser = async userId => {
-    //
+    await sql`
+        UPDATE users SET username = NULL, password = NULL, email = NULL
+        WHERE user_id = ${userId};
+    `;
 };
 
 /**
