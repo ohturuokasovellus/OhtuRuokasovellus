@@ -57,7 +57,7 @@ const MealList = () => {
             }
         };
         fetchMeals();
-    }, [restaurantId]);
+    }, []);
 
     const handlePress = (meal) => {
         setSelectedMeals((prevSelectedMeals) => {
