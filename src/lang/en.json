@@ -116,6 +116,13 @@
         "GENDER_REQUIRED": "Gender is required",
         "EDUCATION_REQUIRED": "Education is required",
         "INCOME_REQUIRED": "Monthly income is required",
+        "ACCEPT_TC": "You must accept the terms and conditions",
+        "ACCEPT_PRIVACY": "You must accept the privacy policy",
+        "TC_PRIVACY_CHECK": {
+            "ACCEPTED": "I have read and accepted the ",
+            "PRIVACY_POLICY": "privacy policy",
+            "T_AND_C": "terms and conditions"
+        },
         "PRICE": "Price in euros (use comma instead of dot)",
         "PRICE_IS_REQUIRED": "Price is required",
         "PRICE_CANNOT_BE_ZERO": "Price cannot be zero"
