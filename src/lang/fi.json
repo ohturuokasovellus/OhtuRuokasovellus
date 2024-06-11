@@ -94,6 +94,9 @@
         "NO_MEALS": "Ei aterioita.",
         "CANCEL": "Peruuta",
         "CONFIRM_DELETE": "Poista ateria?",
-        "MEAL_HISTORY": "Ateriahistoria"
+        "MEAL_HISTORY": "Ateriahistoria",
+        "PRICE": "Hinta euroissa (käytä pilkkua pisten sijaan)",
+        "PRICE_IS_REQUIRED": "Syötä hinta",
+        "PRICE_CANNOT_BE_ZERO": "Hinta ei voi olla nolla"
     }
 }

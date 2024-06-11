@@ -204,7 +204,7 @@ const doesRestaurantExist = async name => {
  * @returns {Promise<number>} ID of the created meal.
  */
 const insertMeal = async (name, restaurantId, mealDescription, 
-    mealAllergens, nutrientDictionary) => {
+    mealAllergens, nutrientDictionary, price) => {
     const co2Emissions = nutrientDictionary['co2Emissions'];
     const carbohydrates = nutrientDictionary['carbohydrates'];
     const protein = nutrientDictionary['protein'];
@@ -223,11 +223,13 @@ const insertMeal = async (name, restaurantId, mealDescription,
     const result = await sql`
         INSERT INTO meals (name, restaurant_id, purchase_code, meal_description,
             co2_emissions, meal_allergens, carbohydrates, protein, fat, 
-            fiber, sugar, salt, saturated_fat, energy, mass, vegetable_percent)
-        VALUES (${name}, ${restaurantId}, ${purchaseCode}, ${mealDescription},
-            ${co2Emissions}, ${mealAllergens}, ${carbohydrates}, ${protein},
-            ${fat}, ${fiber}, ${sugar}, ${salt}, ${saturatedFat}, ${energy}, 
-            ${mealMass}, ${vegetablePercent})
+            fiber, sugar, salt, saturated_fat, energy, mass, vegetable_percent,
+            price)
+            VALUES (${name}, ${restaurantId}, ${purchaseCode},
+            ${mealDescription},${co2Emissions}, ${mealAllergens},
+            ${carbohydrates}, ${protein}, ${fat}, ${fiber}, ${sugar},
+            ${salt}, ${saturatedFat}, ${energy}, 
+            ${mealMass}, ${vegetablePercent}, ${price})
             RETURNING meal_id;`;
 
     return result.at(0).meal_id;
@@ -265,7 +267,9 @@ const addMealImage = async (mealId, imageData) => {
 *      sugar: number,
 *      salt: number,
 *      saturated_fat: number,
-*      energy: number
+*      energy: number,
+*      vegetable_percent: number,
+*      price: number,
 *  }[]>}
 */
 const getMeals = async (restaurantId) => {
@@ -273,6 +277,7 @@ const getMeals = async (restaurantId) => {
        SELECT m.meal_id, m.name as meal_name, m.image, m.meal_description, 
        m.co2_emissions, m.meal_allergens, m.carbohydrates, m.protein, m.fat,
        m.fiber, m.sugar, m.salt, m.saturated_fat, m.energy, m.vegetable_percent,
+       m.price,
        CASE 
            WHEN r.restaurant_id IS NOT NULL THEN r.name 
            ELSE NULL 

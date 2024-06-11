@@ -47,7 +47,7 @@ const MealList = () => {
                         );
                         return {
                             ...meal,
-                            image: imageRes.data
+                            image: imageRes.data,
                         };
                     }));
                 setMeals(updatedMeals);
