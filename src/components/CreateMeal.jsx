@@ -12,7 +12,7 @@ import { mealValidationSchema } from '../utils/formValidationSchemas';
 import createStyles from '../styles/styles';
 import { Button, SmallButton } from './ui/Buttons';
 import { Input, MultilineInput } from './ui/InputFields';
-import { CheckBox } from 'react-native-elements';
+import { Checkbox } from './ui/Checkbox';
 import { Dropdown } from './ui/Dropdown';
 
 // correct dictionary format for categorized ingredients
@@ -305,11 +305,8 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 />
                 <Text style={styles.h2}>{t('COMMON_ALLERGENS')}</Text>
                 {allergens.map((allergen) => (
-                    <CheckBox
-                        containerStyle={styles.checkboxContainer}
-                        textStyle={styles.checkboxText}
-                        checkedColor={styles.checkedIcon.backgroundColor}
-                        uncheckedColor={styles.checkboxIcon.borderColor}
+                    <Checkbox
+                        styles={styles}
                         key={allergen}
                         title={t(`ALLERGEN_GROUP.${allergen.toUpperCase()}`)}
                         checked={formik.values.allergens[allergen]}
