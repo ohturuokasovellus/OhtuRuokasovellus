@@ -74,7 +74,8 @@ const initialValues = {
         lupine: false,
         sulfite: false,
         sulfur_oxide: false
-    }
+    },
+    price: ''
 };
 
 const validationSchema = mealValidationSchema;
@@ -204,6 +205,21 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
         formik.setFieldValue('allergens', updatedAllergens);
     };
 
+    const handlePriceChange = (value) => {
+        const sanitizedValue = value.replace(/[^0-9,]/g, '');
+
+        const parts = sanitizedValue.split(',');
+        if (parts.length > 2 || sanitizedValue.startsWith(',')) {
+            return;
+        }
+        
+        let formattedPrice = parts[0];
+        if (parts[1] !== undefined) {
+            formattedPrice += ',' + parts[1].slice(0, 2);
+        }
+        formik.setFieldValue('price', formattedPrice);
+    };
+
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
@@ -314,6 +330,16 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                         id={`checkbox-${allergen}`}
                     />
                 ))}
+                <Input
+                    styles={styles}
+                    placeholder={t('PRICE')}
+                    value={formik.values.price}
+                    onChangeText={value => handlePriceChange(value)}
+                    id='price-input'
+                />
+                {formik.touched.price && formik.errors.price && 
+                <Text style={styles.error}>{t(formik.errors.price)}</Text>
+                }
                 {createSuccess &&
                 <Text style={styles.h3}>{t('MEAL_CREATED')}</Text>
                 }
@@ -367,16 +393,31 @@ const CreateMeal = (props) => {
             .join(', ');
     };
 
+    const formatPrice = (priceString)  => {
+        const parts = priceString.split(',');
+        const integerPart = parseInt(parts[0], 10);
+        let fractionalPart = parts[1] ? parts[1] : '00';
+        if (fractionalPart.length === 1) {
+            fractionalPart += '0';
+        }
+        const result = (integerPart * 100) + parseInt(fractionalPart, 10);
+        return result.toString();
+    };
+
     const onSubmit = async values => {
         const {
-            mealName, imageUri, mealDescription, ingredients, allergens
+            mealName, imageUri, mealDescription, ingredients, allergens, price
         } = values;
         const mealAllergenString = createAllergenString(allergens);
+
+        const formattedPrice = formatPrice(price);
 
         try {
             const response = await axios.post(
                 `${apiUrl}/meals`,
-                { mealName, mealDescription, ingredients, mealAllergenString },
+                { mealName, mealDescription, ingredients,
+                    mealAllergenString, formattedPrice
+                },
                 {
                     headers: { Authorization: `Bearer ${getSession().token}` }
                 }

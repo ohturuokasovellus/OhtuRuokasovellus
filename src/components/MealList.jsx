@@ -47,7 +47,7 @@ const MealList = () => {
                         );
                         return {
                             ...meal,
-                            image: imageRes.data
+                            image: imageRes.data,
                         };
                     }));
                 setMeals(updatedMeals);
@@ -57,7 +57,7 @@ const MealList = () => {
             }
         };
         fetchMeals();
-    }, [restaurantId]);
+    }, []);
 
     const handlePress = (meal) => {
         setSelectedMeals((prevSelectedMeals) => {

@@ -115,6 +115,9 @@
         "OVER_15": "Sinun täytyy olla yli 15-vuotias rekisteröityäksesi",
         "GENDER_REQUIRED": "Syötä sukupuoli",
         "EDUCATION_REQUIRED": "Syötä koulutustaso",
-        "INCOME_REQUIRED": "Syötä kuukausitulot"
+        "INCOME_REQUIRED": "Syötä kuukausitulot",
+        "PRICE": "Hinta euroissa (käytä pilkkua pisten sijaan)",
+        "PRICE_IS_REQUIRED": "Syötä hinta",
+        "PRICE_CANNOT_BE_ZERO": "Hinta ei voi olla nolla"
     }
 }

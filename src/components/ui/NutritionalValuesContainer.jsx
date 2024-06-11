@@ -12,7 +12,7 @@ const NutritionalValues = ({ styles, nutrition }) => {
                 {t('NUTRITIONAL_VALUES')}
             </Text>
             <Text style={styles.nutritionalValueSubTitle}>
-                {'Per 100g'}
+                {t('PER_PORTION')}
             </Text>
             <View style={styles.nutritionalValueValueContainer}>
                 <Text style={styles.nutritionalValueLabel}>

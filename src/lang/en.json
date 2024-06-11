@@ -115,6 +115,9 @@
         "OVER_15": "You must be over 15 to register",
         "GENDER_REQUIRED": "Gender is required",
         "EDUCATION_REQUIRED": "Education is required",
-        "INCOME_REQUIRED": "Monthly income is required"
+        "INCOME_REQUIRED": "Monthly income is required",
+        "PRICE": "Price in euros (use comma instead of dot)",
+        "PRICE_IS_REQUIRED": "Price is required",
+        "PRICE_CANNOT_BE_ZERO": "Price cannot be zero"
     }
 }

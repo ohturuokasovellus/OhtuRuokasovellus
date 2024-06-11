@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, Pressable,
-    useWindowDimensions } from 'react-native';
+import { View, Text, Image, Pressable } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import DoughnutChart from './DoughnutChart';
@@ -41,8 +40,6 @@ const Card = ({ styles, imgURI, title, body }) => {
 const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
     const {t} = useTranslation();
     const [expanded, setExpanded] = useState(false);
-    const { width } = useWindowDimensions();
-    const isNarrow = width < 480;
 
     const nutrition = {
         energy: meal.energy,
@@ -114,17 +111,32 @@ const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
         );
     };
 
+    const formatPrice = (price) => {
+        let formatted =(price/100).toString().replace(/\./, ',');
+        if (formatted.indexOf(',') !== -1) {
+            const fractionalPart = formatted.split(',')[1];
+            if (fractionalPart.length === 1) {
+                formatted += '0';
+            }
+        } else {
+            formatted += ',00';
+        }
+        return formatted += ' €';
+    };
+    const formattedPrice = formatPrice(meal.price);
+
     return (
         <View style={styles.cardContainer}>
             <PressableImageContainer />
             <View style={styles.cardContent}>
-                <Text style={styles.cardTitle}>{meal.meal_name}</Text>
+                <Text style={styles.cardTitle}>
+                    {meal.meal_name}{'   '}
+                    {formattedPrice}
+                </Text>
                 {isSelected && (
                     <View>
                         <CO2Container />
-                        <View style={[
-                            styles.chartDescrContainer, isNarrow &&
-                            styles.chartDescrContainerNarrow]}>
+                        <View style={styles.chartDescrContainer}>
                             <DoughnutChart
                                 styles={styles}
                                 series={series}

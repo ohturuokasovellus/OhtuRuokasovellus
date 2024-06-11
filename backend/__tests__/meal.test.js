@@ -4,7 +4,7 @@ const app = require('../app');
 // eslint-disable-next-line jest/no-mocks-import
 const postgresMock = require('../__mocks__/postgres');
 
-const token = jwt.sign({ username: 'moi', userId: 1 },
+const token = jwt.sign({ username: 'moi', userId: 1, restaurantId: 1 },
     process.env.SECRET_KEY);
 
 describe('meal api', () => {
@@ -28,7 +28,7 @@ describe('meal api', () => {
                 mealAllergenString: 'Gluten, Dairy', ingredients: [{
                     mealId: '1', category: 'starches', ingredient: 'wheat',
                     weight: '150'
-                }]
+                }], formattedPrice: '12,30'
             })
             .set(headers)
             .expect(200)

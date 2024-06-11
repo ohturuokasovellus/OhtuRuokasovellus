@@ -13,6 +13,7 @@ web-build/
 coverage/
 .vscode/
 database/
+backend/csvFiles/example_nutrients.csv
 
 # macOS
 .DS_Store
