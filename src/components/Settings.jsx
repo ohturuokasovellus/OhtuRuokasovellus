@@ -54,6 +54,7 @@ const DataRemoval = ({ styles, token }) => {
                 value={formik.values.password}
                 onChangeText={formik.handleChange('password')}
                 onBlur={formik.handleBlur('password')}
+                id='account_removal_password'
             />
             {formik.touched.password && formik.errors.password &&
                 <Text style={styles.error}>{formik.errors.password}</Text>
@@ -62,6 +63,7 @@ const DataRemoval = ({ styles, token }) => {
             <DeleteButton
                 onPress={formik.handleSubmit}
                 text='Poista' styles={styles}
+                id='account_removal_button'
             />
         </View>
     );
