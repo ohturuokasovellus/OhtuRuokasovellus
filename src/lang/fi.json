@@ -98,6 +98,13 @@
         "BIRTH_YEAR": "Syntymävuosi",
         "EDUCATION": "Koulutus",
         "GENDER": "Sukupuoli",
-        "INCOME_MO": "Kuukausitulot"
+        "INCOME_MO": "Kuukausitulot",
+        "PRIMARY_EDUCATION": "Perusaste",
+        "SECONDARY_EDUCATION": "Toinen aste",
+        "VOCATIONAL_EDUCATION": "Erikoisammattikoulutusaste",
+        "LOWEST_TERTIARY_LEVEL": "Alin korkea-aste",
+        "BACHELORS_DEGREE": "Alempi korkeakouluaste",
+        "MASTERS_DEGREE": "Ylempi korkeakouluaste",
+        "DOCTORAL": "Tutkijakoulutusaste"
     }
 }

@@ -98,6 +98,13 @@
         "BIRTH_YEAR": "Year of birth",
         "EDUCATION": "Education",
         "GENDER": "Gender",
-        "INCOME_MO": "Monthly income"
+        "INCOME_MO": "Monthly income",
+        "PRIMARY_EDUCATION": "Primary education",
+        "SECONDARY_EDUCATION": "Secondary education",
+        "VOCATIONAL_EDUCATION": "Specialist vocational education",
+        "LOWEST_TERTIARY_LEVEL": "Lowest tertiary level",
+        "BACHELORS_DEGREE": "Lower university degree (Bachelor's)",
+        "MASTERS_DEGREE": "Higher university level (Master's)",
+        "DOCTORAL": "Doctoral education"
     }
 }
