@@ -93,11 +93,6 @@ const createStyles = () => {
             color: colors.outline,
             fontFamily: 'Roboto-Regular',
         },
-        underline: {
-            borderBottomWidth: 1,
-            borderBottomColor: 'lightgray',
-            marginVertical: 8,
-        },
 
         // buttons
         button: {
@@ -187,7 +182,7 @@ const createStyles = () => {
             borderRadius: 8,
             marginBottom: 12,
             padding: 8,
-            textAlignVertical: 'top',
+            verticalAlign: 'top',
             color: colors.onSurfaceVariant,
             backgroundColor: colors.surfaceVariant,
         },
@@ -468,8 +463,8 @@ const createStyles = () => {
         dropdownTextStyles : {
             color: colors.outline,
             fontFamily: 'Roboto-Regular'
-        }, 
-        
+        },
+
         // checkboxes
         checkboxContainer: {
             backgroundColor: colors.surfaceVariant,

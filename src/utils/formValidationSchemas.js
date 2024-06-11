@@ -11,7 +11,7 @@ yup.addMethod(yup.string, 'email', function validateEmail(message) {
     });
 });
 
-// used in age validation
+// used in demographics validation
 const currentYear = new Date().getFullYear();
 
 // Username needs to be 3-32 characters and is a required field.
@@ -49,19 +49,28 @@ const passwordValidationSchema = yup.object().shape({
         .required('PASSWORD_CONFIRMATION_IS_REQUIRED')
 });
 
-const ageValidationSchema = yup.object().shape({
+const demographicsValidationSchema = yup.object().shape({
     birthYear: yup
         .number()
         .typeError('YEAR_MUST_BE_NUMBER')
         .required('YEAR_IS_REQUIRED')
         .min(1900, 'YEAR_1900_LATER')
-        .max(currentYear-15, 'OVER_15')
+        .max(currentYear-15, 'OVER_15'),
+    gender: yup
+        .string()
+        .required('GENDER_REQUIRED'),
+    education: yup
+        .string()
+        .required('EDUCATION_REQUIRED'),
+    income: yup
+        .string()
+        .required('INCOME_REQUIRED'),
 });
 
 // Schema for validating all registration form fields
 const registrationValidationSchema = usernameValidationSchema.concat(
     emailValidationSchema).concat(
-    passwordValidationSchema).concat(ageValidationSchema);
+    passwordValidationSchema).concat(demographicsValidationSchema);
 
 const restaurantValidationSchema = registrationValidationSchema.shape({
     restaurantName: yup.string()

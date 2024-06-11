@@ -12,10 +12,15 @@ import { registrationValidationSchema } from '../utils/formValidationSchemas';
 import createStyles from '../styles/styles';
 import { Button } from './ui/Buttons';
 import { Input, PasswordInput } from './ui/InputFields';
+import { Dropdown } from './ui/Dropdown';
 
 const initialValues = {
     username: '',
     email: '',
+    birthYear: '',
+    gender: '',
+    education: '',
+    income: '',
     password: '',
     confirmPassword: ''
 };
@@ -27,7 +32,6 @@ const validationSchema = registrationValidationSchema;
  * On submission, send registration data to the server.
  * 
  * @param {Function} onSubmit - handle form submission;
- *  args: form values (username, email, password, confirmPassword)
  * @param {Function} onSuccess - redirect to login if successful
  * @param {Function} onError - log error message
  * 
@@ -53,6 +57,33 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     });
 
     const styles = createStyles();
+
+    const gender = [
+        {key: 'man', value: t('MAN')},
+        {key: 'woman', value: t('WOMAN')},
+        {key: 'other', value: t('OTHER')},
+    ];
+    const education = [
+        {key: 'primary', value: t('PRIMARY_EDUCATION')},
+        {key: 'secondary', value: t('SECONDARY_EDUCATION')},
+        {key: 'vocationalSpecialised', value: t('VOCATIONAL_EDUCATION')},
+        {key: 'lowestTertiary', value: t('LOWEST_TERTIARY_LEVEL')},
+        {key: 'bachelors', value: t('BACHELORS_DEGREE')},
+        {key: 'masters', value: t('MASTERS_DEGREE')},
+        {key: 'doctoral', value: t('DOCTORAL')},
+    ];
+    const income = [
+        {key: 'below1500', value: '<1500 €/kk'},
+        {key: '1500-2500', value: '1500–2500 €/kk'},
+        {key: '2500-3500', value: '2500–3500 €/kk'},
+        {key: '3500-4500', value: '3500–4500 €/kk'},
+        {key: '4500-5500', value: '4500–5500 €/kk'},
+        {key: 'over5500', value: '>5500 €/kk'},
+    ];
+    
+    // const handleGenderChange = (val, idx) => {
+    //     const 
+    // };
 
     return (
         <ScrollView style={styles.background}>
@@ -86,6 +117,65 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 />
                 {formik.touched.email && formik.errors.email && (
                     <Text style={styles.error}>{t(formik.errors.email)}</Text>
+                )}
+                <Input
+                    styles={styles}
+                    placeholder={t('BIRTH_YEAR')}
+                    value={formik.values.birthYear}
+                    onChangeText={formik.handleChange('birthYear')}
+                    onBlur={formik.handleBlur('birthYear')}
+                    id='birth-year-input'
+                />
+                {formik.touched.birthYear && formik.errors.birthYear && (
+                    <Text style={styles.error}>
+                        {t(formik.errors.birthYear)}
+                    </Text>
+                )}
+                <Dropdown
+                    styles={styles}
+                    search={false}
+                    placeholder={t('GENDER')}
+                    data={gender}
+                    setSelected={(val) => formik
+                        .setFieldValue('gender', val)}
+                    save='key'
+                    id='gender-input'
+                />
+                {formik.touched.gender && formik.errors.gender && (
+                    <Text style={styles.error}>
+                        {t(formik.errors.gender)}
+                    </Text>
+                )}
+                {console.log(formik.values.gender, formik.errors.gender)}
+                <Dropdown
+                    styles={styles}
+                    search={false}
+                    placeholder={t('EDUCATION')}
+                    data={education}
+                    setSelected={(val) => formik
+                        .setFieldValue('education', val)}
+                    save='key'
+                    id='education-input'
+                />
+                {formik.touched.education && formik.errors.education && (
+                    <Text style={styles.error}>
+                        {t(formik.errors.education)}
+                    </Text>
+                )}
+                <Dropdown
+                    styles={styles}
+                    search={false}
+                    placeholder={t('INCOME_MO')}
+                    data={income}
+                    setSelected={(val) => formik
+                        .setFieldValue('income', val)}
+                    save='key'
+                    id='income-input'
+                />
+                {formik.touched.income && formik.errors.income && (
+                    <Text style={styles.error}>
+                        {t(formik.errors.income)}
+                    </Text>
                 )}
                 <PasswordInput
                     styles={styles}
