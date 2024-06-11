@@ -16,6 +16,7 @@ import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
 import Purchase from './src/components/Purchase';
 import PurchaseHistory from './src/components/PurchaseHistory';
+import Settings from './src/components/Settings';
 
 import Layout from './src/styles/layoutMock';
 
@@ -62,6 +63,7 @@ const App = () => {
                     <Route path='/purchase/:purchaseCode'
                         element={<Purchase />} />
                     <Route path='/history' element={<PurchaseHistory />} />
+                    <Route path='/settings' element={<Settings />} />
                 </Routes>
             </Router>
         </ThemeController>
