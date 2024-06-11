@@ -8,7 +8,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build": "expo export:web",
+    "build": "expo export --platform web",
     "lint": "eslint ./{src,backend,e2e-test}/**/*.{js,jsx} ./{src,backend,e2e-test}/*.{js,jsx} App.jsx --no-error-on-unmatched-pattern",
     "test": "jest --coverage",
     "test:e2e": "E2ETEST=1 playwright test"

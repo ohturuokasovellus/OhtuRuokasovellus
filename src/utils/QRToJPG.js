@@ -5,7 +5,7 @@ import QRGenerator from './QRGenerator';
  * 
  * @param {View} QRView
  */
-function ViewToQR(QRView){
+async function ViewToQR(QRView){
     captureRef(QRView, {
         format: 'jpg',
         quality: 0.8,
@@ -15,11 +15,10 @@ function ViewToQR(QRView){
     );
 }
 
-function ExportQRAsImage(qrUrl){
-    console.log(qrUrl)
-    console.log(process.env.EXPO_PUBLIC_WEBSITE_URL)
-    //const qrView = QRGenerator(qrUrl);
-    //ViewToQR(qrView);
+async function ExportQRAsImage(qrUrl){
+    const restaurantUrl = process.env.EXPO_PUBLIC_WEBSITE_URL + qrUrl;
+    const qrView = QRGenerator(restaurantUrl);
+    await ViewToQR(qrView);
 }
 
 export {ExportQRAsImage};

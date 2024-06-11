@@ -22,8 +22,7 @@
       }
     },
     "web": {
-      "bundler": "webpack",
-      "output": "static",
+      "bundler": "metro",
       "favicon": "./assets/images/favicon.png",
       "startUrl": "/"
     },
