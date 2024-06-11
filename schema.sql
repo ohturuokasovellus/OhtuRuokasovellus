@@ -16,6 +16,10 @@ CREATE TABLE users (
     username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
+    birth_year INT,
+    gender TEXT,
+    education TEXT,
+    income TEXT,
     restaurant_id INT REFERENCES restaurants DEFAULT NULL
 );
 
