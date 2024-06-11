@@ -108,6 +108,10 @@
         "DOCTORAL": "Tutkijakoulutusaste",
         "MAN": "Mies",
         "WOMAN": "Nainen",
-        "OTHER": "Muu"
+        "OTHER": "Muu",
+        "YEAR_MUST_BE_NUMBER": "Vuosiluku tulee syöttää numeroina",
+        "YEAR_IS_REQUIRED": "Syntymävuosi on pakollinen",
+        "YEAR_1900_LATER": "Syntymävuosi ei voi olla ennen vuotta 1900",
+        "OVER_15": "Sinun täytyy olla yli 15-vuotias rekisteröityäksesi"
     }
 }

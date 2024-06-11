@@ -108,6 +108,10 @@
         "DOCTORAL": "Doctoral education",
         "MAN": "Man",
         "WOMAN": "Woman",
-        "OTHER": "Other"
+        "OTHER": "Other",
+        "YEAR_MUST_BE_NUMBER": "The year must be a number",
+        "YEAR_IS_REQUIRED": "Year of birth is required",
+        "YEAR_1900_LATER": "The year cannot be before 1900",
+        "OVER_15": "You must be over 15 to register"
     }
 }
