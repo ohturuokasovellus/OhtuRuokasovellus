@@ -183,6 +183,14 @@ const doesEmailExist = async email => {
 };
 
 /**
+ * Delete user's username, email and password from the database.
+ * @param {number} userId ID of the user.
+ */
+const deleteUser = async userId => {
+    //
+};
+
+/**
  * @param {string} email 
  * @returns {Promise<boolean>} Whether the given restaurant
  *  already exists in the database.
@@ -410,6 +418,7 @@ module.exports = {
     getUserIdByEmail,
     getRestaurantIdByUserId,
     doesEmailExist,
+    deleteUser,
     doesRestaurantExist,
     insertMeal,
     addMealImage,
