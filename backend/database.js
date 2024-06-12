@@ -414,7 +414,7 @@ const getMealForEdit = async (mealId) => {
         SELECT name, meal_description, meal_allergens, price, ingredients
         FROM meals WHERE meal_id = ${mealId}
     `;
-    return result.count === 1;
+    return result.at(0);
 };
 
 module.exports = {

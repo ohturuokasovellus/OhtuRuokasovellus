@@ -44,12 +44,21 @@ const allergens = [
 ];
 
 // finnish language is priority so for now we save allergens in finnish
-const allergensFin = {
+const allergensEngToFin = {
     grains: 'viljat', gluten: 'gluteeni', dairy: 'maito', lactose: 'laktoosi',
     egg: 'kananmuna', nuts: 'pähkinät', sesame_seeds: 'seesaminsiemenet',
     fish: 'kala', shellfish: 'äyriäiset', molluscs: 'nilviäiset',
     celery: 'selleri', mustard: 'sinappi', soy: 'soija', lupine: 'lupiini',
     sulfite: 'sulfiitti', sulfur_oxide: 'rikkioksidi'
+};
+
+const allergensFinToEng = {
+    'viljat': 'grains', 'gluteeni': 'gluten', 'maito': 'dairy',
+    'laktoosi': 'lactose', 'kananmuna': 'egg', 'pähkinät': 'nuts',
+    'seesaminsiemenet': 'sesame_seeds', 'kala': 'fish', 'äyriäiset': 'shellfish'
+    , 'nilviäiset': 'molluscs', 'selleri': 'celery', 'sinappi': 'mustard',
+    'soija': 'soy', 'lupiini': 'lupine', 'sulfiitti': 'sulfite',
+    'rikkioksidi': 'sulfur_oxide'
 };
 
 const initialValues = {
@@ -91,7 +100,7 @@ const validationSchema = mealValidationSchema;
  * @returns {JSX.Element} 
  */
 const CreateMealForm = ({
-    onSubmit, onSuccess, onError, initialValues, isEditing
+    onSubmit, onSuccess, onError, initialMealValues, isEditing
 }) => {
     const {t} = useTranslation();
     const [ingredients, setIngredients] = useState({});
@@ -116,7 +125,7 @@ const CreateMealForm = ({
     }), [];
 
     const formik = useFormik({
-        initialValues,
+        initialMealValues,
         validationSchema,
         onSubmit: async values => {
             // with ingredients formik validation schema doesnt work 
@@ -396,6 +405,26 @@ const CreateMeal = (props) => {
     const [isEditing, setIsEditing] = useState(false);
     const [meal, setMeal] = useState(initialValues);
 
+    // formats the database values to formik-friendly values
+    const formatMealForEditing = (meal, imageUri) => {
+        const allergensObject = Object.keys(allergensFinToEng)
+            .reduce((acc, allergen) => {
+                const trimmedAllergen = allergen.trim();
+                acc[allergensFinToEng[trimmedAllergen]] = meal.meal_allergens
+                    .includes(trimmedAllergen);
+                return acc;
+            }, {});
+        const price = (meal.price/100).toFixed(2).replace('.', ',');
+        return {
+            mealName: meal.name,
+            mealDescription: meal.meal_description,
+            ingredients: meal.ingredients,
+            price: price,
+            allergens: allergensObject,
+            imageUri: imageUri
+        };
+    };
+
     useEffect(() => {
         if (!props.user) {
             navigate('/login');
@@ -407,17 +436,24 @@ const CreateMeal = (props) => {
             const fetchMeal = async () => {
                 if (mealId) {
                     try {
-                        const response = await axios.get(
-                            `${apiUrl}/meals/${mealId}`
-                        );
+                        const response = await axios.post(
+                            `${apiUrl}/meals/meal/${mealId}`,
+                            {},
+                            {
+                                headers: {
+                                    Authorization:
+                                    `Bearer ${getSession().token}`
+                                }
+                            });
                         const imageRes = await axios.get(
                             `${apiUrl}/meals/images/${mealId}`
                         );
                         console.log(response.data);
-                        // setMeal({
-                        //     ...response.data,
-                        //     imageUri: imageRes.data
-                        // });
+                        const formattedMeal = formatMealForEditing(
+                            response.data, imageRes.data
+                        );
+                        console.log(formattedMeal)
+                        setMeal(formattedMeal);
                         setIsEditing(true);
                     } catch (err) {
                         console.error(err);
@@ -433,7 +469,7 @@ const CreateMeal = (props) => {
     const createAllergenString = (allergens) => {
         return Object.keys(allergens)
             .filter(key => allergens[key])
-            .map(key => allergensFin[key])
+            .map(key => allergensEngToFin[key])
             .join(', ');
     };
 
@@ -512,7 +548,7 @@ const CreateMeal = (props) => {
     return <CreateMealForm onSubmit={onSubmit}
         onSuccess={onSuccess} onError={onError}
         isEditing={isEditing}
-        initialValues={initialValues}
+        initialMealValues={meal}
     />;
 };
 

@@ -203,20 +203,22 @@ router.put('/api/meals/:mealId', express.json(), async (req, res) => {
  * @returns {Object} 401 - Unauthorized.
  * @returns {Object} 200 - Success status.
  */
-router.get('/api/meals/:mealId', express.json(), async (req, res) => {
+router.post('/api/meals/meal/:mealId', express.json(), async (req, res) => {
     const mealId = req.params.mealId;
-
     const userInfo = verifyToken(req.header('Authorization'));
     const result = await getMealRestaurantId(mealId);
-        
+    
     if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
         return res.status(401).json('Unauthorized');
     }
 
-    const meal = await getMealForEdit(mealId);
-    console.log(meal);
-    res.status(200);
-
+    let meal = await getMealForEdit(mealId);
+    const parsedIngredients = JSON.parse(meal.ingredients);
+    meal = {
+        ...meal,
+        ingredients: parsedIngredients
+    };
+    res.status(200).json(meal);
 });
 
 module.exports = router;
