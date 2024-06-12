@@ -73,7 +73,7 @@ const getUser = async (username, password) => {
             password, restaurant_id FROM users
         WHERE pgp_sym_decrypt(username::bytea, 
             ${process.env.DATABASE_ENCRYPTION_KEY}) 
-            = ${username};
+            = ${username} AND username IS NOT NULL AND password IS NOT NULL;
     `;
     if (result.length !== 1) {
         return null;
@@ -96,7 +96,8 @@ const getUser = async (username, password) => {
  */
 const checkPassword = async (userId, password) => {
     const result = await sql`
-        SELECT password FROM users WHERE user_id = ${userId};
+        SELECT password FROM users
+        WHERE user_id = ${userId} AND password IS NOT NULL;
     `;
     if (result.length !== 1) {
         return false;
@@ -114,6 +115,7 @@ const getUserIdByEmail = async (email) => {
     SELECT user_id FROM users
     WHERE pgp_sym_decrypt(email::bytea, 
         ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email}
+        AND email IS NOT NULL
     LIMIT 1
     `;
     return result.at(0).user_id;
@@ -128,6 +130,7 @@ const getRestaurantIdByUserId = async (userId) => {
     const result = await sql`
     SELECT restaurant_id FROM users
     WHERE user_id = ${userId}
+    AND username IS NOT NULL
     LIMIT 1
     `;
     return result.at(0).restaurant_id;
@@ -145,6 +148,7 @@ const updateUserRestaurantByEmail = async (email, restaurantId) => {
         SET restaurant_id = ${restaurantId}
         WHERE pgp_sym_decrypt(email::bytea, 
             ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email}
+            AND email IS NOT NULL
         RETURNING restaurant_id
     `;
     return result.length > 0;
@@ -162,7 +166,9 @@ const doesUsernameExist = async username => {
         (SELECT 1 FROM users 
         WHERE 
             pgp_sym_decrypt(username::bytea, 
-            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${username} LIMIT 1);
+            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${username}
+            AND username IS NOT NULL
+            LIMIT 1);
     `;
     return result.at(0).exists;
 };
@@ -177,9 +183,22 @@ const doesEmailExist = async email => {
         SELECT exists (SELECT 1 FROM users 
         WHERE 
             pgp_sym_decrypt(email::bytea, 
-            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email} LIMIT 1);
+            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email}
+            AND email IS NOT NULL
+            LIMIT 1);
     `;
     return result.at(0).exists;
+};
+
+/**
+ * Delete user's username, email and password from the database.
+ * @param {number} userId ID of the user.
+ */
+const deleteUser = async userId => {
+    await sql`
+        UPDATE users SET username = NULL, password = NULL, email = NULL
+        WHERE user_id = ${userId};
+    `;
 };
 
 /**
@@ -328,6 +347,7 @@ const isRestaurantUser = async userId => {
     const result = await sql`
         SELECT exists
         (SELECT restaurant_id FROM users WHERE user_id = ${userId}
+        AND username IS NOT NULL
         AND restaurant_id IS NOT NULL LIMIT 1);
     `;
     return result.at(0).exists;
@@ -412,6 +432,7 @@ module.exports = {
     getUserIdByEmail,
     getRestaurantIdByUserId,
     doesEmailExist,
+    deleteUser,
     doesRestaurantExist,
     insertMeal,
     addMealImage,
