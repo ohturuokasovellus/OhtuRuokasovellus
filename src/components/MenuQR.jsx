@@ -3,11 +3,10 @@ import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
-import { useParams } from '../Router';
-import { Button } from './ui/Buttons';
+import { Platform } from 'react-native';
+import { useParams, Link } from '../Router';
 import apiUrl from '../utils/apiUrl';
 import QRGenerator from '../utils/QRGenerator';
-import createStyles from '../styles/styles';
 
 async function getPageURL(){
     try {
@@ -25,23 +24,9 @@ async function getPageURL(){
 const MenuQR = () => {
     const {t} = useTranslation();
     const { restaurantId } = useParams();
-    let [menuQRCode, setmenuQRCode] = useState('');
-    const styles = createStyles();
-    const qrViewReference = useRef();
-
-    const downloadImage = async () => {
-        try {
-            // react-native-view-shot captures component
-            const uri = await captureRef(qrViewReference, {
-                format: 'jpg',
-                quality: 0.8,
-            });
-
-        } catch (error) {
-            console.log('error', error);
-        }
-    };
-
+    const [menuQRCode, setmenuQRCode] = useState('');
+    const qrViewReference = useRef(null);
+    const [imageUri, setImageUri] = useState('');
 
     useEffect(() => {
         const fetchWebpageURL = async () => {
@@ -50,12 +35,28 @@ const MenuQR = () => {
                 const urlMenu = webpageURL+'/restaurant/'+restaurantId;
                 setmenuQRCode(urlMenu);
             } else {
-                console.log('couldnt get webpage url');
+                console.log('couldnt get webpage URL');
             }
         };
 
         fetchWebpageURL();
-    }, []);
+    }, [restaurantId]);
+
+    useEffect(() => {
+        const formImage = async () => {
+            if (qrViewReference.current){
+                const uri = await captureRef(qrViewReference, {
+                    format: 'jpg',
+                    quality: 0.8,
+                });
+                setImageUri(uri);
+            }
+        };
+
+        if (menuQRCode) {
+            formImage();
+        }
+    }, [menuQRCode]);
 
     if (!menuQRCode) {
         return (
@@ -65,18 +66,20 @@ const MenuQR = () => {
         );
     }
 
-    return (
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Text>{t('QR_CODE_TO_YOUR_MENU')}</Text>
-            <QRGenerator urlToBeGenerated={menuQRCode} ref={qrViewReference}/>
-            <Button
-                styles={styles}
-                onPress={() => downloadImage()}
-                text={t('EXPORT_MENU_QR')}
-                id='export-qr-button'
-            />
-        </View>
-    );
+    if(Platform.OS === 'web'){
+        return (
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <Text>{t('QR_CODE_TO_YOUR_MENU')}</Text>
+                <View ref={qrViewReference}>
+                    <QRGenerator urlToBeGenerated={menuQRCode}/>
+                </View>
+                <Link to={imageUri} 
+                    target="_blank" download>Download</Link>
+            </View>
+        );
+    }
+
+    return null; // Handle non-web platforms or other cases when needed
 };
 
 export default MenuQR;
