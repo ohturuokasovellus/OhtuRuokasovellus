@@ -62,26 +62,26 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     const styles = createStyles();
 
     const gender = [
-        {key: 'man', value: t('MAN')},
-        {key: 'woman', value: t('WOMAN')},
-        {key: 'other', value: t('OTHER')},
+        {key: 'M', value: t('MAN')},
+        {key: 'F', value: t('WOMAN')},
+        {key: 'O', value: t('OTHER')},
     ];
     const education = [
         {key: 'primary', value: t('PRIMARY_EDUCATION')},
         {key: 'secondary', value: t('SECONDARY_EDUCATION')},
-        {key: 'vocationalSpecialised', value: t('VOCATIONAL_EDUCATION')},
-        {key: 'lowestTertiary', value: t('LOWEST_TERTIARY_LEVEL')},
+        {key: 'vocational specialised', value: t('VOCATIONAL_EDUCATION')},
+        {key: 'lowest tertiary', value: t('LOWEST_TERTIARY_LEVEL')},
         {key: 'bachelors', value: t('BACHELORS_DEGREE')},
         {key: 'masters', value: t('MASTERS_DEGREE')},
         {key: 'doctoral', value: t('DOCTORAL')},
     ];
     const income = [
-        {key: 'below1500', value: '<1500 €/kk'},
+        {key: 'below 1500', value: '<1500 €/kk'},
         {key: '1500-2500', value: '1500–2500 €/kk'},
-        {key: '2500-3500', value: '2500–3500 €/kk'},
+        {key: '2500t-3500', value: '2500–3500 €/kk'},
         {key: '3500-4500', value: '3500–4500 €/kk'},
         {key: '4500-5500', value: '4500–5500 €/kk'},
-        {key: 'over5500', value: '>5500 €/kk'},
+        {key: 'over 5500', value: '>5500 €/kk'},
     ];
     
     const openTCLink = () => {
