@@ -74,6 +74,7 @@
         },
         "ALLERGENS": "Allergeenit",
         "CARBS": "Hiilihydraatit",
+        "SUGAR": "Sokeri",
         "OF_WHICH_SUGARS": "joista sokereita",
         "FAT": "Rasva",
         "OF_WHICH_SATURATES": "josta tyydyttynyttä",
@@ -101,6 +102,9 @@
         "FAILED_TO_DELETE_DATA": "Tietojen poisto epäonnistui",
         "PRICE": "Hinta euroissa (käytä pilkkua pisten sijaan)",
         "PRICE_IS_REQUIRED": "Syötä hinta",
-        "PRICE_CANNOT_BE_ZERO": "Hinta ei voi olla nolla"
+        "PRICE_CANNOT_BE_ZERO": "Hinta ei voi olla nolla",
+        "PRICE_CRITERIA": "Hinta",
+        "ASCENDING": "Nouseva",
+        "DESCENDING": "Laskeva"
     }
 }
