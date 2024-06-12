@@ -13,11 +13,11 @@ CREATE TABLE restaurants (
 
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
-    username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
+    username TEXT UNIQUE,
+    password TEXT,
+    email TEXT UNIQUE,
     birth_year INT,
-    gender TEXT,
+    gender CHAR(1), -- M/F/O for male, female, other respectively
     education TEXT,
     income TEXT,
     restaurant_id INT REFERENCES restaurants DEFAULT NULL

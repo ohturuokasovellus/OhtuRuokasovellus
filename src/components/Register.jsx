@@ -281,11 +281,18 @@ const Register = ({ updateUser }) => {
     }, []);
 
     const onSubmit = async values => {
-        const { username, email, password } = values;
+        const {
+            username, email, password,
+            birthYear, gender, education,
+            income
+        } = values;
         try {
             await axios.post(
                 `${apiUrl}/register`,
-                { username, email, password }
+                {
+                    username, email, password,
+                    birthYear, gender, education, income
+                }
             );
         } catch (err) {
             console.error(err);
