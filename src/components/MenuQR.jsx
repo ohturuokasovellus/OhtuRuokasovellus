@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
-import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import { useParams } from '../Router';
 import { Button } from './ui/Buttons';
 import apiUrl from '../utils/apiUrl';
@@ -38,19 +37,6 @@ const MenuQR = () => {
                 quality: 0.8,
             });
 
-            //TODO: get andoir permissions
-            //if (Platform.OS === 'android') {
-            //    const granted = await getPermissionAndroid();
-            //    if (!granted) {
-            //        return;
-            //    }
-            //}
-
-            // cameraroll saves image
-            const image = CameraRoll.saveAsset(uri);
-            if (image) {
-                console.log('Image saved successfully.', image);
-            }
         } catch (error) {
             console.log('error', error);
         }
