@@ -9,6 +9,7 @@ import NavigationBar from './src/components/NavigationBar';
 import Home from './src/components/Home';
 import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
+import QRForm from './src/components/QRForm';
 import RegisterRestaurant from './src/components/RegisterRestaurant';
 import AddUser from './src/components/AddUser';
 import MealList from './src/components/MealList';
