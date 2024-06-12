@@ -54,7 +54,8 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             } catch (err) {
                 onError(err);
                 setFormError(err.message);
-                formik.resetForm();
+                formik.setFieldValue('password', '');
+                formik.setFieldValue('confirmPassword', '');
             }
         },
     });
@@ -62,9 +63,9 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     const styles = createStyles();
 
     const gender = [
-        {key: 'M', value: t('MAN')},
-        {key: 'F', value: t('WOMAN')},
-        {key: 'O', value: t('OTHER')},
+        {key: 'man', value: t('MAN')},
+        {key: 'woman', value: t('WOMAN')},
+        {key: 'other', value: t('OTHER')},
     ];
     const education = [
         {key: 'primary', value: t('PRIMARY_EDUCATION')},

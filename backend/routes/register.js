@@ -19,7 +19,6 @@ router.post('/api/register', async (req, res) => {
         birthYear, gender, education,
         income
     } = req.body;
-    console.log(birthYear, typeof birthYear);
     const currentYear = new Date().getFullYear();
 
     // validate inputs
