@@ -9,10 +9,12 @@ import { deleteSession, getSession } from '../controllers/sessionController';
 import { useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 const DataRemoval = ({ styles, token }) => {
     const navigate = useNavigate();
-    
+    const { t } = useTranslation();
+
     const removeAccount = async values => {
         setFormError(null);
         try {
@@ -29,12 +31,12 @@ const DataRemoval = ({ styles, token }) => {
             navigate('/register');
         } catch (err) {
             console.error(err);
-            setFormError('Tietojen poisto epäonnistui');
+            setFormError(t('FAILED_TO_DELETE_DATA'));
         }
     };
 
     const validationSchema = yup.object().shape({
-        password: yup.string().required('Salasana vaaditaan'),
+        password: yup.string().required(t('PASSWORD_IS_REQUIRED')),
     });
 
     const [formError, setFormError] = useState(null);
@@ -46,11 +48,11 @@ const DataRemoval = ({ styles, token }) => {
 
     return (
         <View>
-            <Text style={styles.h3}>Poista käyttäjä ja tiedot</Text>
-            <Text style={styles.body}>Syötä salasana vahvistukseksi.</Text>
+            <Text style={styles.h3}>{t('DELETE_USER_AND_DATA')}</Text>
+            <Text style={[styles.body, { marginBottom: 5 }]}>{t('DELETE_USER_DESCRIPTION')}</Text>
             <PasswordInput
                 styles={styles}
-                placeholder='Salasana'
+                placeholder={t('PASSWORD')}
                 value={formik.values.password}
                 onChangeText={formik.handleChange('password')}
                 onBlur={formik.handleBlur('password')}
@@ -62,7 +64,7 @@ const DataRemoval = ({ styles, token }) => {
             {formError && <Text style={styles.error}>{formError}</Text>}
             <DeleteButton
                 onPress={formik.handleSubmit}
-                text='Poista' styles={styles}
+                text={t('DELETE')} styles={styles}
                 id='account_removal_button'
             />
         </View>
@@ -73,6 +75,7 @@ const Settings = () => {
     const navigate = useNavigate();
     const styles = createStyles();
     const userSession = getSession();
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (!userSession) navigate('/login');
@@ -85,6 +88,7 @@ const Settings = () => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
+                <Text style={styles.h1}>{t('SETTINGS')}</Text>
                 <DataRemoval styles={styles} token={userSession.token} />
             </View>
         </ScrollView>

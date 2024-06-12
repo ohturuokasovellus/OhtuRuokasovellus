@@ -94,6 +94,10 @@
         "NO_MEALS": "No meals.",
         "CANCEL": "Cancel",
         "CONFIRM_DELETE": "Delete meal?",
-        "MEAL_HISTORY": "Meal history"
+        "MEAL_HISTORY": "Meal history",
+        "SETTINGS": "Settings",
+        "DELETE_USER_AND_DATA": "Delete account and data",
+        "DELETE_USER_DESCRIPTION": "Delete all personal data from the service. This action cannot be undone and you will not be able to log in anymore. Please enter your password for confirmation.",
+        "FAILED_TO_DELETE_DATA": "Failed to delete data"
     }
 }

@@ -94,6 +94,10 @@
         "NO_MEALS": "Ei aterioita.",
         "CANCEL": "Peruuta",
         "CONFIRM_DELETE": "Poista ateria?",
-        "MEAL_HISTORY": "Ateriahistoria"
+        "MEAL_HISTORY": "Ateriahistoria",
+        "SETTINGS": "Asetukset",
+        "DELETE_USER_AND_DATA": "Poista käyttäjä ja tiedot",
+        "DELETE_USER_DESCRIPTION": "Poistaa kaikki henkilötietosi palvelusta. Toimintoa ei voida perua, etkä voi sen jälkeen enää kirjautua sisään. Syötä salasana vahvistukseksi.",
+        "FAILED_TO_DELETE_DATA": "Tietojen poisto epäonnistui"
     }
 }
