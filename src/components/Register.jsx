@@ -110,7 +110,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
         );
     };
 
-
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
