@@ -56,7 +56,9 @@ const initialValues = {
     mealName: '',
     imageUri: '',
     mealDescription: '',
-    ingredients: [{ mealId: '', category: '', ingredient: '', weight: '' }],
+    ingredients: [{ 
+        ingredientId: '', category: '', ingredient: '', weight: ''
+    }],
     allergens: {
         grains: false,
         gluten: false,
@@ -170,7 +172,7 @@ const CreateMealForm = ({
     const addIngredientInput = () => {
         formik.setFieldValue('ingredients',
             [...formik.values.ingredients,
-                { mealId: '', category: '', ingredient: '', weight: '' }
+                { ingredientId: '', category: '', ingredient: '', weight: '' }
             ]
         );
     };
@@ -191,7 +193,7 @@ const CreateMealForm = ({
     const handleIngredientChange = (value, index) => {
         const updatedIngredients = [...formik.values.ingredients];
         updatedIngredients[index].ingredient = value;
-        updatedIngredients[index].mealId = ingredients[value];
+        updatedIngredients[index].ingredientId = ingredients[value];
         formik.setFieldValue('ingredients', updatedIngredients);
     };
 
@@ -408,8 +410,14 @@ const CreateMeal = (props) => {
                         const response = await axios.get(
                             `${apiUrl}/meals/${mealId}`
                         );
-                        setMeal(response.data);
+                        const imageRes = await axios.get(
+                            `${apiUrl}/meals/images/${mealId}`
+                        );
                         console.log(response.data);
+                        // setMeal({
+                        //     ...response.data,
+                        //     imageUri: imageRes.data
+                        // });
                         setIsEditing(true);
                     } catch (err) {
                         console.error(err);
@@ -469,9 +477,9 @@ const CreateMeal = (props) => {
                             Authorization: `Bearer ${getSession().token}`
                         }
                     });
-                const mealId = response.data.mealId;
+                const newMealId = response.data.mealId;
                 await axios.post(
-                    `${apiUrl}/meals/images/${mealId}`,
+                    `${apiUrl}/meals/images/${newMealId}`,
                     values.imageUri,
                     {
                         headers: {

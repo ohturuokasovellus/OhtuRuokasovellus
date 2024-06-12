@@ -1,6 +1,7 @@
 const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
-    getMealRestaurantId, setMealInactive, sql } = require('../database');
+    getMealRestaurantId, setMealInactive, getMealForEdit, sql }
+    = require('../database');
 const { verifyToken } = require('../services/authorization');
 const { getNutrients }  = require('../services/calculateNutrients');
 
@@ -49,15 +50,17 @@ router.post('/api/meals', express.json(), async (req, res) => {
     let mealIngredients = {};
     
     ingredients.forEach(element => {
-        mealIngredients[element.mealId] = element.weight;
+        mealIngredients[element.ingredientId] = element.weight;
     });
     const nutrients = await getNutrients(mealIngredients, 
         'backend/csvFiles/raaka-ainetiedot.csv');
 
     let mealId;
+    const stringifiedIngredients = JSON.stringify(ingredients);
     try {
         mealId = await insertMeal(mealName, loggedInUsersRestaurantId, 
-            mealDescription, mealAllergenString, nutrients, formattedPrice);
+            mealDescription, mealAllergenString, nutrients, formattedPrice,
+            stringifiedIngredients);
     } catch (err) {
         console.error(err);
         return res.status(500).send('meal insertion failed');
@@ -192,6 +195,14 @@ router.put('/api/meals/:mealId', express.json(), async (req, res) => {
     res.status(200).json(result);
 });
 
+/**
+ * Route for fetching a meal for editing
+ * @param {Object} req - The request object.
+ * @param {number} req.params.mealId - meal id.
+ * @param {Object} res - The response object.
+ * @returns {Object} 401 - Unauthorized.
+ * @returns {Object} 200 - Success status.
+ */
 router.get('/api/meals/:mealId', express.json(), async (req, res) => {
     const mealId = req.params.mealId;
 
@@ -201,6 +212,9 @@ router.get('/api/meals/:mealId', express.json(), async (req, res) => {
     if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
         return res.status(401).json('Unauthorized');
     }
+
+    const meal = await getMealForEdit(mealId);
+    console.log(meal);
     res.status(200);
 
 });

@@ -204,7 +204,7 @@ const doesRestaurantExist = async name => {
  * @returns {Promise<number>} ID of the created meal.
  */
 const insertMeal = async (name, restaurantId, mealDescription, 
-    mealAllergens, nutrientDictionary, price) => {
+    mealAllergens, nutrientDictionary, price, ingredients) => {
     const co2Emissions = nutrientDictionary['co2Emissions'];
     const carbohydrates = nutrientDictionary['carbohydrates'];
     const protein = nutrientDictionary['protein'];
@@ -221,12 +221,13 @@ const insertMeal = async (name, restaurantId, mealDescription,
 
     const result = await sql`
         INSERT INTO meals (name, restaurant_id, purchase_code, meal_description,
-            co2_emissions, meal_allergens, carbohydrates, protein, fat, 
-            fiber, sugar, salt, saturated_fat, energy, vegetable_percent, price)
+            ingredients, co2_emissions, meal_allergens, carbohydrates, protein,
+            fat, fiber, sugar, salt, saturated_fat, energy, vegetable_percent,
+            price)
         VALUES (${name}, ${restaurantId}, ${purchaseCode}, ${mealDescription},
-            ${co2Emissions}, ${mealAllergens}, ${carbohydrates}, ${protein},
-            ${fat}, ${fiber}, ${sugar}, ${salt}, ${saturatedFat}, ${energy},
-            ${vegetablePercent}, ${price})
+            ${ingredients}, ${co2Emissions}, ${mealAllergens}, ${carbohydrates},
+            ${protein}, ${fat}, ${fiber}, ${sugar}, ${salt}, ${saturatedFat},
+            ${energy}, ${vegetablePercent}, ${price})
             RETURNING meal_id;`;
 
     return result.at(0).meal_id;
@@ -402,6 +403,20 @@ const setMealInactive = async (mealId) => {
     return result.count === 1;
 };
 
+/**
+ * Get meal for editing
+ * @param {number} mealId
+ * @returns {Promise<{ mealId: number, name: string }
+ * >} true if success
+ */
+const getMealForEdit = async (mealId) => {
+    const result = await sql`
+        SELECT name, meal_description, meal_allergens, price, ingredients
+        FROM meals WHERE meal_id = ${mealId}
+    `;
+    return result.count === 1;
+};
+
 module.exports = {
     sql,
     insertUser,
@@ -425,4 +440,5 @@ module.exports = {
     getMealRestaurantId,
     getPurchases,
     setMealInactive,
+    getMealForEdit
 };
