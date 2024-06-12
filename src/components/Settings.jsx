@@ -49,7 +49,9 @@ const DataRemoval = ({ styles, token }) => {
     return (
         <View>
             <Text style={styles.h3}>{t('DELETE_USER_AND_DATA')}</Text>
-            <Text style={[styles.body, { marginBottom: 5 }]}>{t('DELETE_USER_DESCRIPTION')}</Text>
+            <Text style={[styles.body, { marginBottom: 5 }]}>
+                {t('DELETE_USER_DESCRIPTION')}
+            </Text>
             <PasswordInput
                 styles={styles}
                 placeholder={t('PASSWORD')}
