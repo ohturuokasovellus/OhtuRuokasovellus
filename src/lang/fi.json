@@ -102,6 +102,7 @@
         "PRICE_CRITERIA": "Hinta",
         "ASCENDING": "Nouseva",
         "DESCENDING": "Laskeva",
-        "EDIT": "Muokkaa"
+        "EDIT": "Muokkaa",
+        "EDIT_MEAL": "Päivitä ateria"
     }
 }

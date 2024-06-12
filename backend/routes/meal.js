@@ -25,7 +25,7 @@ router.post('/api/meals', express.json(), async (req, res) => {
         mealName, mealDescription, mealAllergenString,
         ingredients, formattedPrice
     } = req.body;
-    console.log(ingredients)
+    console.log(ingredients);
     // Token decoding from 
     // https://fullstackopen.com/en/part4/token_authentication
     const decodedToken = verifyToken(req.header('Authorization'));

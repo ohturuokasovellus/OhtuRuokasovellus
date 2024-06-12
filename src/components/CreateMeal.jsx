@@ -88,7 +88,9 @@ const validationSchema = mealValidationSchema;
  * @param {Function} onError
  * @returns {JSX.Element} 
  */
-const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
+const CreateMealForm = ({
+    onSubmit, onSuccess, onError, initialValues, isEditing
+}) => {
     const {t} = useTranslation();
     const [ingredients, setIngredients] = useState({});
     const [categorizedIngredients, setCategorizedIngredients] = useState({});
@@ -225,7 +227,9 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
         <ScrollView style={styles.background}>
             <View style={styles.container}>
                 
-                <Text style={styles.h1}>{t('CREATE_A_MEAL')}</Text>
+                <Text style={styles.h1}>
+                    {t(isEditing ? 'EDIT_MEAL' : 'CREATE_A_MEAL')}
+                </Text>
                 {formik.values.imageUri ? (
                     <Image
                         source={{ uri: formik.values.imageUri }}
@@ -373,7 +377,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 <Button
                     styles={styles}
                     onPress={formik.handleSubmit}
-                    text={t('CREATE_A_MEAL')}
+                    text={t(isEditing ? 'EDIT_MEAL' : 'CREATE_A_MEAL')}
                     id='create-meal-button'
                 />
             </View>

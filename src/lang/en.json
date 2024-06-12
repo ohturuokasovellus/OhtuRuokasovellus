@@ -102,6 +102,7 @@
         "PRICE_CRITERIA": "Price",
         "ASCENDING": "Ascending",
         "DESCENDING": "Descending",
-        "EDIT": "Edit"
+        "EDIT": "Edit",
+        "EDIT_MEAL": "Edit meal"
     }
 }
