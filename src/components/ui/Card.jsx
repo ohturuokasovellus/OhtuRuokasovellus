@@ -37,7 +37,9 @@ const Card = ({ styles, imgURI, title, body }) => {
  * @param {boolean} isSelected
  * @param {array} sliceColor colours of chart slices
  */
-const MealCard = ({ styles, meal, onPress, isSelected, sliceColor}) => {
+const MealCard = (
+    { styles, meal, onPress, isSelected, sliceColor }
+)=> {
     const {t} = useTranslation();
     const [expanded, setExpanded] = useState(false);
 
