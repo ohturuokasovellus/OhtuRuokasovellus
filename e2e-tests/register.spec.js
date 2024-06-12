@@ -4,11 +4,9 @@ import { hash } from '../backend/services/hash';
 
 const initTestDB = async () => {
     await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
-    const user = 'test';
-    // eslint-disable-next-line id-length
-    const pw = hash('Test123!');
-    const email = 'test@test.com';
-    await insertUser(user, pw, email);
+    await insertUser('test', hash('Test123!'), 'test@test.com', '2000',
+        'other', 'primary', 'below 1500'
+    );
 };
 
 test.describe('registration page', () => {
@@ -18,7 +16,20 @@ test.describe('registration page', () => {
         await page.locator('#language-toggle').click();
     });
 
-    test('redirects to login page if already registered', async ({ page }) => {
+    test('page elements are displayed correctly', async ({ page }) => {
+        // fields
+        await expect(page.locator('#username-input')).toBeVisible();
+        await expect(page.locator('#email-input')).toBeVisible();
+        await expect(page.locator('#birth-year-input')).toBeVisible();
+        await expect(page.getByText('Gender')).toBeVisible();
+        await expect(page.getByText('Education')).toBeVisible();
+        await expect(page.getByText('Monthly income')).toBeVisible();
+        await expect(page.locator('#password-input')).toBeVisible();
+        await expect(page.locator('#confirm-password-input')).toBeVisible();
+        await expect(page.locator('#terms-checkbox')).toBeVisible();
+        await expect(page.locator('#privacy-checkbox')).toBeVisible();
+
+        //login link
         await page.locator('#login-link').click();
         await expect(page).toHaveURL(/\/login$/);
     });
@@ -28,100 +39,69 @@ test.describe('registration page', () => {
         await page.locator('#username-input').fill('best');
         await page.locator('#email-input').click();
         await page.locator('#email-input').fill('best@test.com');
+        await page.locator('#birth-year-input').click();
+        await page.locator('#birth-year-input').fill('2000');
+        await page.getByText('Gender').click();
+        await page.getByText('Woman').click();
+        await page.getByText('Education').click();
+        await page.getByText('Secondary education').click();
+        await page.getByText('Monthly income').click();
+        await page.getByText('<1500 €/kk').click();
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('Test123!');
         await page.locator('#confirm-password-input').click();
         await page.locator('#confirm-password-input').fill('Test123!');
+        await page.locator('#terms-checkbox').click();
+        await page.locator('#privacy-checkbox').click();
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/login$/);
     });
 
-    test('cannot register with a duplicate username', async ({ page }) => {
-        await page.locator('#username-input').click();
-        await page.locator('#username-input').fill('test');
-        await page.locator('#email-input').click();
-        await page.locator('#email-input').fill('test@test.fi');
-        await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('Test123!');
-        await page.locator('#confirm-password-input').click();
-        await page.locator('#confirm-password-input').fill('Test123!');
-        await page.locator('#register-button').click();
-        await expect(page).toHaveURL(/\/register$/);
-        await expect(page.locator('#root'))
-            .toContainText('username already exists');
-    });
-
-    test('cannot register without a username', async ({ page }) => {
-        await page.locator('#username-input').click();
-        await page.locator('#email-input').click();
-        await page.locator('#email-input').fill('test@test.fi');
-        await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('Test123!');
-        await page.locator('#confirm-password-input').click();
-        await page.locator('#confirm-password-input').fill('Test123!');
+    test('cannot register without filling the form', async ({ page }) => {
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
         await expect(page.locator('#root'))
             .toContainText('Username is required');
+        await expect(page.locator('#root'))
+            .toContainText('Email is required');
+        await expect(page.locator('#root'))
+            .toContainText('Year of birth is required');
+        await expect(page.locator('#root'))
+            .toContainText('Gender is required');
+        await expect(page.locator('#root'))
+            .toContainText('Education is required');
+        await expect(page.locator('#root'))
+            .toContainText('Monthly income is required');
+        await expect(page.locator('#root'))
+            .toContainText('Password is required');
+        await expect(page.locator('#root'))
+            .toContainText('Password confirmation is required');
     });
 
-    test('cannot register with an invalid username', async ({ page }) => {
+    test('cannot register with invalid details', async ({ page }) => {
+        await page.getByText('Gender').click();
+        await page.getByText('Woman').click();
+        await page.getByText('Education').click();
+        await page.getByText('Secondary education').click();
+        await page.getByText('Monthly income').click();
+        await page.getByText('<1500 €/kk').click();
+
+        // invalid username
         await page.locator('#username-input').click();
         await page.locator('#username-input').fill('te');
         await page.locator('#email-input').click();
-        await page.locator('#email-input').fill('test@test.fi');
         await expect(page.locator('#root'))
             .toContainText('Username must be at least 3 characters');
-        await page.locator('#email-input').click();
+        await page.locator('#username-input').click();
         await page.locator('#username-input')
             .fill('123456789012345678901234567890123');
-        await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('Test123!');
-        await page.locator('#confirm-password-input').click();
-        await page.locator('#confirm-password-input').fill('Test123!');
-        await page.locator('#register-button').click();
-        await expect(page).toHaveURL(/\/register$/);
         await expect(page.locator('#root'))
             .toContainText('Username cannot exceed 32 characters');
-    });
-
-    test('cannot register with a duplicate email', async ({ page }) => {
-        await page.locator('#username-input').click();
-        await page.locator('#username-input').fill('test2');
-        await page.locator('#email-input').click();
-        await page.locator('#email-input').fill('test@test.com');
-        await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('Test123!');
-        await page.locator('#confirm-password-input').click();
-        await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
-        await expect(page.locator('#root'))
-            .toContainText('email already exists');
-    });
 
-    test('cannot register without an email', async ({ page }) => {
-        await page.locator('#username-input').click();
-        await page.locator('#username-input').fill('test2');
-        await page.locator('#email-input').click();
-        await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('Test123!');
-        await page.locator('#confirm-password-input').click();
-        await page.locator('#confirm-password-input').fill('Test123!');
-        await page.locator('#register-button').click();
-        await expect(page).toHaveURL(/\/register$/);
-        await expect(page.locator('#root')).toContainText('Email is required');
-    });
-
-    test('cannot register with an invalid email', async ({ page }) => {
-        await page.locator('#username-input').click();
-        await page.locator('#username-input').fill('test2');
+        // invalid email
         await page.locator('#email-input').click();
         await page.locator('#email-input').fill('test');
         await page.locator('#username-input').click();
@@ -131,35 +111,29 @@ test.describe('registration page', () => {
         await page.locator('#email-input').fill('test@test');
         await page.locator('#username-input').click();
         await expect(page.locator('#root')).toContainText('Invalid email');
-        await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('Test123!');
-        await page.locator('#confirm-password-input').click();
-        await page.locator('#confirm-password-input').fill('Test123!');
+        await page.locator('#email-input').click();
+        await page.locator('#email-input').fill('test@test.com');
+        await page.locator('#email-input').fill('test@test@');
+        await page.locator('#username-input').click();
+        await expect(page.locator('#root')).toContainText('Invalid email');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
-    });
 
-    test('cannot register without a password', async ({ page }) => {
-        await page.locator('#username-input').click();
-        await page.locator('#username-input').fill('test2');
-        await page.locator('#email-input').click();
-        await page.locator('#email-input').fill('test@test.fi');
-        await page.locator('#password-input').click();
-        await page.locator('#confirm-password-input').click();
+        // invalid year of birth
+        await page.locator('#birth-year-input').click();
+        await page.locator('#birth-year-input').fill('t');
+        await expect(page.locator('#root'))
+            .toContainText('The year must be a number');
+        await page.locator('#birth-year-input').fill('1899');
+        await expect(page.locator('#root'))
+            .toContainText('The year cannot be before 1900');
+        await page.locator('#birth-year-input').fill('2010');
+        await expect(page.locator('#root'))
+            .toContainText('You must be over 15 to register');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
-        await expect(page.locator('#root'))
-            .toContainText('Password is required');
-        await expect(page.locator('#root'))
-            .toContainText('Password confirmation is required');
-    });
 
-    test('cannot register with an invalid password', async ({ page }) => {
-        await page.locator('#username-input').click();
-        await page.locator('#username-input').fill('test2');
-        await page.locator('#email-input').click();
-        await page.locator('#email-input').fill('test@test.fi');
+        // invalid password
         await page.locator('#password-input').click();
         await page.locator('#password-input').fill('test');
         await page.locator('#confirm-password-input').click();
@@ -201,25 +175,81 @@ test.describe('registration page', () => {
             .toContainText(
                 'Password must contain at least one special character'
             );
-        await page.locator('#confirm-password-input').click();
-        await page.locator('#confirm-password-input').fill('test123A!');
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
-    });
 
-    test('cannot register if the passwords do not match', async ({ page }) => {
-        await page.locator('#username-input').click();
-        await page.locator('#username-input').fill('test2');
-        await page.locator('#email-input').click();
-        await page.locator('#email-input').fill('test@test.fi');
+        // passwords do not match
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('Test123!');
         await page.locator('#confirm-password-input').click();
         await page.locator('#confirm-password-input').fill('Test123');
-        await page.locator('#register-button').click();
-        await expect(page).toHaveURL(/\/register$/);
+        await page.locator('#username-input').click();
         await expect(page.locator('#root'))
             .toContainText('Passwords must match');
+        await page.locator('#register-button').click();
+        await expect(page).toHaveURL(/\/register$/);
+
+        // t&c and privacy policy are not accepted
+        await page.locator('#username-input').click();
+        await page.locator('#username-input').fill('best');
+        await page.locator('#email-input').click();
+        await page.locator('#email-input').fill('best@test.com');
+        await page.locator('#birth-year-input').click();
+        await page.locator('#birth-year-input').fill('2000');
+        await page.locator('#password-input').click();
+        await page.locator('#password-input')
+            .fill('Test123!');
+        await page.locator('#confirm-password-input').click();
+        await page.locator('#confirm-password-input').fill('Test123!');
+        await page.locator('#terms-checkbox').click();
+        await page.locator('#privacy-checkbox').click();
+        await page.locator('#register-button').click();
+        await page.locator('#register-button').click();
+        await expect(page).toHaveURL(/\/register$/);
     });
+
+    test('cannot register with duplicate username or email',
+        async ({ page }) => {
+            await page.locator('#birth-year-input').click();
+            await page.locator('#birth-year-input').fill('2000');
+            await page.getByText('Gender').click();
+            await page.getByText('Woman').click();
+            await page.getByText('Education').click();
+            await page.getByText('Secondary education').click();
+            await page.getByText('Monthly income').click();
+            await page.getByText('<1500 €/kk').click();
+            await page.locator('#terms-checkbox').click();
+            await page.locator('#privacy-checkbox').click();
+
+            // duplicate username
+            await page.locator('#username-input').click();
+            await page.locator('#username-input').fill('test');
+            await page.locator('#email-input').click();
+            await page.locator('#email-input').fill('test@test.fi');
+            await page.locator('#password-input').click();
+            await page.locator('#password-input')
+                .fill('Test123!');
+            await page.locator('#confirm-password-input').click();
+            await page.locator('#confirm-password-input').fill('Test123!');
+            await page.locator('#register-button').click();
+            await expect(page).toHaveURL(/\/register$/);
+            await expect(page.locator('#root'))
+                .toContainText('username already exists');
+
+            // duplicate email
+            await page.locator('#username-input').click();
+            await page.locator('#username-input').fill('test2');
+            await page.locator('#email-input').click();
+            await page.locator('#email-input').fill('test@test.com');
+            await page.locator('#password-input').click();
+            await page.locator('#password-input')
+                .fill('Test123!');
+            await page.locator('#confirm-password-input').click();
+            await page.locator('#confirm-password-input').fill('Test123!');
+            await page.locator('#register-button').click();
+            await expect(page).toHaveURL(/\/register$/);
+            await expect(page.locator('#root'))
+                .toContainText('email already exists');
+        });
 });

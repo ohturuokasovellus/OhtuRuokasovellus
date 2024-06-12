@@ -67,7 +67,7 @@ test.describe('user removal', () => {
         await expect(page.getByText('Tietojen poisto epäonnistui'))
             .toBeVisible();
 
-        // account is removed with corrct password
+        // account is removed with correct password
         await page.fill('#account_removal_password', 'Test123!');
         await page.click('#account_removal_button');
         await expect(page).toHaveURL('/register');
