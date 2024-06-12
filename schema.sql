@@ -6,19 +6,6 @@ DROP TABLE IF EXISTS meals CASCADE;
 DROP TABLE IF EXISTS purchases CASCADE;
 DROP TABLE IF EXISTS urls CASCADE;
 
-DROP TYPE IF EXISTS gender;
-DROP TYPE IF EXISTS education;
-DROP TYPE IF EXISTS income;
-
-CREATE TYPE gender AS ENUM('man', 'woman', 'other');
-CREATE TYPE education AS ENUM(
-    'primary', 'secondary', 'vocational specialised',
-    'lowest tertiary', 'bachelors', 'masters', 'doctoral');
-CREATE TYPE income AS ENUM(
-    'below 1500', '1500-2500', '2500-3500',
-    '3500-4500', '4500-5500', 'over 5500'
-);
-
 CREATE TABLE restaurants (
     restaurant_id SERIAL PRIMARY KEY,
     name TEXT UNIQUE NOT NULL
@@ -29,10 +16,10 @@ CREATE TABLE users (
     username TEXT UNIQUE,
     password TEXT,
     email TEXT UNIQUE,
-    birth_year INT,
-    gender gender,
-    education education,
-    income income,
+    birth_year TEXT, -- the demographic info is encrypted, thus TEXT
+    gender TEXT,
+    education TEXT,
+    income TEXT,
     restaurant_id INT REFERENCES restaurants DEFAULT NULL
 );
 
