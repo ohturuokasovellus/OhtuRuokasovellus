@@ -49,13 +49,15 @@ test.describe('user removal', () => {
         await purchaseMeal(page, '12345678');
 
         // password is required
-        await page.goto('/settings');
+        await page.goto('/');
+        await page.click('#settings-button');
+        await expect(page).toHaveURL('/settings');
         await page.click('#account_removal_button');
-        await expect(page.getByText('Salasana vaaditaan')).toBeVisible();
+        await expect(page.getByText('Syötä salasana', { exact: true })).toBeVisible();
 
         // password is checked to be correct
         await page.fill('#account_removal_password', '!nC0rrect');
-        await expect(page.getByText('Salasana vaaditaan')).not.toBeVisible();
+        await expect(page.getByText('Syötä salasana', { exact: true })).not.toBeVisible();
         await page.click('#account_removal_button');
         await expect(page.getByText('Tietojen poisto epäonnistui')).toBeVisible();
 
