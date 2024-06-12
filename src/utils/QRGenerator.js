@@ -6,7 +6,7 @@ import QRCode from 'react-qr-code';
  * @param {String} urlToBeGenerated 
  * @returns {QRCode}
  */
-function QRGenerator(urlToBeGenerated) {
+function QRGenerator({urlToBeGenerated}) {
     return (
         <QRCode value={urlToBeGenerated} />
     );
