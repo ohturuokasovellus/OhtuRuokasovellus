@@ -14,6 +14,7 @@ import { Button, SmallButton } from './ui/Buttons';
 import { Input, MultilineInput } from './ui/InputFields';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { CheckBox } from 'react-native-elements';
+import { useParams } from '../Router';
 
 // correct dictionary format for categorized ingredients
 // const categorizedIngredients = {
@@ -65,7 +66,7 @@ const initialValues = {
         nuts: false,
         peanut: false,
         sesame_seeds: false,
-        kala: false,
+        fish: false,
         shellfish: false,
         molluscs: false,
         celery: false,
@@ -384,7 +385,9 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
  * CreateMeal component for managing meal addition.
  */
 const CreateMeal = (props) => {
+    const { mealId } = useParams();
     const navigate = useNavigate();
+    console.log(mealId);
 
     useEffect(() => {
         if (!props.user) {

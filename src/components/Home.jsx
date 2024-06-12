@@ -78,7 +78,7 @@ const Home = (props) => {
     const deleteMealButtonId = (index) => `delete-meal-button-${index}`;
 
     const handleEditPress = (mealId) => {
-        console.log(mealId);
+        navigate(`/edit-meal/${mealId}`);
     };
 
     return (
@@ -125,9 +125,10 @@ const Home = (props) => {
                                             >
                                                 <Button
                                                     styles={styles}
-                                                    onPress={handleEditPress(
-                                                        meal.meal_id
-                                                    )}
+                                                    onPress={() =>
+                                                        handleEditPress(
+                                                            meal.meal_id
+                                                        )}
                                                     text={t('EDIT')}
                                                     id={`edit-button-${index}`}
                                                 />
