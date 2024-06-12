@@ -286,6 +286,7 @@ const Register = ({ updateUser }) => {
             birthYear, gender, education,
             income
         } = values;
+
         try {
             await axios.post(
                 `${apiUrl}/register`,
