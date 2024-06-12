@@ -1,4 +1,5 @@
-import { sql, insertUser } from '../backend/database';
+import { sql, insertUser,
+    updateUserRestaurantByEmail } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 
@@ -7,14 +8,27 @@ const initTestDB = async () => {
     const user = 'testi';
     const password = hash('Testi123!');
     const email = 'test@test.com';
-    await insertUser(user, password, email);
+    const birthYear = '2000';
+    const gender = 'other';
+    const education = 'primary';
+    const income = 'below 1500';
+    await insertUser(user, password, email, birthYear,
+        gender, education, income
+    );
 };
 
 const createRestaurantUser = async () => {
     const user = 'testaurante';
     const password = hash('Testaurante123!');
     const email = 'testaurante@test.com';
-    await insertUser(user, password, email, 1);
+    const birthYear = '2000';
+    const gender = 'other';
+    const education = 'primary';
+    const income = 'below 1500';
+    await insertUser(user, password, email, birthYear,
+        gender, education, income
+    );
+    await updateUserRestaurantByEmail('testaurante@test.com', 1);
 };
 
 test.describe('navbar', () => {

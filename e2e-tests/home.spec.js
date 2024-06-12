@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import {
     sql, insertUser,
     insertRestaurant,
+    updateUserRestaurantByEmail
 } from '../backend/database';
 import { hash } from '../backend/services/hash';
 
@@ -17,21 +18,29 @@ const initTestDB = async () => {
             username: 'test',
             password: 'Test123!',
             email: 'test@test.com',
-            restaurantId: 1
+            birthYear: '2000',
+            gender: 'other',
+            education: 'primary',
+            income: 'below 1500',
         },
         {
             username: 'test2',
             password: 'Best456@',
             email: 'test2@test.com',
-            restaurantId: null
+            birthYear: '2000',
+            gender: 'other',
+            education: 'primary',
+            income: 'below 1500',
         }
     ];
 
     for (const user of users) {
         const password = hash(user.password);
-        await insertUser(user.username, password, 
-            user.email, user.restaurantId);
+        await insertUser(user.username, password, user.email, 
+            user.birthYear, user.gender, user.education, user.income);
     }
+
+    await updateUserRestaurantByEmail('test@test.com', 1);
 };
 
 test.describe('home page', () => {

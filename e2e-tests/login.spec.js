@@ -9,7 +9,13 @@ const initTestDB = async () => {
     const user = 'testi';
     const password = hash('Testi123!');
     const email = 'test@test.com';
-    insertUser(user, password, email);
+    const birthYear = '2000';
+    const gender = 'other';
+    const education = 'primary';
+    const income = 'below 1500';
+    insertUser(user, password, email, birthYear,
+        gender, education, income
+    );
 };
 
 test.describe('login page', () => {
