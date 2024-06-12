@@ -24,7 +24,10 @@ describe('settings', () => {
             .post('/api/remove-account')
             .send({ password: 'Test123!' })
             .set('Content-Type', 'application/json')
-            .set('Authorization', 'Bearer ' + createToken('test', 1, null).substring(1))
+            .set(
+                'Authorization',
+                'Bearer ' + createToken('test', 1, null).substring(1)
+            )
             .expect(401)
             .expect({ error: 'unauthorized' });
 
