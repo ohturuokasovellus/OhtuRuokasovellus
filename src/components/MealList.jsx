@@ -31,7 +31,6 @@ const MealList = () => {
 
     const styles = createStyles();
     const { colors } = useContext(themeContext);
-    const sliceColor = [colors.primary, colors.secondary, colors.tertiary];
 
     useEffect(() => {
         const fetchMeals = async () => {
@@ -48,7 +47,7 @@ const MealList = () => {
                         );
                         return {
                             ...meal,
-                            image: imageRes.data
+                            image: imageRes.data,
                         };
                     }));
                 setMeals(updatedMeals);
@@ -58,7 +57,7 @@ const MealList = () => {
             }
         };
         fetchMeals();
-    }, [restaurantId]);
+    }, []);
 
     const handlePress = (meal) => {
         setSelectedMeals((prevSelectedMeals) => {
@@ -96,7 +95,7 @@ const MealList = () => {
                             meal={item}
                             onPress={() => handlePress(item)}
                             isSelected={selectedMeals.includes(item)}
-                            sliceColor={sliceColor}
+                            sliceColor={colors.sliceColor}
                         />
                     )}
                 />

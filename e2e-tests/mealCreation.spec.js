@@ -73,6 +73,39 @@ test.describe('meal creation page', () => {
             .toContainText('Image of the meal is required');
     });
 
+    test('does not create a meal without ingredient',
+        async ({page}) => {
+            await page.fill('input[id="meal-name-input"]', 'ruoka');
+            await page.locator('#price-input').fill('12,30');
+            const fileChooserPromise = page.waitForEvent('filechooser');
+            await page.locator('#image-picker-button').click();
+            const fileChooser = await fileChooserPromise;
+            const filePath = path.join(__dirname, 'assets', 'image.png');
+            await fileChooser.setFiles(filePath);
+
+            await page.locator('#create-meal-button').click();
+            await expect(page).toHaveURL('/create-meal');
+            await expect(page.locator('#root'))
+                .toContainText('At least one ingredient with weight required');
+        });
+    
+    test('does not create a meal without meal price',async ({page}) => {
+        await page.fill('input[id="meal-name-input"]', 'ruoka');
+        await page.getByText('Ingredient').click();
+        await page.getByText('Banaani kuorittu').click();
+        await page.fill('input[id="weight-input-0"]', '100');
+        const fileChooserPromise = page.waitForEvent('filechooser');
+        await page.locator('#image-picker-button').click();
+        const fileChooser = await fileChooserPromise;
+        const filePath = path.join(__dirname, 'assets', 'image.png');
+        await fileChooser.setFiles(filePath);
+
+        await page.locator('#create-meal-button').click();
+        await expect(page).toHaveURL('/create-meal');
+        await expect(page.locator('#root'))
+            .toContainText('Price is required');
+    });
+
     test('creating a meal works with name and a image', async ({ page}) => {
         await page.fill('input[id="meal-name-input"]', 'ruoka');
         const fileChooserPromise = page.waitForEvent('filechooser');
@@ -84,7 +117,8 @@ test.describe('meal creation page', () => {
     });
 
     test('creating a meal works with meal description, \
-        ingredients and their weight and allergens', async ({ page }) => {
+        ingredients and their weight, allergens and price',
+    async ({ page }) => {
         await page.fill('input[id="meal-name-input"]', 'ruoka');
         await page.locator('#description-input').fill('description');
         // await page.locator('#ingredient-dropdown-0').click();
@@ -92,6 +126,7 @@ test.describe('meal creation page', () => {
         await page.getByText('Banaani kuorittu').click();
         await page.fill('input[id="weight-input-0"]', '100');
         await page.locator('#checkbox-grains').click();
+        await page.locator('#price-input').fill('12,30');
         const fileChooserPromise = page.waitForEvent('filechooser');
         await page.locator('#image-picker-button').click();
         const fileChooser = await fileChooserPromise;

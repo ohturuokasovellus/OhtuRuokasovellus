@@ -80,7 +80,11 @@ const mealValidationSchema = yup.object().shape({
             weight: yup.string()
         })
     ),
-    allergens: yup.object()
+    allergens: yup.object(),
+    price: yup.string()
+        .matches(/^(?![0,]+$)\d+(?:,\d{1,2})?$/,
+            'PRICE_CANNOT_BE_ZERO')
+        .required('PRICE_IS_REQUIRED')
 });
 
 export {

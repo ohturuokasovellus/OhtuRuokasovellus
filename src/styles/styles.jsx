@@ -16,7 +16,7 @@ const createStyles = () => {
         },
         container: {
             maxWidth: 700,
-            minWidth: 320,
+            width: '100%',
             padding: 8,
             backgroundColor: colors.surface,
             borderRadius: 8,
@@ -128,7 +128,7 @@ const createStyles = () => {
         },
         deleteButton: {
             backgroundColor: colors.errorContainer,
-            padding: 8,
+            padding: 12,
             borderRadius: 8,
             alignItems: 'center',
             marginBottom: 12,
@@ -193,7 +193,9 @@ const createStyles = () => {
         },
         flexInputContainer: {
             flexDirection: 'row',
-            alignItems: 'center',
+            flexWrap: 'wrap',
+            alignItems: 'space-between',
+            width: '100%',
             borderRadius: 8,
             marginBottom: 12,
         },
@@ -211,7 +213,7 @@ const createStyles = () => {
         // cards
         cardContainer: {
             maxWidth: 600,
-            minWidth: 300,
+            width: '100%',
             padding: 16,
             backgroundColor: colors.surfaceVariant,
             borderRadius: 8,
@@ -271,14 +273,19 @@ const createStyles = () => {
             marginLeft: 8,
         },
         chartDescrContainer: {
+            display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            alignItems: 'top',
+            justifyContent: 'space-evenly',
             marginLeft: 8,
+            rowGap: 10,
         },
         mealDescrContainer: {
             flex: 1,
             marginLeft: 12,
             marginRight: 8,
+            minWidth: 120,
         },
 
         // QR
@@ -392,13 +399,15 @@ const createStyles = () => {
         mealContainer: {
             marginVertical: 8,
             borderWidth: 1,
-            borderColor: 'lightgray',
+            borderColor: colors.outlineVariant,
+            backgroundColor: colors.surfaceVariant,
             borderRadius: 8,
         },
         mealContent: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+            flexWrap: 'wrap',
             paddingHorizontal: 16,
             paddingVertical: 8,
         },
@@ -414,14 +423,17 @@ const createStyles = () => {
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
         },
         modalContent: {
-            width: 300,
+            maxWidth: 300,
+            width: '100%',
             padding: 20,
-            backgroundColor: 'white',
+            backgroundColor: colors.surface,
             borderRadius: 10,
             alignItems: 'center',
         },
         modalText: {
             fontSize: 18,
+            fontFamily: 'Roboto-Regular',
+            color: colors.onSurface,
             marginBottom: 20,
         },
         modalButtons: {
@@ -476,7 +488,7 @@ const createStyles = () => {
             borderColor: colors.onSurface,
         },
         checkedIcon: {
-            backgroundColor: colors.primary,
+            backgroundColor: colors.secondary,
         },
 
         // nutriscore
