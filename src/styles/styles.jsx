@@ -414,6 +414,11 @@ const createStyles = () => {
         mealListContainer: {
             maxHeight: 400,
         },
+        managementButtons: {
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            flexWrap: 'wrap',
+        },
 
         // Modal
         modalContainer: {

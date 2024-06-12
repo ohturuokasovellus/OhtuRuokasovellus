@@ -101,6 +101,7 @@
         "PRICE_CANNOT_BE_ZERO": "Price cannot be zero",
         "PRICE_CRITERIA": "Price",
         "ASCENDING": "Ascending",
-        "DESCENDING": "Descending"
+        "DESCENDING": "Descending",
+        "EDIT": "Edit"
     }
 }

@@ -77,6 +77,10 @@ const Home = (props) => {
 
     const deleteMealButtonId = (index) => `delete-meal-button-${index}`;
 
+    const handleEditPress = (mealId) => {
+        console.log(mealId);
+    };
+
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
@@ -116,18 +120,34 @@ const Home = (props) => {
                                             <Text style={styles.body}>
                                                 {meal.meal_name}
                                             </Text>
-                                            <DeleteButton
-                                                styles={styles}
-                                                onPress={() => {
-                                                    setMealToDelete(
+                                            <View 
+                                                style={styles.managementButtons}
+                                            >
+                                                <Button
+                                                    styles={styles}
+                                                    onPress={handleEditPress(
                                                         meal.meal_id
-                                                    );
-                                                    setShowModal(true);
-                                                }
-                                                }
-                                                text={t('DELETE')}
-                                                id={deleteMealButtonId(index)}
-                                            />
+                                                    )}
+                                                    text={t('EDIT')}
+                                                    id={`edit-button-${index}`}
+                                                />
+                                                <DeleteButton
+                                                    styles={styles}
+                                                    onPress={() => {
+                                                        setMealToDelete(
+                                                            meal.meal_id
+                                                        );
+                                                        setShowModal(true);
+                                                    }
+                                                    }
+                                                    text={t('DELETE')}
+                                                    id={
+                                                        deleteMealButtonId(
+                                                            index
+                                                        )
+                                                    }
+                                                />
+                                            </View>
                                         </View>
                                     </View>
                                 ))

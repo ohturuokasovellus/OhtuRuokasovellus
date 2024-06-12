@@ -101,6 +101,7 @@
         "PRICE_CANNOT_BE_ZERO": "Hinta ei voi olla nolla",
         "PRICE_CRITERIA": "Hinta",
         "ASCENDING": "Nouseva",
-        "DESCENDING": "Laskeva"
+        "DESCENDING": "Laskeva",
+        "EDIT": "Muokkaa"
     }
 }
