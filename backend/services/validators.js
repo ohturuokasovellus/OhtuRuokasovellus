@@ -15,8 +15,15 @@ function isValidPassword(password) {
     return passwordPattern.test(password);
 }
 
+function isValidBirthYear(year, currentYear) {
+    if (year < 1900) return false;
+    if (currentYear-15 < year) return false;
+    return true;
+}
+
 module.exports = {
     isValidEmail,
     isValidUsername,
     isValidPassword,
+    isValidBirthYear,
 };
