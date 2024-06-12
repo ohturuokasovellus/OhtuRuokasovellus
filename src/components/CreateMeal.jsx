@@ -387,7 +387,8 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
 const CreateMeal = (props) => {
     const { mealId } = useParams();
     const navigate = useNavigate();
-    console.log(mealId);
+    const [isEditing, setIsEditing] = useState(false);
+    const [meal, setMeal] = useState(initialValues);
 
     useEffect(() => {
         if (!props.user) {
@@ -396,7 +397,24 @@ const CreateMeal = (props) => {
         else if (!props.user.restaurantId) {
             navigate('/');
         }
-    });
+        else if (mealId) {
+            const fetchMeal = async () => {
+                if (mealId) {
+                    try {
+                        const response = await axios.get(
+                            `${apiUrl}/meals/${mealId}`
+                        );
+                        setMeal(response.data);
+                        console.log(response.data);
+                        setIsEditing(true);
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }
+            };
+            fetchMeal();
+        }
+    }, [mealId]);
 
     // Takes dictionary with allergens as keys and values as boolean
     // and transforms allergens with true values into single string
@@ -419,31 +437,45 @@ const CreateMeal = (props) => {
     };
 
     const onSubmit = async values => {
-        const {
-            mealName, imageUri, mealDescription, ingredients, allergens, price
-        } = values;
-        const mealAllergenString = createAllergenString(allergens);
+        const mealAllergenString = createAllergenString(values.allergens);
+        const formattedPrice = formatPrice(values.price);
 
-        const formattedPrice = formatPrice(price);
+        const formattedValues = {
+            imageUri: values.imageUri,
+            ingredients: values.ingredients,
+            mealDescription: values.mealDescription,
+            mealName: values.mealName,
+            mealAllergenString: mealAllergenString,
+            formattedPrice: formattedPrice};
+        console.log(formattedValues);
 
         try {
-            const response = await axios.post(
-                `${apiUrl}/meals`,
-                { mealName, mealDescription, ingredients,
-                    mealAllergenString, formattedPrice
-                },
-                {
-                    headers: { Authorization: `Bearer ${getSession().token}` }
-                }
-            );
-            const mealId = response.data.mealId;
-            await axios.post(
-                `${apiUrl}/meals/images/${mealId}`,
-                imageUri,
-                {
-                    headers: { 'Content-Type': 'image/jpeg' },
-                },
-            );
+            if (isEditing) {
+                await axios.put(`${apiUrl}/meals/${mealId}`, formattedValues,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${getSession().token}`
+                        }
+                    });
+            } else {
+                const response = await axios.post(
+                    `${apiUrl}/meals`, formattedValues,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${getSession().token}`
+                        }
+                    });
+                const mealId = response.data.mealId;
+                await axios.post(
+                    `${apiUrl}/meals/images/${mealId}`,
+                    values.imageUri,
+                    {
+                        headers: {
+                            'Content-Type': 'image/jpeg'
+                        },
+                    },
+                );
+            }
         } catch (err) {
             const errorMessage = err.response?.data?.errorMessage ||
                 'an unexpected error occurred';
@@ -467,6 +499,8 @@ const CreateMeal = (props) => {
 
     return <CreateMealForm onSubmit={onSubmit}
         onSuccess={onSuccess} onError={onError}
+        isEditing={isEditing}
+        initialValues={initialValues}
     />;
 };
 

@@ -25,6 +25,7 @@ router.post('/api/meals', express.json(), async (req, res) => {
         mealName, mealDescription, mealAllergenString,
         ingredients, formattedPrice
     } = req.body;
+    console.log(ingredients)
     // Token decoding from 
     // https://fullstackopen.com/en/part4/token_authentication
     const decodedToken = verifyToken(req.header('Authorization'));
@@ -137,7 +138,7 @@ router.get('/api/meals/:restaurantId', async (req, res) => {
 /**
  * Route for setting a meal to inactive.
  * @param {Object} req - The request object.
- * @param {number} req.params.mealid - meal id.
+ * @param {number} req.params.mealId - meal id.
  * @param {Object} res - The response object.
  * @returns {Object} 401 - Unauthorized.
  * @returns {Object} 200 - Success status.
@@ -157,6 +158,51 @@ router.put('/api/meals/delete/:mealId', express.json(), async (req, res) => {
     }
 
     res.status(200).json('Meal deleted');
+});
+
+/**
+ * Route for updating a meal
+ * @param {Object} req - The request object.
+ * @param {number} req.params.mealId - meal id.
+ * @param {Object} res - The response object.
+ * @returns {Object} 401 - Unauthorized.
+ * @returns {Object} 200 - Success status.
+ */
+router.put('/api/meals/:mealId', express.json(), async (req, res) => {
+    const {
+        mealName, mealDescription, mealAllergenString,
+        ingredients, formattedPrice
+    } = req.body;
+    const mealId = req.params.mealId;
+    const userInfo = verifyToken(req.header('Authorization'));
+    const result = await getMealRestaurantId(mealId);
+
+    if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
+        return res.status(401).json('Unauthorized');
+    }
+    
+    let mealIngredients = {};
+    
+    ingredients.forEach(element => {
+        mealIngredients[element.mealId] = element.weight;
+    });
+
+    const nutrients = await getNutrients(mealIngredients, 
+        'backend/csvFiles/raaka-ainetiedot.csv');
+    res.status(200).json(result);
+});
+
+router.get('/api/meals/:mealId', express.json(), async (req, res) => {
+    const mealId = req.params.mealId;
+
+    const userInfo = verifyToken(req.header('Authorization'));
+    const result = await getMealRestaurantId(mealId);
+        
+    if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
+        return res.status(401).json('Unauthorized');
+    }
+    res.status(200);
+
 });
 
 module.exports = router;
