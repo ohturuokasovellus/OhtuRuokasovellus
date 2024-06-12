@@ -5,7 +5,7 @@ const { hash } = require('../services/hash');
 
 const router = express.Router();
 
-router.post('/api/remove-account', async (req, res) => {
+router.post('/api/remove-account', express.json(), async (req, res) => {
     const { password } = req.body;
     const decodedToken = verifyToken(req.header('Authorization'));
 
