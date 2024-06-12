@@ -1,10 +1,14 @@
 import axios from 'axios';
+import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import QRGenerator from '../utils/QRGenerator';
-import { useParams } from '../Router';
 import { View, Text } from 'react-native';
+import {captureRef} from 'react-native-view-shot';
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
+import { useParams } from '../Router';
+import { Button } from './ui/Buttons';
 import apiUrl from '../utils/apiUrl';
-import { useEffect, useState } from 'react';
+import QRGenerator from '../utils/QRGenerator';
+import createStyles from '../styles/styles';
 
 async function getPageURL(){
     try {
@@ -23,6 +27,35 @@ const MenuQR = () => {
     const {t} = useTranslation();
     const { restaurantId } = useParams();
     let [menuQRCode, setmenuQRCode] = useState('');
+    const styles = createStyles();
+    const qrViewReference = useRef();
+
+    const downloadImage = async () => {
+        try {
+            // react-native-view-shot captures component
+            const uri = await captureRef(qrViewReference, {
+                format: 'jpg',
+                quality: 0.8,
+            });
+
+            //TODO: get andoir permissions
+            //if (Platform.OS === 'android') {
+            //    const granted = await getPermissionAndroid();
+            //    if (!granted) {
+            //        return;
+            //    }
+            //}
+
+            // cameraroll saves image
+            const image = CameraRoll.saveAsset(uri);
+            if (image) {
+                console.log('Image saved successfully.', image);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
 
     useEffect(() => {
         const fetchWebpageURL = async () => {
@@ -49,7 +82,13 @@ const MenuQR = () => {
     return (
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <Text>{t('QR_CODE_TO_YOUR_MENU')}</Text>
-            <QRGenerator urlToBeGenerated={menuQRCode}/>
+            <QRGenerator urlToBeGenerated={menuQRCode} ref={qrViewReference}/>
+            <Button
+                styles={styles}
+                onPress={() => downloadImage()}
+                text={t('EXPORT_MENU_QR')}
+                id='export-qr-button'
+            />
         </View>
     );
 };
