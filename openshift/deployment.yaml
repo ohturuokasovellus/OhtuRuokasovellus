@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ruokasovellus-staging
+  annotations:
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"ruokasovellus:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"ruokasovellus\")].image"}]'
 spec:
   replicas: 1
   selector:
@@ -16,6 +18,7 @@ spec:
       containers:
         - name: ruokasovellus
           image: image-registry.openshift-image-registry.svc:5000/ruokasovellus/ruokasovellus:latest
+          imagePullPolicy: Always
           ports:
           - containerPort: 8080
           startupProbe:
@@ -38,16 +41,6 @@ spec:
           env:
             - name: BACKEND_POSTGRES_URL
               value: postgres://postgres:$(POSTGRES_PASSWORD)@ruokasovellus-db-staging-service:5432/ruokasovellus
-            # - name: DATABASE_ENCRYPTION_KEY
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: ruokasovellus-staging
-            #       key: DATABASE_ENCRYPTION_KEY
-            # - name: SECRET_KEY
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: ruokasovellus-staging
-            #       key: SECRET_KEY
           envFrom:
             - secretRef:
                 # pulls POSTGRES_PASSWORD, SECRET_KEY and DATABASE_ENCRYPTION_KEY env vars
