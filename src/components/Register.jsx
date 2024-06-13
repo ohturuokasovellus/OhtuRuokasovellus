@@ -315,15 +315,16 @@ const Register = ({ updateUser }) => {
         const {
             username, email, password,
             birthYear, gender, education,
-            income
+            income, isRestaurant, restaurantName
         } = values;
 
         try {
             await axios.post(
                 `${apiUrl}/register`,
                 {
-                    username, email, password,
-                    birthYear, gender, education, income
+                    username, email, password, birthYear, gender,
+                    education, income, isRestaurant,
+                    restaurantName: isRestaurant ? restaurantName : null
                 }
             );
         } catch (err) {

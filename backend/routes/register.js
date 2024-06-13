@@ -5,9 +5,11 @@ const {
     '../services/validators'
 );
 const { hash } = require('../services/hash');
-const { insertUser, doesUsernameExist, doesEmailExist } = require(
-    '../database'
-);
+const {
+    insertUser, doesUsernameExist, doesEmailExist,
+    doesRestaurantExist, insertRestaurant,
+    updateUserRestaurantByEmail
+} = require('../database');
 
 const router = express.Router();
 
@@ -17,7 +19,7 @@ router.post('/api/register', async (req, res) => {
     const {
         username, password, email,
         birthYear, gender, education,
-        income
+        income, isRestaurant, restaurantName
     } = req.body;
     const currentYear = new Date().getFullYear();
 
@@ -58,6 +60,23 @@ router.post('/api/register', async (req, res) => {
     } catch (err) {
         console.error(err);
         return res.status(500).json({ errorMessage: 'user creation failed' });
+    }
+
+    if (isRestaurant && restaurantName) {
+        try {
+            if (await doesRestaurantExist(restaurantName)) {
+                return res.status(400).json({
+                    errorMessage: `restaurant ${restaurantName} already exists`
+                });
+            }
+            const restaurantId = await insertRestaurant(restaurantName);
+            await updateUserRestaurantByEmail(email, restaurantId);
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({
+                errorMessage: 'restaurant creation failed'
+            });
+        }
     }
 
     res.sendStatus(200);
