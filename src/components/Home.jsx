@@ -158,6 +158,12 @@ const Home = (props) => {
                 {surveyUrl && (
                     <Survey surveyUrl={surveyUrl}/>
                 )}
+                <Button
+                    styles={styles}
+                    onPress={() => navigate('/settings')}
+                    text={t('SETTINGS')}
+                    id='settings-button'
+                />
             </View>
             <Modal
                 visible={showModal}

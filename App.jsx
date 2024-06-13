@@ -16,7 +16,7 @@ import CreateMeal from './src/components/CreateMeal';
 import Purchase from './src/components/Purchase';
 import PurchaseHistory from './src/components/PurchaseHistory';
 import MenuQR from './src/components/MenuQR';
-
+import Settings from './src/components/Settings';
 import './src/lang/i18n'; // should be inported in index.js, but idk if
 //they mean the backend's index.js or frontend's app.jsx. Works when imported
 // here.
@@ -60,6 +60,7 @@ const App = () => {
                     <Route path='/history' element={<PurchaseHistory />} />
                     <Route path='/menuQR/:restaurantId'
                         element={<MenuQR />}/>
+                    <Route path='/settings' element={<Settings />} />
                 </Routes>
             </Router>
         </ThemeController>
