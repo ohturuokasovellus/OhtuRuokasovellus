@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Formik } from 'formik';
 import { View, Text, ScrollView } from 'react-native';
 
-import { useNavigate } from '../Router';
+import { Link, useNavigate } from '../Router';
 import { createSession, deleteSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
 import { useTranslation } from 'react-i18next';
@@ -113,18 +113,11 @@ const LoginForm = ({ updateUser }) => {
                         <Text style={styles.body}>
                             {t('DONT_HAVE_AN_ACCOUNT_YET')}
                         </Text>
-                        <Button
-                            styles={styles}
-                            onPress={() => navigate('/register')}
-                            text={t('REGISTER')}
-                            id='register-button'
-                        />
-                        <Button
-                            styles={styles}
-                            onPress={() => navigate('/register-restaurant')}
-                            text={t('REGISTER_RESTAURANT')}
-                            id='register-restaurant-button'
-                        />
+                        <Link to='/register'>
+                            <Text style={styles.link} id='register-link'>
+                                {t('REGISTER')}
+                            </Text>
+                        </Link>
                     </View>
                 </ScrollView>
             )}

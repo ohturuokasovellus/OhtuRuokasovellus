@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const registerRouter = require('./routes/register');
 const LoginRouter = require('./routes/login');
-const registerRestaurantRouter = require('./routes/registerRestaurant');
 const mealRouter = require('./routes/meal');
 const urlRouter = require('./routes/url');
 const userAdditionRouter = require('./routes/addUser');
@@ -19,7 +18,6 @@ app.use(cors());
 
 app.use(registerRouter);
 app.use(LoginRouter);
-app.use(registerRestaurantRouter);
 app.use(mealRouter);
 app.use(urlRouter);
 app.use(userAdditionRouter);

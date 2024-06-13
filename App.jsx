@@ -10,7 +10,6 @@ import Home from './src/components/Home';
 import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
 import QRForm from './src/components/QRForm';
-import RegisterRestaurant from './src/components/RegisterRestaurant';
 import AddUser from './src/components/AddUser';
 import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
@@ -51,10 +50,6 @@ const App = () => {
                         element={<MealList />}/>
                     <Route path='/create-meal' element={<CreateMeal 
                         user={user} />} />
-                    <Route path='/register-restaurant'
-                        element=
-                            {<RegisterRestaurant updateUser={updateUser}/>}
-                    />
                     <Route path='/add-users'
                         element={<AddUser user={user} />} />
                     <Route path='/purchase/:purchaseCode'
