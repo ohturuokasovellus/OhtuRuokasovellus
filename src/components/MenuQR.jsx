@@ -76,14 +76,15 @@ const MenuQR = () => {
                 <View style={styles.container}>
                     <View style={styles.qrPage}>
                         <Text>{t('QR_CODE_TO_YOUR_MENU')}</Text>
-                        <View style={styles.qrContainer} ref={qrViewReference}>
+                        <View style={styles.qrContainer} ref={qrViewReference} 
+                            id='QR-code'>
                             <QRCode size={500} style={{ height: 'auto', 
                                 maxWidth: '500px', width: '500px'}}
                             value={menuQRCode}/>
                         </View>
                         <Link to={imageUri} target="_blank" download>
                             <Button styles={styles} onPress={()=>{}} 
-                                text={t('DOWNLOAD')}>
+                                text={t('DOWNLOAD')} id='Download-QR-code'>
                             </Button>
                         </Link>
                     </View>
