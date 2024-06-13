@@ -25,7 +25,9 @@ const initialValues = {
     password: '',
     confirmPassword: '',
     terms: false,
-    privacy: false
+    privacy: false,
+    isRestaurant: false,
+    restaurantName: '',
 };
 
 const validationSchema = registrationValidationSchema;
@@ -44,6 +46,8 @@ const validationSchema = registrationValidationSchema;
 const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     const {t} = useTranslation();
     const [formError, setFormError] = useState('');
+    const [showRestaurantName, setShowRestaurantName] = useState(false);
+
     const formik = useFormik({
         initialValues,
         validationSchema,
@@ -119,6 +123,33 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 {formError ? (
                     <Text style={styles.error}>{formError}</Text>
                 ) : null}
+                <CheckboxVariant
+                    styles={styles}
+                    title={t('REGISTER_RESTAURANT')}
+                    checked={formik.values.isRestaurant}
+                    onPress={() => {
+                        const newValue = !formik.values.isRestaurant;
+                        formik.setFieldValue('isRestaurant', newValue);
+                        setShowRestaurantName(newValue);
+                    }}
+                    id='restaurant-checkbox'
+                />
+                {showRestaurantName && (
+                    <Input
+                        styles={styles}
+                        placeholder={t('RESTAURANT_NAME')}
+                        value={formik.values.restaurantName}
+                        onChangeText={formik.handleChange('restaurantName')}
+                        onBlur={formik.handleBlur('restaurantName')}
+                        id='restaurant-name-input'
+                    />
+                )}
+                {formik.touched.restaurantName &&
+                formik.errors.restaurantName && (
+                    <Text style={styles.error}>
+                        {t(formik.errors.restaurantName)}
+                    </Text>
+                )}
                 <Input
                     styles={styles}
                     placeholder={t('USERNAME')}

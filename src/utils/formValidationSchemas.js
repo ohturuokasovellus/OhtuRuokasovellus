@@ -14,23 +14,43 @@ yup.addMethod(yup.string, 'email', function validateEmail(message) {
 // used in age validation
 const currentYear = new Date().getFullYear();
 
-// Username needs to be 3-32 characters and is a required field.
-const usernameValidationSchema = yup.object().shape({
+/** Validation schema for registration form */
+const registrationValidationSchema = yup.object().shape({
+    isRestaurant: yup
+        .boolean(),
+    restaurantName: yup
+        .string()
+        .when('isRestaurant', {
+            // eslint-disable-next-line id-length
+            is: (value) => value === true,
+            then: () => yup
+                .string()
+                .min(3, 'RESTAURANT_NAME_MUST_BE_AT_LEAST_3_CHARACTERS')
+                .max(32, 'RESTAURANT_NAME_CANNOT_EXCEED_32_CHARACTERS')
+                .required('RESTAURANT_NAME_IS_REQUIRED'),
+        }),
     username: yup.string()
         .min(3, 'USERNAME_MUST_BE_AT_LEAST_3_CHARACTERS')
         .max(32, 'USERNAME_CANNOT_EXCEED_32_CHARACTERS')
         .required('USERNAME_IS_REQUIRED'),
-});
-
-
-// Email is required. Uses the override regex.
-const emailValidationSchema = yup.object().shape({
-    email: yup.string().email('INVALID_EMAIL').required('EMAIL_IS_REQUIRED')
-});
-
-// Password needs to be 3-32 chars, and contain
-// lower- & uppercase, digits, special chars
-const passwordValidationSchema = yup.object().shape({
+    email: yup
+        .string()
+        .email('INVALID_EMAIL').required('EMAIL_IS_REQUIRED'),
+    birthYear: yup
+        .number()
+        .typeError('YEAR_MUST_BE_NUMBER')
+        .required('YEAR_IS_REQUIRED')
+        .min(1900, 'YEAR_1900_LATER')
+        .max(currentYear-15, 'OVER_15'),
+    gender: yup
+        .string()
+        .required('GENDER_REQUIRED'),
+    education: yup
+        .string()
+        .required('EDUCATION_REQUIRED'),
+    income: yup
+        .string()
+        .required('INCOME_REQUIRED'),
     password: yup
         .string()
         .min(8, 'PASSWORD_MUST_BE_AT_LEAST_8_CHARACTERS')
@@ -46,46 +66,16 @@ const passwordValidationSchema = yup.object().shape({
     confirmPassword: yup
         .string()
         .oneOf([yup.ref('password'), null], 'PASSWORDS_MUST_MATCH')
-        .required('PASSWORD_CONFIRMATION_IS_REQUIRED')
+        .required('PASSWORD_CONFIRMATION_IS_REQUIRED'),
+    terms: yup
+        .boolean()
+        .oneOf([true], 'ACCEPT_TC'),
+    privacy: yup
+        .boolean()
+        .oneOf([true], 'ACCEPT_PRIVACY'),
 });
 
-// Schema for validating all registration form fields
-const registrationValidationSchema = usernameValidationSchema
-    .concat(emailValidationSchema)
-    .concat(passwordValidationSchema)
-    .concat(yup.object().shape({
-        birthYear: yup
-            .number()
-            .typeError('YEAR_MUST_BE_NUMBER')
-            .required('YEAR_IS_REQUIRED')
-            .min(1900, 'YEAR_1900_LATER')
-            .max(currentYear-15, 'OVER_15'),
-        gender: yup
-            .string()
-            .required('GENDER_REQUIRED'),
-        education: yup
-            .string()
-            .required('EDUCATION_REQUIRED'),
-        income: yup
-            .string()
-            .required('INCOME_REQUIRED'),
-        terms: yup
-            .boolean()
-            .oneOf([true], 'ACCEPT_TC'),
-        privacy: yup
-            .boolean()
-            .oneOf([true], 'ACCEPT_PRIVACY'),
-    }));
-
-const restaurantValidationSchema = registrationValidationSchema.shape({
-    restaurantName: yup.string()
-        .min(3, 'RESTAURANT_NAME_MUST_BE_AT_LEAST_3_CHARACTERS')
-        .max(32, 'RESTAURANT_NAME_CANNOT_EXCEED_32_CHARACTERS')
-        .required('RESTAURANT_NAME_IS_REQUIRED'),
-});
-
-
-// Username and password are required when logging in.
+/** Validation schema for login form */
 const loginValidationSchema = yup.object().shape({
     username: yup.string()
         .required('USERNAME_IS_REQUIRED'),
@@ -93,6 +83,7 @@ const loginValidationSchema = yup.object().shape({
         .required('PASSWORD_IS_REQUIRED'),
 });
 
+/** Validation schema for meal creation form */
 const mealValidationSchema = yup.object().shape({
     mealName: yup.string()
         .required('Name for the meal is required'),
@@ -116,8 +107,6 @@ const mealValidationSchema = yup.object().shape({
 
 export {
     registrationValidationSchema,
-    restaurantValidationSchema,
     loginValidationSchema,
-    emailValidationSchema,
     mealValidationSchema
 };
