@@ -316,9 +316,9 @@ const getMeals = async (restaurantId) => {
 */
 const getMealIdsNamesPurchaseCodes = async (restaurantId) => {
     const result = await sql`
-       SELECT (meal_id, name as meal_name, purchase_code)
+       SELECT meal_id, name as meal_name, purchase_code
        FROM meals
-       WHERE m.restaurant_id = ${restaurantId} AND m.is_active = TRUE;
+       WHERE restaurant_id = ${restaurantId} AND is_active = TRUE;
    `;
     return result;
 };

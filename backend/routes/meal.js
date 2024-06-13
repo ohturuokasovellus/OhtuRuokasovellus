@@ -140,13 +140,9 @@ router.get('/api/meals/:restaurantId', async (req, res) => {
  * @param {Object} req - The request object.
  * @param {number} req.params.restaurantId - Restaurant id.
  * @param {Object} res - The response object.
- * @returns {Object} 404 - No meals/restaurant found.
  */
 router.get('/api/lessInfoMeals/:restaurantId', async (req, res) => {
     const result = await getMealIdsNamesPurchaseCodes(req.params.restaurantId);
-    if (result.length === 0) {
-        return res.status(404).json('Page not found');
-    }
     res.json(result);
 });
 
