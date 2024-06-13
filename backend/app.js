@@ -9,6 +9,7 @@ const urlRouter = require('./routes/url');
 const userAdditionRouter = require('./routes/addUser');
 const ingredientsRouter = require('./routes/ingredients');
 const purchaseRouter = require('./routes/purchase');
+const pageURLRouter = require('./routes/webpageURL');
 const settingsRouter = require('./routes/settings');
 const path = require('path');
 const filesystem = require('fs');
@@ -25,6 +26,7 @@ app.use(urlRouter);
 app.use(userAdditionRouter);
 app.use(ingredientsRouter);
 app.use(purchaseRouter);
+app.use(pageURLRouter);
 app.use(settingsRouter);
 
 const webBuildPath = path.join(__dirname, '..', 'web-build');
