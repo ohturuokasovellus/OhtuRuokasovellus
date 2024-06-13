@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  deploy_production:
+    # `oc` tool is preinstalled on Ubuntu
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Login to OpenShift
+        uses: redhat-actions/oc-login@v1.3
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_URL }}
+          openshift_token: ${{ secrets.OPENSHIFT_DEPLOYER_TOKEN }}
+
+      # remove this after making sure oc selects our project automatically
+      - name: "DEV: check which project oc uses by default"
+        run: |
+          oc project
+
+      - name: Update production deployment to latest image
+        run: |
+          oc rollout latest deployment/ruokasovellus-prod
