@@ -25,6 +25,7 @@ const LoginForm = ({ updateUser }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     useEffect(() => {
+        console.info('this is openshift test log 1');
         deleteSession();
         updateUser(null);
     }, []);
