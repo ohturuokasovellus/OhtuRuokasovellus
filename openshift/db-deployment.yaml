@@ -2,15 +2,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ruokasovellus-db
+  name: ruokasovellus-db-staging
 spec:
   selector:
     matchLabels:
-      app: ruokasovellus-db
+      app: ruokasovellus-db-staging
   template:
     metadata:
       labels:
-        app: ruokasovellus-db
+        app: ruokasovellus-db-staging
     spec:
       containers:
       - name: ruokasovellus-db
@@ -26,24 +26,24 @@ spec:
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: ruokasovellus-db-password
+                name: ruokasovellus-staging
                 key: POSTGRES_PASSWORD
           - name: POSTGRES_DB
             value: ruokasovellus
         ports:
         - containerPort: 5432
         volumeMounts:
-          - name: ruokasovellus-db-storage
+          - name: ruokasovellus-db-staging-storage
             mountPath: /var/lib/postgresql
       initContainers:
         - name: ruokasovellus-db-init
           image: busybox
           command: ["sh", "-c", "mkdir -p /var/lib/postgresql/data/"]
           volumeMounts:
-          - name: ruokasovellus-db-storage
+          - name: ruokasovellus-db-staging-storage
             mountPath: /var/lib/postgresql
       volumes:
-        - name: ruokasovellus-db-storage
+        - name: ruokasovellus-db-staging-storage
           persistentVolumeClaim:
             claimName: ruokasovellus-db-pvc-2
   revisionHistoryLimit: 2
@@ -60,10 +60,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ruokasovellus-db-service
+  name: ruokasovellus-db-staging-service
 spec:
   selector:
-    app: ruokasovellus-db
+    app: ruokasovellus-db-staging
   ports:
   - port: 5432
     targetPort: 5432
