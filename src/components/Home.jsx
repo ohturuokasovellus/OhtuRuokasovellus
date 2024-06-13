@@ -76,6 +76,7 @@ const Home = (props) => {
     const isRestaurantUser = restaurantId !== null;
 
     const deleteMealButtonId = (index) => `delete-meal-button-${index}`;
+    const exportMealQrButtonId = (index) => `export-meal-qr-button-${index}`;
 
     return (
         <ScrollView style={styles.background}>
@@ -135,6 +136,15 @@ const Home = (props) => {
                                                 }
                                                 text={t('DELETE')}
                                                 id={deleteMealButtonId(index)}
+                                            />
+                                            <Button
+                                                styles={styles}
+                                                onPress={() => {
+                                                    navigate('/mealQR/'+
+                                                    `${meal.purchase_code}`);}}
+                                                text={
+                                                    t('EXPORT_MEAL_CONFIRM_QR')}
+                                                id={exportMealQrButtonId(index)}
                                             />
                                         </View>
                                     </View>
