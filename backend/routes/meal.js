@@ -1,6 +1,7 @@
 const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
-    getMealRestaurantId, setMealInactive, sql } = require('../database');
+    getMealRestaurantId, setMealInactive, sql,
+    getMealIdsNamesPurchaseCodes } = require('../database');
 const { verifyToken } = require('../services/authorization');
 const { getNutrients }  = require('../services/calculateNutrients');
 
@@ -128,6 +129,21 @@ router.get('/api/meals/images/:id', async (req, res) => {
  */
 router.get('/api/meals/:restaurantId', async (req, res) => {
     const result = await getMeals(req.params.restaurantId);
+    if (result.length === 0) {
+        return res.status(404).json('Page not found');
+    }
+    res.json(result);
+});
+
+/**
+ * Route for fetching restaurant specific meals.
+ * @param {Object} req - The request object.
+ * @param {number} req.params.restaurantId - Restaurant id.
+ * @param {Object} res - The response object.
+ * @returns {Object} 404 - No meals/restaurant found.
+ */
+router.get('/api/lessInfoMeals/:restaurantId', async (req, res) => {
+    const result = await getMealIdsNamesPurchaseCodes(req.params.restaurantId);
     if (result.length === 0) {
         return res.status(404).json('Page not found');
     }

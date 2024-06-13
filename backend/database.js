@@ -306,6 +306,24 @@ const getMeals = async (restaurantId) => {
 };
 
 /**
+ * Fetch restaurant specific meals from database.
+ * @param {number} restaurantId
+ * @returns {Promise<{ 
+*      meal_id: number, 
+*      meal_name: string, 
+*      purchase_code: string,
+*  }[]>}
+*/
+const getMealIdsNamesPurchaseCodes = async (restaurantId) => {
+    const result = await sql`
+       SELECT (meal_id, name as meal_name, purchase_code)
+       FROM meals
+       WHERE m.restaurant_id = ${restaurantId} AND m.is_active = TRUE;
+   `;
+    return result;
+};
+
+/**
  * Fetch a single meal by its ID.
  * @param {number} mealId The ID of the meal.
  * @returns {Promise<{ name: string }?>} The meal information.
@@ -446,4 +464,5 @@ module.exports = {
     getMealRestaurantId,
     getPurchases,
     setMealInactive,
+    getMealIdsNamesPurchaseCodes,
 };
