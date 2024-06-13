@@ -521,6 +521,21 @@ const createStyles = () => {
             fontSize: 18,
             color: '#fff',
         },
+
+        // meal sorting
+        sortControls: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginVertical: 10,
+        },
+        picker: {
+            height: 50,
+            width: 150,
+            marginRight: 10,
+            borderRadius: 8,
+            backgroundColor: colors.primaryContainer,
+            
+        },
     });
 };
 

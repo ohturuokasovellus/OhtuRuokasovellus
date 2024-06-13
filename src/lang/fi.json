@@ -75,6 +75,7 @@
         },
         "ALLERGENS": "Allergeenit",
         "CARBS": "Hiilihydraatit",
+        "SUGAR": "Sokeri",
         "OF_WHICH_SUGARS": "joista sokereita",
         "FAT": "Rasva",
         "OF_WHICH_SATURATES": "josta tyydyttynyttä",
@@ -130,6 +131,9 @@
         "SETTINGS": "Asetukset",
         "DELETE_USER_AND_DATA": "Poista käyttäjä ja tiedot",
         "DELETE_USER_DESCRIPTION": "Poistaa kaikki henkilötietosi palvelusta. Toimintoa ei voida perua, etkä voi sen jälkeen enää kirjautua sisään. Syötä salasana vahvistukseksi.",
-        "FAILED_TO_DELETE_DATA": "Tietojen poisto epäonnistui"
+        "FAILED_TO_DELETE_DATA": "Tietojen poisto epäonnistui",
+        "PRICE_CRITERIA": "Hinta",
+        "ASCENDING": "Nouseva",
+        "DESCENDING": "Laskeva"
     }
 }

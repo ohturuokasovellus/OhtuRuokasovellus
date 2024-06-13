@@ -75,6 +75,7 @@
         },
         "ALLERGENS": "Allergens",
         "CARBS": "Carbohydrates",
+        "SUGAR": "Sugar",
         "OF_WHICH_SUGARS": "of which sugars",
         "FAT": "Fat",
         "OF_WHICH_SATURATES": "of which saturates",
@@ -124,12 +125,15 @@
             "PRIVACY_POLICY": "privacy policy",
             "T_AND_C": "terms and conditions"
         },
-        "PRICE": "Price in euros (use comma instead of dot)",
-        "PRICE_IS_REQUIRED": "Price is required",
-        "PRICE_CANNOT_BE_ZERO": "Price cannot be zero",
         "SETTINGS": "Settings",
         "DELETE_USER_AND_DATA": "Delete account and data",
         "DELETE_USER_DESCRIPTION": "Delete all personal data from the service. This action cannot be undone and you will not be able to log in anymore. Please enter your password for confirmation.",
-        "FAILED_TO_DELETE_DATA": "Failed to delete data"
+        "FAILED_TO_DELETE_DATA": "Failed to delete data",
+        "PRICE": "Price in euros (use comma instead of dot)",
+        "PRICE_IS_REQUIRED": "Price is required",
+        "PRICE_CANNOT_BE_ZERO": "Price cannot be zero",
+        "PRICE_CRITERIA": "Price",
+        "ASCENDING": "Ascending",
+        "DESCENDING": "Descending"
     }
 }

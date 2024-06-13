@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useContext } from 'react';
-import { View, Text, FlatList, ScrollView } from 'react-native';
+import { View, Text, FlatList, ScrollView, Picker } from 'react-native';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
@@ -25,39 +25,36 @@ const MealList = () => {
     const { restId } = useParams();
     const [selectedMeals, setSelectedMeals] = useState([]);
     const [meals, setMeals] = useState([]);
-    const [restaurantId, setRestaurantId] = useState(restId);
     const [restaurantName, setRestaurantName] = useState(null);
+    const [sortCriteria, setSortCriteria] = useState('co2_emissions');
+    const [sortOrder, setSortOrder] = useState('asc');
     const [error, setError] = useState(null);
 
     const styles = createStyles();
     const { colors } = useContext(themeContext);
 
-    useEffect(() => {
-        const fetchMeals = async () => {
-            setRestaurantId(restId);
-            try {
-                const response = await axios.get(
-                    `${apiUrl}/meals/${restaurantId}`,
-                );
-                const responseMeals = response.data;
-                const updatedMeals = await Promise.all(
-                    responseMeals.map(async (meal) => {
-                        const imageRes = await axios.get(
-                            `${apiUrl}/meals/images/${meal.meal_id}`
-                        );
-                        return {
-                            ...meal,
-                            image: imageRes.data,
-                        };
-                    }));
-                setMeals(updatedMeals);
-                setRestaurantName(updatedMeals[0].restaurant_name);
-            } catch (err) {
-                setError(err.response.data);
-            }
-        };
-        fetchMeals();
-    }, []);
+    const fetchMeals = async () => {
+        try {
+            const response = await axios.get(`${apiUrl}/meals/${restId}`);
+            const responseMeals = response.data;
+            const updatedMeals = await Promise.all(
+                responseMeals.map(async (meal) => {
+                    const imageRes = await axios.get(
+                        `${apiUrl}/meals/images/${meal.meal_id}`
+                    );
+                    return {
+                        ...meal,
+                        image: imageRes.data,
+                    };
+                })
+            );
+            setRestaurantName(updatedMeals[0]?.restaurant_name || null);
+            return updatedMeals;
+        } catch (err) {
+            setError(err.response.data);
+            return [];
+        }
+    };
 
     const handlePress = (meal) => {
         setSelectedMeals((prevSelectedMeals) => {
@@ -68,6 +65,30 @@ const MealList = () => {
                 return [...prevSelectedMeals, meal];
             }
         });
+    };
+
+    const sortMeals = (meals, criteria, order) => {
+        return meals.sort((mealA, mealB) => {
+            if (order === 'asc') {
+                return mealA[criteria] - mealB[criteria];
+            } else {
+                return mealB[criteria] - mealA[criteria];
+            }
+        });
+    };
+
+    useEffect(() => {
+        const fetchAndSortMeals = async () => {
+            const fetchedMeals = await fetchMeals();
+            setMeals(sortMeals(fetchedMeals, sortCriteria, sortOrder));
+        };
+        fetchAndSortMeals();
+    }, []);
+
+    const handleSortChange = (criteria, order) => {
+        setSortCriteria(criteria);
+        setSortOrder(order);
+        setMeals(sortMeals(meals, criteria, order));
     };
 
     if (error) {
@@ -81,9 +102,35 @@ const MealList = () => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
-                <Text style={styles.h1}>
+                <Text style={[styles.h1, { alignSelf: 'center' }]}>
                     {t('RESTAURANT')} {restaurantName}
                 </Text>
+            </View>
+            <View style={styles.sortControls}>
+                <Picker
+                    selectedValue={sortCriteria}
+                    style={styles.picker}
+                    onValueChange={
+                        (itemValue) => handleSortChange(itemValue, sortOrder)
+                    }
+                >
+                    <Picker.Item label={t('PRICE_CRITERIA')} value="price" />
+                    <Picker.Item label={t('CO2_EMISSIONS')}
+                        value="co2_emissions" />
+                    <Picker.Item label={t('PROTEIN')} value="protein" />
+                    <Picker.Item label={t('SUGAR')} value="sugar" />
+                    <Picker.Item label={t('FIBER')} value="fiber" />
+                </Picker>
+                <Picker
+                    selectedValue={sortOrder}
+                    style={styles.picker}
+                    onValueChange={
+                        (itemValue) => handleSortChange(sortCriteria, itemValue)
+                    }
+                >
+                    <Picker.Item label={t('ASCENDING')} value="asc" />
+                    <Picker.Item label={t('DESCENDING')} value="desc" />
+                </Picker>
             </View>
             <View style={styles.container}>
                 <FlatList

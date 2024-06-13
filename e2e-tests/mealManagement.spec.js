@@ -26,19 +26,21 @@ const initTestDB = async () => {
     await sql`INSERT INTO meals (
         name, restaurant_id, purchase_code, meal_description, co2_emissions,
         meal_allergens, carbohydrates, protein, fat, fiber, sugar, salt,
-        saturated_fat, energy
+        saturated_fat, energy, vegetable_percent, price
         )
         VALUES 
         ('Kana bolognese', ${restaurantId}, '12345678',
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        50, 'gluteeni, selleri', 1.3, 11.7, 8.2, 0.1, 0.1, 654.7, 1.9, 523),
+        50, 'gluteeni, selleri', 1.3, 11.7, 8.2, 0.1, 0.1, 654.7, 1.9, 523,
+        0, 1200),
         ('Pannacotta', ${restaurantId}, 'abcdefgh',
         'Ut enim ad minim veniam, quis nostrud exercitation ullamco
         laboris nisi ut aliquip ex ea commodo consequat.
         Duis aute irure dolor in reprehenderit in voluptate velit
         esse cillum dolore eu fugiat nulla pariatur.', 2,
-        'maito, kananmuna', 27.4, 2.9, 16.3, 0, 27.4, 78.5, 10.9, 1119)`;
+        'maito, kananmuna', 27.4, 2.9, 16.3, 0, 27.4, 78.5, 10.9, 1119, 0, 500)`
+    ;
 };
 
 test.describe('meal management page', () => {

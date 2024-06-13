@@ -11,9 +11,14 @@ const initDb = async () => {
     await insertUser('test', hash('Test123!'), 'test@test.com', '2000',
         'other', 'primary', 'below 1500'
     );
+    // database already contains a removed user
+    await sql`
+        INSERT INTO users (username, password, email)
+        VALUES (NULL, NULL, NULL);
+    `;
     const restaurantId = await insertRestaurant('Good restaurant');
-    await sql`INSERT INTO meals
-        (name, restaurant_id, purchase_code, meal_description, co2_emissions,
+    await sql`INSERT INTO meals (
+        name, restaurant_id, purchase_code, meal_description, co2_emissions,
         meal_allergens, carbohydrates, protein, fat, fiber, sugar, salt,
         saturated_fat, energy, vegetable_percent, price)
         VALUES ('Kana bolognese', ${restaurantId}, '12345678',
