@@ -50,33 +50,45 @@ router.post('/api/register', async (req, res) => {
         return res.status(500).json({ errorMessage: 'user creation failed' });
     }
 
-    // insert the user into database
     const passwordHash = hash(password);   // TODO: salt hashes
+    let restaurantId;
+
     try {
+        if (isRestaurant && restaurantName) {
+            try {
+                if (await doesRestaurantExist(restaurantName)) {
+                    return res.status(400).json({
+                        errorMessage:
+                        `restaurant ${restaurantName} already exists`
+                    });
+                }
+                restaurantId = await insertRestaurant(restaurantName);
+            } catch (err) {
+                console.error(err);
+                return res.status(500).json({
+                    errorMessage: 'restaurant creation failed'
+                });
+            }
+        }
+
         await insertUser(
             username, passwordHash, email, birthYear,
             gender, education, income
         );
+
+        if (restaurantId) {
+            try {
+                await updateUserRestaurantByEmail(email, restaurantId);
+            } catch (err) {
+                console.error(err);
+                return res.status(500).json({
+                    errorMessage: 'restaurant association failed'
+                });
+            }
+        }
     } catch (err) {
         console.error(err);
         return res.status(500).json({ errorMessage: 'user creation failed' });
-    }
-
-    if (isRestaurant && restaurantName) {
-        try {
-            if (await doesRestaurantExist(restaurantName)) {
-                return res.status(400).json({
-                    errorMessage: `restaurant ${restaurantName} already exists`
-                });
-            }
-            const restaurantId = await insertRestaurant(restaurantName);
-            await updateUserRestaurantByEmail(email, restaurantId);
-        } catch (err) {
-            console.error(err);
-            return res.status(500).json({
-                errorMessage: 'restaurant creation failed'
-            });
-        }
     }
 
     res.sendStatus(200);
