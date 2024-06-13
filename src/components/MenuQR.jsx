@@ -6,7 +6,7 @@ import { captureRef } from 'react-native-view-shot';
 import { Platform } from 'react-native';
 import { useParams, Link } from '../Router';
 import apiUrl from '../utils/apiUrl';
-import QRGenerator from '../utils/QRGenerator';
+import QRCode from 'react-qr-code';
 
 async function getPageURL(){
     try {
@@ -71,7 +71,7 @@ const MenuQR = () => {
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
                 <Text>{t('QR_CODE_TO_YOUR_MENU')}</Text>
                 <View ref={qrViewReference}>
-                    <QRGenerator urlToBeGenerated={menuQRCode}/>
+                    <QRCode value={menuQRCode}/>
                 </View>
                 <Link to={imageUri} 
                     target="_blank" download>Download</Link>
