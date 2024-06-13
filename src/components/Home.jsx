@@ -109,7 +109,7 @@ const Home = (props) => {
                                 () => navigate(`/menuQR/${restaurantId}`)
                             }
                             text={t('EXPORT_MENU_QR')}
-                            id='restaurant-page-button'
+                            id='restaurant-menu-button'
                         />
                         <ScrollView style={styles.mealListContainer}>
                             <Text style={styles.h3}>
