@@ -107,6 +107,7 @@
         "QR_CODE_TO_YOUR_MENU": "QR code to your menu:",
         "PRICE_CRITERIA": "Price",
         "ASCENDING": "Ascending",
-        "DESCENDING": "Descending"
+        "DESCENDING": "Descending",
+        "DOWNLOAD": "Download"
     }
 }

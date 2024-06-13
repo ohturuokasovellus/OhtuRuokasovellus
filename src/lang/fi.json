@@ -107,6 +107,7 @@
         "QR_CODE_TO_YOUR_MENU": "QR-koodi menuusi:",
         "PRICE_CRITERIA": "Hinta",
         "ASCENDING": "Nouseva",
-        "DESCENDING": "Laskeva"
+        "DESCENDING": "Laskeva",
+        "DOWNLOAD": "Lataa"
     }
 }
