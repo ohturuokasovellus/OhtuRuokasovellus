@@ -29,7 +29,7 @@ const CheckboxVariant = ({ styles, title, ...props}) => {
                 uncheckedColor={styles.checkboxIcon.borderColor}
                 {...props}
             />
-            <Text>{title}</Text>
+            <Text style={styles.body}>{title}</Text>
         </View>
     );
 };
