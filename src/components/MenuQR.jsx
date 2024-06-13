@@ -1,26 +1,12 @@
-import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text, Platform, ScrollView } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
 import { useParams, Link } from '../Router';
 import { Button } from './ui/Buttons';
-import apiUrl from '../utils/apiUrl';
 import QRCode from 'react-qr-code';
 import createStyles from '../styles/styles';
-
-async function getPageURL(){
-    try {
-        const response = await axios.get(
-            `${apiUrl}/webpageURL/`
-        );
-        const webpageURL = response.data;
-        return webpageURL;
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-}
+import { getPageURL } from '../utils/getPageUrl';
 
 const MenuQR = () => {
     const {t} = useTranslation();
