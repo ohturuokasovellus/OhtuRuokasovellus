@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text } from 'react-native';
+import { View, Text, Platform, ScrollView } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
-import { Platform } from 'react-native';
 import { useParams, Link } from '../Router';
+import { Button } from './ui/Buttons';
 import apiUrl from '../utils/apiUrl';
 import QRCode from 'react-qr-code';
+import createStyles from '../styles/styles';
 
 async function getPageURL(){
     try {
@@ -27,6 +28,7 @@ const MenuQR = () => {
     const [menuQRCode, setmenuQRCode] = useState('');
     const qrViewReference = useRef(null);
     const [imageUri, setImageUri] = useState('');
+    const styles = createStyles();
 
     useEffect(() => {
         const fetchWebpageURL = async () => {
@@ -47,7 +49,7 @@ const MenuQR = () => {
             if (qrViewReference.current){
                 const uri = await captureRef(qrViewReference, {
                     format: 'jpg',
-                    quality: 0.8,
+                    quality: 1,
                 });
                 setImageUri(uri);
             }
@@ -60,22 +62,33 @@ const MenuQR = () => {
 
     if (!menuQRCode) {
         return (
-            <View>
-                <Text>Loading...</Text>
-            </View>
+            <ScrollView style={styles.background}>
+                <View style={styles.container}>
+                    <Text>Loading...</Text>
+                </View>
+            </ScrollView>
         );
     }
 
     if(Platform.OS === 'web'){
         return (
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Text>{t('QR_CODE_TO_YOUR_MENU')}</Text>
-                <View ref={qrViewReference}>
-                    <QRCode value={menuQRCode}/>
+            <ScrollView style={styles.background}>
+                <View style={styles.container}>
+                    <View style={styles.qrPage}>
+                        <Text>{t('QR_CODE_TO_YOUR_MENU')}</Text>
+                        <View style={styles.qrContainer} ref={qrViewReference}>
+                            <QRCode size={500} style={{ height: 'auto', 
+                                maxWidth: '500px', width: '500px'}}
+                            value={menuQRCode}/>
+                        </View>
+                        <Link to={imageUri} target="_blank" download>
+                            <Button styles={styles} onPress={()=>{}} 
+                                text={t('DOWNLOAD')}>
+                            </Button>
+                        </Link>
+                    </View>
                 </View>
-                <Link to={imageUri} 
-                    target="_blank" download>Download</Link>
-            </View>
+            </ScrollView>
         );
     }
 
