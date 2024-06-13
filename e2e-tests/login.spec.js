@@ -47,7 +47,7 @@ test.describe('login page', () => {
     test('redirects to registration page', async ({page}) => {
         await page.goto('/');
         await expect(page).toHaveURL(/\/login$/);
-        await page.locator('#register-button').click();
+        await page.locator('#register-link').click();
         await expect(page).toHaveURL('/register');
     });
 
