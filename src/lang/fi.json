@@ -32,6 +32,7 @@
         "REGISTER": "Rekisteröidy",
         "REGISTER_RESTAURANT": "Rekisteröidy ravintolakäyttäjänä",
         "RESTAURANT": "Ravintola",
+        "RESTAURANT_NAME": "Ravintolan nimi",
         "RESTAURANT_NAME_CANNOT_EXCEED_32_CHARACTERS": "Ravintolan nimi ei saa ylitää 32 merkkiä",
         "RESTAURANT_NAME_IS_REQUIRED": "Syötä ravintolan nimi",
         "RESTAURANT_NAME_MUST_BE_AT_LEAST_3_CHARACTERS": "Ravintolan nimi on oltava yli 3 merkkiä pitkä",
