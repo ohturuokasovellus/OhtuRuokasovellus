@@ -40,8 +40,8 @@ test.describe('navbar', () => {
         await page.fill('input[id="password-input"]', 'Testi123!');
         await page.locator('#login-button').click();
         await page.waitForURL('/');
-        await page.locator('#navigation-qr-form').click();
-        await expect(page).toHaveURL('/qr-form');
+        await page.locator('#history-button').click();
+        await expect(page).toHaveURL('/history');
         await page.locator('#navigation-home').click();
         await expect(page).toHaveURL('/');
     });
