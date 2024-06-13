@@ -1,12 +1,17 @@
-import { sql, insertUser } from '../backend/database';
+import { sql, insertUser, insertRestaurant,
+    updateUserRestaurantByEmail } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 
 const initTestDB = async () => {
+    await sql`SET client_min_messages TO WARNING`;
     await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
+    await sql`TRUNCATE TABLE restaurants RESTART IDENTITY CASCADE`;
     await insertUser('test', hash('Test123!'), 'test@test.com', '2000',
         'other', 'primary', 'below 1500'
     );
+    const restaurantId = await insertRestaurant('testaurant');
+    await updateUserRestaurantByEmail('test@test.com', restaurantId);
 };
 
 test.describe('registration page', () => {
@@ -55,12 +60,67 @@ test.describe('registration page', () => {
         await page.locator('#terms-checkbox').click();
         await page.locator('#privacy-checkbox').click();
         await page.locator('#register-button').click();
+
         await expect(page).toHaveURL(/\/login$/);
+        await page.fill('input[id="username-input"]', 'best');
+        await page.fill('input[id="password-input"]', 'Test123!');
+        await page.locator('#login-button').click();
+        await expect(page).toHaveURL('/');
+        await expect(page.locator('#restaurant-page-button'))
+            .not.toBeVisible;
+    });
+
+    test('registers restaurant with correct details', async ({ page }) => {
+        await page.locator('#restaurant-checkbox').click();
+        await page.locator('#restaurant-name-input').click();
+        await page.locator('#restaurant-name-input').fill('testaurant');
+        await page.locator('#username-input').click();
+        await page.locator('#username-input').fill('best');
+        await page.locator('#email-input').click();
+        await page.locator('#email-input').fill('best@test.com');
+        await page.locator('#birth-year-input').click();
+        await page.locator('#birth-year-input').fill('2000');
+        await page.getByText('Gender').click();
+        await page.getByText('Woman').click();
+        await page.getByText('Education').click();
+        await page.getByText('Secondary education').click();
+        await page.getByText('Monthly income').click();
+        await page.getByText('<1500 €/kk').click();
+        await page.locator('#password-input').click();
+        await page.locator('#password-input')
+            .fill('Test123!');
+        await page.locator('#confirm-password-input').click();
+        await page.locator('#confirm-password-input').fill('Test123!');
+        await page.locator('#terms-checkbox').click();
+        await page.locator('#privacy-checkbox').click();
+        await page.locator('#register-button').click();
+
+        // cannot register with duplicate restaurant
+        await expect(page).toHaveURL(/\/register$/);
+        await page.locator('#restaurant-name-input').click();
+        await page.locator('#restaurant-name-input').fill('bestaurant');
+        await page.locator('#password-input').click();
+        await page.locator('#password-input')
+            .fill('Test123!');
+        await page.locator('#confirm-password-input').click();
+        await page.locator('#confirm-password-input').fill('Test123!');
+        await page.locator('#register-button').click();
+
+        await expect(page).toHaveURL(/\/login$/);
+        await page.fill('input[id="username-input"]', 'best');
+        await page.fill('input[id="password-input"]', 'Test123!');
+        await page.locator('#login-button').click();
+        await expect(page).toHaveURL('/');
+        await expect(page.locator('#restaurant-page-button'))
+            .toBeVisible;
     });
 
     test('cannot register without filling the form', async ({ page }) => {
+        await page.locator('#restaurant-checkbox').click();
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
+        await expect(page.locator('#root'))
+            .toContainText('Restaurant name is required');
         await expect(page.locator('#root'))
             .toContainText('Username is required');
         await expect(page.locator('#root'))
@@ -86,6 +146,21 @@ test.describe('registration page', () => {
         await page.getByText('Secondary education').click();
         await page.getByText('Monthly income').click();
         await page.getByText('<1500 €/kk').click();
+
+        // invalid restaurant name
+        await page.locator('#restaurant-checkbox').click();
+        await page.locator('#restaurant-name-input').click();
+        await page.locator('#restaurant-name-input').fill('te');
+        await page.locator('#username-input').click();
+        await expect(page.locator('#root'))
+            .toContainText('Restaurant name must be at least 3 characters');
+        await page.locator('#restaurant-name-input').click();
+        await page.locator('#restaurant-name-input')
+            .fill('123456789012345678901234567890123');
+        await expect(page.locator('#root'))
+            .toContainText('Restaurant name cannot exceed 32 characters');
+        await page.locator('#register-button').click();
+        await expect(page).toHaveURL(/\/register$/);
 
         // invalid username
         await page.locator('#username-input').click();
@@ -191,6 +266,7 @@ test.describe('registration page', () => {
         await expect(page).toHaveURL(/\/register$/);
 
         // t&c and privacy policy are not accepted
+        await page.locator('#restaurant-checkbox.click');
         await page.locator('#username-input').click();
         await page.locator('#username-input').fill('best');
         await page.locator('#email-input').click();
