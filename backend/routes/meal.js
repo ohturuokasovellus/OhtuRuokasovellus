@@ -224,7 +224,6 @@ router.put('/api/meals/update/:mealId', express.json(), async (req, res) => {
     const stringifiedIngredients = JSON.stringify(ingredients);
     const success = await updateMeal(mealId, mealName, mealDescription,
         mealAllergenString, nutrients, formattedPrice, stringifiedIngredients);
-    
     if (!success) {
         return res.status(500).send('meal update failed');
     }
