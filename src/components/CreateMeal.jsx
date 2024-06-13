@@ -100,7 +100,7 @@ const validationSchema = mealValidationSchema;
  * @returns {JSX.Element} 
  */
 const CreateMealForm = ({
-    onSubmit, onSuccess, onError, initialMealValues, isEditing
+    onSubmit, onSuccess, onError, initialValues, isEditing
 }) => {
     const {t} = useTranslation();
     const [ingredients, setIngredients] = useState({});
@@ -109,25 +109,27 @@ const CreateMealForm = ({
     const [createSuccess, setCreateSuccess] = useState(false);
     const [createError, setCreateError] = useState(false);
 
+    const fetchIngredients = async () => {
+        try {
+            const response = await axios.get(
+                `${apiUrl}/ingredients`
+            );
+            setIngredients(response.data.ingredients);
+            setCategorizedIngredients(response.data.categorizedIngredients);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     useEffect(() => {
-        const fetchIngredients = async () => {
-            try {
-                const response = await axios.get(
-                    `${apiUrl}/ingredients`
-                );
-                setIngredients(response.data.ingredients);
-                setCategorizedIngredients(response.data.categorizedIngredients);
-            } catch (err) {
-                console.error(err);
-            }
-        };
         fetchIngredients();
     }), [];
 
     const formik = useFormik({
-        initialMealValues,
+        initialValues,
         validationSchema,
         onSubmit: async values => {
+
             // with ingredients formik validation schema doesnt work 
             // for some reason so use this for now
             const hasIngredientWithWeight = values.ingredients.some(item => {
@@ -152,6 +154,10 @@ const CreateMealForm = ({
             }
         }
     });
+
+    useEffect(() => {
+        formik.setValues(initialValues);
+    }, [isEditing]);
 
     const openImagePicker = () => {
         const options = {
@@ -292,7 +298,9 @@ const CreateMealForm = ({
                             dropdownItemStyles={styles.dropdownItemStyles}
                             dropdownTextStyles={styles.dropdownTextStyles}
                             search={false}
-                            placeholder={t('INGREDIENT')}
+                            placeholder={t(
+                                isEditing ? ingredient.ingredient :'INGREDIENT'
+                            )}
                             data={
                                 formik.values.ingredients[index].category ===
                                 'all' ||
@@ -339,7 +347,7 @@ const CreateMealForm = ({
                 ))}
                 <SmallButton
                     styles={styles}
-                    onPress={addIngredientInput}
+                    onPress={() => addIngredientInput()}
                     text='+'
                     id='add-ingredient-button'
                 />
@@ -378,7 +386,7 @@ const CreateMealForm = ({
                 ) : null}
                 <Button
                     styles={styles}
-                    onPress={openImagePicker}
+                    onPress={() => openImagePicker()}
                     text={t('SELECT_A_IMAGE_FROM_DEVICE')}
                     id='image-picker-button'
                 />
@@ -448,11 +456,9 @@ const CreateMeal = (props) => {
                         const imageRes = await axios.get(
                             `${apiUrl}/meals/images/${mealId}`
                         );
-                        console.log(response.data);
                         const formattedMeal = formatMealForEditing(
                             response.data, imageRes.data
                         );
-                        console.log(formattedMeal)
                         setMeal(formattedMeal);
                         setIsEditing(true);
                     } catch (err) {
@@ -461,6 +467,10 @@ const CreateMeal = (props) => {
                 }
             };
             fetchMeal();
+        }
+        else if (isEditing) {
+            setIsEditing(false);
+            setMeal(initialValues);
         }
     }, [mealId]);
 
@@ -495,8 +505,7 @@ const CreateMeal = (props) => {
             mealName: values.mealName,
             mealAllergenString: mealAllergenString,
             formattedPrice: formattedPrice};
-        console.log(formattedValues);
-
+        
         try {
             if (isEditing) {
                 await axios.put(`${apiUrl}/meals/${mealId}`, formattedValues,
@@ -548,7 +557,7 @@ const CreateMeal = (props) => {
     return <CreateMealForm onSubmit={onSubmit}
         onSuccess={onSuccess} onError={onError}
         isEditing={isEditing}
-        initialMealValues={meal}
+        initialValues={meal}
     />;
 };
 
