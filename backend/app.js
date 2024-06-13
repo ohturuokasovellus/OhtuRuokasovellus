@@ -25,6 +25,9 @@ app.use(ingredientsRouter);
 app.use(purchaseRouter);
 app.use(settingsRouter);
 
+const assetsPath = path.join(__dirname, 'assets')
+app.use(express.static(assetsPath, { index: false }))
+
 const webBuildPath = path.join(__dirname, '..', 'web-build');
 if (filesystem.existsSync(webBuildPath)) {
     app.use(express.static(webBuildPath));
