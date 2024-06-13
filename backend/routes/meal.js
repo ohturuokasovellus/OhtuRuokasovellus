@@ -1,6 +1,7 @@
 const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
-    getMealRestaurantId, setMealInactive, getMealForEdit, sql }
+    getMealRestaurantId, setMealInactive, getMealForEdit,
+    updateMeal, sql }
     = require('../database');
 const { verifyToken } = require('../services/authorization');
 const { getNutrients }  = require('../services/calculateNutrients');
@@ -99,7 +100,8 @@ router.post('/api/meals/images/:id',
         }
 
         res.sendStatus(200);
-    });
+    }
+);
 
 /**
  * Route for fetching meal image uri.
@@ -163,40 +165,8 @@ router.put('/api/meals/delete/:mealId', express.json(), async (req, res) => {
 });
 
 /**
- * Route for updating a meal
- * @param {Object} req - The request object.
- * @param {number} req.params.mealId - meal id.
- * @param {Object} res - The response object.
- * @returns {Object} 401 - Unauthorized.
- * @returns {Object} 200 - Success status.
- */
-router.put('/api/meals/:mealId', express.json(), async (req, res) => {
-    const {
-        mealName, mealDescription, mealAllergenString,
-        ingredients, formattedPrice
-    } = req.body;
-    const mealId = req.params.mealId;
-    console.log(mealId)
-    const userInfo = verifyToken(req.header('Authorization'));
-    const result = await getMealRestaurantId(mealId);
-
-    if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
-        return res.status(401).json('Unauthorized');
-    }
-    
-    let mealIngredients = {};
-    
-    ingredients.forEach(element => {
-        mealIngredients[element.mealId] = element.weight;
-    });
-
-    const nutrients = await getNutrients(mealIngredients, 
-        'backend/csvFiles/raaka-ainetiedot.csv');
-    res.status(200).json(result);
-});
-
-/**
  * Route for fetching a meal for editing
+ * Used POST to add authorization token
  * @param {Object} req - The request object.
  * @param {number} req.params.mealId - meal id.
  * @param {Object} res - The response object.
@@ -219,6 +189,46 @@ router.post('/api/meals/meal/:mealId', express.json(), async (req, res) => {
         ingredients: parsedIngredients
     };
     res.status(200).json(meal);
+});
+
+/**
+ * Route for updating a meal
+ * @param {Object} req - The request object.
+ * @param {number} req.params.mealId - meal id.
+ * @param {Object} res - The response object.
+ * @returns {Object} 401 - Unauthorized.
+ * @returns {Object} 200 - Success status.
+ */
+router.put('/api/meals/update/:mealId', express.json(), async (req, res) => {
+    const {
+        mealName, mealDescription, mealAllergenString,
+        ingredients, formattedPrice
+    } = req.body;
+    const mealId = req.params.mealId;
+    const userInfo = verifyToken(req.header('Authorization'));
+    const mealRestId = await getMealRestaurantId(mealId);
+
+    if (!userInfo || userInfo.restaurantId !== mealRestId.restaurant_id) {
+        return res.status(401).json('Unauthorized');
+    }
+    
+    let mealIngredients = {};
+    
+    ingredients.forEach(element => {
+        mealIngredients[element.ingredientId] = element.weight;
+    });
+
+    const nutrients = await getNutrients(mealIngredients, 
+        'backend/csvFiles/raaka-ainetiedot.csv');
+
+    const stringifiedIngredients = JSON.stringify(ingredients);
+    const success = await updateMeal(mealId, mealName, mealDescription,
+        mealAllergenString, nutrients, formattedPrice, stringifiedIngredients);
+    
+    if (!success) {
+        return res.status(500).send('meal update failed');
+    }
+    res.sendStatus(200);
 });
 
 module.exports = router;

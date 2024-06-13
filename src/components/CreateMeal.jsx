@@ -100,14 +100,16 @@ const validationSchema = mealValidationSchema;
  * @returns {JSX.Element} 
  */
 const CreateMealForm = ({
-    onSubmit, onSuccess, onError, initialValues, isEditing
+    onSubmit, initialValues, isEditing
 }) => {
     const {t} = useTranslation();
     const [ingredients, setIngredients] = useState({});
     const [categorizedIngredients, setCategorizedIngredients] = useState({});
     const [formError, setFormError] = useState('');
     const [createSuccess, setCreateSuccess] = useState(false);
+    const [updateSuccess, setUpdateSuccess] = useState(false);
     const [createError, setCreateError] = useState(false);
+    const [updateError, setUpdateError] = useState(false);
 
     const fetchIngredients = async () => {
         try {
@@ -137,16 +139,28 @@ const CreateMealForm = ({
                 item.weight.trim() !== '';
             });
 
+            const handleSuccess = (setState) => {
+                setState(true);
+                setTimeout(() => setState(false), 5000);
+            };
+            
             if (hasIngredientWithWeight) {
                 try {
                     await onSubmit(values);
-                    onSuccess(setCreateSuccess);
-                    formik.resetForm();
+                    if (isEditing) {
+                        handleSuccess(setUpdateSuccess);
+                    } else {
+                        handleSuccess(setCreateSuccess);
+                    }
                 } catch (err) {
-                    onError(setCreateError);
+                    if (isEditing) {
+                        handleSuccess(setUpdateError);
+                    } else {
+                        handleSuccess(setCreateError);
+                    }
                     setFormError(err.message);
-                    formik.resetForm();
                 }
+                formik.resetForm();
             } else {
                 setFormError(
                     'At least one ingredient with weight required'
@@ -376,10 +390,24 @@ const CreateMealForm = ({
                 <Text style={styles.error}>{t(formik.errors.price)}</Text>
                 }
                 {createSuccess &&
-                <Text style={styles.h3}>{t('MEAL_CREATED')}</Text>
+                <Text style={styles.h3}>
+                    {t('MEAL_CREATED')}
+                </Text>
+                }
+                {updateSuccess &&
+                <Text style={styles.h3}>
+                    {t('MEAL_UPDATED')}
+                </Text>
                 }
                 {createError && 
-                <Text style={styles.error}>{t('MEAL_NOT_CREATED')}</Text>
+                <Text style={styles.error}>
+                    {t('MEAL_NOT_CREATED')}
+                </Text>
+                }
+                {updateError && 
+                <Text style={styles.error}>
+                    {t('MEAL_NOT_UPDATED')}
+                </Text>
                 }
                 {formError ? (
                     <Text style={styles.error}>{formError}</Text>
@@ -408,7 +436,7 @@ const CreateMealForm = ({
  * CreateMeal component for managing meal addition.
  */
 const CreateMeal = (props) => {
-    const { mealId } = useParams();
+    let { mealId } = useParams();
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false);
     const [meal, setMeal] = useState(initialValues);
@@ -508,7 +536,8 @@ const CreateMeal = (props) => {
         
         try {
             if (isEditing) {
-                await axios.put(`${apiUrl}/meals/${mealId}`, formattedValues,
+                await axios.put(`${apiUrl}/meals/update/${mealId}`,
+                    formattedValues,
                     {
                         headers: {
                             Authorization: `Bearer ${getSession().token}`
@@ -522,17 +551,19 @@ const CreateMeal = (props) => {
                             Authorization: `Bearer ${getSession().token}`
                         }
                     });
-                const newMealId = response.data.mealId;
-                await axios.post(
-                    `${apiUrl}/meals/images/${newMealId}`,
-                    values.imageUri,
-                    {
-                        headers: {
-                            'Content-Type': 'image/jpeg'
-                        },
-                    },
-                );
+                mealId = response.data.mealId;
             }
+            await axios.post(
+                `${apiUrl}/meals/images/${mealId}`,
+                formattedValues.imageUri,
+                {
+                    headers: {
+                        'Content-Type': 'image/jpeg'
+                    },
+                },
+            );
+            setIsEditing(false);
+            setMeal(initialValues);
         } catch (err) {
             const errorMessage = err.response?.data?.errorMessage ||
                 'an unexpected error occurred';
@@ -540,22 +571,7 @@ const CreateMeal = (props) => {
         }
     };
 
-    const setMessageTimeout = (setFunc) => {
-        setTimeout(() => {
-            setFunc(false);
-        }, 5000);
-    };
-    const onSuccess = (setCreateSuccess) => {
-        setCreateSuccess(true);
-        setMessageTimeout(setCreateSuccess);
-    };
-    const onError = (setCreateError) => {
-        setCreateError(true);
-        setMessageTimeout(setCreateError);
-    };
-
     return <CreateMealForm onSubmit={onSubmit}
-        onSuccess={onSuccess} onError={onError}
         isEditing={isEditing}
         initialValues={meal}
     />;

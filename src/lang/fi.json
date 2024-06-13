@@ -103,6 +103,8 @@
         "ASCENDING": "Nouseva",
         "DESCENDING": "Laskeva",
         "EDIT": "Muokkaa",
-        "EDIT_MEAL": "Päivitä ateria"
+        "EDIT_MEAL": "Päivitä ateria",
+        "MEAL_UPDATED": "Ateria päivitetty!",
+        "MEAL_NOT_UPDATED": "Tapahtui virhe, ateria ei päivitetty."
     }
 }

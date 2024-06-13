@@ -103,6 +103,8 @@
         "ASCENDING": "Ascending",
         "DESCENDING": "Descending",
         "EDIT": "Edit",
-        "EDIT_MEAL": "Edit meal"
+        "EDIT_MEAL": "Edit meal",
+        "MEAL_UPDATED": "Meal updated succesfully!",
+        "MEAL_NOT_UPDATED": "Error occured, meal not created."
     }
 }
