@@ -1,147 +1,108 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, ActivityIndicator, Modal } from 'react-native';
+import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
 
-import { useNavigate } from '../Router';
+import { useNavigate, Link } from '../Router';
 import { useTranslation } from 'react-i18next';
 import Survey, { fetchSurveyUrl } from './Survey';
-import axios from 'axios';
-import apiUrl from '../utils/apiUrl';
 import { getSession } from '../controllers/sessionController';
 
 import createStyles from '../styles/styles';
-import { Button, ButtonVariant,
-    CancelButton, DeleteButton } from './ui/Buttons';
+import { Button, ButtonVariant } from './ui/Buttons';
 
-const Home = (props) => {
+import MealDeletion from './MealDeletion';
+
+const Home = () => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [surveyUrl, setSurveyUrl] = useState(null);
-    const [meals, setMeals] = useState([]);
-    const [mealToDelete, setMealToDelete] = useState(null);
-    const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true);
     const styles = createStyles();
     const userSession = getSession();
 
-    const fetchMeals = async () => {
-        try {
-            const response = await axios.get(
-                `${apiUrl}/meals/${props.user.restaurantId}`,
-            );
-            const responseMeals = response.data;
-            setMeals(responseMeals);
-        } catch (err) {
-            console.error(err);
-        }
-    };
+    const loremIpsum = 'Lorem ipsum dolor sit amet, \
+    consectetur adipiscing elit. \
+    Curabitur eu iaculis mauris. Sed metus purus, laoreet tincidunt lobortis \
+    ac, hendrerit vitae metus. Suspendisse ultricies, \
+    dolor ut blandit iaculis, \
+    felis nunc mollis justo, eget viverra massa augue eget lectus. Donec sit \
+    amet tortor ligula. Praesent pretium sem et urna tempus, vitae dictum est \
+    tempor. Sed ullamcorper nec ante vitae facilisis. Curabitur congue semper \
+    sapien, vel ullamcorper nisl gravida a. Nunc sagittis lorem id tincidunt \
+    mattis. Quisque eget leo lorem. Morbi sagittis sodales quam, vitae feugiat \
+    lacus convallis sit amet. Nulla at ex commodo est venenatis faucibus. \
+    Nullam nisl eros, blandit ut nibh sed, aliquam sagittis sapien. Aliquam \
+    luctus nisi sit amet gravida commodo. \
+    Sed sit amet mauris non eros sagittis \
+    condimentum a et mi. Maecenas hendrerit suscipit mi, semper cursus leo \
+    sollicitudin vel. Curabitur vitae quam condimentum ipsum egestas \
+    ullamcorper ac sed velit.\n\nAliquam ornare erat nec lectus tincidunt, \
+    eget sollicitudin neque dignissim. Duis volutpat quis est id rhoncus. \
+    Duis posuere risus eu quam consequat, non malesuada tellus ultrices. \
+    Suspendisse venenatis nunc non dui gravida, quis condimentum urna \
+    pharetra. Curabitur rutrum felis nec posuere molestie. Proin sed turpis \
+    eros. Sed elementum purus dapibus enim placerat faucibus.\n\nFusce \
+    lobortis, lorem et efficitur faucibus, diam lacus bibendum risus, ac \
+    hendrerit nisl justo vitae elit. Morbi at eros nisl. Donec feugiat felis \
+    turpis, a commodo velit semper a. Aliquam luctus erat quis sem feugiat, \
+    nec malesuada neque fermentum. Nullam cursus nisl ac augue pretium, \
+    eget mollis enim varius. Duis vehicula pretium sollicitudin. Aenean \
+    feugiat dolor diam, sed tristique massa suscipit sit amet. Morbi ut \
+    facilisis lectus. Sed auctor ultrices nibh ut sagittis. Aliquam ultricies \
+    tristique dui eu accumsan. Nullam commodo ex id nisi pellentesque \
+    blandit. Nam eget erat orci. Nunc gravida ornare massa in luctus. \
+    Phasellus ullamcorper eget nunc non suscipit. Ut consequat fringilla \
+    odio vel eleifend. Sed sed consectetur felis. ';
+
+    if (!userSession) {
+        return (
+            <ScrollView style={styles.background}>
+                <View style={[styles.container, { alignItems: 'center' }]}>
+                    <Text style={styles.h1}>{t('HOME')}</Text>
+                    <View style={styles.cardContainer}>
+                        <Text style={styles.body}>{loremIpsum}</Text>
+                    </View>
+                    <Text style={styles.body}>
+                        <Link to='/login'>
+                            <Text style={styles.link} id='login-link'>
+                                {t('LOGIN')}
+                            </Text>
+                        </Link>
+                        /
+                        <Link to='/register'>
+                            <Text style={styles.link} id='register-link'>
+                                {t('REGISTER')}
+                            </Text>
+                        </Link>
+                    </Text>
+                </View>
+            </ScrollView>
+        );
+    }
 
     useEffect(() => {
-        if (!props.user) {
-            navigate('/login');
-            return;
-        }
         fetchSurveyUrl(setSurveyUrl, setLoading);
+    }, [navigate]);
 
-        if (props.user.restaurantId) {
-            fetchMeals();
-        }
-    }, [props.user, navigate]);
-
-    if (!props.user || loading) {
+    if (loading) {
         return <ActivityIndicator size='large' color='#0000ff' />;
     }
 
-    const confirmMealDeletion = async () => {
-        if (!mealToDelete) return;
+    let username, isRestaurantUser;
+    if (userSession) {
+        username = userSession.username;
+        isRestaurantUser = userSession.restaurantId !== null;
+    }
 
-        try {
-            await axios.put(
-                `${apiUrl}/meals/delete/${mealToDelete}`,
-                {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${userSession.token}`,
-                    },
-                }
-            );
-            setMeals(meals.filter(meal => meal.meal_id !== mealToDelete));
-        } catch (err) {
-            console.error(err);
-        }
-        setMealToDelete(null);
-        setShowModal(false);
-    };
-
-    const username = props.user.username;
-    const restaurantId = props.user.restaurantId;
-    const isRestaurantUser = restaurantId !== null;
-
-    const deleteMealButtonId = (index) => `delete-meal-button-${index}`;
-    const DeleteMealPopUp = () => {
+    if (!userSession) {
         return (
-            <Modal
-                visible={showModal}
-                transparent={true}
-                animationType="fade"
-                onRequestClose={() => setShowModal(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalText}>
-                            {t('CONFIRM_DELETE')}
-                        </Text>
-                        <View style={styles.modalButtonContainer}>
-                            <CancelButton styles={styles}
-                                onPress={() => setShowModal(false)}
-                                id="cancel-button"
-                            />
-                            <DeleteButton styles={styles}
-                                onPress={confirmMealDeletion}
-                                id="confirm-delete-button"
-                            />
-                        </View>
-                    </View>
+            <ScrollView style={styles.background}>
+                <View style={styles.container}>
+                    <Text style={styles.h1}>{t('HOME')}</Text>
+                    <Text style={styles.body}>{loremIpsum}</Text>
                 </View>
-            </Modal>
-        );
-    };
-    const MealListContainer = () => {
-        return (
-            <ScrollView style={styles.mealListContainer}>
-                <Text style={styles.h3}>
-                    {t('MANAGE_RESTAURANT_MEALS')}
-                </Text>
-                {meals.length > 0 ? (
-                    meals.map((meal, index) => (
-                        <View
-                            key={meal.meal_id} 
-                            style={styles.mealContainer}
-                        >
-                            <View style={styles.mealContent}>
-                                <Text style={styles.body}>
-                                    {meal.meal_name}
-                                </Text>
-                                <DeleteButton
-                                    styles={styles}
-                                    onPress={() => {
-                                        setMealToDelete(meal.meal_id);
-                                        setShowModal(true);
-                                    }}
-                                    text={t('DELETE')}
-                                    id={deleteMealButtonId(index)}
-                                />
-                            </View>
-                        </View>
-                    ))
-                ) : (
-                    <Text style={styles.body}>
-                        {t('NO_MEALS')}
-                    </Text>
-                )}
             </ScrollView>
-
         );
-    };
+    }
 
     return (
         <ScrollView style={styles.background}>
@@ -181,26 +142,25 @@ const Home = (props) => {
                         <ButtonVariant
                             styles={styles}
                             onPress={
-                                () => navigate(`/restaurant/${restaurantId}`)
-                            }
+                                () => navigate(
+                                    `/restaurant/${userSession.restaurantId}`
+                                )}
                             text={t('RESTAURANT_PAGE')}
                             id='restaurant-page-button'
                         />
                         <ButtonVariant
                             styles={styles}
                             onPress={
-                                () => navigate(`/menuQR/${restaurantId}`)
-                            }
+                                () => navigate(
+                                    `/menuQR/${userSession.restaurantId}`
+                                )}
                             text={t('EXPORT_MENU_QR')}
                             id='restaurant-menu-button'
                         />
-                        <MealListContainer />
+                        <MealDeletion />
                     </>
                 ) : null}
             </View>
-            <>
-                <DeleteMealPopUp/>
-            </>
         </ScrollView>
     
     );
