@@ -143,7 +143,7 @@ const Home = (props) => {
                                                     navigate('/meal-qr/'+
                                                     `${meal.purchase_code}`);}}
                                                 text={
-                                                    t('EXPORT_MEAL_CONFIRM_QR')}
+                                                    t('DOWNLOAD_QR')}
                                                 id={exportMealQrButtonId(index)}
                                             />
                                         </View>

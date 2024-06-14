@@ -133,7 +133,7 @@
         "DELETE_USER_DESCRIPTION": "Poistaa kaikki henkilötietosi palvelusta. Toimintoa ei voida perua, etkä voi sen jälkeen enää kirjautua sisään. Syötä salasana vahvistukseksi.",
         "FAILED_TO_DELETE_DATA": "Tietojen poisto epäonnistui",
         "EXPORT_MENU_QR": "Vie linkki menuun QR-koodina",
-        "EXPORT_MEAL_CONFIRM_QR": "Vie linkki ostosvahvistukseen",
+        "DOWNLOAD_QR": "Lataa QR",
         "QR_CODE_TO_YOUR_MENU": "QR-koodi menuusi:",
         "QR_CODE_TO_MEAL_CONFIRM": "QR-koodi tämän aterian ostosvahvistussivulle:",
         "PRICE_CRITERIA": "Hinta",
