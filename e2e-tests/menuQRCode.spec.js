@@ -30,7 +30,7 @@ const initTestDB = async () => {
 test.describe('menu qr page', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
-        await page.goto('/');
+        await page.goto('/login');
         await page.locator('#language-toggle').click();
         await page.locator('#username-input').fill('test');
         await page.locator('#password-input').fill('Test123!');

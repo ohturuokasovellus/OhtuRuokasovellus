@@ -85,10 +85,10 @@ test.describe('adding restaurant users: unauthorised', () => {
             await expect(page.locator('text=Welcome,')).toBeVisible();
         });
 
-    test('redirects to login if user is not logged in',
+    test('redirects to home if user is not logged in',
         async ({ page }) => {
             await page.goto('/add-users');
-            await expect(page).toHaveURL(/\/login$/);
+            await expect(page).toHaveURL(/\/$/);
         });
 });
 
