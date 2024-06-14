@@ -68,7 +68,8 @@ const MealQR = () => {
                                 maxWidth: '500px', width: '500px'}}
                             value={menuQRCode}/>
                         </View>
-                        <Link to={imageUri} target="_blank" download>
+                        <Link style={{textDecorationLine: 'none'}}
+                            to={imageUri} target="_blank" download>
                             <Button styles={styles} onPress={()=>{}} 
                                 text={t('DOWNLOAD')} id='download-meal-qr-code'>
                             </Button>
