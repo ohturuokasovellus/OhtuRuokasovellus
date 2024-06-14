@@ -161,10 +161,13 @@ const Home = (props) => {
                                                     styles={styles}
                                                     onPress={() => {
                                                         navigate('/meal-qr/'+
-                                                        `${meal.purchase_code}`);}}
+                                                        `${meal.purchase_code}`
+                                                        );}}
                                                     text={
                                                         t('DOWNLOAD_QR')}
-                                                    id={exportMealQrButtonId(index)}
+                                                    id={exportMealQrButtonId(
+                                                        index
+                                                    )}
                                                 />
                                             </View>
                                         </View>
