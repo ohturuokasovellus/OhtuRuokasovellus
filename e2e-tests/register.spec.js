@@ -33,6 +33,8 @@ test.describe('registration page', () => {
         await expect(page.locator('#confirm-password-input')).toBeVisible();
         await expect(page.locator('#terms-checkbox')).toBeVisible();
         await expect(page.locator('#privacy-checkbox')).toBeVisible();
+        await expect(page.locator('#link-to-terms')).toBeVisible();
+        await expect(page.locator('#link-to-privacy')).toBeVisible();
 
         // login link
         await page.locator('#login-link').click();

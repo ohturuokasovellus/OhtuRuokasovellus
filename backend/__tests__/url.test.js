@@ -8,6 +8,7 @@ describe('url api', () => {
         return postgresMock.clearDatabase();
     });
 
+    // eslint-disable-next-line jest/expect-expect
     test('url can be fetched with correct parameter', async () => {
         postgresMock.setSqlResults([[
             { url: 'http://test' }

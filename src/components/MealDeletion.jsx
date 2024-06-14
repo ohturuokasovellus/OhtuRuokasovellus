@@ -8,7 +8,7 @@ import apiUrl from '../utils/apiUrl';
 import { getSession } from '../controllers/sessionController';
 
 import createStyles from '../styles/styles';
-import { CancelButton, DeleteButton } from './ui/Buttons';
+import { CancelButton, DeleteButton, Button } from './ui/Buttons';
 
 const MealDeletion = () => {
     const {t} = useTranslation();
@@ -19,6 +19,7 @@ const MealDeletion = () => {
     const styles = createStyles();
     const userSession = getSession();
     const deleteMealButtonId = (index) => `delete-meal-button-${index}`;
+    const exportMealQrButtonId = (index) => `export-meal-qr-button-${index}`;
 
     const fetchMeals = async () => {
         try {
@@ -83,6 +84,15 @@ const MealDeletion = () => {
                                     }}
                                     text={t('DELETE')}
                                     id={deleteMealButtonId(index)}
+                                />
+                                <Button
+                                    styles={styles}
+                                    onPress={() => {
+                                        navigate('/meal-qr/'+
+                                                    `${meal.purchase_code}`);}}
+                                    text={
+                                        t('DOWNLOAD_QR')}
+                                    id={exportMealQrButtonId(index)}
                                 />
                             </View>
                         </View>
