@@ -16,6 +16,10 @@ CREATE TABLE users (
     username TEXT UNIQUE,
     password TEXT,
     email TEXT UNIQUE,
+    birth_year TEXT, -- the demographic info is encrypted, thus TEXT
+    gender TEXT,
+    education TEXT,
+    income TEXT,
     restaurant_id INT REFERENCES restaurants DEFAULT NULL
 );
 

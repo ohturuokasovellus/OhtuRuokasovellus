@@ -12,8 +12,8 @@ import { mealValidationSchema } from '../utils/formValidationSchemas';
 import createStyles from '../styles/styles';
 import { Button, SmallButton } from './ui/Buttons';
 import { Input, MultilineInput } from './ui/InputFields';
-import { SelectList } from 'react-native-dropdown-select-list';
-import { CheckBox } from 'react-native-elements';
+import { Checkbox } from './ui/Checkbox';
+import { Dropdown } from './ui/Dropdown';
 
 // correct dictionary format for categorized ingredients
 // const categorizedIngredients = {
@@ -65,7 +65,7 @@ const initialValues = {
         nuts: false,
         peanut: false,
         sesame_seeds: false,
-        kala: false,
+        fish: false,
         shellfish: false,
         molluscs: false,
         celery: false,
@@ -252,12 +252,8 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 />
                 {formik.values.ingredients.map((ingredient, index) => (
                     <View key={index} style={styles.flexInputContainer}>
-                        <SelectList
-                            boxStyles={styles.selectList}
-                            inputStyles={styles.inputStyles}
-                            dropdownStyles={styles.dropdownStyles}
-                            dropdownItemStyles={styles.dropdownItemStyles}
-                            dropdownTextStyles={styles.dropdownTextStyles}
+                        <Dropdown
+                            styles={styles}
                             search={false}
                             placeholder={t('FOOD_GROUP')}
                             setSelected={val => 
@@ -269,12 +265,8 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                             }))}
                             save="value"
                         />
-                        <SelectList
-                            boxStyles={styles.selectList}
-                            inputStyles={styles.inputStyles}
-                            dropdownStyles={styles.dropdownStyles}
-                            dropdownItemStyles={styles.dropdownItemStyles}
-                            dropdownTextStyles={styles.dropdownTextStyles}
+                        <Dropdown
+                            styles={styles}
                             search={false}
                             placeholder={t('INGREDIENT')}
                             data={
@@ -329,11 +321,8 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 />
                 <Text style={styles.h2}>{t('COMMON_ALLERGENS')}</Text>
                 {allergens.map((allergen) => (
-                    <CheckBox
-                        containerStyle={styles.checkboxContainer}
-                        textStyle={styles.checkboxText}
-                        checkedColor={styles.checkedIcon.backgroundColor}
-                        uncheckedColor={styles.checkboxIcon.borderColor}
+                    <Checkbox
+                        styles={styles}
                         key={allergen}
                         title={t(`ALLERGEN_GROUP.${allergen.toUpperCase()}`)}
                         checked={formik.values.allergens[allergen]}
