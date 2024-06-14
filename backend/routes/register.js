@@ -29,7 +29,7 @@ router.post('/api/register', async (req, res) => {
         || !isValidEmail(email)
         || !isValidBirthYear(Number(birthYear), currentYear)) {
         return res.status(400).json(
-            { errorMessage: 'invalid username, password or email' }
+            { errorMessage: 'invalid username, password, email or birth year' }
         );
     }
 
