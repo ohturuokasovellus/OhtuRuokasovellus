@@ -75,7 +75,7 @@ jobs:
         - name: E2E tests
           run: npx playwright test --project webkit
           env:
-            E2ETEST_POSTGRES_URL: ${{ secrets.E2ETEST_POSTGRES_URL }}
+            E2ETEST2_POSTGRES_URL: ${{ secrets.E2ETEST2_POSTGRES_URL }}
             E2ETEST: 2
             DATABASE_ENCRYPTION_KEY: ${{ secrets.DATABASE_ENCRYPTION_KEY }}
             WEBPAGE_URL: ${{ secrets.WEBPAGE_URL }}
