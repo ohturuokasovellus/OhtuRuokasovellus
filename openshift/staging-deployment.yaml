@@ -2,32 +2,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ruokasovellus
+  name: ruokasovellus-staging
+  annotations:
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"ruokasovellus:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"ruokasovellus\")].image"}]'
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: ruokasovellus
+      name: ruokasovellus-staging
   template:
     metadata:
       labels:
-        name: ruokasovellus
+        name: ruokasovellus-staging
     spec:
       containers:
         - name: ruokasovellus
           image: image-registry.openshift-image-registry.svc:5000/ruokasovellus/ruokasovellus:latest
+          imagePullPolicy: Always
           ports:
           - containerPort: 8080
           startupProbe:
             httpGet:
-              path: /
+              path: /devops/health
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 2
             timeoutSeconds: 1
-            periodSeconds: 30
+            periodSeconds: 10
             successThreshold: 1
-            failureThreshold: 3
+            failureThreshold: 4
           resources:
             requests:
               memory: 40Mi
@@ -37,19 +40,11 @@ spec:
               cpu: 100m
           env:
             - name: BACKEND_POSTGRES_URL
-              value: postgres://postgres:$(POSTGRES_PASSWORD)@ruokasovellus-db-service:5432/ruokasovellus
-            - name: DATABASE_ENCRYPTION_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: ruokasovellus-encryption-key
-                  key: DATABASE_ENCRYPTION_KEY
-            - name: SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: ruokasovellus-secret-key
-                  key: SECRET_KEY
+              value: postgres://postgres:$(POSTGRES_PASSWORD)@ruokasovellus-db-staging-service:5432/ruokasovellus
+            - name: WEBPAGE_URL
+              value: http://ruokasovellus-staging.2.rahtiapp.fi
           envFrom:
             - secretRef:
-                # loads POSTGRES_PASSWORD env var
-                name: ruokasovellus-db-password
+                # pulls POSTGRES_PASSWORD, SECRET_KEY and DATABASE_ENCRYPTION_KEY env vars
+                name: ruokasovellus-staging
   revisionHistoryLimit: 2

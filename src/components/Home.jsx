@@ -25,7 +25,7 @@ const Home = (props) => {
     const fetchMeals = async () => {
         try {
             const response = await axios.get(
-                `${apiUrl}/meals/${props.user.restaurantId}`,
+                `${apiUrl}/lessInfoMeals/${props.user.restaurantId}`,
             );
             const responseMeals = response.data;
             setMeals(responseMeals);
@@ -76,6 +76,7 @@ const Home = (props) => {
     const isRestaurantUser = restaurantId !== null;
 
     const deleteMealButtonId = (index) => `delete-meal-button-${index}`;
+    const exportMealQrButtonId = (index) => `export-meal-qr-button-${index}`;
 
     const handleEditPress = (mealId) => {
         console.log(mealId);
@@ -106,6 +107,14 @@ const Home = (props) => {
                             }
                             text={t('RESTAURANT_PAGE')}
                             id='restaurant-page-button'
+                        />
+                        <Button
+                            styles={styles}
+                            onPress={
+                                () => navigate(`/menu-qr/${restaurantId}`)
+                            }
+                            text={t('EXPORT_MENU_QR')}
+                            id='restaurant-menu-button'
                         />
                         <ScrollView style={styles.mealListContainer}>
                             <Text style={styles.h3}>
@@ -147,6 +156,18 @@ const Home = (props) => {
                                                         )
                                                     }
                                                 />
+                                                <Button
+                                                    styles={styles}
+                                                    onPress={() => {
+                                                        navigate('/meal-qr/'+
+                                                        `${meal.purchase_code}`
+                                                        );}}
+                                                    text={
+                                                        t('DOWNLOAD_QR')}
+                                                    id={exportMealQrButtonId(
+                                                        index
+                                                    )}
+                                                />
                                             </View>
                                         </View>
                                     </View>
@@ -170,6 +191,12 @@ const Home = (props) => {
                 {surveyUrl && (
                     <Survey surveyUrl={surveyUrl}/>
                 )}
+                <Button
+                    styles={styles}
+                    onPress={() => navigate('/settings')}
+                    text={t('SETTINGS')}
+                    id='settings-button'
+                />
             </View>
             <Modal
                 visible={showModal}

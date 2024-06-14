@@ -46,6 +46,7 @@ jobs:
             E2ETEST_POSTGRES_URL: ${{ secrets.E2ETEST_POSTGRES_URL }}
             E2ETEST: 1
             DATABASE_ENCRYPTION_KEY: ${{ secrets.DATABASE_ENCRYPTION_KEY }}
+            WEBPAGE_URL: ${{ secrets.WEBPAGE_URL }}
 
         - name: Trigger OpenShift build
           if: ${{ github.event_name == 'push' }}

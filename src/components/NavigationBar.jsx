@@ -54,14 +54,6 @@ const NavigationBar = ({ user, updateUser }) => {
                         id='navigation-register'
                     />
             }
-            {user &&
-                    <NavLink
-                        styles={styles}
-                        path='/qr-form'
-                        text={t('QR_FORM')}
-                        id='navigation-qr-form'
-                    />
-            }
             {(user && user.restaurantId) &&
                     <NavLink
                         styles={styles}

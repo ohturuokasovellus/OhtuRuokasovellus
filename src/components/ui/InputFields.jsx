@@ -11,6 +11,7 @@ const Input = ({ styles, ...props }) => {
         <TextInput
             style={styles.input}
             placeholderTextColor={styles.placeholderText.color}
+            maxLength={80}
             {...props}
         />
     );
@@ -21,6 +22,7 @@ const PasswordInput = ({ styles, ...props }) => {
         <TextInput
             style={styles.input}
             placeholderTextColor={styles.placeholderText.color}
+            maxLength={80}
             secureTextEntry={true}
             {...props}
         />
@@ -35,6 +37,7 @@ const FlexInput = ({ styles, ...props }) => {
         <TextInput
             style={styles.flexInput}
             placeholderTextColor={styles.placeholderText.color}
+            maxLength={80}
             {...props}
         />
     );
@@ -48,6 +51,7 @@ const MultilineInput = ({ styles, ...props }) => {
         <TextInput
             style={styles.multilineInput}
             placeholderTextColor={styles.placeholderText.color}
+            maxLength={500}
             multiline={true}
             {...props}
         />

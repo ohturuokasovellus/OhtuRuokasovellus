@@ -15,6 +15,13 @@ spec:
       ref: "main"
   strategy:
     type: Docker
+  resources:
+    requests:
+      cpu: 500m
+      memory: '1Gi'
+    limits:
+      cpu: 1000m
+      memory: '2Gi'
   output:
     to:
       kind: ImageStreamTag
