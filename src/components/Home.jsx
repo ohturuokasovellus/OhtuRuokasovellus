@@ -9,7 +9,8 @@ import apiUrl from '../utils/apiUrl';
 import { getSession } from '../controllers/sessionController';
 
 import createStyles from '../styles/styles';
-import { Button, CancelButton, DeleteButton } from './ui/Buttons';
+import { Button, ButtonVariant,
+    CancelButton, DeleteButton } from './ui/Buttons';
 
 const Home = (props) => {
     const {t} = useTranslation();
@@ -110,20 +111,35 @@ const Home = (props) => {
             <View style={styles.container}>
                 <Text style={styles.h1}>{t('HOME')}</Text>
                 <Text style={styles.body}>
-                    {t('WELCOME')}, {username}
+                    {t('WELCOME')}, {username}!
                 </Text>
+                <Button
+                    styles={styles}
+                    onPress={() => navigate('/history')}
+                    text={t('MEAL_HISTORY')}
+                    id='history-button'
+                />
+                {surveyUrl && (
+                    <Survey surveyUrl={surveyUrl}/>
+                )}
+                <Button
+                    styles={styles}
+                    onPress={() => navigate('/settings')}
+                    text={t('SETTINGS')}
+                    id='settings-button'
+                />
                 {isRestaurantUser ? (
                     <>
                         <Text style={styles.body}>
-                            {t('YOU_ARE_LOGGED_AS_RESTAURANT_USER')}
+                            {t('YOU_ARE_LOGGED_AS_RESTAURANT_USER')}.
                         </Text>
-                        <Button
+                        <ButtonVariant
                             styles={styles}
                             onPress={() => navigate('/add-users')}
                             text={t('ADD_USER')}
                             id='add-users-button'
                         />
-                        <Button
+                        <ButtonVariant
                             styles={styles}
                             onPress={
                                 () => navigate(`/restaurant/${restaurantId}`)
@@ -131,7 +147,7 @@ const Home = (props) => {
                             text={t('RESTAURANT_PAGE')}
                             id='restaurant-page-button'
                         />
-                        <Button
+                        <ButtonVariant
                             styles={styles}
                             onPress={
                                 () => navigate(`/menuQR/${restaurantId}`)
@@ -175,23 +191,6 @@ const Home = (props) => {
                         </ScrollView>
                     </>
                 ) : null}
-                {!isRestaurantUser && (
-                    <Button
-                        styles={styles}
-                        onPress={() => navigate('/history')}
-                        text={t('MEAL_HISTORY')}
-                        id='history-button'
-                    />
-                )}
-                {surveyUrl && (
-                    <Survey surveyUrl={surveyUrl}/>
-                )}
-                <Button
-                    styles={styles}
-                    onPress={() => navigate('/settings')}
-                    text={t('SETTINGS')}
-                    id='settings-button'
-                />
             </View>
             <DeleteMealPopUp/>
         </ScrollView>

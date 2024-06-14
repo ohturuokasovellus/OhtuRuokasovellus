@@ -25,7 +25,6 @@ const Button = ({ onPress, text, styles, ...props }) => {
     );
 };
 
-/** Colour variant of the regular button. */
 const ButtonVariant = ({ onPress, text, styles, ...props }) => {
     return (
         <Pressable
@@ -37,6 +36,22 @@ const ButtonVariant = ({ onPress, text, styles, ...props }) => {
             {...props}
         >
             <Text style={styles.buttonVariantText}>{text}</Text>
+        </Pressable>
+    );
+};
+
+/** Nutritional info button. */
+const NutriButton = ({ onPress, text, styles, ...props }) => {
+    return (
+        <Pressable
+            style={
+                ({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0 },
+                    styles.nutriButton]}
+            onPress={onPress}
+            role='button'
+            {...props}
+        >
+            <Text style={styles.nutriButtonText}>{text}</Text>
         </Pressable>
     );
 };
@@ -118,6 +133,7 @@ const NavButton = ({ styles, onPress, text, ...props }) => {
 export {
     Button,
     ButtonVariant,
+    NutriButton,
     DeleteButton,
     CancelButton,
     SmallButton,
