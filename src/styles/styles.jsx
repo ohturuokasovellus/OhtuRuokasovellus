@@ -30,6 +30,7 @@ const createStyles = () => {
             fontSize: 16,
             color: colors.onSurface,
             fontFamily: 'Roboto-Regular',
+            marginBottom: 8,
         },
         h1: {
             fontSize: 32,
@@ -102,13 +103,54 @@ const createStyles = () => {
             alignItems: 'center',
             marginBottom: 12,
         },
+        buttonText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onPrimaryContainer,
+            fontFamily: 'Roboto-Bold',
+        },
         buttonVariant: {
-            backgroundColor: colors.secondary,
+            backgroundColor: colors.secondaryContainer,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+        },
+        buttonVariantText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onSecondaryContainer,
+            fontFamily: 'Roboto-Bold',
+        },
+        deleteButton: {
+            backgroundColor: colors.errorContainer,
             padding: 12,
             borderRadius: 8,
             alignItems: 'center',
             marginBottom: 12,
             marginHorizontal: 8,
+            width: 80,
+        },
+        deleteButtonText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onErrorContainer,
+            fontFamily: 'Roboto-Bold',
+        },
+        cancelButton: {
+            backgroundColor: colors.outlineVariant,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+            marginHorizontal: 8,
+            width: 90,
+        },
+        cancelButtonText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onSurfaceVariant,
+            fontFamily: 'Roboto-Bold',
         },
         iconButton: {
             height: 30,
@@ -120,36 +162,23 @@ const createStyles = () => {
             marginHorizontal: 6,
             alignItems: 'center',
         },
-        deleteButton: {
-            backgroundColor: colors.errorContainer,
-            padding: 12,
-            borderRadius: 8,
-            alignItems: 'center',
-            marginBottom: 12,
-            marginHorizontal: 8,
-            width: 80,
-        },
-        buttonText: {
-            fontSize: 18,
-            textTransform: 'uppercase',
-            color: colors.onPrimaryContainer,
-            fontFamily: 'Roboto-Bold',
-        },
-        buttonVariantText: {
-            fontSize: 18,
-            textTransform: 'uppercase',
-            color: colors.onSecondary,
-            fontFamily: 'Roboto-Bold',
-        },
         iconButtonText: {
             fontsize: 32,
             color: colors.onTertiary,
             fontFamily: 'Roboto-Bold',
         },
-        deleteButtonText: {
+        nutriButton: {
+            backgroundColor: colors.secondary,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+            marginHorizontal: 8,
+        },
+        nutriButtonText: {
             fontSize: 18,
             textTransform: 'uppercase',
-            color: colors.onErrorContainer,
+            color: colors.onSecondary,
             fontFamily: 'Roboto-Bold',
         },
 
@@ -285,7 +314,6 @@ const createStyles = () => {
         // QR
         qrContainer: {
             padding: 16,
-            backgroundColor: 'white'
         },
         qrPage: {
             justifyContent: 'center',
@@ -440,7 +468,7 @@ const createStyles = () => {
             color: colors.onSurface,
             marginBottom: 20,
         },
-        modalButtons: {
+        modalButtonContainer: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: '100%',

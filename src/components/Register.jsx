@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Text, View, ScrollView, Linking } from 'react-native';
 
 import { Link, useNavigate } from '../Router';
-import { deleteSession } from '../controllers/sessionController';
+import { getSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
 import { registrationValidationSchema } from '../utils/formValidationSchemas';
 
@@ -322,11 +322,13 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 
-const Register = ({ updateUser }) => {
+const Register = () => {
     const navigate = useNavigate();
     useEffect(() => {
-        deleteSession();
-        updateUser(null);
+        const userSession = getSession();
+        if (userSession) {
+            navigate('/');
+        }
     }, []);
 
     const onSubmit = async values => {
@@ -353,7 +355,6 @@ const Register = ({ updateUser }) => {
         }
     };
     const onSuccess = () => {
-        console.log('registration successful!');
         navigate('/login');
     };
     const onError = err => {

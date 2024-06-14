@@ -5,6 +5,7 @@ import { Text, View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { Link, useNavigate } from '../Router';
+import { getSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
 
 import createStyles from '../styles/styles';
@@ -143,18 +144,18 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
  * AddUser component for managing user addition.
  */
 
-const AddUser = (props) => {
+const AddUser = () => {
     const navigate = useNavigate();
     const [isAuthorised, setIsAuthorised] = useState(true);
     const [results, setResults] = useState([]);
-    const user = props.user;
+    const userSession = getSession();
 
     useEffect(() => {
-        if (!user || !user.restaurantId) {
+        if (!userSession || !userSession.restaurantId) {
             setIsAuthorised(false);
             navigate('/', { replace: true });
         }
-    }, [user, navigate]);
+    }, [navigate]);
 
     const onSubmit = async values => {
         const { emails, password } = values;
@@ -164,7 +165,7 @@ const AddUser = (props) => {
                 { emails, password },
                 {
                     headers: {
-                        Authorization: `Bearer ${user.token}`,
+                        Authorization: `Bearer ${userSession.token}`,
                     },
                 }
             );
