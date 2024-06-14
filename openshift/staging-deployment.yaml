@@ -1,0 +1,50 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ruokasovellus-staging
+  annotations:
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"ruokasovellus:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"ruokasovellus\")].image"}]'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: ruokasovellus-staging
+  template:
+    metadata:
+      labels:
+        name: ruokasovellus-staging
+    spec:
+      containers:
+        - name: ruokasovellus
+          image: image-registry.openshift-image-registry.svc:5000/ruokasovellus/ruokasovellus:latest
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8080
+          startupProbe:
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            timeoutSeconds: 1
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            requests:
+              memory: 40Mi
+              cpu: 50m
+            limits:
+              memory: 100Mi
+              cpu: 100m
+          env:
+            - name: BACKEND_POSTGRES_URL
+              value: postgres://postgres:$(POSTGRES_PASSWORD)@ruokasovellus-db-staging-service:5432/ruokasovellus
+            - name: WEBPAGE_URL
+              value: http://ruokasovellus-staging.2.rahtiapp.fi
+          envFrom:
+            - secretRef:
+                # pulls POSTGRES_PASSWORD, SECRET_KEY and DATABASE_ENCRYPTION_KEY env vars
+                name: ruokasovellus-staging
+  revisionHistoryLimit: 2
