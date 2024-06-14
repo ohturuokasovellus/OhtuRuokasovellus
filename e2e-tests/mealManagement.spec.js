@@ -76,7 +76,7 @@ test.describe('meal management page', () => {
     test('lists all restaurant meals and their delete buttons',
         async ({ page }) => {
             await expect(page.locator('text=Kana bolognese')).toBeVisible();
-            await expect(page.locator('text=Pannacotta')).toBeVisible;
+            await expect(page.locator('text=Pannacotta')).toBeVisible();
 
             const deleteButtonCount = await page.locator('text=DELETE').count();
             expect(deleteButtonCount).toBe(2);
@@ -92,7 +92,7 @@ test.describe('meal management page', () => {
     test('cancel button at confirmation cancels meal deletion',
         async ({ page }) => {
             await page.locator('#delete-meal-button-0').click();
-            await page.locator('#cancel-button').click;
+            await page.locator('#cancel-button').click();
 
             await expect(page.locator('text=Kana bolognese')).toBeVisible();
         });
