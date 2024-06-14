@@ -113,6 +113,6 @@ test.describe('home page', () => {
         await expect(page).toHaveURL('/restaurant/1');
         await page.goto('/');
         await page.locator('#restaurant-menu-button').click();
-        await expect(page).toHaveURL('/menuQR/1');
+        await expect(page).toHaveURL('/menu-qr/1');
     });
 });
