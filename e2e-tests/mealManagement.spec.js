@@ -1,4 +1,5 @@
-import { sql, insertRestaurant, insertUser } from '../backend/database';
+import { sql, insertRestaurant,
+    insertUser, updateUserRestaurantByEmail } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 
@@ -12,9 +13,16 @@ const initTestDB = async () => {
     const user = 'test';
     const password = hash('Test123!');
     const email = 'test@test.com';
+    const birthYear = '2000';
+    const gender = 'other';
+    const education = 'primary';
+    const income = 'below 1500';
+    await insertUser(user, password, email, birthYear,
+        gender, education, income
+    );
     const restaurantId = await insertRestaurant(restaurant);
 
-    await insertUser(user, password, email, restaurantId);
+    await updateUserRestaurantByEmail('test@test.com', restaurantId);
     await sql`INSERT INTO meals (
         name, restaurant_id, purchase_code, meal_description, co2_emissions,
         meal_allergens, carbohydrates, protein, fat, fiber, sugar, salt,
@@ -80,9 +88,9 @@ test.describe('meal management page', () => {
     
     test('gives message if no meals found',
         async ({ page }) => {
-            await page.locator('#delete-meal-button-0').click();
-            await page.locator('#confirm-delete-button').click();
             await page.locator('#delete-meal-button-1').click();
+            await page.locator('#confirm-delete-button').click();
+            await page.locator('#delete-meal-button-0').click();
             await page.locator('#confirm-delete-button').click();
 
             await expect(page.locator('text=Kana bolognese')).toBeHidden();
@@ -92,9 +100,9 @@ test.describe('meal management page', () => {
     
     test('deleted meals do not show on the restaurant page',
         async ({ page }) => {
-            await page.locator('#delete-meal-button-0').click();
-            await page.locator('#confirm-delete-button').click();
             await page.locator('#delete-meal-button-1').click();
+            await page.locator('#confirm-delete-button').click();
+            await page.locator('#delete-meal-button-0').click();
             await page.locator('#confirm-delete-button').click();
 
             await page.locator('#restaurant-page-button').click();

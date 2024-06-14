@@ -3,8 +3,8 @@ import axios from 'axios';
 import { Formik } from 'formik';
 import { View, Text, ScrollView } from 'react-native';
 
-import { useNavigate } from '../Router';
-import { createSession, deleteSession } from '../controllers/sessionController';
+import { Link, useNavigate } from '../Router';
+import { createSession, getSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
 import { useTranslation } from 'react-i18next';
 import { loginValidationSchema } from '../utils/formValidationSchemas';
@@ -25,9 +25,11 @@ const LoginForm = ({ updateUser }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     useEffect(() => {
-        console.info('this is openshift test log 1');
-        deleteSession();
-        updateUser(null);
+        console.info('this is openshift test log 2');
+        const userSession = getSession();
+        if (userSession) {
+            navigate('/');
+        }
     }, []);
 
     const styles = createStyles();
@@ -114,18 +116,11 @@ const LoginForm = ({ updateUser }) => {
                         <Text style={styles.body}>
                             {t('DONT_HAVE_AN_ACCOUNT_YET')}
                         </Text>
-                        <Button
-                            styles={styles}
-                            onPress={() => navigate('/register')}
-                            text={t('REGISTER')}
-                            id='register-button'
-                        />
-                        <Button
-                            styles={styles}
-                            onPress={() => navigate('/register-restaurant')}
-                            text={t('REGISTER_RESTAURANT')}
-                            id='register-restaurant-button'
-                        />
+                        <Link to='/register'>
+                            <Text style={styles.link} id='register-link'>
+                                {t('REGISTER')}
+                            </Text>
+                        </Link>
                     </View>
                 </ScrollView>
             )}

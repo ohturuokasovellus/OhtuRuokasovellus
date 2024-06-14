@@ -1,4 +1,5 @@
-import { sql, insertUser } from '../backend/database';
+import { sql, insertUser,
+    updateUserRestaurantByEmail } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 
@@ -7,54 +8,80 @@ const initTestDB = async () => {
     const user = 'testi';
     const password = hash('Testi123!');
     const email = 'test@test.com';
-    await insertUser(user, password, email);
+    const birthYear = '2000';
+    const gender = 'other';
+    const education = 'primary';
+    const income = 'below 1500';
+    await insertUser(user, password, email, birthYear,
+        gender, education, income
+    );
 };
 
 const createRestaurantUser = async () => {
     const user = 'testaurante';
     const password = hash('Testaurante123!');
     const email = 'testaurante@test.com';
-    await insertUser(user, password, email, 1);
+    const birthYear = '2000';
+    const gender = 'other';
+    const education = 'primary';
+    const income = 'below 1500';
+    await insertUser(user, password, email, birthYear,
+        gender, education, income
+    );
+    await updateUserRestaurantByEmail('testaurante@test.com', 1);
 };
 
 test.describe('navbar', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
-        await page.goto('/');
-        await page.locator('#language-toggle').click();
-    });
-
-    test('navbar login button keeps user in login page', async ({ page }) => {
-        await page.locator('#navigation-login').click();
-        await expect(page).toHaveURL(/\/login$/);
-    });
-
-    test('navbar register button takes to register', async ({ page }) => {
-        await page.locator('#navigation-register').click();
-        await expect(page).toHaveURL(/\/register$/);
-    });
-    
-    test('logged in user can use navbar home button', async ({ page }) => {
-        await expect(page).toHaveURL(/\/login$/);
-        await page.fill('input[id="username-input"]', 'testi');
-        await page.fill('input[id="password-input"]', 'Testi123!');
-        await page.locator('#login-button').click();
-        await page.waitForURL('/');
-        await page.locator('#history-button').click();
-        await expect(page).toHaveURL('/history');
-        await page.locator('#navigation-home').click();
-        await expect(page).toHaveURL('/');
-    });
-
-    test('logged restaurant user use navbar create meal', async ({ page }) => {
         await createRestaurantUser();
-        
-        await expect(page).toHaveURL(/\/login$/);
-        await page.fill('input[id="username-input"]', 'testaurante');
-        await page.fill('input[id="password-input"]', 'Testaurante123!');
-        await page.locator('#login-button').click();
-        await page.waitForURL('/');
-        await page.locator('#navigation-add-meal').click();
-        await expect(page).toHaveURL('/create-meal');
+        await page.goto('/');
     });
+
+    test('navbar is displayed and redirects users correctly',
+        async ({ page }) => {
+            await expect(page.locator('#theme-toggle'))
+                .toBeVisible();
+            await expect(page.locator('#language-toggle'))
+                .toContainText('In English');
+            await page.locator('#language-toggle').click();
+            await expect(page.locator('#language-toggle'))
+                .toContainText('Suomeksi');
+
+            // not logged in
+            await expect(page.locator('#navigation-add-meal'))
+                .not.toBeVisible();
+            await expect(page.locator('#navigation-logout'))
+                .not.toBeVisible();
+            await page.locator('#navigation-register').click();
+            await expect(page).toHaveURL(/\/register$/);
+            await page.locator('#navigation-home').click();
+            await expect(page).toHaveURL(/\/$/);
+            await page.locator('#navigation-login').click();
+            await expect(page).toHaveURL(/\/login$/);
+
+            // logged in
+            await page.fill('input[id="username-input"]', 'testi');
+            await page.fill('input[id="password-input"]', 'Testi123!');
+            await page.locator('#login-button').click();
+            await page.waitForURL('/');
+            await expect(page.locator('#navigation-add-meal'))
+                .not.toBeVisible();
+            await expect(page.locator('#navigation-login'))
+                .not.toBeVisible();
+            await expect(page.locator('#navigation-register'))
+                .not.toBeVisible();
+            await page.locator('#navigation-home').click();
+            await expect(page).toHaveURL(/\/$/);
+            await page.locator('#navigation-logout').click();
+            await expect(page).toHaveURL(/\/login$/);
+
+            //logged in as a restaurant
+            await page.fill('input[id="username-input"]', 'testaurante');
+            await page.fill('input[id="password-input"]', 'Testaurante123!');
+            await page.locator('#login-button').click();
+            await page.waitForURL('/');
+            await page.locator('#navigation-add-meal').click();
+            await expect(page).toHaveURL(/\/create-meal$/);
+        });
 });

@@ -9,13 +9,13 @@ import NavigationBar from './src/components/NavigationBar';
 import Home from './src/components/Home';
 import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
-import RegisterRestaurant from './src/components/RegisterRestaurant';
 import AddUser from './src/components/AddUser';
 import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
 import Purchase from './src/components/Purchase';
 import PurchaseHistory from './src/components/PurchaseHistory';
 import MenuQR from './src/components/MenuQR';
+import MealQR from './src/components/MealQR';
 import Settings from './src/components/Settings';
 import './src/lang/i18n'; // should be inported in index.js, but idk if
 //they mean the backend's index.js or frontend's app.jsx. Works when imported
@@ -38,9 +38,9 @@ const App = () => {
     return (
         <ThemeController>
             <Router>
-                <NavigationBar user={user} updateUser={updateUser}/>
+                <NavigationBar updateUser={updateUser}/>
                 <Routes>
-                    <Route path='/' element={<Home user={user}/>} />
+                    <Route path='/' element={<Home />} />
                     <Route path='/register'
                         element={<Register updateUser={updateUser}/>} />
                     <Route path='/login'
@@ -49,17 +49,15 @@ const App = () => {
                         element={<MealList />}/>
                     <Route path='/create-meal' element={<CreateMeal 
                         user={user} />} />
-                    <Route path='/register-restaurant'
-                        element=
-                            {<RegisterRestaurant updateUser={updateUser}/>}
-                    />
                     <Route path='/add-users'
-                        element={<AddUser user={user} />} />
+                        element={<AddUser />} />
                     <Route path='/purchase/:purchaseCode'
                         element={<Purchase />} />
                     <Route path='/history' element={<PurchaseHistory />} />
-                    <Route path='/menuQR/:restaurantId'
+                    <Route path='/menu-qr/:restaurantId'
                         element={<MenuQR />}/>
+                    <Route path='/meal-qr/:mealPurchaseCode'
+                        element={<MealQR />}/>
                     <Route path='/settings' element={<Settings />} />
                 </Routes>
             </Router>

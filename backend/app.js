@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const registerRouter = require('./routes/register');
 const LoginRouter = require('./routes/login');
-const registerRestaurantRouter = require('./routes/registerRestaurant');
 const mealRouter = require('./routes/meal');
 const urlRouter = require('./routes/url');
 const userAdditionRouter = require('./routes/addUser');
@@ -11,6 +10,7 @@ const ingredientsRouter = require('./routes/ingredients');
 const purchaseRouter = require('./routes/purchase');
 const pageURLRouter = require('./routes/webpageURL');
 const settingsRouter = require('./routes/settings');
+const devopsRouter = require('./routes/devops');
 const path = require('path');
 const filesystem = require('fs');
 
@@ -20,7 +20,6 @@ app.use(cors());
 
 app.use(registerRouter);
 app.use(LoginRouter);
-app.use(registerRestaurantRouter);
 app.use(mealRouter);
 app.use(urlRouter);
 app.use(userAdditionRouter);
@@ -28,6 +27,10 @@ app.use(ingredientsRouter);
 app.use(purchaseRouter);
 app.use(pageURLRouter);
 app.use(settingsRouter);
+app.use(devopsRouter);
+
+const assetsPath = path.join(__dirname, 'assets');
+app.use(express.static(assetsPath, { index: false }));
 
 const webBuildPath = path.join(__dirname, '..', 'web-build');
 if (filesystem.existsSync(webBuildPath)) {

@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from '../Router';
-import { deleteSession } from '../controllers/sessionController';
+import { getSession, deleteSession } from '../controllers/sessionController';
 import { themeContext } from '../controllers/themeController';
 
 import { NavButton } from './ui/Buttons';
@@ -11,7 +11,7 @@ import NavLink from './ui/NavigationLink';
 import LanguageSwitch from './ui/LanguageSwitch';
 import createStyles from '../styles/styles';
 
-const NavigationBar = ({ user, updateUser }) => {
+const NavigationBar = ({ updateUser }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const logOutPress = () => {
@@ -22,6 +22,8 @@ const NavigationBar = ({ user, updateUser }) => {
     const { toggleTheme } = useContext(themeContext);
     const styles = createStyles();
 
+    const userSession = getSession();
+
     return (
         <View style={styles.navigationBar}>
             <NavButton
@@ -30,15 +32,13 @@ const NavigationBar = ({ user, updateUser }) => {
                 text='🌗︎'
                 id='theme-toggle'
             />
-            {user &&
-                    <NavLink
-                        styles={styles}
-                        path='/'
-                        text={t('HOME')}
-                        id='navigation-home'
-                    />
-            }
-            {!user &&
+            <NavLink
+                styles={styles}
+                path='/'
+                text={t('HOME')}
+                id='navigation-home'
+            />
+            {!userSession &&
                     <NavLink
                         styles={styles}
                         path='/login'
@@ -46,7 +46,7 @@ const NavigationBar = ({ user, updateUser }) => {
                         id='navigation-login'
                     />
             }
-            {!user &&
+            {!userSession &&
                     <NavLink
                         styles={styles}
                         path='/register'
@@ -54,7 +54,7 @@ const NavigationBar = ({ user, updateUser }) => {
                         id='navigation-register'
                     />
             }
-            {(user && user.restaurantId) &&
+            {(userSession && userSession.restaurantId) &&
                     <NavLink
                         styles={styles}
                         path='/create-meal'
@@ -62,7 +62,7 @@ const NavigationBar = ({ user, updateUser }) => {
                         id='navigation-add-meal'
                     />
             }
-            {user &&
+            {userSession &&
                     <NavButton
                         styles={styles}
                         onPress={logOutPress}
