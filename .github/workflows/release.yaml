@@ -24,4 +24,4 @@ jobs:
 
       - name: Update production deployment to latest image
         run: |
-          oc rollout latest deployment/ruokasovellus-prod
+          oc set image deployment/ruokasovellus-prod ruokasovellus=ruokasovellus:latest --source=imagestreamtag

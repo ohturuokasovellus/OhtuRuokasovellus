@@ -16,7 +16,7 @@ spec:
       containers:
         - name: ruokasovellus
           image: image-registry.openshift-image-registry.svc:5000/ruokasovellus/ruokasovellus:latest
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 8080
           startupProbe:
