@@ -25,7 +25,7 @@ const Home = (props) => {
     const fetchMeals = async () => {
         try {
             const response = await axios.get(
-                `${apiUrl}/meals/${props.user.restaurantId}`,
+                `${apiUrl}/lessInfoMeals/${props.user.restaurantId}`,
             );
             const responseMeals = response.data;
             setMeals(responseMeals);
@@ -76,6 +76,7 @@ const Home = (props) => {
     const isRestaurantUser = restaurantId !== null;
 
     const deleteMealButtonId = (index) => `delete-meal-button-${index}`;
+    const exportMealQrButtonId = (index) => `export-meal-qr-button-${index}`;
 
     return (
         <ScrollView style={styles.background}>
@@ -106,7 +107,7 @@ const Home = (props) => {
                         <Button
                             styles={styles}
                             onPress={
-                                () => navigate(`/menuQR/${restaurantId}`)
+                                () => navigate(`/menu-qr/${restaurantId}`)
                             }
                             text={t('EXPORT_MENU_QR')}
                             id='restaurant-menu-button'
@@ -135,6 +136,15 @@ const Home = (props) => {
                                                 }
                                                 text={t('DELETE')}
                                                 id={deleteMealButtonId(index)}
+                                            />
+                                            <Button
+                                                styles={styles}
+                                                onPress={() => {
+                                                    navigate('/meal-qr/'+
+                                                    `${meal.purchase_code}`);}}
+                                                text={
+                                                    t('DOWNLOAD_QR')}
+                                                id={exportMealQrButtonId(index)}
                                             />
                                         </View>
                                     </View>
