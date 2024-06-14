@@ -19,7 +19,6 @@ const Home = () => {
     const styles = createStyles();
     const userSession = getSession();
 
-<<<<<<< HEAD
     const loremIpsum = 'Lorem ipsum dolor sit amet, \
     consectetur adipiscing elit. \
     Curabitur eu iaculis mauris. Sed metus purus, laoreet tincidunt lobortis \
@@ -53,19 +52,6 @@ const Home = () => {
     blandit. Nam eget erat orci. Nunc gravida ornare massa in luctus. \
     Phasellus ullamcorper eget nunc non suscipit. Ut consequat fringilla \
     odio vel eleifend. Sed sed consectetur felis. ';
-=======
-    const fetchMeals = async () => {
-        try {
-            const response = await axios.get(
-                `${apiUrl}/lessInfoMeals/${props.user.restaurantId}`,
-            );
-            const responseMeals = response.data;
-            setMeals(responseMeals);
-        } catch (err) {
-            console.error(err);
-        }
-    };
->>>>>>> main
 
     if (!userSession) {
         return (
@@ -107,7 +93,6 @@ const Home = () => {
         isRestaurantUser = userSession.restaurantId !== null;
     }
 
-<<<<<<< HEAD
     if (!userSession) {
         return (
             <ScrollView style={styles.background}>
@@ -118,99 +103,15 @@ const Home = () => {
             </ScrollView>
         );
     }
-=======
-    const deleteMealButtonId = (index) => `delete-meal-button-${index}`;
-    const exportMealQrButtonId = (index) => `export-meal-qr-button-${index}`;
->>>>>>> main
 
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
-<<<<<<< HEAD
                 <>
                     <Text style={styles.h1}>{t('HOME')}</Text>
                     <Text style={styles.body}>
                         {t('WELCOME')}, {username}!
                     </Text>
-=======
-                <Text style={styles.h1}>{t('HOME')}</Text>
-                <Text style={styles.body}>
-                    {t('WELCOME')}, {username}
-                </Text>
-                {isRestaurantUser ? (
-                    <>
-                        <Text style={styles.body}>
-                            {t('YOU_ARE_LOGGED_AS_RESTAURANT_USER')}
-                        </Text>
-                        <Button
-                            styles={styles}
-                            onPress={() => navigate('/add-users')}
-                            text={t('ADD_USER')}
-                            id='add-users-button'
-                        />
-                        <Button
-                            styles={styles}
-                            onPress={
-                                () => navigate(`/restaurant/${restaurantId}`)
-                            }
-                            text={t('RESTAURANT_PAGE')}
-                            id='restaurant-page-button'
-                        />
-                        <Button
-                            styles={styles}
-                            onPress={
-                                () => navigate(`/menu-qr/${restaurantId}`)
-                            }
-                            text={t('EXPORT_MENU_QR')}
-                            id='restaurant-menu-button'
-                        />
-                        <ScrollView style={styles.mealListContainer}>
-                            <Text style={styles.h3}>
-                                {t('MANAGE_RESTAURANT_MEALS')}
-                            </Text>
-                            {meals.length > 0 ? (
-                                meals.map((meal, index) => (
-                                    <View key={meal.meal_id} 
-                                        style={styles.mealContainer}
-                                    >
-                                        <View style={styles.mealContent}>
-                                            <Text style={styles.body}>
-                                                {meal.meal_name}
-                                            </Text>
-                                            <DeleteButton
-                                                styles={styles}
-                                                onPress={() => {
-                                                    setMealToDelete(
-                                                        meal.meal_id
-                                                    );
-                                                    setShowModal(true);
-                                                }
-                                                }
-                                                text={t('DELETE')}
-                                                id={deleteMealButtonId(index)}
-                                            />
-                                            <Button
-                                                styles={styles}
-                                                onPress={() => {
-                                                    navigate('/meal-qr/'+
-                                                    `${meal.purchase_code}`);}}
-                                                text={
-                                                    t('DOWNLOAD_QR')}
-                                                id={exportMealQrButtonId(index)}
-                                            />
-                                        </View>
-                                    </View>
-                                ))
-                            ) : (
-                                <Text style={styles.body}>
-                                    {t('NO_MEALS')}
-                                </Text>
-                            )}
-                        </ScrollView>
-                    </>
-                ) : null}
-                {!isRestaurantUser && (
->>>>>>> main
                     <Button
                         styles={styles}
                         onPress={() => navigate('/history')}
