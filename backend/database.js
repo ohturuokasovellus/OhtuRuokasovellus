@@ -20,30 +20,35 @@ const sql = postgres(process.env.E2ETEST == '1' ?
  * @param {string} username
  * @param {string} password
  * @param {string} email
- * @param {number} restaurantId
+ * @param {number} birthYear
+ * @param {string} gender
+ * @param {string} education
+ * @param {string} income
  */
-const insertUser = async (username, password, email, restaurantId) => {
-    if(restaurantId){
-        await sql`
-            INSERT INTO users (username, password, email, restaurant_id)
-            VALUES (pgp_sym_encrypt(${username},
-                ${process.env.DATABASE_ENCRYPTION_KEY}), 
-                ${password}, 
-                pgp_sym_encrypt(
-                    ${email},${process.env.DATABASE_ENCRYPTION_KEY}), 
-                ${restaurantId})
+const insertUser = async (
+    username, password, email, birthYear,
+    gender, education, income) => {
+    await sql`
+        INSERT INTO users (
+            username, password, email, birth_year,
+            gender, education, income
+            )
+        VALUES (
+            pgp_sym_encrypt(${username},
+            ${process.env.DATABASE_ENCRYPTION_KEY}),
+            ${password},
+            pgp_sym_encrypt(
+            ${email},${process.env.DATABASE_ENCRYPTION_KEY}),
+            pgp_sym_encrypt(
+            ${birthYear},${process.env.DATABASE_ENCRYPTION_KEY}),
+            pgp_sym_encrypt(
+            ${gender},${process.env.DATABASE_ENCRYPTION_KEY}),
+            pgp_sym_encrypt(
+            ${education},${process.env.DATABASE_ENCRYPTION_KEY}),
+            pgp_sym_encrypt(
+            ${income},${process.env.DATABASE_ENCRYPTION_KEY})
+            )
         `;
-    }
-    else{
-        await sql`
-            INSERT INTO users (username, password, email)
-            VALUES (pgp_sym_encrypt(${username},
-                ${process.env.DATABASE_ENCRYPTION_KEY}), 
-                ${password}, 
-                pgp_sym_encrypt(
-                    ${email},${process.env.DATABASE_ENCRYPTION_KEY}))
-        `;
-    } 
 };
 
 /**

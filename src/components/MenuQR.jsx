@@ -50,7 +50,7 @@ const MenuQR = () => {
         return (
             <ScrollView style={styles.background}>
                 <View style={styles.container}>
-                    <Text>Loading...</Text>
+                    <Text style={styles.body}>Loading...</Text>
                 </View>
             </ScrollView>
         );
@@ -68,7 +68,10 @@ const MenuQR = () => {
                                 maxWidth: '500px', width: '500px'}}
                             value={menuQRCode}/>
                         </View>
-                        <Link to={imageUri} target="_blank" download>
+                        <Link
+                            style={{textDecorationLine: 'none'}}
+                            to={imageUri} target="_blank" download
+                        >
                             <Button styles={styles} onPress={()=>{}} 
                                 text={t('DOWNLOAD')} id='download-QR-code'>
                             </Button>
