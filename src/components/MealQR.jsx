@@ -8,9 +8,9 @@ import QRCode from 'react-qr-code';
 import createStyles from '../styles/styles';
 import { getPageURL } from '../utils/getPageUrl';
 
-const MenuQR = () => {
+const MealQR = () => {
     const {t} = useTranslation();
-    const { restaurantId } = useParams();
+    const { mealPurchaseCode } = useParams();
     const [menuQRCode, setmenuQRCode] = useState('');
     const qrViewReference = useRef(null);
     const [imageUri, setImageUri] = useState('');
@@ -20,15 +20,15 @@ const MenuQR = () => {
         const fetchWebpageURL = async () => {
             const webpageURL = await getPageURL();
             if (webpageURL) {
-                const urlMenu = webpageURL+'/restaurant/'+restaurantId;
-                setmenuQRCode(urlMenu);
+                const urlToConfirm = webpageURL+'/purchase/'+mealPurchaseCode;
+                setmenuQRCode(urlToConfirm);
             } else {
                 console.log('couldnt get webpage URL');
             }
         };
 
         fetchWebpageURL();
-    }, [restaurantId]);
+    }, [mealPurchaseCode]);
 
     useEffect(() => {
         const formImage = async () => {
@@ -50,7 +50,7 @@ const MenuQR = () => {
         return (
             <ScrollView style={styles.background}>
                 <View style={styles.container}>
-                    <Text style={styles.body}>Loading...</Text>
+                    <Text>Loading...</Text>
                 </View>
             </ScrollView>
         );
@@ -61,19 +61,17 @@ const MenuQR = () => {
             <ScrollView style={styles.background}>
                 <View style={styles.container}>
                     <View style={styles.qrPage}>
-                        <Text>{t('QR_CODE_TO_YOUR_MENU')}</Text>
+                        <Text>{t('QR_CODE_TO_MEAL_CONFIRM')}</Text>
                         <View style={styles.qrContainer} ref={qrViewReference} 
-                            id='menu-qr-code'>
+                            id='meal-qr-code'>
                             <QRCode size={500} style={{ height: 'auto', 
                                 maxWidth: '500px', width: '500px'}}
                             value={menuQRCode}/>
                         </View>
-                        <Link
-                            style={{textDecorationLine: 'none'}}
-                            to={imageUri} target="_blank" download
-                        >
+                        <Link style={{textDecorationLine: 'none'}}
+                            to={imageUri} target="_blank" download>
                             <Button styles={styles} onPress={()=>{}} 
-                                text={t('DOWNLOAD')} id='download-QR-code'>
+                                text={t('DOWNLOAD')} id='download-meal-qr-code'>
                             </Button>
                         </Link>
                     </View>
@@ -85,4 +83,4 @@ const MenuQR = () => {
     return null; // Handle non-web platforms or other cases when needed
 };
 
-export default MenuQR;
+export default MealQR;
