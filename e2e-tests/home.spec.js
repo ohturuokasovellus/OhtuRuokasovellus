@@ -6,11 +6,16 @@ import {
 } from '../backend/database';
 import { hash } from '../backend/services/hash';
 
+const testSurveyUrl = 'fi.wikipedia.org/';
+
 const initTestDB = async () => {
     await sql`SET client_min_messages TO WARNING`;
     await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
     await sql`TRUNCATE TABLE restaurants RESTART IDENTITY CASCADE`;
-
+    await sql`TRUNCATE TABLE urls RESTART IDENTITY CASCADE`;
+    await sql`
+    INSERT INTO urls (name, url) VALUES ('survey', ${testSurveyUrl})
+    `;
     await insertRestaurant('testaurant');
 
     const users = [
@@ -50,61 +55,64 @@ test.describe('home page', () => {
         await page.locator('#language-toggle').click();
     });
 
-    test('redirects to login if not currently logged in',
-        async ({ page }) => {
-            await expect(page).toHaveURL(/\/login$/);
-        });
+    test('home page is displayed correctly for all users', async ({ page }) => {
+        // not logged in
+        await expect(page.locator('#root'))
+            .toContainText('Lorem ipsum dolor sit amet, ');
+        await expect(page.locator('#login-link'))
+            .toBeVisible();
+        await expect(page.locator('#register-link'))
+            .toBeVisible();
 
-    test('displays regular user page correctly',
-        async ({ page }) => {
-            await page.locator('#username-input').click();
-            await page.locator('#username-input').fill('test2');
-            await page.locator('#password-input').click();
-            await page.locator('#password-input').fill('Best456@');
-            await page.locator('#login-button').click();
-            await page.waitForURL('/');
-            await expect(page).toHaveURL('/');
-            await expect(page.locator('#root'))
-                .toContainText('Welcome, test2');
-        });
+        // logged in
+        await page.locator('#navigation-login').click();
+        await page.locator('#username-input').click();
+        await page.locator('#username-input').fill('test2');
+        await page.locator('#password-input').click();
+        await page.locator('#password-input').fill('Best456@');
+        await page.locator('#login-button').click();
+        await expect(page).toHaveURL(/\/$/);
+        await expect(page.locator('#root'))
+            .toContainText('Welcome, test2!');
+        await expect(page.locator('#survey-link'))
+            .toBeVisible();
+        await expect(page.locator('#add-users-button'))
+            .not.toBeVisible();
+        await expect(page.locator('#restaurant-page-button'))
+            .not.toBeVisible();
+        await expect(page.locator('#restaurant-menu-button'))
+            .not.toBeVisible();
+        await page.locator('#history-button').click();
+        await expect(page).toHaveURL(/\/history$/);
+        await page.goto('/');
+        await page.locator('#settings-button').click();
+        await expect(page).toHaveURL(/\/settings$/);
+        await page.locator('#navigation-logout').click();
+        await expect(page).toHaveURL(/\/login$/);
 
-    test('displays restaurant user page correctly',
-        async ({ page }) => {
-            await page.goto('/login');
-            await page.locator('#username-input').click();
-            await page.locator('#username-input').fill('test');
-            await page.locator('#password-input').click();
-            await page.locator('#password-input').fill('Test123!');
-            await page.locator('#login-button').click();
-            await page.waitForURL('/');
-            await expect(page).toHaveURL('/');
-            await expect(page.locator('#root'))
-                .toContainText('Welcome, test');
-            await expect(page.locator('#root'))
-                .toContainText('You are logged in as a restaurant user');
-            await expect(page.getByText('add user', { ignoreCase: true }))
-                .toBeVisible();
-            await expect(page.getByText(
-                'restaurant page', { ignoreCase: true }
-            ))
-                .toBeVisible();
-        });
-
-    test('restaurant user view navigation works',
-        async ({ page }) => {
-            await page.goto('/login');
-            await page.locator('#username-input').click();
-            await page.locator('#username-input').fill('test');
-            await page.locator('#password-input').click();
-            await page.locator('#password-input').fill('Test123!');
-            await page.locator('#login-button').click();
-            await page.waitForURL('/');
-            await page.getByText('add user').click();
-            await expect(page).toHaveURL(/\/add-users$/);
-            await page.getByRole('link', { name: 'back to home' }).click();
-            await page.waitForURL('/');
-            await page.getByText('restaurant page', { ignoreCase: true })
-                .click();
-            await expect(page).toHaveURL('/restaurant/1');
-        });
+        // logged in as a restaurant user
+        await page.locator('#username-input').click();
+        await page.locator('#username-input').fill('test');
+        await page.locator('#password-input').click();
+        await page.locator('#password-input').fill('Test123!');
+        await page.locator('#login-button').click();
+        await expect(page.locator('#root'))
+            .toContainText('You are logged in as a restaurant user.');
+        await expect(page.locator('#root'))
+            .toContainText('Manage restaurant meals');
+        await expect(page.locator('#history-button'))
+            .toBeVisible();
+        await expect(page.locator('#settings-button'))
+            .toBeVisible();
+        await expect(page.locator('#survey-link'))
+            .toBeVisible();
+        await page.locator('#add-users-button').click();
+        await expect(page).toHaveURL(/\/add-users$/);
+        await page.goto('/');
+        await page.locator('#restaurant-page-button').click();
+        await expect(page).toHaveURL('/restaurant/1');
+        await page.goto('/');
+        await page.locator('#restaurant-menu-button').click();
+        await expect(page).toHaveURL('/menuQR/1');
+    });
 });
