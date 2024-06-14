@@ -107,7 +107,7 @@ const Home = (props) => {
                         <Button
                             styles={styles}
                             onPress={
-                                () => navigate(`/menuQR/${restaurantId}`)
+                                () => navigate(`/menu-qr/${restaurantId}`)
                             }
                             text={t('EXPORT_MENU_QR')}
                             id='restaurant-menu-button'
@@ -140,7 +140,7 @@ const Home = (props) => {
                                             <Button
                                                 styles={styles}
                                                 onPress={() => {
-                                                    navigate('/mealQR/'+
+                                                    navigate('/meal-qr/'+
                                                     `${meal.purchase_code}`);}}
                                                 text={
                                                     t('EXPORT_MEAL_CONFIRM_QR')}

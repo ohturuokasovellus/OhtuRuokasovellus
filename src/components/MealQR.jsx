@@ -63,14 +63,14 @@ const MealQR = () => {
                     <View style={styles.qrPage}>
                         <Text>{t('QR_CODE_TO_MEAL_CONFIRM')}</Text>
                         <View style={styles.qrContainer} ref={qrViewReference} 
-                            id='meal-QR-code'>
+                            id='meal-qr-code'>
                             <QRCode size={500} style={{ height: 'auto', 
                                 maxWidth: '500px', width: '500px'}}
                             value={menuQRCode}/>
                         </View>
                         <Link to={imageUri} target="_blank" download>
                             <Button styles={styles} onPress={()=>{}} 
-                                text={t('DOWNLOAD')} id='Download-QR-code'>
+                                text={t('DOWNLOAD')} id='download-meal-qr-code'>
                             </Button>
                         </Link>
                     </View>

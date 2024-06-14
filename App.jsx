@@ -59,9 +59,9 @@ const App = () => {
                     <Route path='/purchase/:purchaseCode'
                         element={<Purchase />} />
                     <Route path='/history' element={<PurchaseHistory />} />
-                    <Route path='/menuQR/:restaurantId'
+                    <Route path='/menu-qr/:restaurantId'
                         element={<MenuQR />}/>
-                    <Route path='/mealQR/:mealPurchaseCode'
+                    <Route path='/meal-qr/:mealPurchaseCode'
                         element={<MealQR />}/>
                     <Route path='/settings' element={<Settings />} />
                 </Routes>

@@ -46,6 +46,6 @@ test.describe('menu qr page', () => {
             await expect(page.locator('#root'))
                 .toContainText('You are logged in as a restaurant user');
             await page.locator('#restaurant-menu-button').click();
-            await expect(page.locator('#QR-code')).toBeVisible();
+            await expect(page.locator('#menu-qr-code')).toBeVisible();
         });
 });
