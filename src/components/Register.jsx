@@ -14,6 +14,7 @@ import { Button } from './ui/Buttons';
 import { Input, PasswordInput } from './ui/InputFields';
 import { Dropdown } from './ui/Dropdown';
 import { CheckboxVariant } from './ui/Checkbox';
+import { getPageURL } from '../utils/getPageUrl';
 
 const initialValues = {
     username: '',
@@ -47,6 +48,8 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     const {t} = useTranslation();
     const [formError, setFormError] = useState('');
     const [showRestaurantName, setShowRestaurantName] = useState(false);
+    const [termsPDFURL, setTermsPDFURL] = useState('');
+    const [privacyPDFURL, setPrivacyPDFURL] = useState('');
 
     const formik = useFormik({
         initialValues,
@@ -63,6 +66,22 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             }
         },
     });
+
+    useEffect(() => {
+        const fetchWebpageURL = async () => {
+            const webpageURL = await getPageURL();
+            if (webpageURL) {
+                const urlToTermsPDF = webpageURL+'/terms.pdf';
+                const urlToPrivacyPDF = webpageURL+'/privacy.pdf';
+                setTermsPDFURL(urlToTermsPDF);
+                setPrivacyPDFURL(urlToPrivacyPDF);
+            } else {
+                console.log('couldnt get webpage URL');
+            }
+        };
+
+        fetchWebpageURL();
+    }, []);
 
     const styles = createStyles();
 
@@ -90,12 +109,10 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     ];
     
     const openTCLink = () => {
-        Linking
-            .openURL('https://github.com/ohturuokasovellus/OhtuRuokasovellus');
+        Linking.openURL(termsPDFURL);
     };
     const openPrivacyLink = () => {
-        Linking
-            .openURL('https://github.com/ohturuokasovellus/OhtuRuokasovellus');
+        Linking.openURL(privacyPDFURL);
     };
 
     const renderCheckboxTitle = (isTerms) => {
@@ -107,7 +124,8 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
         return (
             <Text style={styles.body}>
                 {t('TC_PRIVACY_CHECK.ACCEPTED')}
-                <Text style={styles.link} onPress={openLink}>
+                <Text style={styles.link} onPress={openLink} 
+                    id={isTerms ? 'link-to-terms' : 'link-to-privacy'}>
                     {title}
                 </Text>
             </Text>
