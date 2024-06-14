@@ -32,14 +32,12 @@ const NavigationBar = ({ updateUser }) => {
                 text='🌗︎'
                 id='theme-toggle'
             />
-            {userSession &&
-                    <NavLink
-                        styles={styles}
-                        path='/'
-                        text={t('HOME')}
-                        id='navigation-home'
-                    />
-            }
+            <NavLink
+                styles={styles}
+                path='/'
+                text={t('HOME')}
+                id='navigation-home'
+            />
             {!userSession &&
                     <NavLink
                         styles={styles}

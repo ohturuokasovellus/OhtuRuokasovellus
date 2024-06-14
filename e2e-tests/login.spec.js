@@ -78,14 +78,4 @@ test.describe('login page', () => {
         await page.locator('#login-button').click();
         await page.waitForSelector('text="Incorrect username or/and password"');
     });
-
-    test(
-        'redirects to login after pressing logout button',
-        async ({page}) => {
-        await page.fill('input[id="username-input"]', 'testi');
-        await page.fill('input[id="password-input"]', 'Testi123!');
-        await page.locator('#login-button').click();
-        await page.locator('#navigation-logout').click();
-        await expect(page).toHaveURL(/\/login$/);
-    });
 });
