@@ -314,7 +314,6 @@ const createStyles = () => {
         // QR
         qrContainer: {
             padding: 16,
-            backgroundColor: 'white'
         },
         qrPage: {
             justifyContent: 'center',

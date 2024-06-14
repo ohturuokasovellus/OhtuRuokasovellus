@@ -105,29 +105,68 @@ const Home = (props) => {
             </Modal>
         );
     };
+    const MealListContainer = () => {
+        return (
+            <ScrollView style={styles.mealListContainer}>
+                <Text style={styles.h3}>
+                    {t('MANAGE_RESTAURANT_MEALS')}
+                </Text>
+                {meals.length > 0 ? (
+                    meals.map((meal, index) => (
+                        <View
+                            key={meal.meal_id} 
+                            style={styles.mealContainer}
+                        >
+                            <View style={styles.mealContent}>
+                                <Text style={styles.body}>
+                                    {meal.meal_name}
+                                </Text>
+                                <DeleteButton
+                                    styles={styles}
+                                    onPress={() => {
+                                        setMealToDelete(meal.meal_id);
+                                        setShowModal(true);
+                                    }}
+                                    text={t('DELETE')}
+                                    id={deleteMealButtonId(index)}
+                                />
+                            </View>
+                        </View>
+                    ))
+                ) : (
+                    <Text style={styles.body}>
+                        {t('NO_MEALS')}
+                    </Text>
+                )}
+            </ScrollView>
+
+        );
+    };
 
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
-                <Text style={styles.h1}>{t('HOME')}</Text>
-                <Text style={styles.body}>
-                    {t('WELCOME')}, {username}!
-                </Text>
-                <Button
-                    styles={styles}
-                    onPress={() => navigate('/history')}
-                    text={t('MEAL_HISTORY')}
-                    id='history-button'
-                />
-                {surveyUrl && (
-                    <Survey surveyUrl={surveyUrl}/>
-                )}
-                <Button
-                    styles={styles}
-                    onPress={() => navigate('/settings')}
-                    text={t('SETTINGS')}
-                    id='settings-button'
-                />
+                <>
+                    <Text style={styles.h1}>{t('HOME')}</Text>
+                    <Text style={styles.body}>
+                        {t('WELCOME')}, {username}!
+                    </Text>
+                    <Button
+                        styles={styles}
+                        onPress={() => navigate('/history')}
+                        text={t('MEAL_HISTORY')}
+                        id='history-button'
+                    />
+                    {surveyUrl && (
+                        <Survey surveyUrl={surveyUrl}/>
+                    )}
+                    <Button
+                        styles={styles}
+                        onPress={() => navigate('/settings')}
+                        text={t('SETTINGS')}
+                        id='settings-button'
+                    />
+                </>
                 {isRestaurantUser ? (
                     <>
                         <Text style={styles.body}>
@@ -155,48 +194,16 @@ const Home = (props) => {
                             text={t('EXPORT_MENU_QR')}
                             id='restaurant-menu-button'
                         />
-                        <ScrollView style={styles.mealListContainer}>
-                            <Text style={styles.h3}>
-                                {t('MANAGE_RESTAURANT_MEALS')}
-                            </Text>
-                            {meals.length > 0 ? (
-                                meals.map((meal, index) => (
-                                    <View key={meal.meal_id} 
-                                        style={styles.mealContainer}
-                                    >
-                                        <View style={styles.mealContent}>
-                                            <Text style={styles.body}>
-                                                {meal.meal_name}
-                                            </Text>
-                                            <DeleteButton
-                                                styles={styles}
-                                                onPress={() => {
-                                                    setMealToDelete(
-                                                        meal.meal_id
-                                                    );
-                                                    setShowModal(true);
-                                                }
-                                                }
-                                                text={t('DELETE')}
-                                                id={deleteMealButtonId(index)}
-                                            />
-                                        </View>
-                                    </View>
-                                ))
-                            ) : (
-                                <Text style={styles.body}>
-                                    {t('NO_MEALS')}
-                                </Text>
-                            )}
-                        </ScrollView>
+                        <MealListContainer />
                     </>
                 ) : null}
             </View>
-            <DeleteMealPopUp/>
+            <>
+                <DeleteMealPopUp/>
+            </>
         </ScrollView>
     
     );
 };
-
 
 export default Home;
