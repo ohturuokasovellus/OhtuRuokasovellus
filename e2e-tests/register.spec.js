@@ -34,9 +34,20 @@ test.describe('registration page', () => {
         await expect(page.locator('#terms-checkbox')).toBeVisible();
         await expect(page.locator('#privacy-checkbox')).toBeVisible();
 
-        //login link
+        // login link
         await page.locator('#login-link').click();
         await expect(page).toHaveURL(/\/login$/);
+
+        // redirects to home if logged in
+        await page.locator('#username-input').click();
+        await page.locator('#username-input').fill('test');
+        await page.locator('#password-input').click();
+        await page.locator('#password-input')
+            .fill('Test123!');
+        await page.locator('#login-button').click();
+        await expect(page).toHaveURL(/\/$/);
+        await page.goto('/register');
+        await expect(page).toHaveURL(/\/$/);
     });
 
     test('registers user with correct details', async ({ page }) => {
@@ -99,9 +110,11 @@ test.describe('registration page', () => {
         await expect(page).toHaveURL(/\/register$/);
         await page.locator('#restaurant-name-input').click();
         await page.locator('#restaurant-name-input').fill('bestaurant');
+        await expect(page.locator('#password-input')).toHaveValue('');
         await page.locator('#password-input').click();
         await page.locator('#password-input')
             .fill('Test123!');
+        await expect(page.locator('#confirm-password-input')).toHaveValue('');
         await page.locator('#confirm-password-input').click();
         await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#register-button').click();
