@@ -17,10 +17,9 @@ jobs:
           openshift_server_url: ${{ secrets.OPENSHIFT_URL }}
           openshift_token: ${{ secrets.OPENSHIFT_DEPLOYER_TOKEN }}
 
-      # remove this after making sure oc selects our project automatically
-      - name: "DEV: check which project oc uses by default"
+      - name: Select project
         run: |
-          oc project
+          oc project ruokasovellus
 
       - name: Update production deployment to latest image
         run: |
