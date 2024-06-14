@@ -11,14 +11,14 @@ ADD src/ src/
 ADD backend/ backend/
 ADD assets/ assets/
 
-RUN npm run build
+RUN npm run build && echo $(date) > version.txt
 
 
 FROM node:20-alpine
 
 WORKDIR /app
 
-COPY --from=build-step /app/package.json .
+COPY --from=build-step /app/package.json /app/version.txt ./
 COPY --from=build-step /app/web-build/ web-build/
 COPY --from=build-step /app/backend/ backend/
 COPY --from=build-step /app/node_modules/ node_modules/
