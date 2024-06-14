@@ -1,4 +1,6 @@
-const { isValidPassword, isValidEmail } = require('../services/validators');
+const {
+    isValidPassword, isValidEmail, isValidBirthYear
+} = require('../services/validators');
 
 describe('validator', () => {
     describe('password', () => {
@@ -54,6 +56,20 @@ describe('validator', () => {
 
         test('validation fails with whitespace', () => {
             expect(isValidEmail('hello world@example.com')).toBe(false);
+        });
+    });
+
+    describe('year of birth', () => {
+        test('validation succeeds with a valid year of birth', () => {
+            expect(isValidBirthYear(1900, 2024)).toBe(true);
+            expect(isValidBirthYear(2009, 2024)).toBe(true);
+        });
+        test('validation fails if user is under 15', () => {
+            expect(isValidBirthYear(2020, 2024)).toBe(false);
+            expect(isValidBirthYear(2010, 2024)).toBe(false);
+        });
+        test('validation fails if year of birth is before 1900', () => {
+            expect(isValidBirthYear(1899, 2024)).toBe(false);
         });
     });
 });

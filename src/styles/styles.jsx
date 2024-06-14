@@ -93,11 +93,6 @@ const createStyles = () => {
             color: colors.outline,
             fontFamily: 'Roboto-Regular',
         },
-        underline: {
-            borderBottomWidth: 1,
-            borderBottomColor: 'lightgray',
-            marginVertical: 8,
-        },
 
         // buttons
         button: {
@@ -124,7 +119,6 @@ const createStyles = () => {
             marginBottom: 6,
             marginHorizontal: 6,
             alignItems: 'center',
-            justifyContent: 'center',
         },
         deleteButton: {
             backgroundColor: colors.errorContainer,
@@ -187,17 +181,16 @@ const createStyles = () => {
             borderRadius: 8,
             marginBottom: 12,
             padding: 8,
-            textAlignVertical: 'top',
+            verticalAlign: 'top',
             color: colors.onSurfaceVariant,
             backgroundColor: colors.surfaceVariant,
         },
         flexInputContainer: {
             flexDirection: 'row',
             flexWrap: 'wrap',
-            alignItems: 'space-between',
+            justifyContent: 'space-between',
             width: '100%',
             borderRadius: 8,
-            marginBottom: 12,
         },
         flexInput: {
             flex: 1,
@@ -206,6 +199,7 @@ const createStyles = () => {
             borderWidth: 1,
             borderRadius: 8,
             paddingLeft: 8,
+            marginBottom: 8,
             color: colors.onSurfaceVariant,
             backgroundColor: colors.surfaceVariant,
         },
@@ -291,6 +285,11 @@ const createStyles = () => {
         // QR
         qrContainer: {
             padding: 16,
+            backgroundColor: 'white'
+        },
+        qrPage: {
+            justifyContent: 'center',
+            alignItems: 'center'
         },
 
         // navigation
@@ -454,28 +453,29 @@ const createStyles = () => {
             borderWidth: 1,
             borderRadius: 8,
             marginBottom: 12,
-            marginRight: 6,
             paddingLeft: 8,
             color: colors.outline,
             backgroundColor: colors.surfaceVariant,
         },
         inputStyles: {
-            color: colors.outline,
+            color: colors.onSurfaceVariant,
         },
         dropdownStyles: {
             borderColor: colors.outlineVariant,
             borderwidth: 1,
             borderRadius: 8,
-            backgroundColor: colors.surfaceVariant,
+            backgroundColor: 'rgba(255,255,255,0.05)',
+            marginBottom: 12,
+            marginTop: -6,
         },
         dropdownItemStyles: {
             color: colors.outline,
         },
         dropdownTextStyles : {
-            color: colors.outline,
+            color: colors.onSurface,
             fontFamily: 'Roboto-Regular'
-        }, 
-        
+        },
+
         // checkboxes
         checkboxContainer: {
             backgroundColor: colors.surfaceVariant,
@@ -484,6 +484,17 @@ const createStyles = () => {
             borderwidth: 1,
             padding: 8,
             marginBottom: 12,
+        },
+        checkboxContainerVariant: {
+            backgroundColor: 'transparent',
+            borderWidth: 0,
+            padding: 0,
+            margin: 0,
+        },
+        checkboxWrapper: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 8,
         },
         checkboxText: {
             color: colors.outline,

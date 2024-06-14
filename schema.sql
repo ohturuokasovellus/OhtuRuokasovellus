@@ -13,9 +13,13 @@ CREATE TABLE restaurants (
 
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
-    username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
+    username TEXT UNIQUE,
+    password TEXT,
+    email TEXT UNIQUE,
+    birth_year TEXT, -- the demographic info is encrypted, thus TEXT
+    gender TEXT,
+    education TEXT,
+    income TEXT,
     restaurant_id INT REFERENCES restaurants DEFAULT NULL
 );
 

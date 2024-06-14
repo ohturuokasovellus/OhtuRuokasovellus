@@ -107,6 +107,14 @@ const Home = (props) => {
                             text={t('RESTAURANT_PAGE')}
                             id='restaurant-page-button'
                         />
+                        <Button
+                            styles={styles}
+                            onPress={
+                                () => navigate(`/menuQR/${restaurantId}`)
+                            }
+                            text={t('EXPORT_MENU_QR')}
+                            id='restaurant-menu-button'
+                        />
                         <ScrollView style={styles.mealListContainer}>
                             <Text style={styles.h3}>
                                 {t('MANAGE_RESTAURANT_MEALS')}
@@ -171,6 +179,12 @@ const Home = (props) => {
                 {surveyUrl && (
                     <Survey surveyUrl={surveyUrl}/>
                 )}
+                <Button
+                    styles={styles}
+                    onPress={() => navigate('/settings')}
+                    text={t('SETTINGS')}
+                    id='settings-button'
+                />
             </View>
             <Modal
                 visible={showModal}

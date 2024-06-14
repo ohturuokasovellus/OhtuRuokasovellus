@@ -9,14 +9,13 @@ import NavigationBar from './src/components/NavigationBar';
 import Home from './src/components/Home';
 import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
-import QRForm from './src/components/QRForm';
-import RegisterRestaurant from './src/components/RegisterRestaurant';
 import AddUser from './src/components/AddUser';
 import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
 import Purchase from './src/components/Purchase';
 import PurchaseHistory from './src/components/PurchaseHistory';
-
+import MenuQR from './src/components/MenuQR';
+import Settings from './src/components/Settings';
 import './src/lang/i18n'; // should be inported in index.js, but idk if
 //they mean the backend's index.js or frontend's app.jsx. Works when imported
 // here.
@@ -45,22 +44,20 @@ const App = () => {
                         element={<Register updateUser={updateUser}/>} />
                     <Route path='/login'
                         element={<LoginForm updateUser={updateUser}/>} />
-                    <Route path='/qr-form' element={<QRForm />} />
                     <Route path='/restaurant/:restId'
                         element={<MealList />}/>
                     <Route path='/create-meal' element={<CreateMeal 
                         user={user} />} />
                     <Route path='/edit-meal/:mealId' element={<CreateMeal 
                         user={user} />} />
-                    <Route path='/register-restaurant'
-                        element=
-                            {<RegisterRestaurant updateUser={updateUser}/>}
-                    />
                     <Route path='/add-users'
                         element={<AddUser user={user} />} />
                     <Route path='/purchase/:purchaseCode'
                         element={<Purchase />} />
                     <Route path='/history' element={<PurchaseHistory />} />
+                    <Route path='/menuQR/:restaurantId'
+                        element={<MenuQR />}/>
+                    <Route path='/settings' element={<Settings />} />
                 </Routes>
             </Router>
         </ThemeController>
