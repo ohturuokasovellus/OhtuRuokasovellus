@@ -225,10 +225,11 @@ const doesRestaurantExist = async name => {
  * @param {number} co2Emissions CO2 emissions of the meal.
  * @param {string} mealAllergens Allergens of the meal.
  * @param {Dictionary} nutrientDictionary Nutrients of a meal in a dictionary
+ * @param {string} ingredients ingredient list in json
  * @returns {Promise<number>} ID of the created meal.
  */
 const insertMeal = async (name, restaurantId, mealDescription, 
-    mealAllergens, nutrientDictionary, price) => {
+    mealAllergens, nutrientDictionary, price, ingredients) => {
     const co2Emissions = nutrientDictionary['co2Emissions'];
     const carbohydrates = nutrientDictionary['carbohydrates'];
     const protein = nutrientDictionary['protein'];
@@ -245,12 +246,13 @@ const insertMeal = async (name, restaurantId, mealDescription,
 
     const result = await sql`
         INSERT INTO meals (name, restaurant_id, purchase_code, meal_description,
-            co2_emissions, meal_allergens, carbohydrates, protein, fat, 
-            fiber, sugar, salt, saturated_fat, energy, vegetable_percent, price)
+            ingredients, co2_emissions, meal_allergens, carbohydrates, protein,
+            fat, fiber, sugar, salt, saturated_fat, energy, vegetable_percent,
+            price)
         VALUES (${name}, ${restaurantId}, ${purchaseCode}, ${mealDescription},
-            ${co2Emissions}, ${mealAllergens}, ${carbohydrates}, ${protein},
-            ${fat}, ${fiber}, ${sugar}, ${salt}, ${saturatedFat}, ${energy},
-            ${vegetablePercent}, ${price})
+            ${ingredients}, ${co2Emissions}, ${mealAllergens}, ${carbohydrates},
+            ${protein}, ${fat}, ${fiber}, ${sugar}, ${salt}, ${saturatedFat},
+            ${energy}, ${vegetablePercent}, ${price})
             RETURNING meal_id;`;
 
     return result.at(0).meal_id;
@@ -445,6 +447,60 @@ const setMealInactive = async (mealId) => {
     return result.count === 1;
 };
 
+/**
+ * Get meal for editing
+ * @param {number} mealId
+ * @returns {Promise<{ mealId: number, name: string }
+ * >} true if success
+ */
+const getMealForEdit = async (mealId) => {
+    const result = await sql`
+        SELECT name, meal_description, meal_allergens, price, ingredients
+        FROM meals WHERE meal_id = ${mealId}
+    `;
+    return result.at(0);
+};
+
+/**
+ * Query for updating existing meal.
+ * @param {number} mealId
+ * @param {string} name Name of the meal.
+ * @param {number} restaurantId Id of the restaurant who created the meal.
+ * @param {string} mealDescription 
+ * @param {number} co2Emissions CO2 emissions of the meal.
+ * @param {string} mealAllergens Allergens of the meal.
+ * @param {Dictionary} nutrientDictionary Nutrients of a meal in a dictionary
+ * @param {string} ingredients ingredient list in json
+ * @returns {Promise<Boolean>} true if success
+ */
+const updateMeal = async (mealId, name, mealDescription, 
+    mealAllergens, nutrientDictionary, price, ingredients) => {
+    const co2Emissions = nutrientDictionary['co2Emissions'];
+    const carbohydrates = nutrientDictionary['carbohydrates'];
+    const protein = nutrientDictionary['protein'];
+    const fat = nutrientDictionary['fat'];
+    const fiber = nutrientDictionary['fiber'];
+    const sugar = nutrientDictionary['sugar'];
+    const salt = nutrientDictionary['salt'];
+    const saturatedFat = nutrientDictionary['saturatedFat'];
+    const energy = nutrientDictionary['energy'];
+
+    const vegetablePercent = Math.floor(nutrientDictionary['vegetablePercent']);
+
+    const result = await sql`
+        UPDATE meals set name = ${name}, meal_description = ${mealDescription},
+            ingredients = ${ingredients}, co2_emissions = ${co2Emissions},
+            meal_allergens = ${mealAllergens}, carbohydrates = ${carbohydrates},
+            protein = ${protein}, fat = ${fat}, fiber = ${fiber},
+            sugar = ${sugar}, salt = ${salt}, saturated_fat =  ${saturatedFat},
+            energy = ${energy}, vegetable_percent = ${vegetablePercent},
+            price = ${price}
+            WHERE meal_id = ${mealId}
+        ;`;
+
+    return result.count === 1;
+};
+
 module.exports = {
     sql,
     insertUser,
@@ -469,5 +525,7 @@ module.exports = {
     getMealRestaurantId,
     getPurchases,
     setMealInactive,
-    getMealIdsNamesPurchaseCodes,
+    getMealForEdit,
+    updateMeal,
+    getMealIdsNamesPurchaseCodes
 };

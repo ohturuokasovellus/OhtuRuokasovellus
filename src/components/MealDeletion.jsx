@@ -60,6 +60,10 @@ const MealDeletion = () => {
         setShowModal(false);
     };
 
+    const handleEditPress = (mealId) => {
+        navigate(`/edit-meal/${mealId}`);
+    };
+
     const MealListContainer = () => {
         return (
             <ScrollView style={styles.mealListContainer}>
@@ -76,24 +80,36 @@ const MealDeletion = () => {
                                 <Text style={styles.body}>
                                     {meal.meal_name}
                                 </Text>
-                                <DeleteButton
-                                    styles={styles}
-                                    onPress={() => {
-                                        setMealToDelete(meal.meal_id);
-                                        setShowModal(true);
-                                    }}
-                                    text={t('DELETE')}
-                                    id={deleteMealButtonId(index)}
-                                />
-                                <Button
-                                    styles={styles}
-                                    onPress={() => {
-                                        navigate('/meal-qr/'+
-                                                    `${meal.purchase_code}`);}}
-                                    text={
-                                        t('DOWNLOAD_QR')}
-                                    id={exportMealQrButtonId(index)}
-                                />
+                                <View 
+                                    style={styles.managementButtons}
+                                >
+                                    <Button
+                                        styles={styles}
+                                        onPress={() => handleEditPress(
+                                            meal.meal_id
+                                        )}
+                                        text={t('EDIT')}
+                                        id={`edit-button-${index}`}
+                                    />
+                                    <DeleteButton
+                                        styles={styles}
+                                        onPress={() => {
+                                            setMealToDelete(meal.meal_id);
+                                            setShowModal(true);
+                                        }}
+                                        text={t('DELETE')}
+                                        id={deleteMealButtonId(index)}
+                                    />
+                                    <Button
+                                        styles={styles}
+                                        onPress={() => {
+                                            navigate('/meal-qr/'+
+                                                `${meal.purchase_code}`);}}
+                                        text={
+                                            t('DOWNLOAD_QR')}
+                                        id={exportMealQrButtonId(index)}
+                                    />
+                                </View>
                             </View>
                         </View>
                     ))

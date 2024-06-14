@@ -72,8 +72,7 @@ test.describe('home page', () => {
         await page.locator('#password-input').fill('Best456@');
         await page.locator('#login-button').click();
         await expect(page).toHaveURL(/\/$/);
-        await expect(page.locator('#root'))
-            .toContainText('Welcome, test2!');
+        await expect(page.locator('text=Welcome, test2')).toBeVisible();
         await expect(page.locator('#survey-link'))
             .toBeVisible();
         await expect(page.locator('#add-users-button'))

@@ -49,6 +49,8 @@ const App = () => {
                         element={<MealList />}/>
                     <Route path='/create-meal' element={<CreateMeal 
                         user={user} />} />
+                    <Route path='/edit-meal/:mealId' element={<CreateMeal 
+                        user={user} />} />
                     <Route path='/add-users'
                         element={<AddUser />} />
                     <Route path='/purchase/:purchaseCode'

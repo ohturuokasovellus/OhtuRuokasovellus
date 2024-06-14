@@ -87,6 +87,7 @@ const Home = () => {
         return <ActivityIndicator size='large' color='#0000ff' />;
     }
 
+
     let username, isRestaurantUser;
     if (userSession) {
         username = userSession.username;
@@ -96,27 +97,25 @@ const Home = () => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
-                <>
-                    <Text style={styles.h1}>{t('HOME')}</Text>
-                    <Text style={styles.body}>
-                        {t('WELCOME')}, {username}!
-                    </Text>
-                    <Button
-                        styles={styles}
-                        onPress={() => navigate('/history')}
-                        text={t('MEAL_HISTORY')}
-                        id='history-button'
-                    />
-                    {surveyUrl && (
-                        <Survey surveyUrl={surveyUrl}/>
-                    )}
-                    <Button
-                        styles={styles}
-                        onPress={() => navigate('/settings')}
-                        text={t('SETTINGS')}
-                        id='settings-button'
-                    />
-                </>
+                <Text style={styles.h1}>{t('HOME')}</Text>
+                <Text style={styles.body}>
+                    {t('WELCOME')}, {username}
+                </Text>
+                <Button
+                    styles={styles}
+                    onPress={() => navigate('/history')}
+                    text={t('MEAL_HISTORY')}
+                    id='history-button'
+                />
+                {surveyUrl && (
+                    <Survey surveyUrl={surveyUrl}/>
+                )}
+                <Button
+                    styles={styles}
+                    onPress={() => navigate('/settings')}
+                    text={t('SETTINGS')}
+                    id='settings-button'
+                />
                 {isRestaurantUser ? (
                     <>
                         <Text style={styles.body}>
@@ -151,7 +150,6 @@ const Home = () => {
                 ) : null}
             </View>
         </ScrollView>
-    
     );
 };
 

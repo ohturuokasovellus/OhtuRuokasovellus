@@ -12,6 +12,7 @@ import { mealValidationSchema } from '../utils/formValidationSchemas';
 import createStyles from '../styles/styles';
 import { Button, SmallButton } from './ui/Buttons';
 import { Input, MultilineInput } from './ui/InputFields';
+import { useParams } from '../Router';
 import { Checkbox } from './ui/Checkbox';
 import { Dropdown } from './ui/Dropdown';
 
@@ -43,7 +44,7 @@ const allergens = [
 ];
 
 // finnish language is priority so for now we save allergens in finnish
-const allergensFin = {
+const allergensEngToFin = {
     grains: 'viljat', gluten: 'gluteeni', dairy: 'maito', lactose: 'laktoosi',
     egg: 'kananmuna', nuts: 'pähkinät', sesame_seeds: 'seesaminsiemenet',
     fish: 'kala', shellfish: 'äyriäiset', molluscs: 'nilviäiset',
@@ -51,11 +52,22 @@ const allergensFin = {
     sulfite: 'sulfiitti', sulfur_oxide: 'rikkioksidi'
 };
 
+const allergensFinToEng = {
+    'viljat': 'grains', 'gluteeni': 'gluten', 'maito': 'dairy',
+    'laktoosi': 'lactose', 'kananmuna': 'egg', 'pähkinät': 'nuts',
+    'seesaminsiemenet': 'sesame_seeds', 'kala': 'fish', 'äyriäiset': 'shellfish'
+    , 'nilviäiset': 'molluscs', 'selleri': 'celery', 'sinappi': 'mustard',
+    'soija': 'soy', 'lupiini': 'lupine', 'sulfiitti': 'sulfite',
+    'rikkioksidi': 'sulfur_oxide'
+};
+
 const initialValues = {
     mealName: '',
     imageUri: '',
     mealDescription: '',
-    ingredients: [{ mealId: '', category: '', ingredient: '', weight: '' }],
+    ingredients: [{ 
+        ingredientId: '', category: '', ingredient: '', weight: ''
+    }],
     allergens: {
         grains: false,
         gluten: false,
@@ -87,26 +99,31 @@ const validationSchema = mealValidationSchema;
  * @param {Function} onError
  * @returns {JSX.Element} 
  */
-const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
+const CreateMealForm = ({
+    onSubmit, initialValues, isEditing
+}) => {
     const {t} = useTranslation();
     const [ingredients, setIngredients] = useState({});
     const [categorizedIngredients, setCategorizedIngredients] = useState({});
     const [formError, setFormError] = useState('');
     const [createSuccess, setCreateSuccess] = useState(false);
+    const [updateSuccess, setUpdateSuccess] = useState(false);
     const [createError, setCreateError] = useState(false);
+    const [updateError, setUpdateError] = useState(false);
+
+    const fetchIngredients = async () => {
+        try {
+            const response = await axios.get(
+                `${apiUrl}/ingredients`
+            );
+            setIngredients(response.data.ingredients);
+            setCategorizedIngredients(response.data.categorizedIngredients);
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     useEffect(() => {
-        const fetchIngredients = async () => {
-            try {
-                const response = await axios.get(
-                    `${apiUrl}/ingredients`
-                );
-                setIngredients(response.data.ingredients);
-                setCategorizedIngredients(response.data.categorizedIngredients);
-            } catch (err) {
-                console.error(err);
-            }
-        };
         fetchIngredients();
     }), [];
 
@@ -114,6 +131,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
         initialValues,
         validationSchema,
         onSubmit: async values => {
+
             // with ingredients formik validation schema doesnt work 
             // for some reason so use this for now
             const hasIngredientWithWeight = values.ingredients.some(item => {
@@ -121,16 +139,28 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 item.weight.trim() !== '';
             });
 
+            const handleSuccess = (setState) => {
+                setState(true);
+                setTimeout(() => setState(false), 5000);
+            };
+            
             if (hasIngredientWithWeight) {
                 try {
                     await onSubmit(values);
-                    onSuccess(setCreateSuccess);
-                    formik.resetForm();
+                    if (isEditing) {
+                        handleSuccess(setUpdateSuccess);
+                    } else {
+                        handleSuccess(setCreateSuccess);
+                    }
                 } catch (err) {
-                    onError(setCreateError);
+                    if (isEditing) {
+                        handleSuccess(setUpdateError);
+                    } else {
+                        handleSuccess(setCreateError);
+                    }
                     setFormError(err.message);
-                    formik.resetForm();
                 }
+                formik.resetForm();
             } else {
                 setFormError(
                     'At least one ingredient with weight required'
@@ -138,6 +168,10 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
             }
         }
     });
+
+    useEffect(() => {
+        formik.setValues(initialValues);
+    }, [isEditing]);
 
     const openImagePicker = () => {
         const options = {
@@ -167,7 +201,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const addIngredientInput = () => {
         formik.setFieldValue('ingredients',
             [...formik.values.ingredients,
-                { mealId: '', category: '', ingredient: '', weight: '' }
+                { ingredientId: '', category: '', ingredient: '', weight: '' }
             ]
         );
     };
@@ -188,7 +222,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
     const handleIngredientChange = (value, index) => {
         const updatedIngredients = [...formik.values.ingredients];
         updatedIngredients[index].ingredient = value;
-        updatedIngredients[index].mealId = ingredients[value];
+        updatedIngredients[index].ingredientId = ingredients[value];
         formik.setFieldValue('ingredients', updatedIngredients);
     };
 
@@ -224,7 +258,9 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
         <ScrollView style={styles.background}>
             <View style={styles.container}>
                 
-                <Text style={styles.h1}>{t('CREATE_A_MEAL')}</Text>
+                <Text style={styles.h1}>
+                    {t(isEditing ? 'EDIT_MEAL' : 'CREATE_A_MEAL')}
+                </Text>
                 {formik.values.imageUri ? (
                     <Image
                         source={{ uri: formik.values.imageUri }}
@@ -268,7 +304,9 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                         <Dropdown
                             styles={styles}
                             search={false}
-                            placeholder={t('INGREDIENT')}
+                            placeholder={t(
+                                isEditing ? ingredient.ingredient :'INGREDIENT'
+                            )}
                             data={
                                 formik.values.ingredients[index].category ===
                                 'all' ||
@@ -315,7 +353,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 ))}
                 <SmallButton
                     styles={styles}
-                    onPress={addIngredientInput}
+                    onPress={() => addIngredientInput()}
                     text='+'
                     id='add-ingredient-button'
                 />
@@ -341,17 +379,31 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 <Text style={styles.error}>{t(formik.errors.price)}</Text>
                 }
                 {createSuccess &&
-                <Text style={styles.h3}>{t('MEAL_CREATED')}</Text>
+                <Text style={styles.h3}>
+                    {t('MEAL_CREATED')}
+                </Text>
+                }
+                {updateSuccess &&
+                <Text style={styles.h3}>
+                    {t('MEAL_UPDATED')}
+                </Text>
                 }
                 {createError && 
-                <Text style={styles.error}>{t('MEAL_NOT_CREATED')}</Text>
+                <Text style={styles.error}>
+                    {t('MEAL_NOT_CREATED')}
+                </Text>
+                }
+                {updateError && 
+                <Text style={styles.error}>
+                    {t('MEAL_NOT_UPDATED')}
+                </Text>
                 }
                 {formError ? (
                     <Text style={styles.error}>{formError}</Text>
                 ) : null}
                 <Button
                     styles={styles}
-                    onPress={openImagePicker}
+                    onPress={() => openImagePicker()}
                     text={t('SELECT_A_IMAGE_FROM_DEVICE')}
                     id='image-picker-button'
                 />
@@ -361,7 +413,7 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
                 <Button
                     styles={styles}
                     onPress={formik.handleSubmit}
-                    text={t('CREATE_A_MEAL')}
+                    text={t(isEditing ? 'EDIT_MEAL' : 'CREATE_A_MEAL')}
                     id='create-meal-button'
                 />
             </View>
@@ -373,7 +425,30 @@ const CreateMealForm = ({ onSubmit, onSuccess, onError }) => {
  * CreateMeal component for managing meal addition.
  */
 const CreateMeal = (props) => {
+    let { mealId } = useParams();
     const navigate = useNavigate();
+    const [isEditing, setIsEditing] = useState(false);
+    const [meal, setMeal] = useState(initialValues);
+
+    // formats the database values to formik-friendly values
+    const formatMealForEditing = (meal, imageUri) => {
+        const allergensObject = Object.keys(allergensFinToEng)
+            .reduce((acc, allergen) => {
+                const trimmedAllergen = allergen.trim();
+                acc[allergensFinToEng[trimmedAllergen]] = meal.meal_allergens
+                    .includes(trimmedAllergen);
+                return acc;
+            }, {});
+        const price = (meal.price/100).toFixed(2).replace('.', ',');
+        return {
+            mealName: meal.name,
+            mealDescription: meal.meal_description,
+            ingredients: meal.ingredients,
+            price: price,
+            allergens: allergensObject,
+            imageUri: imageUri
+        };
+    };
 
     useEffect(() => {
         if (!props.user) {
@@ -382,14 +457,46 @@ const CreateMeal = (props) => {
         else if (!props.user.restaurantId) {
             navigate('/');
         }
-    });
+        else if (mealId) {
+            const fetchMeal = async () => {
+                if (mealId) {
+                    try {
+                        const response = await axios.post(
+                            `${apiUrl}/meals/meal/${mealId}`,
+                            {},
+                            {
+                                headers: {
+                                    Authorization:
+                                    `Bearer ${getSession().token}`
+                                }
+                            });
+                        const imageRes = await axios.get(
+                            `${apiUrl}/meals/images/${mealId}`
+                        );
+                        const formattedMeal = formatMealForEditing(
+                            response.data, imageRes.data
+                        );
+                        setMeal(formattedMeal);
+                        setIsEditing(true);
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }
+            };
+            fetchMeal();
+        }
+        else if (isEditing) {
+            setIsEditing(false);
+            setMeal(initialValues);
+        }
+    }, [mealId]);
 
     // Takes dictionary with allergens as keys and values as boolean
     // and transforms allergens with true values into single string
     const createAllergenString = (allergens) => {
         return Object.keys(allergens)
             .filter(key => allergens[key])
-            .map(key => allergensFin[key])
+            .map(key => allergensEngToFin[key])
             .join(', ');
     };
 
@@ -405,31 +512,47 @@ const CreateMeal = (props) => {
     };
 
     const onSubmit = async values => {
-        const {
-            mealName, imageUri, mealDescription, ingredients, allergens, price
-        } = values;
-        const mealAllergenString = createAllergenString(allergens);
+        const mealAllergenString = createAllergenString(values.allergens);
+        const formattedPrice = formatPrice(values.price);
 
-        const formattedPrice = formatPrice(price);
-
+        const formattedValues = {
+            imageUri: values.imageUri,
+            ingredients: values.ingredients,
+            mealDescription: values.mealDescription,
+            mealName: values.mealName,
+            mealAllergenString: mealAllergenString,
+            formattedPrice: formattedPrice};
+        
         try {
-            const response = await axios.post(
-                `${apiUrl}/meals`,
-                { mealName, mealDescription, ingredients,
-                    mealAllergenString, formattedPrice
-                },
-                {
-                    headers: { Authorization: `Bearer ${getSession().token}` }
-                }
-            );
-            const mealId = response.data.mealId;
+            if (isEditing) {
+                await axios.put(`${apiUrl}/meals/update/${mealId}`,
+                    formattedValues,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${getSession().token}`
+                        }
+                    });
+            } else {
+                const response = await axios.post(
+                    `${apiUrl}/meals`, formattedValues,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${getSession().token}`
+                        }
+                    });
+                mealId = response.data.mealId;
+            }
             await axios.post(
                 `${apiUrl}/meals/images/${mealId}`,
-                imageUri,
+                formattedValues.imageUri,
                 {
-                    headers: { 'Content-Type': 'image/jpeg' },
+                    headers: {
+                        'Content-Type': 'image/jpeg'
+                    },
                 },
             );
+            setIsEditing(false);
+            setMeal(initialValues);
         } catch (err) {
             const errorMessage = err.response?.data?.errorMessage ||
                 'an unexpected error occurred';
@@ -437,22 +560,9 @@ const CreateMeal = (props) => {
         }
     };
 
-    const setMessageTimeout = (setFunc) => {
-        setTimeout(() => {
-            setFunc(false);
-        }, 5000);
-    };
-    const onSuccess = (setCreateSuccess) => {
-        setCreateSuccess(true);
-        setMessageTimeout(setCreateSuccess);
-    };
-    const onError = (setCreateError) => {
-        setCreateError(true);
-        setMessageTimeout(setCreateError);
-    };
-
     return <CreateMealForm onSubmit={onSubmit}
-        onSuccess={onSuccess} onError={onError}
+        isEditing={isEditing}
+        initialValues={meal}
     />;
 };
 

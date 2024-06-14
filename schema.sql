@@ -31,6 +31,7 @@ CREATE TABLE meals (
     restaurant_id INT NOT NULL,
     purchase_code CHAR(8) UNIQUE NOT NULL,
     meal_description TEXT,
+    ingredients TEXT,
     co2_emissions NUMERIC,
     meal_allergens TEXT,
     carbohydrates NUMERIC,
