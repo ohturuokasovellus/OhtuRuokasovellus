@@ -75,7 +75,9 @@ const MenuQR = () => {
             <ScrollView style={styles.background}>
                 <View style={styles.container}>
                     <View style={styles.qrPage}>
-                        <Text>{t('QR_CODE_TO_YOUR_MENU')}</Text>
+                        <Text style={styles.body}>
+                            {t('QR_CODE_TO_YOUR_MENU')}
+                        </Text>
                         <View style={styles.qrContainer} ref={qrViewReference} 
                             id='QR-code'>
                             <QRCode size={500} style={{ height: 'auto', 
