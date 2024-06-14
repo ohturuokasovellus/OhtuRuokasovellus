@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { View, Text, ScrollView } from 'react-native';
 
 import { Link, useNavigate } from '../Router';
-import { createSession, deleteSession } from '../controllers/sessionController';
+import { createSession, getSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
 import { useTranslation } from 'react-i18next';
 import { loginValidationSchema } from '../utils/formValidationSchemas';
@@ -26,8 +26,10 @@ const LoginForm = ({ updateUser }) => {
     const navigate = useNavigate();
     useEffect(() => {
         console.info('this is openshift test log 2');
-        deleteSession();
-        updateUser(null);
+        const userSession = getSession();
+        if (userSession) {
+            navigate('/');
+        }
     }, []);
 
     const styles = createStyles();
