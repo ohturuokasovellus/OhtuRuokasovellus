@@ -93,17 +93,6 @@ const Home = () => {
         isRestaurantUser = userSession.restaurantId !== null;
     }
 
-    if (!userSession) {
-        return (
-            <ScrollView style={styles.background}>
-                <View style={styles.container}>
-                    <Text style={styles.h1}>{t('HOME')}</Text>
-                    <Text style={styles.body}>{loremIpsum}</Text>
-                </View>
-            </ScrollView>
-        );
-    }
-
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
