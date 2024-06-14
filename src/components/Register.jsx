@@ -124,7 +124,8 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
         return (
             <Text style={styles.body}>
                 {t('TC_PRIVACY_CHECK.ACCEPTED')}
-                <Text style={styles.link} onPress={openLink}>
+                <Text style={styles.link} onPress={openLink} 
+                    id={isTerms ? 'link-to-terms' : 'link-to-privacy'}>
                     {title}
                 </Text>
             </Text>
