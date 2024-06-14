@@ -9,7 +9,7 @@ import apiUrl from '../utils/apiUrl';
 import { getSession } from '../controllers/sessionController';
 
 import createStyles from '../styles/styles';
-import { Button, DeleteButton } from './ui/Buttons';
+import { Button, CancelButton, DeleteButton } from './ui/Buttons';
 
 const Home = (props) => {
     const {t} = useTranslation();
@@ -47,7 +47,7 @@ const Home = (props) => {
     }, [props.user, navigate]);
 
     if (!props.user || loading) {
-        return <ActivityIndicator size="large" color="#0000ff" />;
+        return <ActivityIndicator size='large' color='#0000ff' />;
     }
 
     const confirmMealDeletion = async () => {
@@ -76,6 +76,34 @@ const Home = (props) => {
     const isRestaurantUser = restaurantId !== null;
 
     const deleteMealButtonId = (index) => `delete-meal-button-${index}`;
+    const DeleteMealPopUp = () => {
+        return (
+            <Modal
+                visible={showModal}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={() => setShowModal(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>
+                            {t('CONFIRM_DELETE')}
+                        </Text>
+                        <View style={styles.modalButtonContainer}>
+                            <CancelButton styles={styles}
+                                onPress={() => setShowModal(false)}
+                                id="cancel-button"
+                            />
+                            <DeleteButton styles={styles}
+                                onPress={confirmMealDeletion}
+                                id="confirm-delete-button"
+                            />
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+        );
+    };
 
     return (
         <ScrollView style={styles.background}>
@@ -165,30 +193,7 @@ const Home = (props) => {
                     id='settings-button'
                 />
             </View>
-            <Modal
-                visible={showModal}
-                transparent={true}
-                animationType="fade"
-                onRequestClose={() => setShowModal(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalText}>
-                            {t('CONFIRM_DELETE')}
-                        </Text>
-                        <View style={styles.modalButtons}>
-                            <Button styles={styles} text={t('CANCEL')}
-                                onPress={() => setShowModal(false)}
-                                id="cancel-button"
-                            />
-                            <DeleteButton styles={styles}
-                                onPress={confirmMealDeletion}
-                                id="confirm-delete-button"
-                            />
-                        </View>
-                    </View>
-                </View>
-            </Modal>
+            <DeleteMealPopUp/>
         </ScrollView>
     
     );

@@ -129,6 +129,15 @@ const createStyles = () => {
             marginHorizontal: 8,
             width: 80,
         },
+        cancelButton: {
+            backgroundColor: colors.outlineVariant,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+            marginHorizontal: 8,
+            width: 90,
+        },
         buttonText: {
             fontSize: 18,
             textTransform: 'uppercase',
@@ -150,6 +159,12 @@ const createStyles = () => {
             fontSize: 18,
             textTransform: 'uppercase',
             color: colors.onErrorContainer,
+            fontFamily: 'Roboto-Bold',
+        },
+        cancelButtonText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onSurfaceVariant,
             fontFamily: 'Roboto-Bold',
         },
 
@@ -435,7 +450,7 @@ const createStyles = () => {
             color: colors.onSurface,
             marginBottom: 20,
         },
-        modalButtons: {
+        modalButtonContainer: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: '100%',

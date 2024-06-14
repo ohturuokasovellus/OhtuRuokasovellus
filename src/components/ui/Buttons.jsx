@@ -60,6 +60,25 @@ const DeleteButton = ({ onPress, styles, ...props}) => {
     );
 };
 
+/** Custom wrapper for generic cancel button */
+const CancelButton = ({ onPress, styles, ...props}) => {
+    const {t} = useTranslation();
+    return (
+        <Pressable
+            style={
+                ({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0 },
+                    styles.cancelButton]}
+            onPress={onPress}
+            role='button'
+            {...props}
+        >
+            <Text style={styles.cancelButtonText}>
+                {t('CANCEL')}
+            </Text>
+        </Pressable>
+    );
+};
+
 /** Custom wrapper for small buttons */
 const SmallButton = ({ onPress, text, styles, ...props }) => {
     return (
@@ -100,6 +119,7 @@ export {
     Button,
     ButtonVariant,
     DeleteButton,
+    CancelButton,
     SmallButton,
     NavButton
 };
