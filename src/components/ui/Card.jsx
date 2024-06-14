@@ -3,7 +3,7 @@ import { View, Text, Image, Pressable } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import DoughnutChart from './DoughnutChart';
-import { ButtonVariant } from './Buttons';
+import { NutriButton } from './Buttons';
 import NutritionalValues from './NutritionalValuesContainer';
 import { Nutriscore } from './Nutriscore';
 
@@ -147,7 +147,7 @@ const MealCard = (
                             />
                             <InfoContainer />
                         </View>
-                        <ButtonVariant
+                        <NutriButton
                             styles={styles}
                             text={expanded ?
                                 t('HIDE_NUTR_INFO') :

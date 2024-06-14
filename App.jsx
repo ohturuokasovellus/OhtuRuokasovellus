@@ -38,9 +38,9 @@ const App = () => {
     return (
         <ThemeController>
             <Router>
-                <NavigationBar user={user} updateUser={updateUser}/>
+                <NavigationBar updateUser={updateUser}/>
                 <Routes>
-                    <Route path='/' element={<Home user={user}/>} />
+                    <Route path='/' element={<Home />} />
                     <Route path='/register'
                         element={<Register updateUser={updateUser}/>} />
                     <Route path='/login'
@@ -52,7 +52,7 @@ const App = () => {
                     <Route path='/edit-meal/:mealId' element={<CreateMeal 
                         user={user} />} />
                     <Route path='/add-users'
-                        element={<AddUser user={user} />} />
+                        element={<AddUser />} />
                     <Route path='/purchase/:purchaseCode'
                         element={<Purchase />} />
                     <Route path='/history' element={<PurchaseHistory />} />
