@@ -39,6 +39,8 @@ spec:
           env:
             - name: BACKEND_POSTGRES_URL
               value: postgres://postgres:$(POSTGRES_PASSWORD)@ruokasovellus-db-prod-service:5432/ruokasovellus
+            - name: WEBPAGE_URL
+              value: http://ruokasovellus.2.rahtiapp.fi
           envFrom:
             - secretRef:
                 # pulls POSTGRES_PASSWORD, SECRET_KEY and DATABASE_ENCRYPTION_KEY env vars
