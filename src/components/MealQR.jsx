@@ -63,7 +63,7 @@ const MealQR = () => {
                     <View style={styles.qrPage}>
                         <Text>{t('QR_CODE_TO_MEAL_CONFIRM')}</Text>
                         <View style={styles.qrContainer} ref={qrViewReference} 
-                            id='QR-code'>
+                            id='meal-QR-code'>
                             <QRCode size={500} style={{ height: 'auto', 
                                 maxWidth: '500px', width: '500px'}}
                             value={menuQRCode}/>
