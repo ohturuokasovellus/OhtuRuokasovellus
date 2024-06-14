@@ -2,9 +2,10 @@ FROM node:20 AS build-step
 
 WORKDIR /app
 
-ADD package.json package-lock.json ./
+ADD package.json ./
 
-RUN npm clean-install --max-old-space-size=1024 --no-fund
+ENV NODE_OPTIONS="--max-old-space-size=2048"
+RUN npm install --no-save --no-fund
 
 ADD app.json App.jsx webpack.config.js ./
 ADD src/ src/
