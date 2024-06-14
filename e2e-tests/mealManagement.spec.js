@@ -88,9 +88,9 @@ test.describe('meal management page', () => {
     
     test('gives message if no meals found',
         async ({ page }) => {
-            await page.locator('#delete-meal-button-0').click();
-            await page.locator('#confirm-delete-button').click();
             await page.locator('#delete-meal-button-1').click();
+            await page.locator('#confirm-delete-button').click();
+            await page.locator('#delete-meal-button-0').click();
             await page.locator('#confirm-delete-button').click();
 
             await expect(page.locator('text=Kana bolognese')).toBeHidden();
@@ -100,9 +100,9 @@ test.describe('meal management page', () => {
     
     test('deleted meals do not show on the restaurant page',
         async ({ page }) => {
-            await page.locator('#delete-meal-button-0').click();
-            await page.locator('#confirm-delete-button').click();
             await page.locator('#delete-meal-button-1').click();
+            await page.locator('#confirm-delete-button').click();
+            await page.locator('#delete-meal-button-0').click();
             await page.locator('#confirm-delete-button').click();
 
             await page.locator('#restaurant-page-button').click();
