@@ -152,7 +152,7 @@ const Home = () => {
                             styles={styles}
                             onPress={
                                 () => navigate(
-                                    `/menuQR/${userSession.restaurantId}`
+                                    `/menu-qr/${userSession.restaurantId}`
                                 )}
                             text={t('EXPORT_MENU_QR')}
                             id='restaurant-menu-button'

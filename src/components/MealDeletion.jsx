@@ -8,7 +8,7 @@ import apiUrl from '../utils/apiUrl';
 import { getSession } from '../controllers/sessionController';
 
 import createStyles from '../styles/styles';
-import { CancelButton, DeleteButton, Button } from './ui/Buttons';
+import { Button, CancelButton, DeleteButton } from './ui/Buttons';
 
 const MealDeletion = () => {
     const {t} = useTranslation();
