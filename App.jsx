@@ -62,7 +62,8 @@ const App = () => {
                     <Route path='/meal-qr/:mealPurchaseCode'
                         element={<MealQR />}/>
                     <Route path='/settings' element={<Settings />} />
-                    <Route paht='/chunks' element={<ChunkedMealList/>} />
+                    <Route path='/chunks/:restaurantId' 
+                        element={<ChunkedMealList/>} />
                 </Routes>
             </Router>
         </ThemeController>

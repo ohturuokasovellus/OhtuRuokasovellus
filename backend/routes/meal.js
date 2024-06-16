@@ -148,7 +148,6 @@ router.get('/api/meals/:restaurantId', async (req, res) => {
  */
 router.get('/api/meals/stream/:restaurantId', async (req, res) => {
     const result = await getMeals(req.params.restaurantId);
-
     if (result.length === 0){
         return res.json(result);
     }
@@ -159,11 +158,11 @@ router.get('/api/meals/stream/:restaurantId', async (req, res) => {
     let counter = 0;
     const interval = setInterval(() => {
         res.write(JSON.stringify({ data: result[counter] }));
+        counter++;
         if (counter === result.length) { // Stop after sending all data
             clearInterval(interval);
             res.end();
         }
-        counter++;
     }, 1000);
 });
 
