@@ -140,6 +140,34 @@ router.get('/api/meals/:restaurantId', async (req, res) => {
 });
 
 /**
+ * Route for fetching restaurant specific meals in chunks.
+ * @param {Object} req - The request object.
+ * @param {number} req.params.restaurantId - Restaurant id.
+ * @param {Object} res - The response object.
+ * @returns {Object} 404 - No meals/restaurant found.
+ */
+router.get('/api/meals/stream/:restaurantId', async (req, res) => {
+    const result = await getMeals(req.params.restaurantId);
+
+    if (result.length === 0){
+        return res.json(result);
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Transfer-Encoding', 'chunked');
+
+    let counter = 0;
+    const interval = setInterval(() => {
+        res.write(JSON.stringify({ data: result[counter] }));
+        if (counter === result.length) { // Stop after sending all data
+            clearInterval(interval);
+            res.end();
+        }
+        counter++;
+    }, 1000);
+});
+
+/**
  * Route for fetching restaurant specific meals.
  * @param {Object} req - The request object.
  * @param {number} req.params.restaurantId - Restaurant id.
