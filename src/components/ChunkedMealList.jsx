@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, FlatList } from 'react-native';
+import { ScrollView, View, FlatList, Text } from 'react-native';
 import { useParams } from '../Router';
 import apiUrl from '../utils/apiUrl';
 import createStyles from '../styles/styles';
-import { MealCard } from './ui/Card';
 
 /**
  * Render a restaurant specific meal list based on restaurantId.
@@ -40,8 +39,8 @@ const ChunkedMealList = () => {
                         let chunk = buffer.slice(0, boundaryIndex + 1);
                         buffer = buffer.slice(boundaryIndex + 1);
                         try {
-                            setMeals(prevData => 
-                                [...prevData, JSON.parse(chunk)]);
+                            const meal = JSON.parse(chunk).data;
+                            setMeals(prevMeals => [...prevMeals, meal]);
                         } catch (error) {
                             console.log('Failed to parse chunk:', chunk, error);
                         }
@@ -51,13 +50,13 @@ const ChunkedMealList = () => {
             // Process any remaining buffer
             if (buffer) {
                 try {
-                    setMeals(prevData => [...prevData, JSON.parse(buffer)]);
+                    const meal = JSON.parse(buffer).data;
+                    setMeals(prevMeals => [...prevMeals, meal]);
                 } catch (error) {
                     console.log('Failed to parse final chunk:', buffer, 
                         error);
                 }
             }
-            console.log(meals)
         };
 
         fetchData();
@@ -71,13 +70,7 @@ const ChunkedMealList = () => {
                     data={meals}
                     keyExtractor={(item) => item.meal_id.toString()}
                     renderItem={({ item }) => (
-                        <MealCard
-                            styles={styles}
-                            meal={item}
-                            onPress={() => console.log('painettu oon')}
-                            isSelected={true}
-                            sliceColor={'green'}
-                        />
+                        <Text>{item.meal_id}</Text>
                     )}
                 />
             </View>
