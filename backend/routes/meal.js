@@ -4,7 +4,7 @@ const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
     getMealIdsNamesPurchaseCodes, getMealForEdit, updateMeal }
     = require('../database');
 const { verifyToken } = require('../services/authorization');
-const { getNutrients }  = require('../services/calculateNutrients');
+const { getNutrients } = require('../services/calculateNutrients');
 
 const router = express.Router();
 
@@ -63,6 +63,9 @@ router.post('/api/meals', express.json(), async (req, res) => {
     try {
         const nutrients = await getNutrients(mealIngredients, 
             'backend/csvFiles/raaka-ainetiedot.csv');
+        if (!nutrients){
+            return res.status(500).send('unexpected internal server error');
+        }
         const stringifiedIngredients = JSON.stringify(ingredients);
 
         mealId = await insertMeal(mealName, loggedInUsersRestaurantId, 
@@ -290,6 +293,9 @@ router.put('/api/meals/update/:mealId', express.json(), async (req, res) => {
     try {
         const nutrients = await getNutrients(mealIngredients, 
             'backend/csvFiles/raaka-ainetiedot.csv');
+        if (!nutrients){
+            return res.status(500).send('unexpected internal server error');
+        }
 
         const stringifiedIngredients = JSON.stringify(ingredients);
         const success = await updateMeal(mealId, mealName, mealDescription,
