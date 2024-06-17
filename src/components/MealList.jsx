@@ -22,7 +22,7 @@ import createStyles from '../styles/styles';
  */
 const MealList = () => {
     const {t} = useTranslation();
-    const { restId } = useParams();
+    const { restaurantId } = useParams();
     const [selectedMeals, setSelectedMeals] = useState([]);
     const [meals, setMeals] = useState([]);
     const [restaurantName, setRestaurantName] = useState(null);
@@ -34,26 +34,58 @@ const MealList = () => {
     const { colors } = useContext(themeContext);
 
     const fetchMeals = async () => {
+        let response = null;
         try {
-            const response = await axios.get(`${apiUrl}/meals/${restId}`);
-            const responseMeals = response.data;
-            const updatedMeals = await Promise.all(
-                responseMeals.map(async (meal) => {
-                    const imageRes = await axios.get(
-                        `${apiUrl}/meals/images/${meal.meal_id}`
-                    );
-                    return {
-                        ...meal,
-                        image: imageRes.data,
-                    };
-                })
-            );
-            setRestaurantName(updatedMeals[0]?.restaurant_name || null);
-            return updatedMeals;
+            response = await fetch(
+                `${apiUrl}/meals/stream/${restaurantId}`);
         } catch (err) {
             setError(err.response.data);
             return [];
         }
+
+        const reader = response.body.getReader();
+        let buffer = '';
+        let completed = false;
+        let fetchedMeals = [];
+        while (!completed) {
+            const { done, value } = await reader.read();
+            completed = done;
+            if (value) {
+                // Decode the Uint8Array value to a string
+                buffer += String.fromCharCode.apply(null, value);
+                let boundaryIndex;
+                while ((boundaryIndex = buffer.indexOf('}{')) !== -1) {
+                    // Split and parse the first JSON object in the buffer
+                    let chunk = buffer.slice(0, boundaryIndex + 1);
+                    buffer = buffer.slice(boundaryIndex + 1);
+                    try {
+                        const meal = JSON.parse(chunk).data;
+                        const image = await axios.get(
+                            `${apiUrl}/meals/images/${meal.meal_id}`);
+                        const mealWithImage ={ ...meal,image: image.data };
+                        fetchedMeals = [...fetchedMeals, mealWithImage];
+                        setMeals(fetchedMeals);
+                    } catch (error) {
+                        console.log('Failed to parse chunk:', chunk, error);
+                    }
+                }
+            }
+        }
+        // Process any remaining buffer
+        if (buffer) {
+            try {
+                const meal = JSON.parse(buffer).data;
+                const image = await axios.get(
+                    `${apiUrl}/meals/images/${meal.meal_id}`);
+                const mealWithImage ={ ...meal,image: image.data };
+                fetchedMeals = [...fetchedMeals, mealWithImage];
+                setMeals(fetchedMeals);
+            } catch (error) {
+                console.log('Failed to parse final chunk:', 
+                    buffer, error);
+            }
+        }
+        return fetchedMeals;
     };
 
     const handlePress = (meal) => {
@@ -67,8 +99,8 @@ const MealList = () => {
         });
     };
 
-    const sortMeals = (meals, criteria, order) => {
-        return meals.sort((mealA, mealB) => {
+    const sortMeals = (mealsToBeSorted, criteria, order) => {
+        return mealsToBeSorted.sort((mealA, mealB) => {
             if (order === 'asc') {
                 return mealA[criteria] - mealB[criteria];
             } else {
@@ -81,9 +113,11 @@ const MealList = () => {
         const fetchAndSortMeals = async () => {
             const fetchedMeals = await fetchMeals();
             setMeals(sortMeals(fetchedMeals, sortCriteria, sortOrder));
+            setRestaurantName(fetchedMeals[0]?.restaurant_name || null);
         };
+
         fetchAndSortMeals();
-    }, []);
+    }, [restaurantId]);
 
     const handleSortChange = (criteria, order) => {
         setSortCriteria(criteria);
@@ -98,7 +132,7 @@ const MealList = () => {
             </View>
         );
     }
-
+    
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
