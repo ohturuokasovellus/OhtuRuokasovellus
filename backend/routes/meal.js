@@ -145,7 +145,7 @@ router.get('/api/meals/:restaurantId', async (req, res) => {
  * @param {number} req.params.restaurantId - Restaurant id.
  * @param {Object} res - The response object.
  */
-router.get('/api/lessInfoMeals/:restaurantId', async (req, res) => {
+router.get('/api/less-info-meals/:restaurantId', async (req, res) => {
     const result = await getMealIdsNamesPurchaseCodes(req.params.restaurantId);
     res.json(result);
 });
