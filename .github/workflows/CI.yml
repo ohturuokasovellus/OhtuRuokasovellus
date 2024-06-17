@@ -13,7 +13,7 @@ jobs:
     unittests-and-eslint:
       runs-on: ubuntu-20.04
       concurrency:
-        group: tests2
+        group: unittests-eslint
         cancel-in-progress: false
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -34,11 +34,11 @@ jobs:
         - name: Test
           run: npm run test
 
-    chrome-e2e-tests:
+    chromium-e2e-tests:
       runs-on: ubuntu-20.04
       needs: [unittests-and-eslint]
       concurrency:
-        group: tests1
+        group: chromium-tests
         cancel-in-progress: false
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -71,7 +71,7 @@ jobs:
       runs-on: ubuntu-20.04
       needs: [unittests-and-eslint]
       concurrency:
-        group: tests2
+        group: firefox-tests
         cancel-in-progress: false
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -104,7 +104,7 @@ jobs:
       runs-on: ubuntu-20.04
       needs: [unittests-and-eslint]
       concurrency:
-        group: tests2
+        group: webkit-tests
         cancel-in-progress: false
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -135,7 +135,7 @@ jobs:
       
     push_to_openshift:
       runs-on: ubuntu-20.04
-      needs: [chrome-e2e-tests, firefox-e2e-tests, webkit-e2e-tests]
+      needs: [chromium-e2e-tests, firefox-e2e-tests, webkit-e2e-tests]
       steps:
         - name: Trigger OpenShift build
           if: ${{ github.event_name == 'push' }}
