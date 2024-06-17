@@ -11,16 +11,9 @@ const { generatePurchaseCode } = require('./services/random');
 //  password: process.env.POSTGRES_PASSWORD,   // Password of database user
 //})
 
-let sql = null;
-if (process.env.E2ETEST == '1'){
-    sql = postgres(process.env.E2ETEST_POSTGRES_URL);
-}
-else if (process.env.E2ETEST == '2'){
-    sql = postgres(process.env.E2ETEST2_POSTGRES_URL);
-}
-else{
-    sql = postgres(process.env.BACKEND_POSTGRES_URL);
-}
+const sql = postgres(process.env.E2ETEST == '1' ?
+    process.env.E2ETEST_POSTGRES_URL :
+    process.env.BACKEND_POSTGRES_URL);
 
 /**
  * Insert a new user into the database.
