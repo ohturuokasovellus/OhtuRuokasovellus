@@ -1,6 +1,6 @@
 import { ScrollView, Text, View } from 'react-native';
 import createStyles from '../styles/styles';
-import { DeleteButton } from './ui/Buttons';
+import { DeleteButton, Button } from './ui/Buttons';
 import { PasswordInput } from './ui/InputFields';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -10,6 +10,7 @@ import { useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import Slider from '@react-native-community/slider';
 
 const DataRemoval = ({ styles, token }) => {
     const navigate = useNavigate();
@@ -73,6 +74,71 @@ const DataRemoval = ({ styles, token }) => {
     );
 };
 
+const SelfEvaluationSlider = ({ styles, token }) => {
+    const { t } = useTranslation();
+
+    const [climateValue, setClimateValue] = useState(2);
+    const [nutritionValue, setNutritionValue] = useState(2);
+
+    const sliderLabels = [
+        t('NOT_IMPORTANT_AT_ALL'),
+        t('SOMEWHAT_UNIMPORTANT'),
+        t('IN_THE_MIDDLE'),
+        t('SOMEWHAT_IMPORTANT'),
+        t('VERY_IMPORTANT')
+    ];
+
+    return (
+        <View style={styles.evaluationContainer}>
+            <Text style={styles.h3}>{t('SELF_EVALUATION')}</Text>
+
+            <View style={styles.questionContainer}>
+                <Text style={styles.body}>
+                    {t('HOW_IMPORTANT_IS_CLIMATE')}
+                </Text>
+                <Slider
+                    style={styles.slider}
+                    minimumValue={0}
+                    maximumValue={4}
+                    step={1}
+                    value={climateValue}
+                    onValueChange={(value) => setClimateValue(value)}
+                    minimumTrackTintColor="#0C749C"
+                    maximumTrackTintColor="#d3d3d3"
+                    thumbTintColor="#0C749C"
+                />
+                <Text style={styles.body}>
+                    {sliderLabels[climateValue]}
+                </Text>
+            </View>
+
+            <View style={styles.questionContainer}>
+                <Text style={styles.body}>
+                    {t('HOW_IMPORTANT_ARE_NUTRITIONAL_VALUES')}
+                </Text>
+                <Slider
+                    style={styles.slider}
+                    minimumValue={0}
+                    maximumValue={4}
+                    step={1}
+                    value={nutritionValue}
+                    onValueChange={setNutritionValue}
+                    minimumTrackTintColor="#0C749C"
+                    maximumTrackTintColor="#d3d3d3"
+                    thumbTintColor="#0C749C"
+                />
+                <Text style={styles.body}>
+                    {sliderLabels[nutritionValue]}
+                </Text>
+            </View>
+            <Button
+                styles={styles} text="submit"
+                onPress={() => console.log('pressed')}
+            />
+        </View>
+    );
+};
+
 const Settings = () => {
     const navigate = useNavigate();
     const styles = createStyles();
@@ -91,6 +157,9 @@ const Settings = () => {
         <ScrollView style={styles.background}>
             <View style={styles.container}>
                 <Text style={styles.h1}>{t('SETTINGS')}</Text>
+                <SelfEvaluationSlider
+                    styles={styles} token={userSession.token}
+                />
                 <DataRemoval styles={styles} token={userSession.token} />
             </View>
         </ScrollView>

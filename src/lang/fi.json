@@ -143,6 +143,14 @@
         "EDIT_MEAL": "Päivitä ateria",
         "MEAL_UPDATED": "Ateria päivitetty!",
         "MEAL_NOT_UPDATED": "Tapahtui virhe, ateria ei päivitetty.",
-        "DOWNLOAD": "Lataa"
+        "DOWNLOAD": "Lataa",
+        "SELF_EVALUATION": "Itsearvionti",
+        "HOW_IMPORTANT_IS_CLIMATE": "Kuinka merkityksellistä ilmastoystävällisyys on sinulle?",
+        "HOW_IMPORTANT_ARE_NUTRITIONAL_VALUES": "Kuinka merkityksellisiä ravintoarvot ovat sinulle?",
+        "NOT_IMPORTANT_AT_ALL": "Täysin merkityksetön",
+        "SOMEWHAT_UNIMPORTANT": "Jokseenkin merkityksetön",
+        "IN_THE_MIDDLE": "Keskellä",
+        "SOMEWHAT_IMPORTANT": "Jokseenkin merkityksellinen",
+        "VERY_IMPORTANT": "Erittäin merkityksellinen"
     }
 }

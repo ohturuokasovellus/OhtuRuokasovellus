@@ -143,6 +143,14 @@
         "EDIT_MEAL": "Edit meal",
         "MEAL_UPDATED": "Meal updated succesfully!",
         "MEAL_NOT_UPDATED": "Error occured, meal not created.",
-        "DOWNLOAD": "Download"
+        "DOWNLOAD": "Download",
+        "SELF_EVALUATION": "Self evaluation",
+        "HOW_IMPORTANT_IS_CLIMATE": "How important climate friendliness is to you?",
+        "HOW_IMPORTANT_ARE_NUTRITIONAL_VALUES": "How important nutritional values are to you?",
+        "NOT_IMPORTANT_AT_ALL": "Not important at all",
+        "SOMEWHAT_UNIMPORTANT": "Somewhat unimportant",
+        "IN_THE_MIDDLE": "In the middle",
+        "SOMEWHAT_IMPORTANT": "Somewhat important",
+        "VERY_IMPORTANT": "Very important"
     }
 }
