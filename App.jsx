@@ -11,7 +11,6 @@ import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
 import AddUser from './src/components/AddUser';
 import MealList from './src/components/MealList';
-import ChunkedMealList from './src/components/ChunkedMealList';
 import CreateMeal from './src/components/CreateMeal';
 import Purchase from './src/components/Purchase';
 import PurchaseHistory from './src/components/PurchaseHistory';
@@ -62,8 +61,6 @@ const App = () => {
                     <Route path='/meal-qr/:mealPurchaseCode'
                         element={<MealQR />}/>
                     <Route path='/settings' element={<Settings />} />
-                    <Route path='/chunks/:restaurantId' 
-                        element={<ChunkedMealList/>} />
                 </Routes>
             </Router>
         </ThemeController>
