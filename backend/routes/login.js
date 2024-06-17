@@ -18,7 +18,16 @@ router.use(express.json());
  */
 router.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
-    const user = await getUser(username, hash(password));
+
+    let user = null;
+    try{
+        user = await getUser(username, hash(password));
+    }
+    catch(error){
+        console.log(error);
+        return res.status(500).json({ error: 'internal server error' });
+    }
+
     if (user) {
         res
             .status(200)

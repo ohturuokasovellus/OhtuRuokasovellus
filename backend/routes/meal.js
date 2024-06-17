@@ -4,7 +4,7 @@ const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
     getMealIdsNamesPurchaseCodes, getMealForEdit, updateMeal }
     = require('../database');
 const { verifyToken } = require('../services/authorization');
-const { getNutrients }  = require('../services/calculateNutrients');
+const { getNutrients } = require('../services/calculateNutrients');
 
 const router = express.Router();
 
@@ -35,8 +35,15 @@ router.post('/api/meals', express.json(), async (req, res) => {
         return res.status(401).json({ error: 'token invalid' });
     }
     
-    const loggedInUsersRestaurantId = await getRestaurantIdByUserId(
-        decodedToken.userId);
+    let loggedInUsersRestaurantId = null;
+    try{
+        loggedInUsersRestaurantId = await getRestaurantIdByUserId(
+            decodedToken.userId);
+    }
+    catch(error){
+        console.log(error);
+        return res.status(500).json({ error: 'internal server error' });
+    }
 
     // TODO: properly validate name
     if (!mealName) {
@@ -52,12 +59,16 @@ router.post('/api/meals', express.json(), async (req, res) => {
     ingredients.forEach(element => {
         mealIngredients[element.ingredientId] = element.weight;
     });
-    const nutrients = await getNutrients(mealIngredients, 
-        'backend/csvFiles/raaka-ainetiedot.csv');
-
+    
     let mealId;
-    const stringifiedIngredients = JSON.stringify(ingredients);
     try {
+        const nutrients = await getNutrients(mealIngredients, 
+            'backend/csvFiles/raaka-ainetiedot.csv');
+        if (!nutrients){
+            return res.status(500).send('unexpected internal server error');
+        }
+        const stringifiedIngredients = JSON.stringify(ingredients);
+
         mealId = await insertMeal(mealName, loggedInUsersRestaurantId, 
             mealDescription, mealAllergenString, nutrients, formattedPrice,
             stringifiedIngredients);
@@ -113,15 +124,21 @@ router.post('/api/meals/images/:id',
 router.get('/api/meals/images/:id', async (req, res) => {
     const mealId = req.params.id;
 
-    const result = await sql`
-        SELECT image FROM meals WHERE meal_id = ${mealId};
-    `;
+    try{
+        const result = await sql`
+            SELECT image FROM meals WHERE meal_id = ${mealId};
+        `;
 
-    if (result.length === 0 || !result.at(0).image) {
-        return res.status(404).send('no image found');
+        if (result.length === 0 || !result.at(0).image) {
+            return res.status(404).send('no image found');
+        }
+        const imageData = result.at(0).image.toString();
+        res.type('image/jpeg').send(imageData);
     }
-    const imageData = result.at(0).image.toString();
-    res.type('image/jpeg').send(imageData);
+    catch (error) {
+        console.error(error);
+        return res.status(500).send('unexpected internal server error');
+    }
 });
 
 /**
@@ -132,11 +149,17 @@ router.get('/api/meals/images/:id', async (req, res) => {
  * @returns {Object} 404 - No meals/restaurant found.
  */
 router.get('/api/meals/:restaurantId', async (req, res) => {
-    const result = await getMeals(req.params.restaurantId);
-    if (result.length === 0) {
-        return res.status(404).json('Page not found');
+    try {
+        const result = await getMeals(req.params.restaurantId);
+        if (result.length === 0) {
+            return res.status(404).json('Page not found');
+        }
+        res.json(result);
     }
-    res.json(result);
+    catch (error) {
+        console.error(error);
+        return res.status(500).send('unexpected internal server error');
+    }
 });
 
 /**
@@ -173,8 +196,16 @@ router.get('/api/meals/stream/:restaurantId', async (req, res) => {
  * @param {Object} res - The response object.
  */
 router.get('/api/lessInfoMeals/:restaurantId', async (req, res) => {
-    const result = await getMealIdsNamesPurchaseCodes(req.params.restaurantId);
-    res.json(result);
+    try {
+        const result = await getMealIdsNamesPurchaseCodes(
+            req.params.restaurantId);
+        res.json(result);
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).send('unexpected internal server error');
+    }
+
 });
 
 /**
@@ -187,19 +218,32 @@ router.get('/api/lessInfoMeals/:restaurantId', async (req, res) => {
  */
 router.put('/api/meals/delete/:mealId', express.json(), async (req, res) => {
     const mealId = req.params.mealId;
-    const result = await getMealRestaurantId(mealId);
-    const userInfo = verifyToken(req.header('Authorization'));
 
-    if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
-        return res.status(401).send('Unauthorized');
+    try {
+        const result = await getMealRestaurantId(mealId);
+        const userInfo = verifyToken(req.header('Authorization'));
+
+        if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
+            return res.status(401).send('Unauthorized');
+        }
     }
-    
-    const setToInactive = await setMealInactive(mealId);
-    if (!setToInactive) {
-        return res.status(500).json({ errorMessage: 'Meal deletion failed' });
+    catch (error) {
+        console.error(error);
+        return res.status(500).send('unexpected internal server error');
     }
 
-    res.status(200).json('Meal deleted');
+    try {
+        const setToInactive = await setMealInactive(mealId);
+        if (!setToInactive) {
+            return res.status(500).json(
+                { errorMessage: 'Meal deletion failed' });
+        }
+        res.status(200).json('Meal deleted');
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).send('unexpected internal server error');
+    }
 });
 
 /**
@@ -214,19 +258,31 @@ router.put('/api/meals/delete/:mealId', express.json(), async (req, res) => {
 router.post('/api/meals/meal/:mealId', express.json(), async (req, res) => {
     const mealId = req.params.mealId;
     const userInfo = verifyToken(req.header('Authorization'));
-    const result = await getMealRestaurantId(mealId);
-    
-    if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
-        return res.status(401).json('Unauthorized');
+
+    try {
+        const result = await getMealRestaurantId(mealId);
+        if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
+            return res.status(401).json('Unauthorized');
+        }
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).send('unexpected internal server error');
     }
 
-    let meal = await getMealForEdit(mealId);
-    const parsedIngredients = JSON.parse(meal.ingredients);
-    meal = {
-        ...meal,
-        ingredients: parsedIngredients
-    };
-    res.status(200).json(meal);
+    try {
+        let meal = await getMealForEdit(mealId);
+        const parsedIngredients = JSON.parse(meal.ingredients);
+        meal = {
+            ...meal,
+            ingredients: parsedIngredients
+        };
+        res.status(200).json(meal);
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).send('unexpected internal server error');
+    }
 });
 
 /**
@@ -244,28 +300,44 @@ router.put('/api/meals/update/:mealId', express.json(), async (req, res) => {
     } = req.body;
     const mealId = req.params.mealId;
     const userInfo = verifyToken(req.header('Authorization'));
-    const mealRestId = await getMealRestaurantId(mealId);
 
-    if (!userInfo || userInfo.restaurantId !== mealRestId.restaurant_id) {
-        return res.status(401).json('Unauthorized');
+    try {
+        const mealRestId = await getMealRestaurantId(mealId);
+        if (!userInfo || userInfo.restaurantId !== mealRestId.restaurant_id) {
+            return res.status(401).json('Unauthorized');
+        }
     }
-    
+    catch (error) {
+        console.error(error);
+        return res.status(500).send('unexpected internal server error');
+    }
+
     let mealIngredients = {};
     
     ingredients.forEach(element => {
         mealIngredients[element.ingredientId] = element.weight;
     });
 
-    const nutrients = await getNutrients(mealIngredients, 
-        'backend/csvFiles/raaka-ainetiedot.csv');
+    try {
+        const nutrients = await getNutrients(mealIngredients, 
+            'backend/csvFiles/raaka-ainetiedot.csv');
+        if (!nutrients){
+            return res.status(500).send('unexpected internal server error');
+        }
 
-    const stringifiedIngredients = JSON.stringify(ingredients);
-    const success = await updateMeal(mealId, mealName, mealDescription,
-        mealAllergenString, nutrients, formattedPrice, stringifiedIngredients);
-    if (!success) {
-        return res.status(500).send('meal update failed');
+        const stringifiedIngredients = JSON.stringify(ingredients);
+        const success = await updateMeal(mealId, mealName, mealDescription,
+            mealAllergenString, nutrients, formattedPrice, 
+            stringifiedIngredients);
+        if (!success) {
+            return res.status(500).send('meal update failed');
+        }
+        res.sendStatus(200);
     }
-    res.sendStatus(200);
+    catch (error) {
+        console.error(error);
+        return res.status(500).send('unexpected internal server error');
+    }
 });
 
 module.exports = router;

@@ -14,11 +14,18 @@ const router = express.Router();
  * @returns {Object} 404 - The meal was not found.
  */
 router.get('/api/purchases/meal/:purchaseCode', async (req, res) => {
-    const meal = await getMealByPurchaseCode(req.params.purchaseCode);
-    if (meal === null) {
-        return res.status(404).send('meal not found');
+    try{
+        const meal = await getMealByPurchaseCode(req.params.purchaseCode);
+        if (meal === null) {
+            return res.status(404).send('meal not found');
+        }
+        res.json(meal);
     }
-    res.json(meal);
+    catch (error) {
+        console.error(error);
+        return res.status(500).send('unexpected internal server error');
+    }
+
 });
 
 /**
