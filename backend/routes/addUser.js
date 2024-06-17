@@ -34,15 +34,16 @@ router.post('/api/add-users', async (req, res) => {
     }
     catch(error){
         console.log(error);
+        return res.status(500).json({ error: 'internal server error' });
     }
     
     let restaurantId = null;
     try {
         restaurantId = await getRestaurantIdByUserId(user.userId);
-        
     }
     catch(error){
         console.log(error);
+        return res.status(500).json({ error: 'internal server error' });
     }
 
     if (!restaurantId) {
