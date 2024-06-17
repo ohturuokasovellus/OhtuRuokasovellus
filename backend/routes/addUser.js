@@ -27,10 +27,25 @@ router.post('/api/add-users', async (req, res) => {
     if (!user) {
         return res.status(401).json({ error: 'unauthorized' });
     }
-    if (!(await checkPassword(user.userId, hash(password)))) {
-        return res.status(401).json({ error: 'invalid password' });
+    try {
+        if (!(await checkPassword(user.userId, hash(password)))) {
+            return res.status(401).json({ error: 'invalid password' });
+        }
     }
-    const restaurantId = await getRestaurantIdByUserId(user.userId);
+    catch(error){
+        console.log(error);
+        return res.status(500).json({ error: 'internal server error' });
+    }
+    
+    let restaurantId = null;
+    try {
+        restaurantId = await getRestaurantIdByUserId(user.userId);
+    }
+    catch(error){
+        console.log(error);
+        return res.status(500).json({ error: 'internal server error' });
+    }
+
     if (!restaurantId) {
         return res.status(403).json({
             error: 'user does not belong to any restaurant',
@@ -52,13 +67,12 @@ router.post('/api/add-users', async (req, res) => {
             continue;
         }
 
-        const userId = await getUserIdByEmail(email);
-        if (await isRestaurantUser(userId)) {
-            result.status = 'user is already associated with a restaurant';
-            continue;
-        }
-
         try {
+            const userId = await getUserIdByEmail(email);
+            if (await isRestaurantUser(userId)) {
+                result.status = 'user is already associated with a restaurant';
+                continue;
+            }
             if (await updateUserRestaurantByEmail(email, restaurantId)) {
                 result.status = 'user added successfully';
             } else {

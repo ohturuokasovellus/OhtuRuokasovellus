@@ -52,14 +52,21 @@ function calculateNutrientsForIngredient(mass, ingredientNutrients,
  * Calculates nutrients from ingredients, https://stackoverflow.com/a/52350312
  * @param {Dictionary} mealIngredients - mealId is key, mass is value
  * @param {string} csvPathName - path of the csv that we want to read
- * @returns {Dictionary}
+ * @returns {Dictionary|null}
  */
 async function getNutrients(mealIngredients, csvPathName){
     const csvFile = filesystem.createReadStream(csvPathName);
 
     // find every ingredient name that belongs to the vegetables or fruits
     // category.
-    const vegetablesAndFruits = await getVegetablesAndFruits(csvPathName);
+    let vegetablesAndFruits = null;
+    try {
+        vegetablesAndFruits = await getVegetablesAndFruits(csvPathName);
+    }
+    catch (error) {
+        console.error(error);
+        return [];
+    }
 
     return new Promise(resolve => {
         let nutrientsDictionary = {'energy': 0, 'fat': 0,  'saturatedFat': 0, 
@@ -118,4 +125,4 @@ function updateNutrients(nutrientsDictionary){
     return nutrientsDictionary;
 }
 
-module.exports = {getNutrients};
+module.exports = { getNutrients };
