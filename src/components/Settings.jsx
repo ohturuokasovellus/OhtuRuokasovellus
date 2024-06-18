@@ -74,6 +74,12 @@ const DataRemoval = ({ styles, token }) => {
     );
 };
 
+/**
+ * Form for submitting self evaluation.
+ * @param {object} styles
+ * @param {string} token user token
+ * @returns {JSX.Element} 
+ */
 const SelfEvaluationForm = ({ styles, token }) => {
     const { t } = useTranslation();
     const [error, setError] = useState(null);
