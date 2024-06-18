@@ -77,10 +77,11 @@ const DataRemoval = ({ styles, token }) => {
 const SelfEvaluationSlider = ({ styles, token }) => {
     const { t } = useTranslation();
 
-    const [climateValue, setClimateValue] = useState(2);
-    const [nutritionValue, setNutritionValue] = useState(2);
+    const [climateValue, setClimateValue] = useState(3);
+    const [nutritionValue, setNutritionValue] = useState(3);
 
     const sliderLabels = [
+        null,
         t('NOT_IMPORTANT_AT_ALL'),
         t('SOMEWHAT_UNIMPORTANT'),
         t('IN_THE_MIDDLE'),
@@ -88,6 +89,10 @@ const SelfEvaluationSlider = ({ styles, token }) => {
         t('VERY_IMPORTANT')
     ];
 
+    const handleEvalSubmit = () => {
+        return;
+    };
+    
     return (
         <View style={styles.evaluationContainer}>
             <Text style={styles.h3}>{t('SELF_EVALUATION')}</Text>
@@ -98,11 +103,11 @@ const SelfEvaluationSlider = ({ styles, token }) => {
                 </Text>
                 <Slider
                     style={styles.slider}
-                    minimumValue={0}
-                    maximumValue={4}
+                    minimumValue={1}
+                    maximumValue={5}
                     step={1}
                     value={climateValue}
-                    onValueChange={(value) => setClimateValue(value)}
+                    onValueChange={value => setClimateValue(value)}
                     minimumTrackTintColor="#0C749C"
                     maximumTrackTintColor="#d3d3d3"
                     thumbTintColor="#0C749C"
@@ -118,11 +123,11 @@ const SelfEvaluationSlider = ({ styles, token }) => {
                 </Text>
                 <Slider
                     style={styles.slider}
-                    minimumValue={0}
-                    maximumValue={4}
+                    minimumValue={1}
+                    maximumValue={5}
                     step={1}
                     value={nutritionValue}
-                    onValueChange={setNutritionValue}
+                    onValueChange={value => setNutritionValue(value)}
                     minimumTrackTintColor="#0C749C"
                     maximumTrackTintColor="#d3d3d3"
                     thumbTintColor="#0C749C"
