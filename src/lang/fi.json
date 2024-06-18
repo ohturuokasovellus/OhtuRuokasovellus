@@ -144,6 +144,7 @@
         "MEAL_UPDATED": "Ateria päivitetty!",
         "MEAL_NOT_UPDATED": "Tapahtui virhe, ateria ei päivitetty.",
         "DOWNLOAD": "Lataa",
-        "UNAUTHORIZED": "Sinulla ei ole oikeutta nähdä tätä sisältöä"
+        "UNAUTHORIZED": "Sinulla ei ole oikeutta nähdä tätä sisältöä",
+        "UNEXPECTED_ERROR": "Virhe tapahtui, yritä uudelleen myöhemmin"
     }
 }
