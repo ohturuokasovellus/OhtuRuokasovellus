@@ -10,10 +10,10 @@ on:
     types: [opened, synchronize]
 
 jobs:
-    simple_deployment_pipeline:
+    unittests-and-eslint:
       runs-on: ubuntu-20.04
       concurrency:
-        group: e2e-tests
+        group: unittests-eslint
         cancel-in-progress: false
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -34,22 +34,110 @@ jobs:
         - name: Test
           run: npm run test
 
+    chromium-e2e-tests:
+      runs-on: ubuntu-20.04
+      needs: [unittests-and-eslint]
+      concurrency:
+        group: chromium-tests
+        cancel-in-progress: false
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      steps:
+        - name: Check out repository code
+          uses: actions/checkout@v4
+
+        - uses: actions/setup-node@v4
+          with:
+            node-version: '20'
+
+        - name: Install dependencies 
+          run: npm install  
+
         - name: Install Playwright
-          run: npx playwright install --with-deps
+          run: npx playwright install chromium --with-deps
 
         - name: Build
           run: npm run build
 
         - name: E2E tests
-          run: npm run test:e2e
+          run: npx playwright test --project chromium 
           env:
             E2ETEST_POSTGRES_URL: ${{ secrets.E2ETEST_POSTGRES_URL }}
             E2ETEST: 1
             DATABASE_ENCRYPTION_KEY: ${{ secrets.DATABASE_ENCRYPTION_KEY }}
             WEBPAGE_URL: ${{ secrets.WEBPAGE_URL }}
+      
+    firefox-e2e-tests:
+      runs-on: ubuntu-20.04
+      needs: [unittests-and-eslint]
+      concurrency:
+        group: firefox-tests
+        cancel-in-progress: false
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      steps:
+        - name: Check out repository code
+          uses: actions/checkout@v4
 
+        - uses: actions/setup-node@v4
+          with:
+            node-version: '20'
+
+        - name: Install dependencies 
+          run: npm install
+
+        - name: Install Playwright
+          run: npx playwright install firefox --with-deps
+
+        - name: Build
+          run: npm run build
+
+        - name: E2E tests
+          run: npx playwright test --project firefox
+          env:
+            E2ETEST_POSTGRES_URL: ${{ secrets.E2ETEST2_POSTGRES_URL }}
+            E2ETEST: 1
+            DATABASE_ENCRYPTION_KEY: ${{ secrets.DATABASE_ENCRYPTION_KEY }}
+            WEBPAGE_URL: ${{ secrets.WEBPAGE_URL }}
+
+    webkit-e2e-tests:
+      runs-on: ubuntu-20.04
+      needs: [unittests-and-eslint]
+      concurrency:
+        group: webkit-tests
+        cancel-in-progress: false
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      steps:
+        - name: Check out repository code
+          uses: actions/checkout@v4
+
+        - uses: actions/setup-node@v4
+          with:
+            node-version: '20'
+
+        - name: Install dependencies 
+          run: npm install
+
+        - name: Install Playwright
+          run: npx playwright install webkit --with-deps
+
+        - name: Build
+          run: npm run build
+
+        - name: E2E tests
+          run: npx playwright test --project webkit
+          env:
+            E2ETEST_POSTGRES_URL: ${{ secrets.E2ETEST3_POSTGRES_URL }}
+            E2ETEST: 1
+            DATABASE_ENCRYPTION_KEY: ${{ secrets.DATABASE_ENCRYPTION_KEY }}
+            WEBPAGE_URL: ${{ secrets.WEBPAGE_URL }}
+      
+    push_to_openshift:
+      runs-on: ubuntu-20.04
+      needs: [chromium-e2e-tests, firefox-e2e-tests, webkit-e2e-tests]
+      steps:
         - name: Trigger OpenShift build
           if: ${{ github.event_name == 'push' }}
           run: |
             curl -X POST -k "${{ secrets.OPENSHIFT_TRIGGER_URL }}"
-      
