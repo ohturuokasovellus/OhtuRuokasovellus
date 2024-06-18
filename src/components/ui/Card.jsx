@@ -152,7 +152,10 @@ const MealCard = (
                             styles={styles}
                             nutrition={nutrition}
                         />
-                        {Nutriscore(nutrition, styles)}
+                        <Nutriscore
+                            styles={styles}
+                            nutrition={nutrition}
+                        />
                     </View>
                 )}
             </View>
