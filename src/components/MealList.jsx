@@ -44,7 +44,7 @@ const MealList = () => {
         }
 
         let buffer = response.data;
-        let fetchedMeals = [];
+        let fetchedMeals = response.data;
         let index = 0;
         while (index < buffer.length) {
             let chunk = buffer[index];
@@ -52,8 +52,7 @@ const MealList = () => {
                 const meal = chunk;
                 const image = await axios.get(
                     `${apiUrl}/meals/images/${meal.meal_id}`);
-                const mealWithImage ={ ...meal,image: image.data };
-                fetchedMeals = [...fetchedMeals, mealWithImage];
+                fetchedMeals[index].image = image.data;
                 setMeals(fetchedMeals); 
             } catch (error) {
                 console.log('Failed to parse chunk:', chunk, error);
