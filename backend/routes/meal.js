@@ -5,6 +5,7 @@ const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
     = require('../database');
 const { verifyToken } = require('../services/authorization');
 const { getNutrients } = require('../services/calculateNutrients');
+const { getAllMealEmissions } = require('../databaseScripts/meal');
 
 const router = express.Router();
 
@@ -311,6 +312,24 @@ router.put('/api/meals/update/:mealId', express.json(), async (req, res) => {
         console.error(error);
         return res.status(500).send('unexpected internal server error');
     }
+});
+
+/**
+ * Route for fetching emissions of all meals.
+ * @param {Object} req - The request object.
+ * @param {number} req.params.restaurantId - Restaurant id.
+ * @param {Object} res - The response object.
+ */
+router.get('/api/all-meal-emissions/:restaurantId', async (req, res) => {
+    try {
+        const result = await getAllMealEmissions(req.params.restaurantId);
+        res.json(result);
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).send('unexpected internal server error');
+    }
+
 });
 
 module.exports = router;

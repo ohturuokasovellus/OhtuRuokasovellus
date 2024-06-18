@@ -1,24 +1,6 @@
 const { sql } = require('../database');
 
 /**
- * Fetch restaurant specific meal emissions from database.
- * @param {number} restaurantId
- * @returns {Promise<{ 
-*      meal_id: number, 
-*      meal_name: string, 
-*      purchase_code: string,
-*  }[]>}
-*/
-const getMealEmissionsWithId = async (restaurantId) => {
-    const result = await sql`
-       SELECT meal_id, name as meal_name, purchase_code
-       FROM meals
-       WHERE restaurant_id = ${restaurantId} AND is_active = TRUE;
-   `;
-    return result;
-};
-
-/**
  * Fetch all meal emissions from database.
  * @param {number} restaurantId
  * @returns {Promise<{ 
@@ -27,16 +9,15 @@ const getMealEmissionsWithId = async (restaurantId) => {
 *      purchase_code: string,
 *  }[]>}
 */
-const getAllMealEmissions = async (restaurantId) => {
+const getAllMealEmissions = async () => {
     const result = await sql`
-       SELECT meal_id, name as meal_name, purchase_code
+       SELECT restaurant_id, co2_emissions
        FROM meals
-       WHERE restaurant_id = ${restaurantId} AND is_active = TRUE;
+       WHERE is_active = TRUE;
    `;
     return result;
 };
 
 module.exports = {
-    getMealEmissionsWithId,
     getAllMealEmissions
 };
