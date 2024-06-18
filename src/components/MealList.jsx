@@ -38,52 +38,27 @@ const MealList = () => {
         try {
             response = await axios.get(
                 `${apiUrl}/meals/${restaurantId}`);
-        } catch (err) {
-            setError(err.response.data);
+        } catch (error) {
+            setError(error.response.data);
             return [];
         }
 
-        const reader = response.body.getReader();
-        let buffer = '';
-        let completed = false;
+        let buffer = response.data;
         let fetchedMeals = [];
-        while (!completed) {
-            const { done, value } = await reader.read();
-            completed = done;
-            if (value) {
-                // Decode the Uint8Array value to a string
-                buffer += String.fromCharCode.apply(null, value);
-                let boundaryIndex;
-                while ((boundaryIndex = buffer.indexOf('}{')) !== -1) {
-                    // Split and parse the first JSON object in the buffer
-                    let chunk = buffer.slice(0, boundaryIndex + 1);
-                    buffer = buffer.slice(boundaryIndex + 1);
-                    try {
-                        const meal = JSON.parse(chunk).data;
-                        const image = await axios.get(
-                            `${apiUrl}/meals/images/${meal.meal_id}`);
-                        const mealWithImage ={ ...meal,image: image.data };
-                        fetchedMeals = [...fetchedMeals, mealWithImage];
-                        setMeals(fetchedMeals);
-                    } catch (error) {
-                        console.log('Failed to parse chunk:', chunk, error);
-                    }
-                }
-            }
-        }
-        // Process any remaining buffer
-        if (buffer) {
+        let index = 0;
+        while (index < buffer.length) {
+            let chunk = buffer[index];
             try {
-                const meal = JSON.parse(buffer).data;
+                const meal = chunk;
                 const image = await axios.get(
                     `${apiUrl}/meals/images/${meal.meal_id}`);
                 const mealWithImage ={ ...meal,image: image.data };
                 fetchedMeals = [...fetchedMeals, mealWithImage];
-                setMeals(fetchedMeals);
+                setMeals(fetchedMeals); 
             } catch (error) {
-                console.log('Failed to parse final chunk:', 
-                    buffer, error);
+                console.log('Failed to parse chunk:', chunk, error);
             }
+            index += 1;
         }
         return fetchedMeals;
     };

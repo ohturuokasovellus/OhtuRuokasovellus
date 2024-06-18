@@ -142,7 +142,7 @@ router.get('/api/meals/images/:id', async (req, res) => {
 });
 
 /**
- * Route for fetching restaurant specific meals.
+ * Route for fetching restaurant specific meals in chunks.
  * @param {Object} req - The request object.
  * @param {number} req.params.restaurantId - Restaurant id.
  * @param {Object} res - The response object.
@@ -151,8 +151,7 @@ router.get('/api/meals/:restaurantId', async (req, res) => {
     try {
         const result = await getMeals(req.params.restaurantId);
         res.json(result);
-    }
-    catch (error) {
+    } catch (error){
         console.error(error);
         return res.status(500).send('unexpected internal server error');
     }
