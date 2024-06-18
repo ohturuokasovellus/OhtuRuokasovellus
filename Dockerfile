@@ -3,16 +3,15 @@ FROM node:20 AS build-step
 WORKDIR /app
 
 ADD package.json ./
-
 ENV NODE_OPTIONS="--max-old-space-size=2048"
 RUN npm install --no-save --no-fund
 
 ADD app.json App.jsx webpack.config.js ./
 ADD src/ src/
-ADD backend/ backend/
 ADD assets/ assets/
-
 RUN npm run build && echo $(date) > version.txt
+
+ADD backend/ backend/
 
 
 FROM node:20-alpine
