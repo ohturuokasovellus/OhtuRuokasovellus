@@ -36,8 +36,8 @@ const MealList = () => {
     const fetchMeals = async () => {
         let response = null;
         try {
-            response = await fetch(
-                `${apiUrl}/meals/stream/${restaurantId}`);
+            response = await axios.get(
+                `${apiUrl}/meals/${restaurantId}`);
         } catch (err) {
             setError(err.response.data);
             return [];
