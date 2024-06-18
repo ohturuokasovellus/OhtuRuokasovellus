@@ -501,6 +501,22 @@ const updateMeal = async (mealId, name, mealDescription,
     return result.count === 1;
 };
 
+/**
+ * Query for setting evaluation metric
+ * @param {number} evalKey evaluation metric key
+ * @param {number} evalValue evaluation value
+ * @returns {Promise<Boolean>} true if success
+*/
+const setEvaluationMetric = async (userId, evalKey, evalValue) => {
+    const result = await sql`
+        INSERT INTO evaluations (user_id, eval_key, eval_value)
+        VALUES (${userId}, ${evalKey}, ${evalValue})
+        ON CONFLICT (user_id, eval_key)
+        DO UPDATE SET eval_value = EXCLUDED.eval_value;
+   `;
+    return result.count === 1;
+};
+
 module.exports = {
     sql,
     insertUser,
@@ -527,5 +543,6 @@ module.exports = {
     setMealInactive,
     getMealForEdit,
     updateMeal,
-    getMealIdsNamesPurchaseCodes
+    getMealIdsNamesPurchaseCodes,
+    setEvaluationMetric
 };

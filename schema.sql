@@ -65,7 +65,8 @@ CREATE TABLE evaluations (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENECES users NOT NULL,
     eval_key INT,
-    eval_value INT
+    eval_value INT,
+    UNIQUE (user_id, eval_key)
 );
 
 -- let survey url be this for now
