@@ -1,8 +1,16 @@
 # OpenShift deployment
 
-![](assets/openshift-diagram.svg)
+![OpenShift architecture diagram](assets/openshift-diagram.svg)
 
-## Prerequisities
+## Foreword
+
+Our OpenShift architecture consists of two parallel systems:
+staging and production.
+These two run with very similar configurations with only small differences.
+This documentation concentrates primarily on the staging part
+and the differences to production are talked at the end.
+
+### Prerequisities
 
 Before starting, make sure that you have access to the web interface of your
 OpenShift platform. In our case, for example, go to `rahti.csc.fi` and log in
@@ -14,19 +22,21 @@ so you need OpenShift CLI tool `oc`. See
 for instructions.
 
 `oc` tool must also be logged in to your account.
-In the web interface, click you name in the top right corner and then click
+In the web interface, click your name in the top right corner and then click
 "Copy login command". Log in with your credentials, click Display token and
 copy the command starting with `oc`.
 Run this command in your terminal to log the `oc` tool in to your account.
 The login seems to expire automatically in 24 hours,
-so you have to repeat this step daily.
+so you have to repeat this step daily
+(to check if `oc` is logged in,
+run `oc project` and see if some project is selected).
 
-### Usage
+#### Usage
 
 Whenever making changes to any of the YAML configuration files,
 they have to made into force by running
 
-```
+```sh
 oc apply -f myconfigfile.yaml
 ```
 
@@ -50,13 +60,13 @@ If you have Docker
 on your computer, you can build the image locally
 for testing, debugging and learning purposes by running
 
-```
+```sh
 docker build -t ruokasovellus .
 ```
 
 and then start it locally with
 
-```
+```sh
 docker run -p 8080:8080 ruokasovellus
 ```
 
@@ -83,6 +93,10 @@ In `spec.output` we tell OpenShift what it should do with the freshly built
 Docker image. We tell it to store the image in an image stream (see next section),
 and give it the `latest` tag as a mark of being the newest version of the image.
 
+In `spec.resources` we define the amount of resources we allow
+the build process to use. This may have a significant effect on the time
+it takes to build the image.
+
 ### Automatic build
 
 Now the build process can be started either with the command-line tool
@@ -90,16 +104,16 @@ or via the web interface.
 Luckily we can also make a connection between OpenShift and GitHub so that
 the build process is triggered automatically when changes are pushed
 to the repository.
-This connection is called webhook.
+This connection is called a webhook.
 
 First, let's add a secret for this webhook.
 Secret is a way to store sensitive data such as credentials without
 placing them in plaintext to the YAML files.
-In web interface, navigate to Secrets and click Create, then Webhook secret.
+In the web interface, navigate to Secrets and click Create, then Webhook secret.
 Give the secret a name (`ruokasovellus-generic-webhook-secret` in our case)
 and value by clicking the Generate button.
 
-Next, let's add trigger section to the build configuration
+Next, let's add a trigger section to the build configuration
 (in [`openshift/build.yaml`](../openshift/build.yaml)).
 In `spec.triggers[0]` we define that we want the build to
 be triggered by a webhook.
@@ -111,7 +125,7 @@ going to the page of the build process and
 clicking the "Copy URL with Secret" button.
 
 Now OpenShift is ready for the trigger and we move on to preparing GitHub.
-We want to add a job to a GitHub Actions workflow
+We want to add a job to the GitHub Actions workflow
 (in [`.github/workflows/CI.yml](../.github/workflows/CI.yml)),
 so that the build is triggered whenever something is
 pushed or merged to main branch.
@@ -140,7 +154,7 @@ is usually given the `latest` tag.
 (If you are familiar with Docker Hub or another image registry,
 you can think image streams in OpenShift as a local version of that.)
 
-In our case, we just want a simple way to store and organize the build
+In our case, we just want a simple way to store and organize the built
 Docker images of our server.
 For that, we create an image stream called `ruokasovellus`
 in [`openshift/image-stream.yaml`](../openshift/image-stream.yaml).
@@ -150,7 +164,7 @@ in [`openshift/image-stream.yaml`](../openshift/image-stream.yaml).
 
 Now we have our image built and stored on the server, but it is not running.
 With `Deployment` configuration (not `DeploymentConfig`, that doesn't work)
-in [`openshift/deployemnt.yaml`](../openshift/deployment.yaml),
+in [`openshift/staging-deployment.yaml`](../openshift/staging-deployment.yaml),
 we can start an image from the image stream with the `latest` tag.
 
 In `spec.template.spec.containers` section, we define what containers
@@ -170,7 +184,7 @@ for OpenShift to understand that we mean an image stream.
 The middle part between slashes is the name of our image stream and the last
 part refers to the image and its newest available version.
 
-In `ports` section we tell OpenShift that our server uses port `8080`.
+In `ports` section we tell OpenShift that our container exposes port `8080`.
 
 In `resources` section we state how much resources (CPU and memory) our
 server container is willing to use.
@@ -180,12 +194,24 @@ Limit is useful in making sure that we are not accidentally consuming all of our
 billing units too quickly.
 
 `startupProbe` is a way for the deployment to check that the pod has started.
-We define a simple HTTP GET request to path `/` of port 8080.
+We define a simple HTTP GET request to path `/devops/health` of port 8080.
+That endpoint is coded to check that the server and database connection
+is healthy and responses status code 200 or 500 accordingly.
 After starting the container, OpenShift makes this request and expects
 a non-faulty response code (200 or similar).
 
-For `env` and `envFrom` parts, we first need to talk about other things.
-We will come back to these later in this documentation. TODO
+For `env` and `envFrom` parts, we define environment variables
+that are passed to the container.
+We place plaintext (that is, non-secret) variables in `env`.
+Note that we can use other environment variables with `$(VAR_NAME)` notation.
+
+In `envFrom` section, we tell OpenShift to load environment variables
+from a secret.
+Secrets are created similarly to [automatic build configuration](#automatic-build),
+but this time instead of creating Webhook secret, we use "Key/value secret".
+Here we can define multiple key-value pairs
+(keys `POSTGRES_PASSWORD`, `SECRET_KEY` and `DATABASE_ENCRYPTION_KEY` in our case)
+in one secret (called `ruokasovellus-staging`).
 
 
 ## Service
@@ -196,9 +222,9 @@ but it is not possible to access the pod directly from the outside
 We need to define a **service** for our pod to interact with it.
 
 We declare `Service` configuration
-in [`openshift/service.yaml`](../openshift/service.yaml).
+in [`openshift/staging-service.yaml`](../openshift/staging-service.yaml).
 
-In `metadata.name` we name this service `ruokasovellus-service`.
+In `metadata.name` we name this service `ruokasovellus-staging-service`.
 This is important later when we want pods to communcate with each other.
 
 In `spec.ports` we tell OpenShift that whenever a request is made to
@@ -212,8 +238,13 @@ Cool, now we have an automated build, a deployment and a service for it.
 If we had multiple pods, they could now communicate with each other.
 However, for security reasons, we can not reach the pod from the Internet
 without further configuration.
-We need to add `Route` configuration for our service
-in [`openshift/route.yaml`](../openshift/route.yaml).
+We need to add `Route` configuration for our service.
+
+For cleaner repository, we place this small configuration into existing
+[`openshift/staging-service.yaml`](../openshift/staging-service.yaml) file.
+This is possible when configs are separated with three dashes `---`.
+The placement of the configurations is not very important, but can be used
+to keep the repository clean the same way code is split across multiple files.
 
 In `spec.host` we define the domain where we want our service to appear at.
 In `spec.to` we define the service that the route points to
@@ -228,7 +259,7 @@ for the database.
 
 Whenever we want to add a new pod,
 we need to add a new `Deployment` configuration
-(in [`openshift/db-deployment.yaml`](../openshift/db-deployment.yaml)).
+(in [`openshift/staging-db.yaml`](../openshift/staging-db.yaml)).
 It looks almost the same as the deployment of our server with a few exceptions.
 
 This time, we do not want to use image stream in `containers[0].image`,
@@ -239,13 +270,10 @@ The `POSTGRES_DB` variable has a constant value `ruokasovellus` that is not
 sensitive, so it can be written directly to the YAML file.
 
 `POSTGRES_PASSWORD` env variable, on the other hand, is sensitive, so we
-pass it as a secret reference similarly to the secret in automatic build webhook.
-The secret can be created in the web interface by navigating to Secrets and
-clicking Create > Key/value secret.
-In our case, the secret name is `ruokasovellus-db-password`,
-key is `POSTGRES_PASSWORD` and value is the database password.
-
-Similarly we add another secret env variable `SECRET_KEY` needed by our server.
+pass it as a secret reference.
+Note that this time we only want one key from the key-value secret,
+so instead of using `envFrom` like in server deployment,
+we use `env[0].valueFrom.secretKeyRef` and give it the key that we want to pull.
 
 In `spec.strategy` we tell OpenShift how to apply updates.
 `maxSurge` and `maxUnavailable` make sure that all of the existing pods are
@@ -270,7 +298,7 @@ Next, we need to connect our PVC to the database.
 In the database deployment configuration, we can give our pod the right to use
 the volume in `spec.template.spec.volumes`.
 The `claimName` must match the name that you chose for your PVC earlier.
-`volumes[0].name` can be choosed freely (`ruokasovellus-db-storage` in our case).
+`volumes[0].name` can be choosed freely (`ruokasovellus-db-staging-storage` in our case).
 
 Now our pod can use the volume but we still need to instruct Postgres to
 place its files there.
@@ -299,11 +327,14 @@ Obviously, we want our server pod to be able to make queries to the database,
 so we need to setup a service for the database deployment.
 
 The service is very similar to the one created for the server pod earlier.
-This time, however, we place the `Service` configuration to the same file with
-`Deployment` configuration.
-This is possible when they are separated with three dashes `---`.
-The placement of the configurations is not very important, but can be used
-to keep the repository clean the same way code is split across multiple files.
+Like earlier, we place this tiny configuration to
+the same file with a triple-dash separator.
+
+**Note** that for the database we do not define a route.
+This is because route would make the database available to the Internet,
+which we don't want to happen.
+(Of course the database would still be protected with a password,
+but better safe than sorry.)
 
 ### Formatting the database
 
@@ -316,7 +347,7 @@ oc get pods
 ```
 
 From the output pick the name of your database pod
-(in our case it is something like `ruokasovellus-db-xxxxxxxxxx-xxxxx`).
+(in our case it is something like `ruokasovellus-db-staging-xxxxxxxxxx-xxxxx`).
 
 Then run the following two commands:
 
@@ -330,21 +361,81 @@ The second command runs `psql` command on the pod.
 You may need to modify the arguments given to `psql` command according to your
 database setup (database name etc.).
 
-### Changes to server deployment
+**Note:** If you want to modify the database schema of an existing database,
+in the web interface navigate to the running pod, then Terminal, run
 
-Finally, we need to make a couple of changes to our server deployment to make
-it connect with the database.
-First, in the `containers[0].envFrom` we use the same secret as the database
-deployment to load the database password to
-an environment variable `POSTGRES_PASSWORD`.
-Next, in `containers[0].env` we define `BACKEND_POSTGRES_URL` env variable
-and use the `POSTGRES_PASSWORD` env variable loaded earlier in it to form
-a complete Postgres connection URL.
+```sh
+psql -U postgres -d dbname
+```
+
+and then you can run regular SQL commands.
 
 
-And that's it! Now you have a fully functional server that connects to
-the database and is accessible from the Internet. Congratulations!
+## Production server and database
 
+Now that you have a staging server running,
+let's see how production differs from that.
+
+The key difference is that we don't want production to automatically
+update the image whenever the build finishes.
+Instead, we want start the rollout of the server
+whenever a new GitHub release is published.
+
+Let's start by creating a duplicate of deployment, service, route, database,
+persistent volume claim and secrets with `prod` prefix/suffix.
+Note that we don't want to have multiple builds or image streams
+as we want to reuse the built image from staging to production.
+
+To be able to update server on GitHub releases,
+we need to create a new GitHub Actions workflow in
+[`.github/workflows/release.yaml](../.github/workflows/release.yaml).
+
+In the first workflow step, we want to log in to our OpenShift server.
+However, it would be some extremely bad practise to use the credentials of
+some of the team members, so we want to create a new user for this.
+In the web interface, switch to Administrator mode, and then navigate to
+User Management, ServiceAccounts and Create ServiceAccount.
+In the YAML editor, write this configuration:
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: github-deployer-sa
+  namespace: ruokasovellus
+```
+
+Next, under User Management go to RoleBindings to grant the new account
+access to our project.
+Click Create binding, enter a nice name for the binding and set
+namespace to your project.
+From the role dropdown select `edit` and in the subject section select
+the freshly created service account.
+
+Next, back in Developer mode, navigate to Secrets and find a secret called
+something like `github-deployer-sa-token-xxxxx`.
+Copy the token of this secret as it is what we need
+to use this account to manage our production server.
+
+Back in the first step of the GitHub workflow,
+we pass the copied token using GitHub secrets.
+For the OpenShift server URL, we give the output of command
+
+```sh
+oc whoami --show-server
+```
+
+In the last step, we run command
+
+```sh
+oc set image deployment/ruokasovellus-prod ruokasovellus=ruokasovellus:latest --source=imagestreamtag
+```
+
+which starts reroll of our production server.
+Here `ruokasovellus-prod` is the value of
+`metadata.name` field in our deployment configuration.
+The first `ruokasovellus` refers to the container name in that deployment
+and `ruokasovellus:latest` matches `spec.output.to.name` of our build config.
 
 ## Helps for debugging
 
