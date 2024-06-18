@@ -152,6 +152,7 @@ const CreateMealForm = ({
                     } else {
                         handleSuccess(setCreateSuccess);
                     }
+                    formik.resetForm();
                 } catch (err) {
                     if (isEditing) {
                         handleSuccess(setUpdateError);
@@ -160,7 +161,6 @@ const CreateMealForm = ({
                     }
                     setFormError(err.message);
                 }
-                formik.resetForm();
             } else {
                 setFormError(
                     'At least one ingredient with weight required'
@@ -516,7 +516,6 @@ const CreateMeal = (props) => {
         const formattedPrice = formatPrice(values.price);
 
         const formattedValues = {
-            imageUri: values.imageUri,
             ingredients: values.ingredients,
             mealDescription: values.mealDescription,
             mealName: values.mealName,
@@ -544,7 +543,7 @@ const CreateMeal = (props) => {
             }
             await axios.post(
                 `${apiUrl}/meals/images/${mealId}`,
-                formattedValues.imageUri,
+                values.imageUri,
                 {
                     headers: {
                         'Content-Type': 'image/jpeg'
