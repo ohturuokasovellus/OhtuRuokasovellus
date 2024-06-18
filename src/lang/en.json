@@ -143,6 +143,7 @@
         "EDIT_MEAL": "Edit meal",
         "MEAL_UPDATED": "Meal updated succesfully!",
         "MEAL_NOT_UPDATED": "Error occured, meal not created.",
-        "DOWNLOAD": "Download"
+        "DOWNLOAD": "Download",
+        "UNAUTHORIZED": "You are not authorized to view this content"
     }
 }
