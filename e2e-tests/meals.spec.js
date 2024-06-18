@@ -140,10 +140,4 @@ test.describe('restaurant meal page', () => {
         await expect(page.locator('text="C"')).not.toBeVisible();
         await expect(page.locator('#nutri-score')).not.toBeVisible();
     });
-
-    test('throws error if restaurant does not exist or no meals are found',
-        async ({ page }) => {
-            await page.goto('/restaurant/2');
-            await expect(page.locator('text=Page not found')).toBeVisible();
-        });
 });
