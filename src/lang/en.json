@@ -151,6 +151,7 @@
         "SOMEWHAT_UNIMPORTANT": "Somewhat unimportant",
         "IN_THE_MIDDLE": "In the middle",
         "SOMEWHAT_IMPORTANT": "Somewhat important",
-        "VERY_IMPORTANT": "Very important"
+        "VERY_IMPORTANT": "Very important",
+        "SUBMIT": "Submit"
     }
 }

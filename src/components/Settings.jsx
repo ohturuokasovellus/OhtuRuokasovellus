@@ -152,7 +152,7 @@ const SelfEvaluationSlider = ({ styles, token }) => {
                 </Text>
             </View>
             <Button
-                styles={styles} text="submit"
+                styles={styles} text={t('SUBMIT')}
                 onPress={() => handleEvalSubmit()}
             />
             {error && <Text style={styles.error}>{error}</Text>}

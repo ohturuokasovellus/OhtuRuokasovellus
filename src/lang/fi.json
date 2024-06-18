@@ -151,6 +151,7 @@
         "SOMEWHAT_UNIMPORTANT": "Jokseenkin merkityksetön",
         "IN_THE_MIDDLE": "Keskellä",
         "SOMEWHAT_IMPORTANT": "Jokseenkin merkityksellinen",
-        "VERY_IMPORTANT": "Erittäin merkityksellinen"
+        "VERY_IMPORTANT": "Erittäin merkityksellinen",
+        "SUBMIT": "Lähetä"
     }
 }
