@@ -142,32 +142,17 @@ router.get('/api/meals/images/:id', async (req, res) => {
 });
 
 /**
- * Route for fetching restaurant specific meals in chunks.
+ * Route for fetching restaurant specific meals.
  * @param {Object} req - The request object.
  * @param {number} req.params.restaurantId - Restaurant id.
  * @param {Object} res - The response object.
- * @returns {Object} 404 - No meals/restaurant found.
  */
-router.get('/api/meals/stream/:restaurantId', async (req, res) => {
+router.get('/api/meals/:restaurantId', async (req, res) => {
     try {
         const result = await getMeals(req.params.restaurantId);
-        if (result.length === 0){
-            return res.json(result);
-        }
-
-        res.setHeader('Content-Type', 'application/json');
-        res.setHeader('Transfer-Encoding', 'chunked');
-
-        let counter = 0;
-        const interval = setInterval(() => {
-            res.write(JSON.stringify({ data: result[counter] }));
-            counter++;
-            if (counter === result.length) { // Stop after sending all data
-                clearInterval(interval);
-                res.end();
-            }
-        }, 50); // Sends a new chunk every 50 milliseconds
-    } catch (error){
+        res.json(result);
+    }
+    catch (error) {
         console.error(error);
         return res.status(500).send('unexpected internal server error');
     }
