@@ -24,7 +24,7 @@ const MealDeletion = () => {
     const fetchMeals = async () => {
         try {
             const response = await axios.get(
-                `${apiUrl}/meals/${userSession.restaurantId}`,
+                `${apiUrl}/less-info-meals/${userSession.restaurantId}`,
             );
             const responseMeals = response.data;
             setMeals(responseMeals);

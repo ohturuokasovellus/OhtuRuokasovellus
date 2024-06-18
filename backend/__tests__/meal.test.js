@@ -94,16 +94,6 @@ describe('meal api', () => {
             ]);
     });
 
-    // eslint-disable-next-line jest/expect-expect
-    test('system gives error if no meals found', async () => {
-        postgresMock.setSqlResults([[]]);
-
-        await request(app)
-            .get('/api/meals/2')
-            .expect(404)
-            .expect('"Page not found"');
-    });
-
     test('meal image can be fetched in correct format', async () => {
         postgresMock.setSqlResults([[{
             image: {

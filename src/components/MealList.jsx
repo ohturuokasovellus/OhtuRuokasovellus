@@ -22,7 +22,7 @@ import createStyles from '../styles/styles';
  */
 const MealList = () => {
     const {t} = useTranslation();
-    const { restId } = useParams();
+    const { restaurantId } = useParams();
     const [selectedMeals, setSelectedMeals] = useState([]);
     const [meals, setMeals] = useState([]);
     const [restaurantName, setRestaurantName] = useState(null);
@@ -34,26 +34,30 @@ const MealList = () => {
     const { colors } = useContext(themeContext);
 
     const fetchMeals = async () => {
+        let response = null;
         try {
-            const response = await axios.get(`${apiUrl}/meals/${restId}`);
-            const responseMeals = response.data;
-            const updatedMeals = await Promise.all(
-                responseMeals.map(async (meal) => {
-                    const imageRes = await axios.get(
-                        `${apiUrl}/meals/images/${meal.meal_id}`
-                    );
-                    return {
-                        ...meal,
-                        image: imageRes.data,
-                    };
-                })
-            );
-            setRestaurantName(updatedMeals[0]?.restaurant_name || null);
-            return updatedMeals;
-        } catch (err) {
-            setError(err.response.data);
+            response = await axios.get(
+                `${apiUrl}/meals/${restaurantId}`);
+        } catch (error) {
+            setError(error.response.data);
             return [];
         }
+
+        let fetchedMeals = response.data;
+        let index = 0;
+        while (index < fetchedMeals.length) {
+            let meal = fetchedMeals[index];
+            try {
+                const image = await axios.get(
+                    `${apiUrl}/meals/images/${meal.meal_id}`);
+                fetchedMeals[index].image = image.data;
+                setMeals(fetchedMeals); 
+            } catch (error) {
+                console.log('Failed to update meal image:', meal, error);
+            }
+            index += 1;
+        }
+        return fetchedMeals;
     };
 
     const handlePress = (meal) => {
@@ -67,8 +71,8 @@ const MealList = () => {
         });
     };
 
-    const sortMeals = (meals, criteria, order) => {
-        return meals.sort((mealA, mealB) => {
+    const sortMeals = (mealsToBeSorted, criteria, order) => {
+        return mealsToBeSorted.sort((mealA, mealB) => {
             if (order === 'asc') {
                 return mealA[criteria] - mealB[criteria];
             } else {
@@ -81,9 +85,11 @@ const MealList = () => {
         const fetchAndSortMeals = async () => {
             const fetchedMeals = await fetchMeals();
             setMeals(sortMeals(fetchedMeals, sortCriteria, sortOrder));
+            setRestaurantName(fetchedMeals[0]?.restaurant_name || null);
         };
+
         fetchAndSortMeals();
-    }, []);
+    }, [restaurantId]);
 
     const handleSortChange = (criteria, order) => {
         setSortCriteria(criteria);
@@ -98,7 +104,7 @@ const MealList = () => {
             </View>
         );
     }
-
+    
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
