@@ -76,6 +76,7 @@ const DataRemoval = ({ styles, token }) => {
 
 const SelfEvaluationSlider = ({ styles, token }) => {
     const { t } = useTranslation();
+    const [error, setError] = useState(null);
 
     const [climateValue, setClimateValue] = useState(3);
     const [nutritionValue, setNutritionValue] = useState(3);
@@ -89,8 +90,22 @@ const SelfEvaluationSlider = ({ styles, token }) => {
         t('VERY_IMPORTANT')
     ];
 
-    const handleEvalSubmit = () => {
-        return;
+    const handleEvalSubmit = async () => {
+        setError(null);
+        try {
+            await axios.post(
+                `${apiUrl}/evaluation`,
+                { climateValue, nutritionValue },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+        } catch (err) {
+            console.error(err);
+            setError(t('FAILED_TO_SUBMIT_EVALUATION'));
+        }
     };
     
     return (
@@ -138,8 +153,9 @@ const SelfEvaluationSlider = ({ styles, token }) => {
             </View>
             <Button
                 styles={styles} text="submit"
-                onPress={() => console.log('pressed')}
+                onPress={() => handleEvalSubmit()}
             />
+            {error && <Text style={styles.error}>{error}</Text>}
         </View>
     );
 };
