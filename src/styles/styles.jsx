@@ -534,12 +534,6 @@ const createStyles = () => {
             color: colors.outline,
             fontFamily: 'Roboto-Regular',
         },
-        checkboxIcon:{
-            borderColor: colors.onSurface,
-        },
-        checkedIcon: {
-            backgroundColor: colors.secondary,
-        },
 
         // nutriscore
         nutriscoreContainer: {

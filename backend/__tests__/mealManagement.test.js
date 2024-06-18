@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable jest/no-mocks-import*/
-/* eslint-disable jest/expect-expect */
+/* eslint-disable jest/expect-expect*/
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const app = require('../app');
@@ -72,7 +72,7 @@ describe('meal management api', () => {
                 .expect(200)
                 .expect('"Meal deleted"');
         });
-    
+
     test('fetches meal information correctly to update meal page',
         async () => {
             postgresMock.setSqlResults([
@@ -103,7 +103,7 @@ describe('meal management api', () => {
                     }]
                 });
         });
-    
+
     test('gives error when trying to edit meal if \
         restaurant user is not meal owner',
     async () => {
@@ -132,7 +132,7 @@ describe('meal management api', () => {
                 .expect(401)
                 .expect('"Unauthorized"');
         });
-    
+
     test('updates meal if authorized and restaurant user is owner of the meal',
         async () => {
             postgresMock.setSqlResults([
@@ -151,7 +151,7 @@ describe('meal management api', () => {
                 .set(headers)
                 .expect(200);
         });
-    
+
     test('gives error after submitting edited meal if not authorized',
         async () => {
             postgresMock.setSqlResults([
@@ -174,7 +174,7 @@ describe('meal management api', () => {
                 .expect(401)
                 .expect('"Unauthorized"');
         });
-    
+
     test('gives error if error occured while updating meal in database',
         async () => {
             postgresMock.setSqlResults([

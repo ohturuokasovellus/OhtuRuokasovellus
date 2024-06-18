@@ -14,8 +14,14 @@ router.post('/api/remove-account', express.json(), async (req, res) => {
         return res.status(401).json({ error: 'unauthorized' });
     }
 
-    if (!(await checkPassword(decodedToken.userId, hash(password)))) {
-        return res.status(401).json({ error: 'incorrect password' });
+    try {
+        if (!(await checkPassword(decodedToken.userId, hash(password)))) {
+            return res.status(401).json({ error: 'incorrect password' });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ errorMessage: 'user creation failed' });
     }
 
     try {
