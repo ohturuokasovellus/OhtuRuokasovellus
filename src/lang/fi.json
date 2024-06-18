@@ -152,6 +152,8 @@
         "IN_THE_MIDDLE": "Keskellä",
         "SOMEWHAT_IMPORTANT": "Jokseenkin merkityksellinen",
         "VERY_IMPORTANT": "Erittäin merkityksellinen",
-        "SUBMIT": "Lähetä"
+        "SUBMIT": "Lähetä",
+        "EVALUATION_SENT": "Itsearviointi lähetetty",
+        "FAILED_TO_SUBMIT": "Lähetys epäonnistui"
     }
 }

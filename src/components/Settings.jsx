@@ -74,9 +74,10 @@ const DataRemoval = ({ styles, token }) => {
     );
 };
 
-const SelfEvaluationSlider = ({ styles, token }) => {
+const SelfEvaluationForm = ({ styles, token }) => {
     const { t } = useTranslation();
     const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
 
     const [climateValue, setClimateValue] = useState(3);
     const [nutritionValue, setNutritionValue] = useState(3);
@@ -102,9 +103,10 @@ const SelfEvaluationSlider = ({ styles, token }) => {
                     },
                 }
             );
+            setSuccess(t('EVALUATION_SENT'));
         } catch (err) {
             console.error(err);
-            setError(t('FAILED_TO_SUBMIT_EVALUATION'));
+            setError(t('FAILED_TO_SUBMIT'));
         }
     };
     
@@ -156,6 +158,7 @@ const SelfEvaluationSlider = ({ styles, token }) => {
                 onPress={() => handleEvalSubmit()}
             />
             {error && <Text style={styles.error}>{error}</Text>}
+            {success && <Text style={styles.success}>{success}</Text>}
         </View>
     );
 };
@@ -178,7 +181,7 @@ const Settings = () => {
         <ScrollView style={styles.background}>
             <View style={styles.container}>
                 <Text style={styles.h1}>{t('SETTINGS')}</Text>
-                <SelfEvaluationSlider
+                <SelfEvaluationForm
                     styles={styles} token={userSession.token}
                 />
                 <DataRemoval styles={styles} token={userSession.token} />

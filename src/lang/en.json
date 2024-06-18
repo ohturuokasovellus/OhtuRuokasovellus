@@ -152,6 +152,8 @@
         "IN_THE_MIDDLE": "In the middle",
         "SOMEWHAT_IMPORTANT": "Somewhat important",
         "VERY_IMPORTANT": "Very important",
-        "SUBMIT": "Submit"
+        "SUBMIT": "Submit",
+        "EVALUATION_SENT": "Evaluation sent",
+        "FAILED_TO_SUBMIT": "Failed to submit"
     }
 }

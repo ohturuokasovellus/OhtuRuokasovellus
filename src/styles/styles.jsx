@@ -84,6 +84,12 @@ const createStyles = () => {
             marginBottom: 8,
             fontFamily: 'Roboto-Bold',
         },
+        success: {
+            fontSize: 14,
+            color: 'green',
+            marginBottom: 8,
+            fontFamily: 'Roboto-Bold',
+        },
         link: {
             fontSize: 16,
             color: colors.primary,
