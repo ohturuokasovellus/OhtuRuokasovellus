@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable jest/no-mocks-import*/
+/* eslint-disable jest/expect-expect */
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const app = require('../app');
-// eslint-disable-next-line jest/no-mocks-import
 const postgresMock = require('../__mocks__/postgres');
 
 const token = jwt.sign({ username: 'test', userId: 1, restaurantId: 1 },
