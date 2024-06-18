@@ -20,21 +20,20 @@ Note that you also need to have set the [`E2ETEST_POSTGRES_URL` environment vari
 
 The app requires a secret key to function – you can set this by adding `SECRET_KEY = your-secret-key-here` to the `.env` file.
 
-### Container
+### Docker
 
-To build a Docker image, run
+For easier development, the server and its database can be started with Docker.
+Make sure that you have `SECRET_KEY` and `DATABASE_ENCRYPTION_KEY`
+set in your `.env` file and then run
 
-```
-docker build -t ruokasovellus .
-```
-
-then the image can be started with
-
-```
-docker run -p 8080:8080 ruokasovellus
+```sh
+POSTGRES_PASSWORD=yourpassword docker compose up --build
 ```
 
-The first `8080` can be changed to customize the port that the server listens to.
+If you want to use `psql` with this database,
+just pass additional `-h localhost` flag to every command.
+If you want to reset the database, just remove `database/` directory
+and restart the Docker compose.
 
 ## Definition of Done:
 
