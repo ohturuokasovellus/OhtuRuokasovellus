@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable jest/no-mocks-import*/
+/* eslint-disable jest/expect-expect*/
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const app = require('../app');
@@ -16,7 +17,6 @@ describe('meal management api', () => {
         return postgresMock.clearDatabase(); // why is this being returned?
     });
 
-    // eslint-disable-next-line jest/expect-expect
     test('gives error if unauthorized', async () => {
         postgresMock.setSqlResults([
             [{ restaurant_id: 1 }],
@@ -32,7 +32,6 @@ describe('meal management api', () => {
 
     });
 
-    // eslint-disable-next-line jest/expect-expect
     test('gives error if user is not the owner of the meal',async () => {
         postgresMock.setSqlResults([
             [{ restaurant_id: 2 }],
@@ -46,7 +45,6 @@ describe('meal management api', () => {
             .expect('Unauthorized');
     });
 
-    // eslint-disable-next-line jest/expect-expect
     test('gives error if database did not update',
         async () => {
             postgresMock.setSqlResults([
@@ -61,7 +59,6 @@ describe('meal management api', () => {
                 .expect({ errorMessage: 'Meal deletion failed'});
         });
 
-    // eslint-disable-next-line jest/expect-expect
     test('sets meal to inactive if authorized and user is meal owner',
         async () => {
             postgresMock.setSqlResults([
@@ -75,8 +72,7 @@ describe('meal management api', () => {
                 .expect(200)
                 .expect('"Meal deleted"');
         });
-    
-    // eslint-disable-next-line jest/expect-expect
+
     test('fetches meal information correctly to update meal page',
         async () => {
             postgresMock.setSqlResults([
@@ -107,8 +103,7 @@ describe('meal management api', () => {
                     }]
                 });
         });
-    
-    // eslint-disable-next-line jest/expect-expect
+
     test('gives error when trying to edit meal if \
         restaurant user is not meal owner',
     async () => {
@@ -123,7 +118,6 @@ describe('meal management api', () => {
             .expect('"Unauthorized"');
     });
 
-    // eslint-disable-next-line jest/expect-expect
     test('gives error when trying to edit meal if wrong user token',
         async () => {
             postgresMock.setSqlResults([
@@ -139,7 +133,6 @@ describe('meal management api', () => {
                 .expect('"Unauthorized"');
         });
 
-    // eslint-disable-next-line jest/expect-expect
     test('updates meal if authorized and restaurant user is owner of the meal',
         async () => {
             postgresMock.setSqlResults([
@@ -158,8 +151,7 @@ describe('meal management api', () => {
                 .set(headers)
                 .expect(200);
         });
-    
-    // eslint-disable-next-line jest/expect-expect
+
     test('gives error after submitting edited meal if not authorized',
         async () => {
             postgresMock.setSqlResults([
@@ -182,8 +174,7 @@ describe('meal management api', () => {
                 .expect(401)
                 .expect('"Unauthorized"');
         });
-    
-    // eslint-disable-next-line jest/expect-expect
+
     test('gives error if error occured while updating meal in database',
         async () => {
             postgresMock.setSqlResults([
