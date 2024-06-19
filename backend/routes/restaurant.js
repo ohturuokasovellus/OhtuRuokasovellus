@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getRestaurantName } = require('../databaseScripts/restaurant');
+const { getRestaurantName } = require('../utils/restaurant');
 
 /**
  * Route for fetching restaurant name.
