@@ -3,11 +3,7 @@ const { sql } = require('../database');
 /**
  * Fetch all meal emissions from database.
  * @param {number} restaurantId
- * @returns {Promise<{ 
-*      meal_id: number, 
-*      meal_name: string, 
-*      purchase_code: string,
-*  }[]>}
+ * @returns {Promise<{restaurant_name: string}>|[]}
 */
 const getRestaurantName = async (restaurantId) => {
     const result = await sql`

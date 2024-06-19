@@ -21,41 +21,24 @@ const RestaurantComparison = () => {
     const [restaurantName, setrestaurantName] = useState('');
     const [allEmissions, setAllEmissions] = useState(0);
     const [ownEmissions, setOwnEmissions] = useState(0);
-    const [restaurantId, setRestaurantId] = useState(null);
     const userSession = getSession();
     const navigate = useNavigate();
 
-    if (!userSession || !restaurantId){
+    if (!userSession){
         navigate('/login');
     }
-
-    useEffect(() => {
-        const getRestaurantId = async () => {
-            try{
-                const response = await axios.get(
-                    `${apiUrl}/getRestaurantId`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${userSession.token}`,
-                        },
-                    }
-                );
-                setRestaurantId(response.data.restaurantId);
-            }
-            catch(error){
-                console.log(error);
-            }
-        };
-
-        getRestaurantId();
-    }, []);
 
     useEffect(() => {
         const getRestaurantName = async () => {
             let response = null;
             try {
-                response = await axios.get(
-                    `${apiUrl}/restaurant-name/${restaurantId}`);
+                response = await axios.get(`${apiUrl}/restaurant-name/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${userSession.token}`,
+                        },
+                    });
+                if (!response.data) return;
                 setrestaurantName(response.data[0].restaurant_name);
             } catch (error) {
                 console.log(error);
@@ -65,16 +48,21 @@ const RestaurantComparison = () => {
         const getMealEmissions = async () => {
             let response = null;
             try {
-                response = await axios.get(
-                    `${apiUrl}/all-meal-emissions/${restaurantId}`);
+                response = await axios.get(`${apiUrl}/all-meal-emissions/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${userSession.token}`,
+                        },
+                    });
                 
                 let index = 0;
                 let ownMealsCounter = 0;
-                while (index < response.data.length) {
-                    let meal = response.data[index];
+                const emissions = response.data.emissions;
+                while (index < emissions.length) {
+                    let meal = emissions[index];
                     setAllEmissions(previousValue => 
                         previousValue + Number(meal.co2_emissions));
-                    if (meal.restaurant_id == restaurantId) {
+                    if (meal.restaurant_id == response.data.restaurantId) {
                         ownMealsCounter += 1;
                         setOwnEmissions(previousValue => 
                             previousValue + Number(meal.co2_emissions));
@@ -90,11 +78,10 @@ const RestaurantComparison = () => {
             }
         };
 
-        if(restaurantId){
-            getRestaurantName();
-            getMealEmissions();
-        }
-    }, [restaurantId]);
+
+        getRestaurantName();
+        getMealEmissions();
+    }, []);
 
     const chartData = {
         labels: [restaurantName, 'All restaurants'],

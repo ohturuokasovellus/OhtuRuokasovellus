@@ -12,7 +12,6 @@ const pageURLRouter = require('./routes/webpageURL');
 const settingsRouter = require('./routes/settings');
 const devopsRouter = require('./routes/devops');
 const restaurantRouter = require('./routes/restaurant');
-const authorizationRouter = require('./routes/authorization');
 const path = require('path');
 const filesystem = require('fs');
 
@@ -31,7 +30,6 @@ app.use(pageURLRouter);
 app.use(settingsRouter);
 app.use(devopsRouter);
 app.use(restaurantRouter);
-app.use(authorizationRouter);
 
 const assetsPath = path.join(__dirname, 'assets');
 app.use(express.static(assetsPath, { index: false }));

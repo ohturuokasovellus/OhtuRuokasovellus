@@ -310,10 +310,15 @@ router.put('/api/meals/update/:mealId', express.json(), async (req, res) => {
  * @param {number} req.params.restaurantId - Restaurant id.
  * @param {Object} res - The response object.
  */
-router.get('/api/all-meal-emissions/:restaurantId', async (req, res) => {
+router.get('/api/all-meal-emissions/', async (req, res) => {
+    const userInfo = verifyToken(req.header('Authorization'));
+    if (!userInfo) {
+        return res.status(401).send('unauthorized');
+    }
+
     try {
-        const result = await getAllMealEmissions(req.params.restaurantId);
-        res.json(result);
+        const result = await getAllMealEmissions();
+        res.json({emissions: result, restaurantId: userInfo.restaurantId});
     }
     catch (error) {
         console.error(error);
