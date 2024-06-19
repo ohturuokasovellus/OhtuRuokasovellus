@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
-import { useTranslation } from 'react-i18next';
 import { getSession } from '../controllers/sessionController';
+import { useNavigate } from '../Router';
 import createStyles from '../styles/styles';
 import apiUrl from '../utils/apiUrl';
 
@@ -19,25 +19,36 @@ const chartConfig = {
 const RestaurantComparison = () => {
     const styles = createStyles();
     const [restaurantName, setrestaurantName] = useState('');
-    const [error, setError] = useState(null);
     const [allEmissions, setAllEmissions] = useState(0);
     const [ownEmissions, setOwnEmissions] = useState(0);
+    const [restaurantId, setRestaurantId] = useState(null);
     const userSession = getSession();
-    const {t} = useTranslation();
+    const navigate = useNavigate();
 
-    if (!userSession || !userSession.restaurantId){
-        return (
-            <ScrollView style={styles.background}>
-                <View style={styles.container} id='unauthorized-view'>
-                    <Text style={styles.body}>
-                        {t('UNAUTHORIZED')}
-                    </Text>
-                </View>
-            </ScrollView>
-        );
+    if (!userSession || !restaurantId){
+        navigate('/login');
     }
 
-    const restaurantId = userSession.restaurantId;
+    useEffect(() => {
+        const getRestaurantId = async () => {
+            try{
+                const response = await axios.get(
+                    `${apiUrl}/getRestaurantId`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${userSession.token}`,
+                        },
+                    }
+                );
+                setRestaurantId(response.data.restaurantId);
+            }
+            catch(error){
+                console.log(error);
+            }
+        };
+
+        getRestaurantId();
+    }, []);
 
     useEffect(() => {
         const getRestaurantName = async () => {
@@ -47,7 +58,7 @@ const RestaurantComparison = () => {
                     `${apiUrl}/restaurant-name/${restaurantId}`);
                 setrestaurantName(response.data[0].restaurant_name);
             } catch (error) {
-                setError(t('UNEXPECTED_ERROR'));
+                console.log(error);
             }
         };
 
@@ -56,6 +67,7 @@ const RestaurantComparison = () => {
             try {
                 response = await axios.get(
                     `${apiUrl}/all-meal-emissions/${restaurantId}`);
+                
                 let index = 0;
                 let ownMealsCounter = 0;
                 while (index < response.data.length) {
@@ -74,21 +86,15 @@ const RestaurantComparison = () => {
                 setAllEmissions(previousValue => 
                     previousValue / response.data.length);
             } catch (error) {
-                setError(t('UNEXPECTED_ERROR'));
+                console.log(error);
             }
         };
-        
-        getRestaurantName();
-        getMealEmissions();
-    }, []);
 
-    if (error) {
-        return (
-            <View id='error-view'>
-                <Text style={styles.error}>{error}</Text>
-            </View>
-        );
-    }
+        if(restaurantId){
+            getRestaurantName();
+            getMealEmissions();
+        }
+    }, [restaurantId]);
 
     const chartData = {
         labels: [restaurantName, 'All restaurants'],
