@@ -57,16 +57,22 @@ const RestaurantComparison = () => {
                 response = await axios.get(
                     `${apiUrl}/all-meal-emissions/${restaurantId}`);
                 let index = 0;
+                let ownMealsCounter = 0;
                 while (index < response.data.length) {
                     let meal = response.data[index];
                     setAllEmissions(previousValue => 
                         previousValue + Number(meal.co2_emissions));
                     if (meal.restaurant_id == restaurantId) {
+                        ownMealsCounter += 1;
                         setOwnEmissions(previousValue => 
                             previousValue + Number(meal.co2_emissions));
                     }
                     index += 1;
                 }
+                setOwnEmissions(previousValue => 
+                    previousValue / ownMealsCounter);
+                setAllEmissions(previousValue => 
+                    previousValue / response.data.length);
             } catch (error) {
                 setError(t('UNEXPECTED_ERROR'));
             }
