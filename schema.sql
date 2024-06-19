@@ -20,7 +20,8 @@ CREATE TABLE users (
     gender TEXT,
     education TEXT,
     income TEXT,
-    restaurant_id INT REFERENCES restaurants DEFAULT NULL
+    restaurant_id INT REFERENCES restaurants DEFAULT NULL,
+    is_admin BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE meals (

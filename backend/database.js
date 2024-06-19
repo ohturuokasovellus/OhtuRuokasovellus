@@ -75,7 +75,7 @@ const getUser = async (username, password) => {
     const result = await sql`
         SELECT user_id, pgp_sym_decrypt(username::bytea, 
             ${process.env.DATABASE_ENCRYPTION_KEY}) AS username, 
-            password, restaurant_id FROM users
+            password, restaurant_id, is_admin FROM users
         WHERE pgp_sym_decrypt(username::bytea, 
             ${process.env.DATABASE_ENCRYPTION_KEY}) 
             = ${username} AND username IS NOT NULL AND password IS NOT NULL;
@@ -90,6 +90,7 @@ const getUser = async (username, password) => {
         userId: result[0].user_id,
         username: result[0].username,
         restaurantId: result[0].restaurant_id,
+        isAdmin: result[0].is_admin
     };
 };
 

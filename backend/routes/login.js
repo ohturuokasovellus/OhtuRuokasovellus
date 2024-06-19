@@ -34,10 +34,12 @@ router.post('/api/login', async (req, res) => {
             .send(
                 {
                     token: createToken(
-                        user.username, user.userId, user.restaurantId
+                        user.username, user.userId, user.restaurantId,
+                        user.isAdmin
                     ),
                     username: user.username,
                     restaurantId: user.restaurantId,
+                    isAdmin: user.isAdmin,
                     message: 'Login succesful'
                 }
             );
