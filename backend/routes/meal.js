@@ -51,7 +51,7 @@ router.post('/api/meals', express.json(), async (req, res) => {
         return res.status(400).send('invalid meal name');
     }
     
-    else if (!loggedInUsersRestaurantId) {
+    if (!loggedInUsersRestaurantId) {
         return res.status(400).send('You do not have permissions to add meals');
     }
     
@@ -143,7 +143,7 @@ router.get('/api/meals/images/:id', async (req, res) => {
 });
 
 /**
- * Route for fetching restaurant specific meals in chunks.
+ * Route for fetching restaurant specific meals.
  * @param {Object} req - The request object.
  * @param {number} req.params.restaurantId - Restaurant id.
  * @param {Object} res - The response object.
