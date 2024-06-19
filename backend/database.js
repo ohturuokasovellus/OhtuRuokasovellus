@@ -540,7 +540,8 @@ const setEvaluationMetric = async (userId, evalKey, evalValue) => {
 */
 const getRestaurants = async () => {
     const result = await sql`
-       SELECT restaurant_id, name from restaurants;
+       SELECT restaurant_id, name from restaurants
+       WHERE is_active = TRUE;
    `;
     return result.map(row => ({
         restaurantId: row.restaurant_id,
@@ -559,6 +560,44 @@ const getRestaurantUsers = async (restaurantId) => {
         FROM users WHERE restaurant_id = ${restaurantId};
    `;
     return result;
+};
+
+/**
+ * Set restaurant to inactive
+ * @returns {Promise<Boolean>} if success 
+*/
+const setRestaurantToInactive = async (restaurantId) => {
+    const result = await sql`
+        UPDATE restaurants SET is_active = FALSE
+        WHERE restaurant_id = ${restaurantId};
+   `;
+    return result.count === 1;
+};
+
+/**
+ * Set meal to inactive.
+ * @param {number} mealId
+ * @returns {Promise<Boolean>} true if success
+ */
+const setRestaurantMealsToInactive = async (restaurantId) => {
+    const result = await sql`
+        UPDATE meals SET is_active = FALSE
+        WHERE restaurant_id = ${restaurantId};
+    `;
+    return result.count === 1;
+};
+
+/**
+ * query for deattaching users from restaurant
+ * @param {number} restaurantId
+ * @returns {Promise<Boolean>} true if success
+ */
+const deattachUsersFromRestaurant = async (restaurantId) => {
+    const result = await sql`
+        UPDATE users SET restaurant_id = NULL
+        WHERE restaurant_id = ${restaurantId};
+    `;
+    return result.count === 1;
 };
 
 module.exports = {
@@ -591,5 +630,8 @@ module.exports = {
     getMealIdsNamesPurchaseCodes,
     setEvaluationMetric,
     getRestaurants,
-    getRestaurantUsers
+    getRestaurantUsers,
+    setRestaurantToInactive,
+    setRestaurantMealsToInactive,
+    deattachUsersFromRestaurant
 };

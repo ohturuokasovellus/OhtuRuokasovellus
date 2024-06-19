@@ -1,6 +1,7 @@
 const express = require('express');
 const {
-    getRestaurants, getRestaurantUsers
+    getRestaurants, getRestaurantUsers, setRestaurantToInactive,
+    setRestaurantMealsToInactive, deattachUsersFromRestaurant
 } = require('../database');
 const { verifyToken } = require('../services/authorization');
 
@@ -48,7 +49,60 @@ router.get('/api/restaurant/:restaurantId/users', async (req, res) => {
     if (restaurantId) {
         try {
             const result = await getRestaurantUsers(restaurantId);
-            res.json(result);
+            res.status(200).json(result);
+        }
+        catch (error) {
+            console.error(error);
+            return res.status(500).send('unexpected internal server error');
+        }
+    } else {
+        return res.status(400).send('invalid restaurant id');
+    }
+});
+
+/**
+ * Route for deactivating restaurants
+ * @param {Object} req - The request object.
+ * @param {number} req.params.restaurantId
+ * @param {Object} res - The response object.
+ * @returns {Object} 401 - unauthorized.
+ * @returns {Object} 200 - success status.
+ */
+router.delete('/api/delete/restaurant/:restaurantId', async (req, res) => {
+    const userInfo = verifyToken(req.header('Authorization'));
+    if (!userInfo || !userInfo.isAdmin) {
+        return res.status(401).send('Unauthorized');
+    }
+    const restaurantId = req.params.restaurantId;
+
+    if (restaurantId) {
+        try {
+            const deletedRestaurant = await setRestaurantToInactive(
+                restaurantId
+            );
+            if (deletedRestaurant) {
+                const deletedMeals = await setRestaurantMealsToInactive(
+                    restaurantId
+                );
+                if (deletedMeals) {
+                    const deattachedUsers = await deattachUsersFromRestaurant(
+                        restaurantId
+                    );
+                    if (deattachedUsers) {
+                        return res.status(200).json('restaurant deleted');
+                    } else {
+                        return res.status(500).send(
+                            'users not deattached from restaurant'
+                        );
+                    }
+                } else {
+                    return res.status(500).send('restaurant meals not deleted');
+                }
+            } else {
+                return res.status(500).send(
+                    'restaurant not deleted'
+                );
+            }
         }
         catch (error) {
             console.error(error);

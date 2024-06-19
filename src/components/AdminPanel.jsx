@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
-import { Button, ButtonVariant } from './ui/Buttons';
+import { Text, View, ScrollView, Modal } from 'react-native';
+import { Button, DeleteButton, CancelButton } from './ui/Buttons';
 
 import { useTranslation } from 'react-i18next';
 import createStyles from '../styles/styles';
@@ -13,6 +13,8 @@ const AdminPanel = ({ user }) => {
     const [restaurants, setRestaurants] = useState([]);
     const [restaurantUsers, setRestaurantUsers] = useState([]);
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+    const [restaurantToDelete, setRestaurantToDelete] = useState(null);
+    const [showModal, setShowModal] = useState(false);
     const styles = createStyles();
 
     const headers = {
@@ -54,70 +56,102 @@ const AdminPanel = ({ user }) => {
     }, []);
 
 
-    const handleEditPress = (restaurantId) => {
-        setSelectedRestaurant(restaurantId);
+    const handleEditPress = ({ name, restaurantId }) => {
+        setSelectedRestaurant([restaurantId, name]);
         fetchRestaurantUsers(restaurantId);
     };
 
-    const RestaurantListContainer = () => {
-        return (
-            <ScrollView style={styles.background}>
-                <View style={styles.container}>
-                    <ScrollView style={styles.mealListContainer}>
-                        <Text style={styles.h3}>
-                            {t('MANAGE_RESTAURANTS')}
-                        </Text>
-                        {restaurants.length > 0 ? (
-                            restaurants.map((restaurant, index) => (
-                                <View
-                                    key={restaurant.restaurantId} 
-                                    style={styles.mealContainer}
-                                >
-                                    <View style={styles.mealContent}>
-                                        <Text style={styles.body}>
-                                            {restaurant.name}
-                                        </Text>
-                                        <View 
-                                            style={styles.managementButtons}
-                                        >
-                                            <Button
-                                                styles={styles}
-                                                onPress={
-                                                    () => handleEditPress(
-                                                        restaurant.restaurantId
-                                                    )
-                                                }
-                                                text={t('EDIT')}
-                                                id={`edit-button-${index}`}
-                                            />
-                                        </View>
-                                    </View>
-                                </View>
-                            ))
-                        ) : (
-                            <Text style={styles.body}>
-                                {t('NO_RESTAURANTS')}
-                            </Text>
-                        )}
-                    </ScrollView>
-                </View>
-            </ScrollView>
+    const confirmRestaurantDeletion = async () => {
+        if (!restaurantToDelete) return;
 
-        );
+        try {
+            await axios.delete(
+                `${apiUrl}/delete/restaurant/${restaurantToDelete}`,
+                { headers }
+            );
+            setRestaurants(
+                restaurants.filter(
+                    restaurant => restaurant.restaurantId !== restaurantToDelete
+                )
+            );
+        } catch (err) {
+            console.error(err);
+        }
+        setRestaurantToDelete(null);
+        setShowModal(false);
     };
 
-    const RestaurantEditContainer = () => (
-        <View style={styles.container}>
-            <Text style={styles.h3}>{t('EDIT_RESTAURANT_USERS')}</Text>
-            {restaurantUsers.length > 0 ? (
-                restaurantUsers.map((user, index) => (
-                    <View key={index} style={styles.mealContainer}>
-                        <Text style={styles.body}>{user.username}</Text>
+    const deleteRestaurantButtonId = (index) => 
+        `delete-restaurant-button-${index}`;
+
+    const RestaurantListContainer = () => (
+        <ScrollView style={styles.mealListContainer}>
+            <Text style={styles.h3}>
+                {t('MANAGE_RESTAURANTS')}
+            </Text>
+            {restaurants.length > 0 ? (
+                restaurants.map((restaurant, index) => (
+                    <View
+                        key={restaurant.restaurantId} 
+                        style={styles.mealContainer}
+                    >
+                        <View style={styles.mealContent}>
+                            <Text style={styles.body}>
+                                {restaurant.name}
+                            </Text>
+                            <View 
+                                style={styles.managementButtons}
+                            >
+                                <Button
+                                    styles={styles}
+                                    onPress={
+                                        () => handleEditPress(restaurant)
+                                    }
+                                    text={t('EDIT')}
+                                    id={`edit-button-${index}`}
+                                />
+                                <DeleteButton
+                                    styles={styles}
+                                    onPress={() => {
+                                        setRestaurantToDelete(
+                                            restaurant.restaurantId
+                                        );
+                                        setShowModal(true);
+                                    }}
+                                    text={t('DELETE')}
+                                    id={deleteRestaurantButtonId(index)}
+                                />
+                            </View>
+                        </View>
                     </View>
                 ))
             ) : (
-                <Text style={styles.body}>{t('NO_USERS')}</Text>
+                <Text style={styles.body}>
+                    {t('NO_RESTAURANTS')}
+                </Text>
             )}
+        </ScrollView>
+    );
+
+    const RestaurantEditContainer = () => (
+        <View>
+            <Text style={styles.h3}>
+                {t('MANAGE_RESTAURANT')}{' '}{selectedRestaurant[1]}
+            </Text>
+            <View style={styles.mealContainer}>
+                {restaurantUsers.length > 0 ? (
+                    restaurantUsers.map((user, index) => (
+                        <View key={index} style={styles.mealContent}>
+                            <Text style={styles.body}>{user.username}</Text>
+                        </View>
+                    ))
+                ) : (
+                    <Text style={styles.body}>{t('NO_USERS')}</Text>
+                )}
+                <Text style={styles.h4}>
+                    {t('ADD_USERS')}
+                </Text>
+            </View>
             <Button
                 styles={styles}
                 onPress={() => setSelectedRestaurant(null)}
@@ -126,14 +160,48 @@ const AdminPanel = ({ user }) => {
         </View>
     );
 
+    const DeleteRestaurantPopUp = () => {
+        return (
+            <Modal
+                visible={showModal}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={() => setShowModal(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>
+                            {t('CONFIRM_DELETE')}
+                        </Text>
+                        <View style={styles.modalButtonContainer}>
+                            <CancelButton styles={styles}
+                                onPress={() => setShowModal(false)}
+                                id="cancel-button"
+                            />
+                            <DeleteButton styles={styles}
+                                onPress={confirmRestaurantDeletion}
+                                id="confirm-delete-button"
+                            />
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+        );
+    };
+
     return (
-        <View>
-            {selectedRestaurant ? (
-                <RestaurantEditContainer />
-            ) : (
-                <RestaurantListContainer />
-            )}
-        </View>
+        <ScrollView style={styles.background}>
+            <View style={styles.container}>
+                {selectedRestaurant ? (
+                    <RestaurantEditContainer />
+                ) : (
+                    <View>
+                        <RestaurantListContainer />
+                        <DeleteRestaurantPopUp />
+                    </View>
+                )}
+            </View>
+        </ScrollView>
     );
 };
 
