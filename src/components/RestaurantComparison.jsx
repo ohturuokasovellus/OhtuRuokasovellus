@@ -101,11 +101,11 @@ const RestaurantComparison = () => {
 
     return (
         <ScrollView style={styles.background}>
-            <View style={styles.container}>
+            <View style={styles.container} id='bar-chart'>
                 <Text style={styles.body}>
                     {restaurantName}
                 </Text>
-                <BarChart
+                <BarChart 
                     style={{}}
                     data={chartData}
                     width={500}
