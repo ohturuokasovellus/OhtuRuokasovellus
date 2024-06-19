@@ -548,6 +548,19 @@ const getRestaurants = async () => {
     }));
 };
 
+/**
+ * Get restaurant users
+ * @returns {Promise<List>} list of restaurant user usernames
+*/
+const getRestaurantUsers = async (restaurantId) => {
+    const result = await sql`
+       SELECT pgp_sym_decrypt(username::bytea, 
+        ${process.env.DATABASE_ENCRYPTION_KEY}) AS username
+        FROM users WHERE restaurant_id = ${restaurantId};
+   `;
+    return result;
+};
+
 module.exports = {
     sql,
     insertUser,
@@ -577,5 +590,6 @@ module.exports = {
     updateMeal,
     getMealIdsNamesPurchaseCodes,
     setEvaluationMetric,
-    getRestaurants
+    getRestaurants,
+    getRestaurantUsers
 };

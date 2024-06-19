@@ -12,6 +12,7 @@ const AdminPanel = ({ user }) => {
     const {t} = useTranslation();
     const [restaurants, setRestaurants] = useState([]);
     const [restaurantUsers, setRestaurantUsers] = useState([]);
+    const [selectedRestaurant, setSelectedRestaurant] = useState(null);
     const styles = createStyles();
 
     const headers = {
@@ -54,6 +55,7 @@ const AdminPanel = ({ user }) => {
 
 
     const handleEditPress = (restaurantId) => {
+        setSelectedRestaurant(restaurantId);
         fetchRestaurantUsers(restaurantId);
     };
 
@@ -104,9 +106,33 @@ const AdminPanel = ({ user }) => {
         );
     };
 
+    const RestaurantEditContainer = () => (
+        <View style={styles.container}>
+            <Text style={styles.h3}>{t('EDIT_RESTAURANT_USERS')}</Text>
+            {restaurantUsers.length > 0 ? (
+                restaurantUsers.map((user, index) => (
+                    <View key={index} style={styles.mealContainer}>
+                        <Text style={styles.body}>{user.username}</Text>
+                    </View>
+                ))
+            ) : (
+                <Text style={styles.body}>{t('NO_USERS')}</Text>
+            )}
+            <Button
+                styles={styles}
+                onPress={() => setSelectedRestaurant(null)}
+                text={t('BACK_TO_RESTAURANTS')}
+            />
+        </View>
+    );
+
     return (
         <View>
-            <RestaurantListContainer />
+            {selectedRestaurant ? (
+                <RestaurantEditContainer />
+            ) : (
+                <RestaurantListContainer />
+            )}
         </View>
     );
 };
