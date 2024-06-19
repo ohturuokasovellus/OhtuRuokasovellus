@@ -273,6 +273,21 @@ const addMealImage = async (mealId, imageData) => {
 };
 
 /**
+ * Get the image data of a meal.
+ * @param {number} mealId
+ * @returns {Promise<string?>} Image data
+ */
+const getMealImage = async mealId => {
+    const result = await sql`
+        SELECT image FROM meals WHERE meal_id = ${mealId} AND is_active = TRUE;
+    `;
+    if (result.length !== 1 || result[0].image === null) {
+        return null;
+    }
+    return result[0].image.toString();
+};
+
+/**
  * Fetch restaurant specific meals from database.
  * @param {number} restaurantId
  * @returns {Promise<{ 
@@ -515,6 +530,7 @@ module.exports = {
     doesRestaurantExist,
     insertMeal,
     addMealImage,
+    getMealImage,
     getMeals,
     getMeal,
     getMealByPurchaseCode,
