@@ -41,24 +41,30 @@ const initTestDB = async () => {
         1119, 0, 950)`;
 };
 
-test.describe('restaurant meal page', () => {
+test.describe('restaurant comparison page', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
-        const userData = {
-            username: 'testaurant',
-            token: 'moi',
-            restaurantId: '1',
-        };
         await page.goto('/');
-        await page.evaluate((userData) => {window.localStorage
-            .setItem('loggedUser', JSON.stringify(userData));
-        }, userData);
-        await page.goto('/restaurant-comparison');
         await page.locator('#language-toggle').click();
     });
 
-    test('renders restaurant name, price and their images',
+    test('logged in restaurant user can see emission chart',
         async ({ page }) => {
+            const userData = {
+                username: 'testaurant',
+                token: 'moi',
+                restaurantId: '1',
+            };
+            await page.evaluate((userData) => {window.localStorage
+                .setItem('loggedUser', JSON.stringify(userData));
+            }, userData);
+            await page.goto('/restaurant-comparison');
             await expect(page.locator('#bar-chart')).toBeVisible();
+        });
+
+    test('logged out user sees unauthorized view',
+        async ({ page }) => {
+            await page.goto('/restaurant-comparison');
+            await expect(page.locator('#unauthorized-view')).toBeVisible();
         });
 });

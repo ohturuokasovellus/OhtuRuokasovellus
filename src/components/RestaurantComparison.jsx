@@ -25,10 +25,10 @@ const RestaurantComparison = () => {
     const userSession = getSession();
     const {t} = useTranslation();
 
-    if (!userSession.restaurantId){
+    if (!userSession || !userSession.restaurantId){
         return (
             <ScrollView style={styles.background}>
-                <View style={styles.container}>
+                <View style={styles.container} id='unauthorized-view'>
                     <Text style={styles.body}>
                         {t('UNAUTHORIZED')}
                     </Text>
@@ -84,7 +84,7 @@ const RestaurantComparison = () => {
 
     if (error) {
         return (
-            <View >
+            <View id='error-view'>
                 <Text style={styles.error}>{error}</Text>
             </View>
         );
