@@ -449,7 +449,8 @@ This time, `spec.host` is set to the custom domain instead of Rahti subdomain.
 Next, using the web interface of your DNS provider,
 let's make the custom domain point to the Rahti servers.
 Add a new `CNAME` DNS record with name being `yourdomain.com`
-and value (a.k.a. content) being `router-default.apps.2.rahti.csc.fi`.
+and value (a.k.a. content) being `router-default.apps.2.rahti.csc.fi`
+(see [docs](https://docs.csc.fi/cloud/rahti2/networking/#custom-domains)).
 Note that if you have existing `A` records for the same (sub)domain,
 they must be deleted before adding the `CNAME` record.
 
