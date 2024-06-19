@@ -17,6 +17,7 @@ import PurchaseHistory from './src/components/PurchaseHistory';
 import MenuQR from './src/components/MenuQR';
 import MealQR from './src/components/MealQR';
 import Settings from './src/components/Settings';
+import AdminPanel from '/src/components/AdminPanel';
 import './src/lang/i18n'; // should be inported in index.js, but idk if
 //they mean the backend's index.js or frontend's app.jsx. Works when imported
 // here.
@@ -61,6 +62,7 @@ const App = () => {
                     <Route path='/meal-qr/:mealPurchaseCode'
                         element={<MealQR />}/>
                     <Route path='/settings' element={<Settings />} />
+                    <Route path='/admin-panel' element={<AdminPanel />} />
                 </Routes>
             </Router>
         </ThemeController>

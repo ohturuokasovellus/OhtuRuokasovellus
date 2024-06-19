@@ -88,10 +88,11 @@ const Home = () => {
     }
 
 
-    let username, isRestaurantUser;
+    let username, isRestaurantUser, isAdmin;
     if (userSession) {
         username = userSession.username;
         isRestaurantUser = userSession.restaurantId !== null;
+        isAdmin = userSession.isAdmin;
     }
 
     return (
@@ -116,6 +117,14 @@ const Home = () => {
                     text={t('SETTINGS')}
                     id='settings-button'
                 />
+                {!isAdmin ? (
+                    <Button
+                        styles={styles}
+                        onPress={() => navigate('/admin-panel')}
+                        text={t('ADMIN_PANEL')}
+                        id='admin-panel-button'
+                    />
+                ) : null}
                 {isRestaurantUser ? (
                     <>
                         <Text style={styles.body}>
