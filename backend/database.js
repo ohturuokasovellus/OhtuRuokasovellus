@@ -221,8 +221,7 @@ const doesRestaurantExist = async name => {
  * Insert a new meal to the database.
  * @param {string} name Name of the meal.
  * @param {number} restaurantId Id of the restaurant who created the meal.
- * @param {string} mealDescription 
- * @param {number} co2Emissions CO2 emissions of the meal.
+ * @param {string} mealDescription
  * @param {string} mealAllergens Allergens of the meal.
  * @param {Dictionary} nutrientDictionary Nutrients of a meal in a dictionary
  * @param {string} ingredients ingredient list in json
