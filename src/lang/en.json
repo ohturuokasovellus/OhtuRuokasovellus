@@ -145,6 +145,17 @@
         "MEAL_NOT_UPDATED": "Error occured, meal not created.",
         "DOWNLOAD": "Download",
         "UNAUTHORIZED": "You are not authorized to view this content",
-        "UNEXPECTED_ERROR": "A unexpected error occured, please try again later"
+        "UNEXPECTED_ERROR": "A unexpected error occured, please try again later",
+        "SELF_EVALUATION": "Self evaluation",
+        "HOW_IMPORTANT_IS_CLIMATE": "How important climate friendliness is to you?",
+        "HOW_IMPORTANT_ARE_NUTRITIONAL_VALUES": "How important nutritional values are to you?",
+        "NOT_IMPORTANT_AT_ALL": "Not important at all",
+        "SOMEWHAT_UNIMPORTANT": "Somewhat unimportant",
+        "IN_THE_MIDDLE": "In the middle",
+        "SOMEWHAT_IMPORTANT": "Somewhat important",
+        "VERY_IMPORTANT": "Very important",
+        "SUBMIT": "Submit",
+        "EVALUATION_SENT": "Evaluation sent",
+        "FAILED_TO_SUBMIT": "Failed to submit"
     }
 }

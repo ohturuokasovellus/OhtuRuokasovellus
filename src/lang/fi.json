@@ -145,6 +145,17 @@
         "MEAL_NOT_UPDATED": "Tapahtui virhe, ateria ei päivitetty.",
         "DOWNLOAD": "Lataa",
         "UNAUTHORIZED": "Sinulla ei ole oikeutta nähdä tätä sisältöä",
-        "UNEXPECTED_ERROR": "Virhe tapahtui, yritä uudelleen myöhemmin"
+        "UNEXPECTED_ERROR": "Virhe tapahtui, yritä uudelleen myöhemmin",
+        "SELF_EVALUATION": "Itsearvionti",
+        "HOW_IMPORTANT_IS_CLIMATE": "Kuinka merkityksellistä ilmastoystävällisyys on sinulle?",
+        "HOW_IMPORTANT_ARE_NUTRITIONAL_VALUES": "Kuinka merkityksellisiä ravintoarvot ovat sinulle?",
+        "NOT_IMPORTANT_AT_ALL": "Täysin merkityksetön",
+        "SOMEWHAT_UNIMPORTANT": "Jokseenkin merkityksetön",
+        "IN_THE_MIDDLE": "Keskellä",
+        "SOMEWHAT_IMPORTANT": "Jokseenkin merkityksellinen",
+        "VERY_IMPORTANT": "Erittäin merkityksellinen",
+        "SUBMIT": "Lähetä",
+        "EVALUATION_SENT": "Itsearviointi lähetetty",
+        "FAILED_TO_SUBMIT": "Lähetys epäonnistui"
     }
 }

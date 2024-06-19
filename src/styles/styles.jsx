@@ -84,6 +84,12 @@ const createStyles = () => {
             marginBottom: 8,
             fontFamily: 'Roboto-Bold',
         },
+        success: {
+            fontSize: 14,
+            color: 'green',
+            marginBottom: 8,
+            fontFamily: 'Roboto-Bold',
+        },
         link: {
             fontSize: 16,
             color: colors.primary,
@@ -567,6 +573,50 @@ const createStyles = () => {
             borderRadius: 8,
             backgroundColor: colors.primaryContainer,
             
+        },
+
+        // self eval slider
+        // background: {
+        //     flex: 1,
+        //     backgroundColor: '#fff',
+        questionContainer: {
+            marginBottom: 20,
+            backgroundColor: colors.primaryContainer,
+            padding: 15,
+            borderRadius: 8,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 5,
+            elevation: 3,
+        },
+        question: {
+            fontSize: 16,
+            marginBottom: 10,
+            fontWeight: '500',
+        },
+        slider: {
+            width: '100%',
+            height: 40,
+            color: 'black'
+        },
+        sliderLabel: {
+            textAlign: 'center',
+            marginTop: 10,
+            fontSize: 16,
+            fontWeight: '500',
+        },
+        evaluationContainer: {
+            padding: 20,
+            borderColor: colors.outlineVariant,
+            backgroundColor: colors.surfaceVariant,
+            borderRadius: 8,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 5,
+            elevation: 3,
+            marginBottom: 20,
         },
     });
 };
