@@ -121,11 +121,12 @@ describe('meal api', () => {
         ]);
 
         await request(app)
-            .get('/api/all-meal-emissions/1')
+            .get('/api/all-meal-emissions/')
+            .set(headers)
             .expect(200)
-            .expect([
-                { restaurant_id: 2, co2_emissions: 123714308 },
-            ]);
+            .expect(
+                {'emissions': [{ restaurant_id: 2, co2_emissions: 123714308 }],
+                    'restaurantId': 2});
 
         expect(postgresMock.runSqlCommands().length).toBe(1);
     });

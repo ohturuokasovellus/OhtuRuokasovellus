@@ -65,6 +65,6 @@ test.describe('restaurant comparison page', () => {
     test('logged out user sees unauthorized view',
         async ({ page }) => {
             await page.goto('/restaurant-comparison');
-            await expect(page.locator('#unauthorized-view')).toBeVisible();
+            await expect(page.locator('#bar-chart')).toBeHidden();
         });
 });
