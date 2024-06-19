@@ -11,17 +11,18 @@ import apiUrl from '../utils/apiUrl';
 const AdminPanel = ({ user }) => {
     const {t} = useTranslation();
     const [restaurants, setRestaurants] = useState([]);
+    const [restaurantUsers, setRestaurantUsers] = useState([]);
     const styles = createStyles();
+
+    const headers = {
+        Authorization: `Bearer ${user.token}`,
+    };
 
     const fetchRestaurants = async () => {
         try {
             const response = await axios.get(
                 `${apiUrl}/restaurants/`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${user.token}`,
-                    },
-                }
+                { headers }
             );
             const responseRestaurants = response.data;
             console.log(responseRestaurants);
@@ -30,7 +31,21 @@ const AdminPanel = ({ user }) => {
             console.error(err);
         }
     };
-    
+
+    const fetchRestaurantUsers = async (restaurantId) => {
+        try {
+            const response = await axios.get(
+                `${apiUrl}/restaurant/${restaurantId}/users/`,
+                { headers }
+            );
+            const responseUsers = response.data;
+            console.log(responseUsers);
+            setRestaurantUsers(responseUsers);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     useEffect(() => {
         if (user.isAdmin) {
             fetchRestaurants();
@@ -38,8 +53,8 @@ const AdminPanel = ({ user }) => {
     }, []);
 
 
-    const handleEditPress = () => {
-        console.log('pressed edit');
+    const handleEditPress = (restaurantId) => {
+        fetchRestaurantUsers(restaurantId);
     };
 
     const RestaurantListContainer = () => {
@@ -66,7 +81,9 @@ const AdminPanel = ({ user }) => {
                                             <Button
                                                 styles={styles}
                                                 onPress={
-                                                    () => handleEditPress()
+                                                    () => handleEditPress(
+                                                        restaurant.restaurantId
+                                                    )
                                                 }
                                                 text={t('EDIT')}
                                                 id={`edit-button-${index}`}
