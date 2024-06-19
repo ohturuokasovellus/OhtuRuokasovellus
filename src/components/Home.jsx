@@ -117,7 +117,7 @@ const Home = () => {
                     text={t('SETTINGS')}
                     id='settings-button'
                 />
-                {!isAdmin ? (
+                {isAdmin ? (
                     <Button
                         styles={styles}
                         onPress={() => navigate('/admin-panel')}

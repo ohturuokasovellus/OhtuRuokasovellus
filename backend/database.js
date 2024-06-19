@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 require('dotenv').config();
 const postgres = require('postgres');
 const { compareHashes } = require('./services/hash');
@@ -533,6 +534,20 @@ const setEvaluationMetric = async (userId, evalKey, evalValue) => {
     return result.count === 1;
 };
 
+/**
+ * Get restaurants
+ * @returns {Promise<List>} list of restaurant objects
+*/
+const getRestaurants = async () => {
+    const result = await sql`
+       SELECT restaurant_id, name from restaurants;
+   `;
+    return result.map(row => ({
+        restaurantId: row.restaurant_id,
+        name: row.name,
+    }));
+};
+
 module.exports = {
     sql,
     insertUser,
@@ -561,5 +576,6 @@ module.exports = {
     getMealForEdit,
     updateMeal,
     getMealIdsNamesPurchaseCodes,
-    setEvaluationMetric
+    setEvaluationMetric,
+    getRestaurants
 };
