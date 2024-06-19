@@ -437,6 +437,89 @@ Here `ruokasovellus-prod` is the value of
 The first `ruokasovellus` refers to the container name in that deployment
 and `ruokasovellus:latest` matches `spec.output.to.name` of our build config.
 
+### Custom domain and TLS
+
+To add a custom domain to our service,
+we need to add another route to the production service.
+We place the new route configuration into an existing
+[`openshift/prod-service.yaml`](../openshift/prod-service.yaml) file
+and call it `ruokasovellus-route-prod-domain`.
+This time, `spec.host` is set to the custom domain instead of Rahti subdomain.
+
+Next, using the web interface of your DNS provider,
+let's make the custom domain point to the Rahti servers.
+Add a new `CNAME` DNS record with name being `yourdomain.com`
+and value (a.k.a. content) being `router-default.apps.2.rahti.csc.fi`.
+Note that if you have existing `A` records for the same (sub)domain,
+they must be deleted before adding the `CNAME` record.
+
+At this point, the domain is correctly pointing to the Rahti production server.
+However, for production we want to use encrypted HTTPS connection,
+which must be configured separately.
+
+Let's follow
+[this documentation](https://docs.csc.fi/cloud/tutorials/custom-domain/#lets-encrypt)
+to generate a TLS certificate for our server.
+Run the following commands one-by-one locally on your computer:
+
+<!--
+if you are wondering what I was thinking when writing this,
+the commands are in separate blocks for easier copy-paste ;)
+-->
+
+```sh
+git clone https://github.com/tnozicka/openshift-acme.git
+```
+
+<!-- the latest commit in that repo at the time of writing this was bdd71b7 -->
+
+```sh
+rm -rf openshift-acme/.git
+```
+
+```sh
+cd openshift-acme
+```
+
+```sh
+oc apply -f deploy/single-namespace/role.yaml -f deploy/single-namespace/serviceaccount.yaml -f deploy/single-namespace/issuer-letsencrypt-live.yaml -f deploy/single-namespace/deployment.yaml
+```
+
+```sh
+oc create rolebinding openshift-acme --role=openshift-acme --serviceaccount="$( oc project -q ):openshift-acme" --dry-run -o yaml | oc apply -f -
+```
+
+Now you have a new pod called `openshift-acme` running.
+What it does is it obtains a TLS certificate from
+[Let's Encrypt](https://letsencrypt.org/)
+and gives it for the route of our choice.
+What's even cooler is that it automatically refreshes the certificate
+every 3 months so it will never expire.
+
+The next thing we need to do it tell Acme which route we want to secure.
+You can do so by locally running the following command:
+
+```sh
+oc annotate route your-route-name kubernetes.io/tls-acme='true'
+```
+
+Replace `your-route-name` with the name of the route configuration
+(`ruokasovellus-route-prod-domain` in our case).
+
+Lastly, let's make the route aware of the TLS.
+Add `spec.tls` section to the route configuration
+(in [`openshift/prod-service.yaml`](../openshift/prod-service.yaml)).
+
+`spec.tls.termination` with value `edge` tells the route to decrypt the
+incoming messages and pass them plaintext to the server.
+This is handy because we don't need to configure our Node server
+to know anything about HTTPS.
+
+In `spec.tls.insecureEdgeTerminationPolicy` we tell the route to redirect
+all insecure HTTP connection to HTTPS.
+This way we actually prevent users from using the service without TLS.
+
+
 ## Helps for debugging
 
 Here is a collection of command-line commands that I found useful in debugging.
