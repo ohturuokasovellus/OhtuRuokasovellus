@@ -54,7 +54,7 @@ const RestaurantComparison = () => {
                             Authorization: `Bearer ${userSession.token}`,
                         },
                     });
-                
+
                 let index = 0;
                 let ownMealsCounter = 0;
                 const emissions = response.data.emissions;
@@ -72,12 +72,11 @@ const RestaurantComparison = () => {
                 setOwnEmissions(previousValue => 
                     previousValue / ownMealsCounter);
                 setAllEmissions(previousValue => 
-                    previousValue / response.data.length);
+                    previousValue / emissions.length);
             } catch (error) {
                 console.log(error);
             }
         };
-
 
         getRestaurantName();
         getMealEmissions();
