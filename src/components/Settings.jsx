@@ -39,11 +39,14 @@ const DataExport = ({ styles, token }) => {
         if (Platform.OS === 'web') {
             const uri = 'data:application/json;charset=utf-8,' +
                 encodeURIComponent(JSON.stringify(data));
+            // eslint-disable-next-line no-undef
             const link = document.createElement('a');
             link.href = uri;
             link.download = 'ruokalaskuri.json';
+            // eslint-disable-next-line no-undef
             document.body.appendChild(link);
             link.click();
+            // eslint-disable-next-line no-undef
             document.body.removeChild(link);
         } else {
             const fileUrl = FileSystem.documentDirectory + 'ruokalaskuri.json';
@@ -59,7 +62,7 @@ const DataExport = ({ styles, token }) => {
             <Button
                 styles={styles} text={t('DOWNLOAD')} onPress={getUserData} />
         </View>
-    )
+    );
 };
 
 const DataRemoval = ({ styles, token }) => {
