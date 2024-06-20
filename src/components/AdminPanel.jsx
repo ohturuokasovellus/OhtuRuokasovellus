@@ -11,67 +11,6 @@ import createStyles from '../styles/styles';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
 
-
-const RestaurantEditContainer = ({
-    styles, restaurantUsers, selectedRestaurant, setSelectedRestaurant,
-    userToAdd, setUserToAdd, setShowModal, success, error
-}) => {
-    const {t} = useTranslation();
-
-    return (
-        <View>
-            <Text style={styles.h3}>
-                {t('MANAGE_RESTAURANT')}{' '}{selectedRestaurant[1]}
-            </Text>
-            <View style={styles.mealContainer}>
-                <Text style={styles.h5}>
-                    {t('USERS_OF_RESTAURANT')}{':'}
-                </Text>
-                {restaurantUsers.length > 0 ? (
-                    restaurantUsers.map((user, index) => (
-                        <View key={index} style={styles.mealContent}>
-                            <Text style={styles.body}>{user.username}</Text>
-                        </View>
-                    ))
-                ) : (
-                    <Text style={styles.body}>{t('NO_USERS')}</Text>
-                )}
-                <Text style={styles.h4}>
-                    {t('ADD_USERS_BY_USERNAME')}
-                </Text>
-                <Input
-                    styles={styles}
-                    placeholder={t('USERNAME')}
-                    value={userToAdd}
-                    onChangeText={setUserToAdd}
-                />
-                <ButtonVariant
-                    styles={styles}
-                    onPress={userToAdd ? () => setShowModal(true)
-                        : null
-                    }
-                    text={t('ADD_USER')}
-                />
-                {success ? (
-                    <View>
-                        <Text style={styles.success}>{success}</Text>
-                    </View>
-                ): null}
-                {error ? (
-                    <View>
-                        <Text style={styles.error}>{error}</Text>
-                    </View>
-                ): null}
-            </View>
-            <Button
-                styles={styles}
-                onPress={() => setSelectedRestaurant(null)}
-                text={t('GO_BACK')}
-            />
-        </View>
-    );
-};
-
 const AdminPanel = ({ user }) => {
     const {t} = useTranslation();
     const [restaurants, setRestaurants] = useState([]);
@@ -122,11 +61,6 @@ const AdminPanel = ({ user }) => {
         }
     };
 
-    const handleEditPress = ({ name, restaurantId }) => {
-        setSelectedRestaurant([restaurantId, name]);
-        fetchRestaurantUsers(restaurantId);
-    };
-
     const confirmRestaurantDeletion = async () => {
         if (!restaurantToDelete) return;
 
@@ -169,10 +103,69 @@ const AdminPanel = ({ user }) => {
         setShowModal(false);
     };
 
+    return (
+        <ScrollView style={styles.background}>
+            <View style={styles.container}>
+                {selectedRestaurant ? (
+                    <View>
+                        <RestaurantEditContainer
+                            styles={styles}
+                            restaurantUsers={restaurantUsers}
+                            selectedRestaurant={selectedRestaurant}
+                            setSelectedRestaurant={setSelectedRestaurant}
+                            userToAdd={userToAdd}
+                            setUserToAdd={setUserToAdd}
+                            setShowModal={setShowModal}
+                            success={success}
+                            error={error}
+                        />
+                        <ConfirmationPopUp
+                            styles={styles}
+                            showModal={showModal}
+                            setShowModal={setShowModal}
+                            confirmMessage={t('CONFIRM_USER_ADDITION')}
+                            handleConfirmation={addUserToRestaurant}
+                            isDelete={false}
+                        />
+                    </View>
+                ) : (
+                    <View>
+                        <RestaurantListContainer 
+                            styles={styles}
+                            restaurants={restaurants}
+                            setSelectedRestaurant={setSelectedRestaurant}
+                            fetchRestaurantUsers={fetchRestaurantUsers}
+                            setRestaurantToDelete={setRestaurantToDelete}
+                            setShowModal={setShowModal}
+                        />
+                        <ConfirmationPopUp
+                            styles={styles}
+                            showModal={showModal}
+                            setShowModal={setShowModal}
+                            confirmMessage={t('CONFIRM_DELETE')}
+                            handleConfirmation={confirmRestaurantDeletion}
+                            isDelete={true}
+                        />
+                    </View>
+                )}
+            </View>
+        </ScrollView>
+    );
+};
+
+const RestaurantListContainer = ({ styles, restaurants, setSelectedRestaurant,
+    fetchRestaurantUsers, setRestaurantToDelete, setShowModal }) => {
+    const {t} = useTranslation();
+
+    const handleEditPress = ({ name, restaurantId }) => {
+        setSelectedRestaurant([restaurantId, name]);
+        fetchRestaurantUsers(restaurantId);
+    }; 
+
     const deleteRestaurantButtonId = (index) => 
         `delete-restaurant-button-${index}`;
 
-    const RestaurantListContainer = () => (
+    return (
         <ScrollView style={styles.mealListContainer}>
             <Text style={styles.h3}>
                 {t('MANAGE_RESTAURANTS')}
@@ -221,80 +214,110 @@ const AdminPanel = ({ user }) => {
             )}
         </ScrollView>
     );
+};
 
-    const ConfirmationPopUp = (
-        { confirmMessage, handleConfirmation, isDelete }
-    ) => {
-        return (
-            <Modal
-                visible={showModal}
-                transparent={true}
-                animationType="fade"
-                onRequestClose={() => setShowModal(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalText}>
-                            {confirmMessage}
+const RestaurantEditContainer = ({
+    styles, restaurantUsers, selectedRestaurant, setSelectedRestaurant,
+    userToAdd, setUserToAdd, setShowModal, success, error
+}) => {
+    const {t} = useTranslation();
+
+    return (
+        <View>
+            <Text style={styles.h3}>
+                {t('MANAGE_RESTAURANT')}{' '}{selectedRestaurant[1]}
+            </Text>
+            <View style={styles.mealContainer}>
+                <View style={{ padding: '10px'}}>
+                    <Text style={styles.h5}>
+                        {t('USERS_OF_RESTAURANT')}{':'}
+                    </Text>
+                    {restaurantUsers.length > 0 ? (
+                        restaurantUsers.map((user, index) => (
+                            <View key={index} style={styles.mealContent}>
+                                <Text style={styles.body}>{user.username}</Text>
+                            </View>
+                        ))
+                    ) : (
+                        <Text style={styles.body}>{t('NO_USERS')}</Text>
+                    )}
+                    <View style={{ padding: '10px'}}>
+                        <Text style={styles.h4}>
+                            {t('ADD_USERS_BY_USERNAME')}
                         </Text>
-                        <View style={styles.modalButtonContainer}>
-                            <CancelButton styles={styles}
-                                onPress={() => setShowModal(false)}
-                                id="cancel-button"
-                            />
-                            {isDelete ? (
-                                <DeleteButton styles={styles}
-                                    onPress={handleConfirmation}
-                                    id="confirm-delete-button"
-                                />
-                            ): (
-                                <Button
-                                    styles={styles}
-                                    onPress={handleConfirmation}
-                                    text={t('CONFIRM')}
-                                />
-                            )}
-                        </View>
+                        <Input
+                            styles={styles}
+                            placeholder={t('USERNAME')}
+                            value={userToAdd}
+                            onChangeText={setUserToAdd}
+                        />
+                        <ButtonVariant
+                            styles={styles}
+                            onPress={userToAdd ? () => setShowModal(true)
+                                : null
+                            }
+                            text={t('ADD_USER')}
+                        />
+                        {success ? (
+                            <View>
+                                <Text style={styles.success}>{success}</Text>
+                            </View>
+                        ): null}
+                        {error ? (
+                            <View>
+                                <Text style={styles.error}>{error}</Text>
+                            </View>
+                        ): null}
                     </View>
                 </View>
-            </Modal>
-        );
-    };
-        
-    return (
-        <ScrollView style={styles.background}>
-            <View style={styles.container}>
-                {selectedRestaurant ? (
-                    <View>
-                        <RestaurantEditContainer
-                            styles={styles}
-                            restaurantUsers={restaurantUsers}
-                            selectedRestaurant={selectedRestaurant}
-                            setSelectedRestaurant={setSelectedRestaurant}
-                            userToAdd={userToAdd}
-                            setUserToAdd={setUserToAdd}
-                            setShowModal={setShowModal}
-                            success={success}
-                            error={error}
-                        />
-                        <ConfirmationPopUp
-                            confirmMessage={t('CONFIRM')}
-                            handleConfirmation={addUserToRestaurant}
-                            isDelete={false}
-                        />
-                    </View>
-                ) : (
-                    <View>
-                        <RestaurantListContainer />
-                        <ConfirmationPopUp
-                            confirmMessage={t('CONFIRM_DELETE')}
-                            handleConfirmation={confirmRestaurantDeletion}
-                            isDelete={true}
-                        />
-                    </View>
-                )}
             </View>
-        </ScrollView>
+            <Button
+                styles={styles}
+                onPress={() => setSelectedRestaurant(null)}
+                text={t('GO_BACK')}
+            />
+        </View>
+    );
+};
+
+const ConfirmationPopUp = (
+    { styles, showModal, setShowModal, confirmMessage, handleConfirmation,
+        isDelete }) => {
+    const {t} = useTranslation();
+
+    return (
+        <Modal
+            visible={showModal}
+            transparent={true}
+            animationType="fade"
+            onRequestClose={() => setShowModal(false)}
+        >
+            <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                    <Text style={styles.modalText}>
+                        {confirmMessage}
+                    </Text>
+                    <View style={styles.modalButtonContainer}>
+                        <CancelButton styles={styles}
+                            onPress={() => setShowModal(false)}
+                            id="cancel-button"
+                        />
+                        {isDelete ? (
+                            <DeleteButton styles={styles}
+                                onPress={handleConfirmation}
+                                id="confirm-delete-button"
+                            />
+                        ): (
+                            <Button
+                                styles={styles}
+                                onPress={handleConfirmation}
+                                text={t('CONFIRM')}
+                            />
+                        )}
+                    </View>
+                </View>
+            </View>
+        </Modal>
     );
 };
 

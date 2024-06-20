@@ -166,6 +166,7 @@
         "NO_RESTAURANTS": "No restaurants.",
         "NO_USERS": "No users.",
         "ADMIN_PANEL": "Admin panel",
-        "NON_ADMIN_FUNCTIONALITY": "Non admin functionality"
+        "NON_ADMIN_FUNCTIONALITY": "Non admin functionality",
+        "CONFIRM_USER_ADDITION": "Confirm user addition:"
     }
 }
