@@ -109,8 +109,11 @@
         "MASTERS_DEGREE": "Higher university level (Master's)",
         "DOCTORAL": "Doctoral education",
         "MAN": "Man",
+        "MEN": "Men",
         "WOMAN": "Woman",
+        "WOMEN": "Women",
         "OTHER": "Other",
+        "OTHERS": "Other genders",
         "YEAR_MUST_BE_NUMBER": "The year must be a number",
         "YEAR_IS_REQUIRED": "Year of birth is required",
         "YEAR_1900_LATER": "The year cannot be before 1900",
@@ -143,6 +146,13 @@
         "EDIT_MEAL": "Edit meal",
         "MEAL_UPDATED": "Meal updated succesfully!",
         "MEAL_NOT_UPDATED": "Error occured, meal not created.",
-        "DOWNLOAD": "Download"
+        "DOWNLOAD": "Download",
+        "YOU": "You",
+        "ALL": "All",
+        "AVG_CO2": "Average CO2 emissions",
+        "AVG_CARBS": "Average carbohydrates",
+        "AVG_FAT": "Average fat",
+        "AVG_PROTEIN": "Average protein",
+        "G_PER_MEAL": "(g per meal)"
     }
 }
