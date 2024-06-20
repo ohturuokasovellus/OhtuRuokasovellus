@@ -11,6 +11,7 @@ npm-debug.*
 web-build/
 .env
 coverage/
+openshift-acme/
 .vscode/
 database/
 backend/csvFiles/example_nutrients.csv
