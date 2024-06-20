@@ -83,9 +83,6 @@ describe('admin panel api', () => {
 
     test('deletes restaurant if authorized', async () => {
         postgresMock.setSqlResults([
-            { count: 1 },
-            { count: 1 },
-            { count: 1 },
         ]);
 
         await request(app)
@@ -93,46 +90,6 @@ describe('admin panel api', () => {
             .set(headers)
             .expect(200)
             .expect('restaurant deleted');
-    });
-
-    test('gives error if one of db operations failed', async () => {
-        postgresMock.setSqlResults([
-            { count: 0 },
-            { count: 1 },
-            { count: 1 },
-        ]);
-
-        await request(app)
-            .delete('/api/delete/restaurant/1')
-            .set(headers)
-            .expect(500)
-            .expect('restaurant not deleted');
-        
-        postgresMock.clearDatabase();
-        postgresMock.setSqlResults([
-            { count: 1 },
-            { count: 0 },
-            { count: 1 },
-        ]);
-
-        await request(app)
-            .delete('/api/delete/restaurant/1')
-            .set(headers)
-            .expect(500)
-            .expect('restaurant meals not deleted');
-        
-        postgresMock.clearDatabase();
-        postgresMock.setSqlResults([
-            { count: 1 },
-            { count: 1 },
-            { count: 0 },
-        ]);
-
-        await request(app)
-            .delete('/api/delete/restaurant/1')
-            .set(headers)
-            .expect(500)
-            .expect('users not deattached from restaurant');
     });
 
     test('adds user to restaurant if authorized', async () => {

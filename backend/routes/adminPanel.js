@@ -78,34 +78,11 @@ router.delete('/api/delete/restaurant/:restaurantId', async (req, res) => {
 
     if (restaurantId) {
         try {
-            const deletedRestaurant = await setRestaurantToInactive(
-                restaurantId
-            );
-            if (deletedRestaurant) {
-                const deletedMeals = await setRestaurantMealsToInactive(
-                    restaurantId
-                );
-                if (deletedMeals) {
-                    const deattachedUsers = await deattachUsersFromRestaurant(
-                        restaurantId
-                    );
-                    if (deattachedUsers) {
-                        return res.status(200).send('restaurant deleted');
-                    } else {
-                        return res.status(500).send(
-                            'users not deattached from restaurant'
-                        );
-                    }
-                } else {
-                    return res.status(500).send('restaurant meals not deleted');
-                }
-            } else {
-                return res.status(500).send(
-                    'restaurant not deleted'
-                );
-            }
-        }
-        catch (error) {
+            await setRestaurantToInactive(restaurantId);
+            await setRestaurantMealsToInactive(restaurantId);
+            await deattachUsersFromRestaurant(restaurantId);
+            return res.status(200).send('restaurant deleted');
+        } catch (error) {
             console.error(error);
             return res.status(500).send('unexpected internal server error');
         }

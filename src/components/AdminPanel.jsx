@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from '../Router';
 import { Text, View, ScrollView, Modal } from 'react-native';
 import { 
     Button, DeleteButton, CancelButton, ButtonVariant
@@ -13,20 +14,52 @@ import apiUrl from '../utils/apiUrl';
 
 const AdminPanel = ({ user }) => {
     const {t} = useTranslation();
-    const [restaurants, setRestaurants] = useState([]);
-    const [restaurantUsers, setRestaurantUsers] = useState([]);
+    const navigate = useNavigate();
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-    const [restaurantToDelete, setRestaurantToDelete] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [userToAdd, setUserToAdd] = useState('');
-    const [success, setSuccess] = useState(null);
-    const [error, setError] = useState(null);
-
     const styles = createStyles();
-
     const headers = {
         Authorization: `Bearer ${user.token}`,
     };
+
+    useEffect(() => {
+        if (!user.isAdmin) {
+            navigate('/');
+        }
+    }, []);
+
+    return (
+        <ScrollView style={styles.background}>
+            <View style={styles.container}>
+                <Text style={[styles.h2, { alignSelf: 'center' }]}>
+                    {t('ADMIN_PANEL')}
+                </Text>
+                {selectedRestaurant ? (
+                    <RestaurantEditContainer
+                        headers={headers}
+                        styles={styles}
+                        selectedRestaurant={selectedRestaurant}
+                        setSelectedRestaurant={setSelectedRestaurant}
+                    />
+                ): (
+                    <View style={styles.container}>
+                        <RestaurantListContainer
+                            headers={headers}
+                            styles={styles}
+                            setSelectedRestaurant={setSelectedRestaurant}
+                        />
+                    </View>
+                )}
+            </View>
+        </ScrollView>
+    );
+};
+
+const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
+}) => {
+    const {t} = useTranslation();
+    const [restaurants, setRestaurants] = useState([]);
+    const [restaurantToDelete, setRestaurantToDelete] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     const fetchRestaurants = async () => {
         try {
@@ -35,7 +68,6 @@ const AdminPanel = ({ user }) => {
                 { headers }
             );
             const responseRestaurants = response.data;
-            console.log(responseRestaurants);
             setRestaurants(responseRestaurants);
         } catch (err) {
             console.error(err);
@@ -43,23 +75,16 @@ const AdminPanel = ({ user }) => {
     };
 
     useEffect(() => {
-        if (user.isAdmin) {
-            fetchRestaurants();
-        }
+        fetchRestaurants();
     }, []);
 
-    const fetchRestaurantUsers = async (restaurantId) => {
-        try {
-            const response = await axios.get(
-                `${apiUrl}/restaurant/${restaurantId}/users/`,
-                { headers }
-            );
-            const responseUsers = response.data;
-            setRestaurantUsers(responseUsers);
-        } catch (err) {
-            console.error(err);
-        }
-    };
+
+    const handleEditPress = ({ name, restaurantId }) => {
+        setSelectedRestaurant([restaurantId, name]);
+    }; 
+
+    const deleteRestaurantButtonId = (index) => 
+        `delete-restaurant-button-${index}`;
 
     const confirmRestaurantDeletion = async () => {
         if (!restaurantToDelete) return;
@@ -81,89 +106,6 @@ const AdminPanel = ({ user }) => {
         setRestaurantToDelete(null);
         setShowModal(false);
     };
-
-    const addUserToRestaurant = async () => {
-        try {
-            await axios.post(
-                `${apiUrl}/restaurant/${selectedRestaurant[0]}/add-user`,
-                { userToAdd },
-                { headers }
-            );
-            fetchRestaurantUsers(selectedRestaurant[0]);
-            setUserToAdd('');
-            setSuccess(t('USER_ADDED'));
-        } catch (err) {
-            console.error(err);
-            setError(t('USER_NOT_ADDED'));
-        }
-        setTimeout(() => {
-            setSuccess(null);
-            setError(null);
-        }, 5000);
-        setShowModal(false);
-    };
-
-    return (
-        <ScrollView style={styles.background}>
-            <View style={styles.container}>
-                {selectedRestaurant ? (
-                    <View>
-                        <RestaurantEditContainer
-                            styles={styles}
-                            restaurantUsers={restaurantUsers}
-                            selectedRestaurant={selectedRestaurant}
-                            setSelectedRestaurant={setSelectedRestaurant}
-                            userToAdd={userToAdd}
-                            setUserToAdd={setUserToAdd}
-                            setShowModal={setShowModal}
-                            success={success}
-                            error={error}
-                        />
-                        <ConfirmationPopUp
-                            styles={styles}
-                            showModal={showModal}
-                            setShowModal={setShowModal}
-                            confirmMessage={t('CONFIRM_USER_ADDITION')}
-                            handleConfirmation={addUserToRestaurant}
-                            isDelete={false}
-                        />
-                    </View>
-                ) : (
-                    <View>
-                        <RestaurantListContainer 
-                            styles={styles}
-                            restaurants={restaurants}
-                            setSelectedRestaurant={setSelectedRestaurant}
-                            fetchRestaurantUsers={fetchRestaurantUsers}
-                            setRestaurantToDelete={setRestaurantToDelete}
-                            setShowModal={setShowModal}
-                        />
-                        <ConfirmationPopUp
-                            styles={styles}
-                            showModal={showModal}
-                            setShowModal={setShowModal}
-                            confirmMessage={t('CONFIRM_DELETE')}
-                            handleConfirmation={confirmRestaurantDeletion}
-                            isDelete={true}
-                        />
-                    </View>
-                )}
-            </View>
-        </ScrollView>
-    );
-};
-
-const RestaurantListContainer = ({ styles, restaurants, setSelectedRestaurant,
-    fetchRestaurantUsers, setRestaurantToDelete, setShowModal }) => {
-    const {t} = useTranslation();
-
-    const handleEditPress = ({ name, restaurantId }) => {
-        setSelectedRestaurant([restaurantId, name]);
-        fetchRestaurantUsers(restaurantId);
-    }; 
-
-    const deleteRestaurantButtonId = (index) => 
-        `delete-restaurant-button-${index}`;
 
     return (
         <ScrollView style={styles.mealListContainer}>
@@ -212,15 +154,65 @@ const RestaurantListContainer = ({ styles, restaurants, setSelectedRestaurant,
                     {t('NO_RESTAURANTS')}
                 </Text>
             )}
+            <ConfirmationPopUp
+                styles={styles}
+                showModal={showModal}
+                setShowModal={setShowModal}
+                confirmMessage={t('CONFIRM_DELETE')}
+                handleConfirmation={confirmRestaurantDeletion}
+                isDelete={true}
+            />
         </ScrollView>
     );
 };
 
 const RestaurantEditContainer = ({
-    styles, restaurantUsers, selectedRestaurant, setSelectedRestaurant,
-    userToAdd, setUserToAdd, setShowModal, success, error
-}) => {
+    headers, styles, selectedRestaurant, setSelectedRestaurant }) => {
+
     const {t} = useTranslation();
+    const [restaurantUsers, setRestaurantUsers] = useState([]);
+    const [userToAdd, setUserToAdd] = useState('');
+    const [success, setSuccess] = useState(null);
+    const [error, setError] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+
+    const fetchRestaurantUsers = async (restaurantId) => {
+        try {
+            const response = await axios.get(
+                `${apiUrl}/restaurant/${restaurantId}/users/`,
+                { headers }
+            );
+            const responseUsers = response.data;
+            setRestaurantUsers(responseUsers);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    useEffect(() => {
+        fetchRestaurantUsers(selectedRestaurant[0]);
+    }, []);
+
+    const addUserToRestaurant = async () => {
+        try {
+            await axios.post(
+                `${apiUrl}/restaurant/${selectedRestaurant[0]}/add-user`,
+                { userToAdd },
+                { headers }
+            );
+            fetchRestaurantUsers(selectedRestaurant[0]);
+            setUserToAdd('');
+            setSuccess(t('USER_ADDED'));
+        } catch (err) {
+            console.error(err);
+            setError(t('USER_NOT_ADDED'));
+        }
+        setTimeout(() => {
+            setSuccess(null);
+            setError(null);
+        }, 5000);
+        setShowModal(false);
+    };
 
     return (
         <View>
@@ -275,6 +267,14 @@ const RestaurantEditContainer = ({
                 styles={styles}
                 onPress={() => setSelectedRestaurant(null)}
                 text={t('GO_BACK')}
+            />
+            <ConfirmationPopUp
+                styles={styles}
+                showModal={showModal}
+                setShowModal={setShowModal}
+                confirmMessage={t('CONFIRM_USER_ADDITION')}
+                handleConfirmation={addUserToRestaurant}
+                isDelete={false}
             />
         </View>
     );
