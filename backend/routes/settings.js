@@ -35,7 +35,7 @@ router.get('/api/export-user-data', async (req, res) => {
                 pgp_sym_decrypt(income::bytea,
                 ${process.env.DATABASE_ENCRYPTION_KEY}) AS income
             FROM users
-            WHERE user_id = ${decodedToken.userId};
+            WHERE user_id = ${decodedToken.userId} AND username IS NOT NULL;
         `;
         evaluations = await sql`
             SELECT eval_key, eval_value
@@ -51,7 +51,7 @@ router.get('/api/export-user-data', async (req, res) => {
         return res.status(400).send('user not found');
     }
 
-    let humanReadableEvaluations = {}
+    let humanReadableEvaluations = {};
     for (let row of evaluations) {
         if (row.eval_key == 1) {
             humanReadableEvaluations['climate'] = row.eval_value;
