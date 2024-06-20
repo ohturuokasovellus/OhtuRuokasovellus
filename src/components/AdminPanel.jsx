@@ -1,12 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, Modal } from 'react-native';
-import { Button, DeleteButton, CancelButton } from './ui/Buttons';
+import { 
+    Button, DeleteButton, CancelButton, ButtonVariant
+} from './ui/Buttons';
+import { Input } from './ui/InputFields';
 
 import { useTranslation } from 'react-i18next';
 import createStyles from '../styles/styles';
 
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
+
+const RestaurantEditContainer = ({
+    styles, restaurantUsers, selectedRestaurant, setSelectedRestaurant,
+    userToAdd, setUserToAdd, setShowModal
+}) => {
+    const {t} = useTranslation();
+
+    return (
+        <View>
+            <Text style={styles.h3}>
+                {t('MANAGE_RESTAURANT')}{' '}{selectedRestaurant[0]}
+            </Text>
+            <View style={styles.mealContainer}>
+                <Text style={styles.h5}>
+                    {t('RESTAURANT_USERS')}{':'}
+                </Text>
+                {restaurantUsers.length > 0 ? (
+                    restaurantUsers.map((user, index) => (
+                        <View key={index} style={styles.mealContent}>
+                            <Text style={styles.body}>{user.username}</Text>
+                        </View>
+                    ))
+                ) : (
+                    <Text style={styles.body}>{t('NO_USERS')}</Text>
+                )}
+                <Text style={styles.h4}>
+                    {t('ADD_USERS_BY_USERNAME')}
+                </Text>
+                <Input
+                    styles={styles}
+                    placeholder={t('ENTER_USERNAME')}
+                    value={userToAdd}
+                    onChangeText={setUserToAdd}
+                />
+                <ButtonVariant
+                    styles={styles}
+                    onPress={() => setShowModal(true)}
+                    text={t('ADD_USER')}
+                />
+            </View>
+            <Button
+                styles={styles}
+                onPress={() => setSelectedRestaurant(null)}
+                text={t('BACK_TO_RESTAURANTS')}
+            />
+        </View>
+    );
+};
 
 const AdminPanel = ({ user }) => {
     const {t} = useTranslation();
@@ -15,6 +66,8 @@ const AdminPanel = ({ user }) => {
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
     const [restaurantToDelete, setRestaurantToDelete] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [userToAdd, setUserToAdd] = useState('');
+
     const styles = createStyles();
 
     const headers = {
@@ -81,6 +134,20 @@ const AdminPanel = ({ user }) => {
         setShowModal(false);
     };
 
+    const addUserToRestaurant = async () => {
+        try {
+            await axios.post(
+                `${apiUrl}/restaurant/${selectedRestaurant[0]}/addUser`,
+                { userToAdd },
+                { headers }
+            );
+            fetchRestaurantUsers(selectedRestaurant[0]);
+            setUserToAdd('');
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     const deleteRestaurantButtonId = (index) => 
         `delete-restaurant-button-${index}`;
 
@@ -133,34 +200,11 @@ const AdminPanel = ({ user }) => {
         </ScrollView>
     );
 
-    const RestaurantEditContainer = () => (
-        <View>
-            <Text style={styles.h3}>
-                {t('MANAGE_RESTAURANT')}{' '}{selectedRestaurant[1]}
-            </Text>
-            <View style={styles.mealContainer}>
-                {restaurantUsers.length > 0 ? (
-                    restaurantUsers.map((user, index) => (
-                        <View key={index} style={styles.mealContent}>
-                            <Text style={styles.body}>{user.username}</Text>
-                        </View>
-                    ))
-                ) : (
-                    <Text style={styles.body}>{t('NO_USERS')}</Text>
-                )}
-                <Text style={styles.h4}>
-                    {t('ADD_USERS')}
-                </Text>
-            </View>
-            <Button
-                styles={styles}
-                onPress={() => setSelectedRestaurant(null)}
-                text={t('BACK_TO_RESTAURANTS')}
-            />
-        </View>
-    );
+    
 
-    const DeleteRestaurantPopUp = () => {
+    const ConfirmationPopUp = (
+        { confirmMessage, handleConfirmation, isDelete }
+    ) => {
         return (
             <Modal
                 visible={showModal}
@@ -171,17 +215,25 @@ const AdminPanel = ({ user }) => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalText}>
-                            {t('CONFIRM_DELETE')}
+                            {t(confirmMessage)}
                         </Text>
                         <View style={styles.modalButtonContainer}>
                             <CancelButton styles={styles}
                                 onPress={() => setShowModal(false)}
                                 id="cancel-button"
                             />
-                            <DeleteButton styles={styles}
-                                onPress={confirmRestaurantDeletion}
-                                id="confirm-delete-button"
-                            />
+                            {isDelete ? (
+                                <DeleteButton styles={styles}
+                                    onPress={handleConfirmation}
+                                    id="confirm-delete-button"
+                                />
+                            ): (
+                                <Button
+                                    styles={styles}
+                                    onPress={handleConfirmation}
+                                    text={t('CONFIRM')}
+                                />
+                            )}
                         </View>
                     </View>
                 </View>
@@ -193,11 +245,30 @@ const AdminPanel = ({ user }) => {
         <ScrollView style={styles.background}>
             <View style={styles.container}>
                 {selectedRestaurant ? (
-                    <RestaurantEditContainer />
+                    <View>
+                        <RestaurantEditContainer
+                            styles={styles}
+                            restaurantUsers={restaurantUsers}
+                            selectedRestaurant={selectedRestaurant}
+                            setSelectedRestaurant={setSelectedRestaurant}
+                            userToAdd={userToAdd}
+                            setUserToAdd={setUserToAdd}
+                            setShowModal={setShowModal}
+                        />
+                        <ConfirmationPopUp
+                            confirmMessage={'ADD_USER'}
+                            handleConfirmation={addUserToRestaurant}
+                            isDelete={false}
+                        />
+                    </View>
                 ) : (
                     <View>
                         <RestaurantListContainer />
-                        <DeleteRestaurantPopUp />
+                        <ConfirmationPopUp
+                            confirmMessage={'CONFIRM_DELETE'}
+                            handleConfirmation={confirmRestaurantDeletion}
+                            isDelete={true}
+                        />
                     </View>
                 )}
             </View>
