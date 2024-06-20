@@ -70,7 +70,7 @@ test.describe('user data export', () => {
         const downloadContent = JSON.parse(downloadString);
 
         expect(downloadContent.userInfo.username).toBe('test');
-        expect(downloadContent.purchases[0].meal_name).toBe('Kana bolognese');
+        expect(downloadContent.purchases[0].meal).toBe('Kana bolognese');
         expect(downloadContent.selfEvaluations.climate).toBe(5);
     });
 });

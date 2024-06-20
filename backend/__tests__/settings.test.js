@@ -105,8 +105,8 @@ describe('settings', () => {
 
         test('fails with unexistant user', async () => {
             postgresMock.setSqlResults([
-                [],  // get purchases
                 [],  // get user info, user not found
+                [],  // get purchases
                 [],  // get evaluations
             ]);
 
@@ -121,13 +121,6 @@ describe('settings', () => {
 
         test('responses user data correctly', async () => {
             postgresMock.setSqlResults([
-                // get purchases
-                [{
-                    // eslint-disable-next-line camelcase
-                    purchased_at: '2024-06-20T12:06:41.581Z',
-                    // eslint-disable-next-line camelcase
-                    meal_name: 'pasta',
-                }],
                 // get user info
                 [{
                     username: 'test',
@@ -137,6 +130,14 @@ describe('settings', () => {
                     gender: 'other',
                     education: 'secondary',
                     income: '3500-4500',
+                }],
+                // get purchases
+                [{
+                    // eslint-disable-next-line camelcase
+                    purchased_at: '2024-06-20T12:06:41.581Z',
+                    name: 'pasta',
+                    // eslint-disable-next-line camelcase
+                    meal_id: 42,
                 }],
                 // get self evaluation
                 [
@@ -163,9 +164,9 @@ describe('settings', () => {
                     },
                     purchases: [{
                         // eslint-disable-next-line camelcase
-                        purchased_at: '2024-06-20T12:06:41.581Z',
+                        date: '2024-06-20T12:06:41.581Z',
                         // eslint-disable-next-line camelcase
-                        meal_name: 'pasta',
+                        meal: 'pasta',
                     }],
                     selfEvaluations: {
                         climate: 5,

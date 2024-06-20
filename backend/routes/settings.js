@@ -1,7 +1,8 @@
 const express = require('express');
 const { verifyToken } = require('../services/authorization');
 const {
-    checkPassword, deleteUser, setEvaluationMetric, sql
+    checkPassword, deleteUser, setEvaluationMetric, getPurchases,
+    getEvaluations, getUserInfo,
 } = require('../database');
 const { hash } = require('../services/hash');
 
@@ -15,41 +16,22 @@ router.get('/api/export-user-data', async (req, res) => {
 
     let purchases, userInfo, evaluations;
     try {
-        purchases = await sql`
-            SELECT p.purchased_at, m.name AS meal_name
-            FROM purchases AS p, meals AS m
-            WHERE p.meal_id = m.meal_id AND p.user_id = ${decodedToken.userId};
-        `;
-        userInfo = await sql`
-            SELECT
-                pgp_sym_decrypt(username::bytea,
-                ${process.env.DATABASE_ENCRYPTION_KEY}) AS username,
-                pgp_sym_decrypt(email::bytea,
-                ${process.env.DATABASE_ENCRYPTION_KEY}) AS email,
-                pgp_sym_decrypt(birth_year::bytea,
-                ${process.env.DATABASE_ENCRYPTION_KEY}) AS birth_year,
-                pgp_sym_decrypt(gender::bytea,
-                ${process.env.DATABASE_ENCRYPTION_KEY}) AS gender,
-                pgp_sym_decrypt(education::bytea,
-                ${process.env.DATABASE_ENCRYPTION_KEY}) AS education,
-                pgp_sym_decrypt(income::bytea,
-                ${process.env.DATABASE_ENCRYPTION_KEY}) AS income
-            FROM users
-            WHERE user_id = ${decodedToken.userId} AND username IS NOT NULL;
-        `;
-        evaluations = await sql`
-            SELECT eval_key, eval_value
-            FROM evaluations
-            WHERE user_id = ${decodedToken.userId};
-        `;
+        userInfo = await getUserInfo(decodedToken.userId);
+        purchases = await getPurchases(decodedToken.userId);
+        evaluations = await getEvaluations(decodedToken.userId);
     } catch (err) {
         console.error(err);
         return res.sendStatus(500);
     }
 
-    if (userInfo.length !== 1) {
+    if (!userInfo) {
         return res.status(400).send('user not found');
     }
+
+    purchases = purchases.map(p => ({
+        date: p.date,
+        meal: p.mealName,
+    }));
 
     let humanReadableEvaluations = {};
     for (let row of evaluations) {
@@ -61,7 +43,7 @@ router.get('/api/export-user-data', async (req, res) => {
     }
 
     res.json({
-        userInfo: userInfo[0],
+        userInfo,
         purchases,
         selfEvaluations: humanReadableEvaluations,
     });
