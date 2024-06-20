@@ -13,7 +13,7 @@ router.get('/api/export-user-data', async (req, res) => {
         return res.status(401).send('unauthorized');
     }
 
-    let purchases, userInfo;
+    let purchases, userInfo, evaluations;
     try {
         purchases = await sql`
             SELECT p.purchased_at, m.name AS meal_name
@@ -37,6 +37,11 @@ router.get('/api/export-user-data', async (req, res) => {
             FROM users
             WHERE user_id = ${decodedToken.userId};
         `;
+        evaluations = await sql`
+            SELECT eval_key, eval_value
+            FROM evaluations
+            WHERE user_id = ${decodedToken.userId};
+        `;
     } catch (err) {
         console.error(err);
         return res.sendStatus(500);
@@ -46,9 +51,19 @@ router.get('/api/export-user-data', async (req, res) => {
         return res.status(400).send('user not found');
     }
 
+    let humanReadableEvaluations = {}
+    for (let row of evaluations) {
+        if (row.eval_key == 1) {
+            humanReadableEvaluations['climate'] = row.eval_value;
+        } else if (row.eval_key == 2) {
+            humanReadableEvaluations['nutrition'] = row.eval_value;
+        }
+    }
+
     res.json({
         userInfo: userInfo[0],
         purchases,
+        selfEvaluations: humanReadableEvaluations,
     });
 });
 
