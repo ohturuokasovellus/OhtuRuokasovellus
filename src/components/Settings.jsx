@@ -16,6 +16,8 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
 const DataExport = ({ styles, token }) => {
+    const { t } = useTranslation();
+
     const getUserData = async () => {
         try {
             const response = await axios.get(
@@ -52,9 +54,10 @@ const DataExport = ({ styles, token }) => {
 
     return (
         <View>
-            <Text style={styles.h3}>Vie tiedot</Text>
-            <Text style={styles.body}>Voit ladata sinusta kerätyt tiedot.</Text>
-            <Button styles={styles} text='Tallenna' onPress={getUserData} />
+            <Text style={styles.h3}>{t('EXPORT_USER_DATA')}</Text>
+            <Text style={styles.body}>{t('EXPORT_USER_DATA_DESCRIPTION')}</Text>
+            <Button
+                styles={styles} text={t('DOWNLOAD')} onPress={getUserData} />
         </View>
     )
 };
