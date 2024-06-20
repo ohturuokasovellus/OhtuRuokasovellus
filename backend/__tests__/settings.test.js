@@ -88,4 +88,92 @@ describe('settings', () => {
             expect(postgresMock.runSqlCommands().length).toBe(2);
         });
     });
+
+    describe('user data export', () => {
+        test('fails with invalid authorization', async () => {
+            await request(app)
+                .get('/api/export-user-data')
+                .set(
+                    'Authorization',
+                    'Bearer ' + createToken('test', 1, null).substring(1)
+                )
+                .expect(401)
+                .expect('unauthorized');
+
+            expect(postgresMock.runSqlCommands().length).toBe(0);
+        });
+
+        test('fails with unexistant user', async () => {
+            postgresMock.setSqlResults([
+                [],  // get purchases
+                [],  // get user info, user not found
+                [],  // get evaluations
+            ]);
+
+            await request(app)
+                .get('/api/export-user-data')
+                .set('Authorization', 'Bearer ' + createToken('test', 1, null))
+                .expect(400)
+                .expect('user not found');
+
+            expect(postgresMock.runSqlCommands().length).toBe(3);
+        });
+
+        test('responses user data correctly', async () => {
+            postgresMock.setSqlResults([
+                // get purchases
+                [{
+                    // eslint-disable-next-line camelcase
+                    purchased_at: '2024-06-20T12:06:41.581Z',
+                    // eslint-disable-next-line camelcase
+                    meal_name: 'pasta',
+                }],
+                // get user info
+                [{
+                    username: 'test',
+                    email: 'test@example.com',
+                    // eslint-disable-next-line camelcase
+                    birth_year: '1994',
+                    gender: 'other',
+                    education: 'secondary',
+                    income: '3500-4500',
+                }],
+                // get self evaluation
+                [
+                    // eslint-disable-next-line camelcase
+                    { eval_key: 1, eval_value: 5 },
+                    // eslint-disable-next-line camelcase
+                    { eval_key: 2, eval_value: 1 },
+                ],
+            ]);
+
+            await request(app)
+                .get('/api/export-user-data')
+                .set('Authorization', 'Bearer ' + createToken('test', 1, null))
+                .expect(200)
+                .expect({
+                    userInfo: {
+                        username: 'test',
+                        email: 'test@example.com',
+                        // eslint-disable-next-line camelcase
+                        birth_year: '1994',
+                        gender: 'other',
+                        education: 'secondary',
+                        income: '3500-4500',
+                    },
+                    purchases: [{
+                        // eslint-disable-next-line camelcase
+                        purchased_at: '2024-06-20T12:06:41.581Z',
+                        // eslint-disable-next-line camelcase
+                        meal_name: 'pasta',
+                    }],
+                    selfEvaluations: {
+                        climate: 5,
+                        nutrition: 1,
+                    },
+                });
+
+            expect(postgresMock.runSqlCommands().length).toBe(3);
+        });
+    });
 });
