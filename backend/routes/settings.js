@@ -28,9 +28,9 @@ router.get('/api/export-user-data', async (req, res) => {
         return res.status(400).send('user not found');
     }
 
-    purchases = purchases.map(p => ({
-        date: p.date,
-        meal: p.mealName,
+    purchases = purchases.map(purchase => ({
+        date: purchase.date,
+        meal: purchase.mealName,
     }));
 
     let humanReadableEvaluations = {};
