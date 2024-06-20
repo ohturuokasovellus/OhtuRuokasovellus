@@ -11,6 +11,9 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import Slider from '@react-native-community/slider';
+import { Platform } from 'react-native';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 const DataExport = ({ styles, token }) => {
     const getUserData = async () => {
@@ -24,8 +27,26 @@ const DataExport = ({ styles, token }) => {
                 }
             );
             console.log(response.data);
+            download(response.data);
         } catch (err) {
             console.error(err);
+        }
+    };
+
+    const download = async data => {
+        if (Platform.OS === 'web') {
+            const uri = 'data:application/json;charset=utf-8,' +
+                encodeURIComponent(JSON.stringify(data));
+            const link = document.createElement('a');
+            link.href = uri;
+            link.download = 'ruokalaskuri.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            const fileUrl = FileSystem.documentDirectory + 'ruokalaskuri.json';
+            await FileSystem.writeAsStringAsync(fileUrl, JSON.stringify(data));
+            await Sharing.shareAsync(fileUrl);
         }
     };
 
