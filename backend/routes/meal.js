@@ -1,6 +1,6 @@
 const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
-    getMealRestaurantId, setMealInactive, sql,
+    getMealRestaurantId, setMealInactive, getMealImage,
     getMealIdsNamesPurchaseCodes, getMealForEdit, updateMeal }
     = require('../database');
 const { verifyToken } = require('../services/authorization');
@@ -125,14 +125,10 @@ router.get('/api/meals/images/:id', async (req, res) => {
     const mealId = req.params.id;
 
     try{
-        const result = await sql`
-            SELECT image FROM meals WHERE meal_id = ${mealId};
-        `;
-
-        if (result.length === 0 || !result.at(0).image) {
+        const imageData = await getMealImage(mealId);
+        if (!imageData) {
             return res.status(404).send('no image found');
         }
-        const imageData = result.at(0).image.toString();
         res.type('image/jpeg').send(imageData);
     }
     catch (error) {
