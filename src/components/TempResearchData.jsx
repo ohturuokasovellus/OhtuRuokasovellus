@@ -1,12 +1,13 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Platform } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import createStyles from '../styles/styles';
+import { Button } from './ui/Buttons';
 import apiUrl from '../utils/apiUrl';
-import { Platform } from 'react-native';
 
 
 const ResearchData = () => {
+    const { t } = useTranslation();
     const styles = createStyles();
 
     const getResearchData = async () => {
@@ -14,8 +15,7 @@ const ResearchData = () => {
         try {
             response = await axios.get(`${apiUrl}/research-data/`);
             if (!response.data) return;
-            console.log(response);
-            download(response);
+            download(response.data);
         } catch (error) {
             console.log(error);
         }
@@ -23,12 +23,12 @@ const ResearchData = () => {
 
     const download = async data => {
         if (Platform.OS === 'web') {
-            const uri = 'data:application/json;charset=utf-8,' +
-                encodeURIComponent(JSON.stringify(data));
+            const uri = 'data:application/csv;charset=utf-8,' +
+                encodeURIComponent(data);
             // eslint-disable-next-line no-undef
             const link = document.createElement('a');
             link.href = uri;
-            link.download = 'research_data.json';
+            link.download = 'research_data.csv';
             // eslint-disable-next-line no-undef
             document.body.appendChild(link);
             link.click();
@@ -37,13 +37,13 @@ const ResearchData = () => {
         }
     };
 
-    useEffect(() => {
-        getResearchData();
-    }, []);
-
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container} id='bar-chart'>
+                <Button
+                    styles={styles} onPress={getResearchData}
+                    text={t('DOWNLOAD')} id='export-user-data'
+                />
             </View>
         </ScrollView>
     );

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getResearchData } = require('../databaseUtils/researchData');
+const { formatResearchData } = require('../services/formatResearchData');
 //const { verifyToken } = require('../services/authorization');
 
 /**
@@ -17,7 +18,9 @@ router.get('/api/research-data/', async (req, res) => {
 
     try {
         const researchData = await getResearchData();
-        res.json(researchData);
+        const formattedData = formatResearchData(researchData);
+
+        res.json(formattedData);
     }
     catch (error) {
         console.error(error);
