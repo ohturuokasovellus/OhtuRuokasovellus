@@ -21,7 +21,19 @@ router.get('/api/export-user-data', async (req, res) => {
             WHERE p.meal_id = m.meal_id AND p.user_id = ${decodedToken.userId};
         `;
         userInfo = await sql`
-            SELECT username, email, birth_year, gender, education, income
+            SELECT
+                pgp_sym_decrypt(username::bytea,
+                ${process.env.DATABASE_ENCRYPTION_KEY}) AS username,
+                pgp_sym_decrypt(email::bytea,
+                ${process.env.DATABASE_ENCRYPTION_KEY}) AS email,
+                pgp_sym_decrypt(birth_year::bytea,
+                ${process.env.DATABASE_ENCRYPTION_KEY}) AS birth_year,
+                pgp_sym_decrypt(gender::bytea,
+                ${process.env.DATABASE_ENCRYPTION_KEY}) AS gender,
+                pgp_sym_decrypt(education::bytea,
+                ${process.env.DATABASE_ENCRYPTION_KEY}) AS education,
+                pgp_sym_decrypt(income::bytea,
+                ${process.env.DATABASE_ENCRYPTION_KEY}) AS income
             FROM users
             WHERE user_id = ${decodedToken.userId};
         `;
