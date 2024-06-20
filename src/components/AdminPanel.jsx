@@ -11,6 +11,7 @@ import createStyles from '../styles/styles';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
 
+
 const RestaurantEditContainer = ({
     styles, restaurantUsers, selectedRestaurant, setSelectedRestaurant,
     userToAdd, setUserToAdd, setShowModal
@@ -88,6 +89,12 @@ const AdminPanel = ({ user }) => {
         }
     };
 
+    useEffect(() => {
+        if (user.isAdmin) {
+            fetchRestaurants();
+        }
+    }, []);
+
     const fetchRestaurantUsers = async (restaurantId) => {
         try {
             const response = await axios.get(
@@ -102,13 +109,6 @@ const AdminPanel = ({ user }) => {
         }
     };
 
-    useEffect(() => {
-        if (user.isAdmin) {
-            fetchRestaurants();
-        }
-    }, []);
-
-
     const handleEditPress = ({ name, restaurantId }) => {
         setSelectedRestaurant([restaurantId, name]);
         fetchRestaurantUsers(restaurantId);
@@ -119,12 +119,13 @@ const AdminPanel = ({ user }) => {
 
         try {
             await axios.delete(
-                `${apiUrl}/delete/restaurant/${restaurantToDelete}`,
+                `${apiUrl}/delete/restaurant/${restaurantToDelete[0]}`,
                 { headers }
             );
             setRestaurants(
                 restaurants.filter(
-                    restaurant => restaurant.restaurantId !== restaurantToDelete
+                    restaurant =>
+                        restaurant.restaurantId !== restaurantToDelete[0]
                 )
             );
         } catch (err) {
@@ -137,7 +138,7 @@ const AdminPanel = ({ user }) => {
     const addUserToRestaurant = async () => {
         try {
             await axios.post(
-                `${apiUrl}/restaurant/${selectedRestaurant[0]}/addUser`,
+                `${apiUrl}/restaurant/${selectedRestaurant[0]}/add-user`,
                 { userToAdd },
                 { headers }
             );
@@ -180,9 +181,10 @@ const AdminPanel = ({ user }) => {
                                 <DeleteButton
                                     styles={styles}
                                     onPress={() => {
-                                        setRestaurantToDelete(
-                                            restaurant.restaurantId
-                                        );
+                                        setRestaurantToDelete([
+                                            restaurant.restaurantId,
+                                            restaurant.name
+                                        ]);
                                         setShowModal(true);
                                     }}
                                     text={t('DELETE')}
@@ -199,8 +201,6 @@ const AdminPanel = ({ user }) => {
             )}
         </ScrollView>
     );
-
-    
 
     const ConfirmationPopUp = (
         { confirmMessage, handleConfirmation, isDelete }
@@ -240,7 +240,7 @@ const AdminPanel = ({ user }) => {
             </Modal>
         );
     };
-
+        
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
@@ -256,7 +256,7 @@ const AdminPanel = ({ user }) => {
                             setShowModal={setShowModal}
                         />
                         <ConfirmationPopUp
-                            confirmMessage={'ADD_USER'}
+                            confirmMessage={'CONFIRM'}
                             handleConfirmation={addUserToRestaurant}
                             isDelete={false}
                         />
@@ -265,7 +265,7 @@ const AdminPanel = ({ user }) => {
                     <View>
                         <RestaurantListContainer />
                         <ConfirmationPopUp
-                            confirmMessage={'CONFIRM_DELETE'}
+                            confirmMessage={'CONFIRM'}
                             handleConfirmation={confirmRestaurantDeletion}
                             isDelete={true}
                         />

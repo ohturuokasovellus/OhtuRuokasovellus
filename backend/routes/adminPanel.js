@@ -1,8 +1,9 @@
 const express = require('express');
 const {
     getRestaurants, getRestaurantUsers, setRestaurantToInactive,
-    setRestaurantMealsToInactive, deattachUsersFromRestaurant
-} = require('../database');
+    setRestaurantMealsToInactive, deattachUsersFromRestaurant,
+    addUserToRestaurant
+} = require('../databaseUtils/adminPanel');
 const { verifyToken } = require('../services/authorization');
 
 const router = express.Router();
@@ -112,5 +113,37 @@ router.delete('/api/delete/restaurant/:restaurantId', async (req, res) => {
         return res.status(400).send('invalid restaurant id');
     }
 });
+
+/**
+ * Route for adding existing users to restaurant
+ * @param {Object} req - The request object.
+ * @param {number} req.params.restaurantId - id of the target restaurant.
+ * @param {Object} res - The response object.
+ * @returns {Object} 401 - unauthorized.
+ * @returns {Object} 200 - success status.
+ */
+router.post('/api/restaurant/:restaurantId/add-user', express.json(),
+    async (req, res) => {
+        const userInfo = verifyToken(req.header('Authorization'));
+        if (!userInfo || !userInfo.isAdmin) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const username = req.body.userToAdd;
+        const restaurantId = req.params.restaurantId;
+
+        try {
+            const success = await addUserToRestaurant(restaurantId, username);
+            if (success) {
+                return res.status(200).json('user added to restaurant');
+            } else {
+                return res.status(404).send('invalid username');
+            }
+        }
+        catch (error) {
+            console.error(error);
+            return res.status(500).send('unexpected internal server error');
+        }
+    });
 
 module.exports = router;
