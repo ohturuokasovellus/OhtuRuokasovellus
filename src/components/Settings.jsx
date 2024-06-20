@@ -1,6 +1,6 @@
 import { ScrollView, Text, View } from 'react-native';
 import createStyles from '../styles/styles';
-import { DeleteButton } from './ui/Buttons';
+import { Button, DeleteButton } from './ui/Buttons';
 import { PasswordInput } from './ui/InputFields';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -10,6 +10,32 @@ import { useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+
+const DataExport = ({ styles, token }) => {
+    const getUserData = async () => {
+        try {
+            const response = await axios.get(
+                `${apiUrl}/export-user-data`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            console.log(response.data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    return (
+        <View>
+            <Text style={styles.h3}>Vie tiedot</Text>
+            <Text style={styles.body}>Voit ladata sinusta kerätyt tiedot.</Text>
+            <Button styles={styles} text='Tallenna' onPress={getUserData} />
+        </View>
+    )
+};
 
 const DataRemoval = ({ styles, token }) => {
     const navigate = useNavigate();
@@ -91,6 +117,7 @@ const Settings = () => {
         <ScrollView style={styles.background}>
             <View style={styles.container}>
                 <Text style={styles.h1}>{t('SETTINGS')}</Text>
+                <DataExport styles={styles} token={userSession.token} />
                 <DataRemoval styles={styles} token={userSession.token} />
             </View>
         </ScrollView>
