@@ -11,6 +11,7 @@ const purchaseRouter = require('./routes/purchase');
 const pageURLRouter = require('./routes/webpageURL');
 const settingsRouter = require('./routes/settings');
 const devopsRouter = require('./routes/devops');
+const dashboardRouter = require('./routes/dashboard');
 const path = require('path');
 const filesystem = require('fs');
 
@@ -28,6 +29,7 @@ app.use(purchaseRouter);
 app.use(pageURLRouter);
 app.use(settingsRouter);
 app.use(devopsRouter);
+app.use(dashboardRouter);
 
 const assetsPath = path.join(__dirname, 'assets');
 app.use(express.static(assetsPath, { index: false }));
