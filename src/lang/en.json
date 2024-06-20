@@ -163,6 +163,9 @@
         "USER_ADDED": "User added",
         "USER_NOT_ADDED": "User not added",
         "GO_BACK": "Go back",
-        "NO_RESTAURANTS": "No restaurants."
+        "NO_RESTAURANTS": "No restaurants.",
+        "NO_USERS": "No users.",
+        "ADMIN_PANEL": "Admin panel",
+        "NON_ADMIN_FUNCTIONALITY": "Non admin functionality"
     }
 }

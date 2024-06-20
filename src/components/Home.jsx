@@ -87,7 +87,6 @@ const Home = () => {
         return <ActivityIndicator size='large' color='#0000ff' />;
     }
 
-
     let username, isRestaurantUser, isAdmin;
     if (userSession) {
         username = userSession.username;
@@ -102,6 +101,19 @@ const Home = () => {
                 <Text style={styles.body}>
                     {t('WELCOME')}, {username}
                 </Text>
+                {isAdmin ? (
+                    <View>
+                        <Button
+                            styles={styles}
+                            onPress={() => navigate('/admin-panel')}
+                            text={t('ADMIN_PANEL')}
+                            id='admin-panel-button'
+                        />
+                        <Text style={styles.h4}>
+                            {t('NON_ADMIN_FUNCTIONALITY')}
+                        </Text>
+                    </View>
+                ) : null}
                 <Button
                     styles={styles}
                     onPress={() => navigate('/history')}
@@ -117,14 +129,6 @@ const Home = () => {
                     text={t('SETTINGS')}
                     id='settings-button'
                 />
-                {isAdmin ? (
-                    <Button
-                        styles={styles}
-                        onPress={() => navigate('/admin-panel')}
-                        text={t('ADMIN_PANEL')}
-                        id='admin-panel-button'
-                    />
-                ) : null}
                 {isRestaurantUser ? (
                     <>
                         <Text style={styles.body}>

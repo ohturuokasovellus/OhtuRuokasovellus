@@ -24,7 +24,7 @@ router.get('/api/restaurants', async (req, res) => {
 
     try {
         const result = await getRestaurants();
-        res.json(result);
+        res.status(200).json(result);
     }
     catch (error) {
         console.error(error);
@@ -90,7 +90,7 @@ router.delete('/api/delete/restaurant/:restaurantId', async (req, res) => {
                         restaurantId
                     );
                     if (deattachedUsers) {
-                        return res.status(200).json('restaurant deleted');
+                        return res.status(200).send('restaurant deleted');
                     } else {
                         return res.status(500).send(
                             'users not deattached from restaurant'
@@ -135,7 +135,7 @@ router.post('/api/restaurant/:restaurantId/add-user', express.json(),
         try {
             const success = await addUserToRestaurant(restaurantId, username);
             if (success) {
-                return res.status(200).json('user added to restaurant');
+                return res.status(200).send('user added to restaurant');
             } else {
                 return res.status(404).send('invalid username');
             }

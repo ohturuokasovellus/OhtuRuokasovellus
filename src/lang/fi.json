@@ -163,6 +163,9 @@
         "USER_ADDED": "Käyttäjä lisätty",
         "USER_NOT_ADDED": "Käyttäjä ei lisätty",
         "GO_BACK": "Takaisin",
-        "NO_RESTAURANTS": "Ei ravintoloita."
+        "NO_RESTAURANTS": "Ei ravintoloita.",
+        "NO_USERS": "Ei käyttäjiä.",
+        "ADMIN_PANEL": "Admin paneeli",
+        "NON_ADMIN_FUNCTIONALITY": "Ei-admin funktionaalisuus"
     }
 }
