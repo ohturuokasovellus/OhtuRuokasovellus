@@ -1,6 +1,6 @@
 const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
-    getMealRestaurantId, setMealInactive, sql,
+    getMealRestaurantId, setMealInactive, getMealImage,
     getMealIdsNamesPurchaseCodes, getMealForEdit, updateMeal }
     = require('../database');
 const { verifyToken } = require('../services/authorization');
@@ -125,14 +125,10 @@ router.get('/api/meals/images/:id', async (req, res) => {
     const mealId = req.params.id;
 
     try{
-        const result = await sql`
-            SELECT image FROM meals WHERE meal_id = ${mealId};
-        `;
-
-        if (result.length === 0 || !result.at(0).image) {
+        const imageData = await getMealImage(mealId);
+        if (!imageData) {
             return res.status(404).send('no image found');
         }
-        const imageData = result.at(0).image.toString();
         res.type('image/jpeg').send(imageData);
     }
     catch (error) {
@@ -142,21 +138,16 @@ router.get('/api/meals/images/:id', async (req, res) => {
 });
 
 /**
- * Route for fetching restaurant specific meals.
+ * Route for fetching restaurant specific meals in chunks.
  * @param {Object} req - The request object.
  * @param {number} req.params.restaurantId - Restaurant id.
  * @param {Object} res - The response object.
- * @returns {Object} 404 - No meals/restaurant found.
  */
 router.get('/api/meals/:restaurantId', async (req, res) => {
     try {
         const result = await getMeals(req.params.restaurantId);
-        if (result.length === 0) {
-            return res.status(404).json('Page not found');
-        }
         res.json(result);
-    }
-    catch (error) {
+    } catch (error){
         console.error(error);
         return res.status(500).send('unexpected internal server error');
     }
@@ -168,7 +159,7 @@ router.get('/api/meals/:restaurantId', async (req, res) => {
  * @param {number} req.params.restaurantId - Restaurant id.
  * @param {Object} res - The response object.
  */
-router.get('/api/lessInfoMeals/:restaurantId', async (req, res) => {
+router.get('/api/less-info-meals/:restaurantId', async (req, res) => {
     try {
         const result = await getMealIdsNamesPurchaseCodes(
             req.params.restaurantId);
@@ -178,7 +169,6 @@ router.get('/api/lessInfoMeals/:restaurantId', async (req, res) => {
         console.error(error);
         return res.status(500).send('unexpected internal server error');
     }
-
 });
 
 /**

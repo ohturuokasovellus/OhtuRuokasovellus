@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS restaurants CASCADE;
 DROP TABLE IF EXISTS meals CASCADE;
 DROP TABLE IF EXISTS purchases CASCADE;
 DROP TABLE IF EXISTS urls CASCADE;
+DROP TABLE IF EXISTS evaluations CASCADE;
 
 CREATE TABLE restaurants (
     restaurant_id SERIAL PRIMARY KEY,
@@ -58,6 +59,14 @@ CREATE TABLE urls (
     id SERIAL PRIMARY KEY,
     name TEXT UNIQUE NOT NULL,
     url TEXT NOT NULL
+);
+
+CREATE TABLE evaluations (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users NOT NULL,
+    eval_key INT,
+    eval_value INT,
+    UNIQUE (user_id, eval_key)
 );
 
 -- let survey url be this for now

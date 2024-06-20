@@ -1,6 +1,6 @@
 import { ScrollView, Text, View } from 'react-native';
 import createStyles from '../styles/styles';
-import { DeleteButton } from './ui/Buttons';
+import { DeleteButton, Button } from './ui/Buttons';
 import { PasswordInput } from './ui/InputFields';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -10,6 +10,7 @@ import { useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import Slider from '@react-native-community/slider';
 
 const DataRemoval = ({ styles, token }) => {
     const navigate = useNavigate();
@@ -73,6 +74,101 @@ const DataRemoval = ({ styles, token }) => {
     );
 };
 
+/**
+ * Form for submitting self evaluation.
+ * @param {object} styles
+ * @param {string} token user token
+ * @returns {JSX.Element} 
+ */
+const SelfEvaluationForm = ({ styles, token }) => {
+    const { t } = useTranslation();
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+
+    const [climateValue, setClimateValue] = useState(3);
+    const [nutritionValue, setNutritionValue] = useState(3);
+
+    const sliderLabels = [
+        null,
+        t('NOT_IMPORTANT_AT_ALL'),
+        t('SOMEWHAT_UNIMPORTANT'),
+        t('IN_THE_MIDDLE'),
+        t('SOMEWHAT_IMPORTANT'),
+        t('VERY_IMPORTANT')
+    ];
+
+    const handleEvalSubmit = async () => {
+        setError(null);
+        try {
+            await axios.post(
+                `${apiUrl}/evaluation`,
+                { climateValue, nutritionValue },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setSuccess(t('EVALUATION_SENT'));
+        } catch (err) {
+            console.error(err);
+            setError(t('FAILED_TO_SUBMIT'));
+        }
+    };
+    
+    return (
+        <View style={styles.evaluationContainer}>
+            <Text style={styles.h3}>{t('SELF_EVALUATION')}</Text>
+
+            <View style={styles.questionContainer}>
+                <Text style={styles.body}>
+                    {t('HOW_IMPORTANT_IS_CLIMATE')}
+                </Text>
+                <Slider
+                    style={styles.slider}
+                    minimumValue={1}
+                    maximumValue={5}
+                    step={1}
+                    value={climateValue}
+                    onValueChange={value => setClimateValue(value)}
+                    minimumTrackTintColor="#0C749C"
+                    maximumTrackTintColor="#d3d3d3"
+                    thumbTintColor="#0C749C"
+                />
+                <Text style={styles.body}>
+                    {sliderLabels[climateValue]}
+                </Text>
+            </View>
+
+            <View style={styles.questionContainer}>
+                <Text style={styles.body}>
+                    {t('HOW_IMPORTANT_ARE_NUTRITIONAL_VALUES')}
+                </Text>
+                <Slider
+                    style={styles.slider}
+                    minimumValue={1}
+                    maximumValue={5}
+                    step={1}
+                    value={nutritionValue}
+                    onValueChange={value => setNutritionValue(value)}
+                    minimumTrackTintColor="#0C749C"
+                    maximumTrackTintColor="#d3d3d3"
+                    thumbTintColor="#0C749C"
+                />
+                <Text style={styles.body}>
+                    {sliderLabels[nutritionValue]}
+                </Text>
+            </View>
+            <Button
+                styles={styles} text={t('SUBMIT')}
+                onPress={() => handleEvalSubmit()}
+            />
+            {error && <Text style={styles.error}>{error}</Text>}
+            {success && <Text style={styles.success}>{success}</Text>}
+        </View>
+    );
+};
+
 const Settings = () => {
     const navigate = useNavigate();
     const styles = createStyles();
@@ -91,6 +187,9 @@ const Settings = () => {
         <ScrollView style={styles.background}>
             <View style={styles.container}>
                 <Text style={styles.h1}>{t('SETTINGS')}</Text>
+                <SelfEvaluationForm
+                    styles={styles} token={userSession.token}
+                />
                 <DataRemoval styles={styles} token={userSession.token} />
             </View>
         </ScrollView>

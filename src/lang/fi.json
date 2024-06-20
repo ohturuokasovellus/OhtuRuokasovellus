@@ -153,6 +153,17 @@
         "AVG_CARBS": "Hiilihydraatit keskimäärin",
         "AVG_FAT": "Rasvaa keskimäärin",
         "AVG_PROTEIN": "Proteiinia keskimäärin",
-        "G_PER_MEAL": "(g/annos)"
+        "G_PER_MEAL": "(g/annos)",
+        "SELF_EVALUATION": "Itsearvionti",
+        "HOW_IMPORTANT_IS_CLIMATE": "Kuinka merkityksellistä ilmastoystävällisyys on sinulle?",
+        "HOW_IMPORTANT_ARE_NUTRITIONAL_VALUES": "Kuinka merkityksellisiä ravintoarvot ovat sinulle?",
+        "NOT_IMPORTANT_AT_ALL": "Täysin merkityksetön",
+        "SOMEWHAT_UNIMPORTANT": "Jokseenkin merkityksetön",
+        "IN_THE_MIDDLE": "Keskellä",
+        "SOMEWHAT_IMPORTANT": "Jokseenkin merkityksellinen",
+        "VERY_IMPORTANT": "Erittäin merkityksellinen",
+        "SUBMIT": "Lähetä",
+        "EVALUATION_SENT": "Itsearviointi lähetetty",
+        "FAILED_TO_SUBMIT": "Lähetys epäonnistui"
     }
 }
