@@ -60,7 +60,9 @@ const DataExport = ({ styles, token }) => {
             <Text style={styles.h3}>{t('EXPORT_USER_DATA')}</Text>
             <Text style={styles.body}>{t('EXPORT_USER_DATA_DESCRIPTION')}</Text>
             <Button
-                styles={styles} text={t('DOWNLOAD')} onPress={getUserData} />
+                styles={styles} onPress={getUserData}
+                text={t('DOWNLOAD')} id='export-user-data'
+            />
         </View>
     );
 };
