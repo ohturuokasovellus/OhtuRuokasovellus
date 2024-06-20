@@ -10,6 +10,7 @@ import createStyles from '../styles/styles';
 import { Button, ButtonVariant } from './ui/Buttons';
 
 import MealDeletion from './MealDeletion';
+import Dashboard from './Dashboard';
 
 const Home = () => {
     const {t} = useTranslation();
@@ -101,6 +102,7 @@ const Home = () => {
                 <Text style={styles.body}>
                     {t('WELCOME')}, {username}
                 </Text>
+                <Dashboard />
                 <Button
                     styles={styles}
                     onPress={() => navigate('/history')}
