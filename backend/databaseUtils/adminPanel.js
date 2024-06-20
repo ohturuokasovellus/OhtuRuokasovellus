@@ -81,7 +81,7 @@ const deattachUsersFromRestaurant = async (restaurantId) => {
 const addUserToRestaurant = async (restaurantId, username) => {
     const result = await sql`
         UPDATE users SET restaurant_id = ${restaurantId}
-        WHERE username = pgp_sym_decrypt(username::bytea, 
+        WHERE pgp_sym_decrypt(username::bytea, 
         ${process.env.DATABASE_ENCRYPTION_KEY}) = ${username};
     `;
     return result.count === 1;

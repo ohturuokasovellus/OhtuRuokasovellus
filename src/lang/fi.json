@@ -154,6 +154,15 @@
         "VERY_IMPORTANT": "Erittäin merkityksellinen",
         "SUBMIT": "Lähetä",
         "EVALUATION_SENT": "Itsearviointi lähetetty",
-        "FAILED_TO_SUBMIT": "Lähetys epäonnistui"
+        "FAILED_TO_SUBMIT": "Lähetys epäonnistui",
+        "CONFIRM": "Varmenna",
+        "USERS_OF_RESTAURANT": "Ravintolan käyttäjät",
+        "MANAGE_RESTAURANT": "Muokkaa ravintolaa",
+        "ADD_USERS_BY_USERNAME": "Lisää käyttäjiä käyttäjänimellä",
+        "MANAGE_RESTAURANTS": "Muokkaa ravintoloita",
+        "USER_ADDED": "Käyttäjä lisätty",
+        "USER_NOT_ADDED": "Käyttäjä ei lisätty",
+        "GO_BACK": "Takaisin",
+        "NO_RESTAURANTS": "Ei ravintoloita."
     }
 }

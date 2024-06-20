@@ -14,18 +14,18 @@ import apiUrl from '../utils/apiUrl';
 
 const RestaurantEditContainer = ({
     styles, restaurantUsers, selectedRestaurant, setSelectedRestaurant,
-    userToAdd, setUserToAdd, setShowModal
+    userToAdd, setUserToAdd, setShowModal, success, error
 }) => {
     const {t} = useTranslation();
 
     return (
         <View>
             <Text style={styles.h3}>
-                {t('MANAGE_RESTAURANT')}{' '}{selectedRestaurant[0]}
+                {t('MANAGE_RESTAURANT')}{' '}{selectedRestaurant[1]}
             </Text>
             <View style={styles.mealContainer}>
                 <Text style={styles.h5}>
-                    {t('RESTAURANT_USERS')}{':'}
+                    {t('USERS_OF_RESTAURANT')}{':'}
                 </Text>
                 {restaurantUsers.length > 0 ? (
                     restaurantUsers.map((user, index) => (
@@ -41,20 +41,32 @@ const RestaurantEditContainer = ({
                 </Text>
                 <Input
                     styles={styles}
-                    placeholder={t('ENTER_USERNAME')}
+                    placeholder={t('USERNAME')}
                     value={userToAdd}
                     onChangeText={setUserToAdd}
                 />
                 <ButtonVariant
                     styles={styles}
-                    onPress={() => setShowModal(true)}
+                    onPress={userToAdd ? () => setShowModal(true)
+                        : null
+                    }
                     text={t('ADD_USER')}
                 />
+                {success ? (
+                    <View>
+                        <Text style={styles.success}>{success}</Text>
+                    </View>
+                ): null}
+                {error ? (
+                    <View>
+                        <Text style={styles.error}>{error}</Text>
+                    </View>
+                ): null}
             </View>
             <Button
                 styles={styles}
                 onPress={() => setSelectedRestaurant(null)}
-                text={t('BACK_TO_RESTAURANTS')}
+                text={t('GO_BACK')}
             />
         </View>
     );
@@ -68,6 +80,8 @@ const AdminPanel = ({ user }) => {
     const [restaurantToDelete, setRestaurantToDelete] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [userToAdd, setUserToAdd] = useState('');
+    const [success, setSuccess] = useState(null);
+    const [error, setError] = useState(null);
 
     const styles = createStyles();
 
@@ -102,7 +116,6 @@ const AdminPanel = ({ user }) => {
                 { headers }
             );
             const responseUsers = response.data;
-            console.log(responseUsers);
             setRestaurantUsers(responseUsers);
         } catch (err) {
             console.error(err);
@@ -144,9 +157,16 @@ const AdminPanel = ({ user }) => {
             );
             fetchRestaurantUsers(selectedRestaurant[0]);
             setUserToAdd('');
+            setSuccess(t('USER_ADDED'));
         } catch (err) {
             console.error(err);
+            setError(t('USER_NOT_ADDED'));
         }
+        setTimeout(() => {
+            setSuccess(null);
+            setError(null);
+        }, 5000);
+        setShowModal(false);
     };
 
     const deleteRestaurantButtonId = (index) => 
@@ -215,7 +235,7 @@ const AdminPanel = ({ user }) => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalText}>
-                            {t(confirmMessage)}
+                            {confirmMessage}
                         </Text>
                         <View style={styles.modalButtonContainer}>
                             <CancelButton styles={styles}
@@ -254,9 +274,11 @@ const AdminPanel = ({ user }) => {
                             userToAdd={userToAdd}
                             setUserToAdd={setUserToAdd}
                             setShowModal={setShowModal}
+                            success={success}
+                            error={error}
                         />
                         <ConfirmationPopUp
-                            confirmMessage={'CONFIRM'}
+                            confirmMessage={t('CONFIRM')}
                             handleConfirmation={addUserToRestaurant}
                             isDelete={false}
                         />
@@ -265,7 +287,7 @@ const AdminPanel = ({ user }) => {
                     <View>
                         <RestaurantListContainer />
                         <ConfirmationPopUp
-                            confirmMessage={'CONFIRM'}
+                            confirmMessage={t('CONFIRM_DELETE')}
                             handleConfirmation={confirmRestaurantDeletion}
                             isDelete={true}
                         />
