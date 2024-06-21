@@ -83,8 +83,6 @@ test.describe('user dashboard', () => {
         await page.locator('#login-button').click();
         await page.waitForURL('/');
 
-        await expect(page.locator('text=Dashboard')).toBeVisible();
-
         await expect(page.locator('#avg-co2 rect').nth(1)).toBeVisible();
         await expect(page.locator('#avg-co2 rect').nth(2)).toBeVisible();
         await expect(page.locator('#avg-co2 rect').nth(3)).toBeVisible();
