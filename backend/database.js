@@ -113,6 +113,34 @@ const checkPassword = async (userId, password) => {
 };
 
 /**
+ * Get most of the personal information of a user.
+ * @param {number} userId
+ * @returns {Promise<{ username: string, email: string, birth_year: string,
+ *  gender: string, education: string, income: string }?>}
+ */
+const getUserInfo = async userId => {
+    const result = await sql`
+        SELECT
+            pgp_sym_decrypt(username::bytea,
+            ${process.env.DATABASE_ENCRYPTION_KEY}) AS username,
+            pgp_sym_decrypt(email::bytea,
+            ${process.env.DATABASE_ENCRYPTION_KEY}) AS email,
+            pgp_sym_decrypt(birth_year::bytea,
+            ${process.env.DATABASE_ENCRYPTION_KEY}) AS birth_year,
+            pgp_sym_decrypt(gender::bytea,
+            ${process.env.DATABASE_ENCRYPTION_KEY}) AS gender,
+            pgp_sym_decrypt(education::bytea,
+            ${process.env.DATABASE_ENCRYPTION_KEY}) AS education,
+            pgp_sym_decrypt(income::bytea,
+            ${process.env.DATABASE_ENCRYPTION_KEY}) AS income
+        FROM users
+        WHERE user_id = ${userId} AND username IS NOT NULL;
+    `;
+    if (result.length !== 1) return null;
+    return result[0];
+};
+
+/**
  * Get user id based on email.
  * @param {string} email
  * @returns {Promise<number|null>} - user id or null if not found
@@ -533,6 +561,19 @@ const setEvaluationMetric = async (userId, evalKey, evalValue) => {
     return result.count === 1;
 };
 
+/**
+ * Get all self evaluation metrics of a user.
+ * @param {number} userId
+ * @returns {Promise<{ eval_key: number, eval_value: number }[]>}
+ */
+const getEvaluations = async userId => {
+    return await sql`
+        SELECT eval_key, eval_value
+        FROM evaluations
+        WHERE user_id = ${userId};
+    `;
+};
+
 module.exports = {
     sql,
     insertUser,
@@ -540,6 +581,7 @@ module.exports = {
     doesUsernameExist,
     getUser,
     checkPassword,
+    getUserInfo,
     getUserIdByEmail,
     getRestaurantIdByUserId,
     doesEmailExist,
@@ -562,4 +604,5 @@ module.exports = {
     updateMeal,
     getMealIdsNamesPurchaseCodes,
     setEvaluationMetric,
+    getEvaluations,
 };

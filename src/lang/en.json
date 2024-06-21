@@ -170,6 +170,8 @@
         "ADMIN_PANEL": "Admin panel",
         "NON_ADMIN_FUNCTIONALITY": "Non admin functionality",
         "CONFIRM_USER_ADDITION": "Confirm user addition:",
-        "DOWNLOAD_RESEARCH_DATA": "Download research data"
+        "DOWNLOAD_RESEARCH_DATA": "Download research data",
+        "EXPORT_USER_DATA": "Export data",
+        "EXPORT_USER_DATA_DESCRIPTION": "You can download all the data collected about you."
     }
 }

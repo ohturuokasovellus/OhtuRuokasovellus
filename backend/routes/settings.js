@@ -1,10 +1,53 @@
 const express = require('express');
 const { verifyToken } = require('../services/authorization');
-const { checkPassword, deleteUser, setEvaluationMetric }
-    = require('../database');
+const {
+    checkPassword, deleteUser, setEvaluationMetric, getPurchases,
+    getEvaluations, getUserInfo,
+} = require('../database');
 const { hash } = require('../services/hash');
 
 const router = express.Router();
+
+router.get('/api/export-user-data', async (req, res) => {
+    const decodedToken = verifyToken(req.header('Authorization'));
+    if (!decodedToken) {
+        return res.status(401).send('unauthorized');
+    }
+
+    let purchases, userInfo, evaluations;
+    try {
+        userInfo = await getUserInfo(decodedToken.userId);
+        purchases = await getPurchases(decodedToken.userId);
+        evaluations = await getEvaluations(decodedToken.userId);
+    } catch (err) {
+        console.error(err);
+        return res.sendStatus(500);
+    }
+
+    if (!userInfo) {
+        return res.status(400).send('user not found');
+    }
+
+    purchases = purchases.map(purchase => ({
+        date: purchase.date,
+        meal: purchase.mealName,
+    }));
+
+    let humanReadableEvaluations = {};
+    for (let row of evaluations) {
+        if (row.eval_key == 1) {
+            humanReadableEvaluations['climate'] = row.eval_value;
+        } else if (row.eval_key == 2) {
+            humanReadableEvaluations['nutrition'] = row.eval_value;
+        }
+    }
+
+    res.json({
+        userInfo,
+        purchases,
+        selfEvaluations: humanReadableEvaluations,
+    });
+});
 
 router.post('/api/remove-account', express.json(), async (req, res) => {
     const { password } = req.body;
