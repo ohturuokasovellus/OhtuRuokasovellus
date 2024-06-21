@@ -298,14 +298,14 @@ const RestaurantDashboard = () => {
     );
 };
 
-const Dashboard = ({ isRestaurant }) => {
-    return (
-        isRestaurant ? (
-            <RestaurantDashboard />
-        ) : (
-            <UserDashboard />
-        )
-    );
-};
+// const Dashboard = ({ isRestaurant }) => {
+//     return (
+//         isRestaurant ? (
+//             <RestaurantDashboard />
+//         ) : (
+//             <UserDashboard />
+//         )
+//     );
+// };
 
-export default Dashboard;
+export { UserDashboard, RestaurantDashboard };
