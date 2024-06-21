@@ -16,13 +16,21 @@ const AdminPanel = ({ user }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
     const styles = createStyles();
-    const headers = {
-        Authorization: `Bearer ${user.token}`,
-    };
+    let headers;
+    
+    if (user) {
+        headers = {
+            Authorization: `Bearer ${user.token}`
+        };
+    } else {
+        navigate('/');
+    }
 
     useEffect(() => {
         const verifyAdminStatus = async () => {
+            
             try {
                 const response = await axios.get(
                     `${apiUrl}/verify-admin-status`,
@@ -31,6 +39,7 @@ const AdminPanel = ({ user }) => {
                 if (!response.data.isAdmin) {
                     navigate('/');
                 }
+                setIsAdmin(true);
             } catch (err) {
                 console.error(err);
                 navigate('/');
@@ -40,29 +49,32 @@ const AdminPanel = ({ user }) => {
     }, []);
 
     return (
-        <ScrollView style={styles.background}>
-            <View style={styles.container}>
-                <Text style={[styles.h2, { alignSelf: 'center' }]}>
-                    {t('ADMIN_PANEL')}
-                </Text>
-                {selectedRestaurant ? (
-                    <RestaurantEditContainer
-                        headers={headers}
-                        styles={styles}
-                        selectedRestaurant={selectedRestaurant}
-                        setSelectedRestaurant={setSelectedRestaurant}
-                    />
-                ): (
-                    <View style={styles.container}>
-                        <RestaurantListContainer
+        isAdmin ? (
+            <ScrollView style={styles.background}>
+                <View style={styles.container}>
+                    <Text style={[styles.h2, { alignSelf: 'center' }]}>
+                        {t('ADMIN_PANEL')}
+                    </Text>
+                    {selectedRestaurant ? (
+                        <RestaurantEditContainer
                             headers={headers}
                             styles={styles}
+                            selectedRestaurant={selectedRestaurant}
                             setSelectedRestaurant={setSelectedRestaurant}
                         />
-                    </View>
-                )}
-            </View>
-        </ScrollView>
+                    ): (
+                        <View style={styles.container}>
+                            <RestaurantListContainer
+                                headers={headers}
+                                styles={styles}
+                                setSelectedRestaurant={setSelectedRestaurant}
+                            />
+                        </View>
+                    )}
+                </View>
+            </ScrollView>
+
+        ): null
     );
 };
 
@@ -254,6 +266,7 @@ const RestaurantEditContainer = ({
                             placeholder={t('USERNAME')}
                             value={userToAdd}
                             onChangeText={setUserToAdd}
+                            id="username-input"
                         />
                         <ButtonVariant
                             styles={styles}
@@ -261,6 +274,7 @@ const RestaurantEditContainer = ({
                                 : null
                             }
                             text={t('ADD_USER')}
+                            id="attach-user-button"
                         />
                         {success ? (
                             <View>
@@ -324,6 +338,7 @@ const ConfirmationPopUp = (
                                 styles={styles}
                                 onPress={handleConfirmation}
                                 text={t('CONFIRM')}
+                                id="confirm-button"
                             />
                         )}
                     </View>
