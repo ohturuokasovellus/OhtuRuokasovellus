@@ -7,9 +7,10 @@ const jwt = require('jsonwebtoken');
  * @param {number} restaurantId restaurantId of the logged user.
  * @returns {string} Encrypted JWT token ready to be sent to frontend.
  */
-const createToken = (username, userId, restaurantId) => {
+const createToken = (username, userId, restaurantId, isAdmin) => {
     const tokenContent = {
-        username: username, userId: userId, restaurantId: restaurantId 
+        username: username, userId: userId, restaurantId: restaurantId,
+        isAdmin: isAdmin
     };
     return jwt.sign(tokenContent, process.env.SECRET_KEY);
 };

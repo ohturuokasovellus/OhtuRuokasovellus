@@ -13,6 +13,7 @@ const settingsRouter = require('./routes/settings');
 const devopsRouter = require('./routes/devops');
 const restaurantRouter = require('./routes/restaurant');
 const researchRouter = require('./routes/researchData');
+const adminPanelRouter = require('./routes/adminPanel');
 const path = require('path');
 const filesystem = require('fs');
 
@@ -32,6 +33,7 @@ app.use(settingsRouter);
 app.use(devopsRouter);
 app.use(restaurantRouter);
 app.use(researchRouter);
+app.use(adminPanelRouter);
 
 const assetsPath = path.join(__dirname, 'assets');
 app.use(express.static(assetsPath, { index: false }));

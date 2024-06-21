@@ -95,7 +95,7 @@
         "MANAGE_RESTAURANT_MEALS": "Muokkaa ravintolan aterioita",
         "NO_MEALS": "Ei aterioita.",
         "CANCEL": "Peruuta",
-        "CONFIRM_DELETE": "Poista ateria?",
+        "CONFIRM_DELETE": "Varmenna poisto",
         "MEAL_HISTORY": "Ateriahistoria",
         "BIRTH_YEAR": "Syntymävuosi",
         "EDUCATION": "Koulutus",
@@ -156,6 +156,19 @@
         "VERY_IMPORTANT": "Erittäin merkityksellinen",
         "SUBMIT": "Lähetä",
         "EVALUATION_SENT": "Itsearviointi lähetetty",
-        "FAILED_TO_SUBMIT": "Lähetys epäonnistui"
+        "FAILED_TO_SUBMIT": "Lähetys epäonnistui",
+        "CONFIRM": "Varmenna",
+        "USERS_OF_RESTAURANT": "Ravintolan käyttäjät",
+        "MANAGE_RESTAURANT": "Muokkaa ravintolaa",
+        "ADD_USERS_BY_USERNAME": "Lisää käyttäjiä käyttäjänimellä",
+        "MANAGE_RESTAURANTS": "Muokkaa ravintoloita",
+        "USER_ADDED": "Käyttäjä lisätty",
+        "USER_NOT_ADDED": "Käyttäjä ei lisätty",
+        "GO_BACK": "Takaisin",
+        "NO_RESTAURANTS": "Ei ravintoloita.",
+        "NO_USERS": "Ei käyttäjiä.",
+        "ADMIN_PANEL": "Admin paneeli",
+        "NON_ADMIN_FUNCTIONALITY": "Ei-admin funktionaalisuus",
+        "CONFIRM_USER_ADDITION": "Varmenna käyttäjän lisäys:"
     }
 }

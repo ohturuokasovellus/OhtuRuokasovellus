@@ -87,11 +87,11 @@ const Home = () => {
         return <ActivityIndicator size='large' color='#0000ff' />;
     }
 
-
-    let username, isRestaurantUser;
+    let username, isRestaurantUser, isAdmin;
     if (userSession) {
         username = userSession.username;
         isRestaurantUser = userSession.restaurantId !== null;
+        isAdmin = userSession.isAdmin;
     }
 
     return (
@@ -101,6 +101,19 @@ const Home = () => {
                 <Text style={styles.body}>
                     {t('WELCOME')}, {username}
                 </Text>
+                {isAdmin ? (
+                    <View>
+                        <Button
+                            styles={styles}
+                            onPress={() => navigate('/admin-panel')}
+                            text={t('ADMIN_PANEL')}
+                            id='admin-panel-button'
+                        />
+                        <Text style={styles.h4}>
+                            {t('NON_ADMIN_FUNCTIONALITY')}
+                        </Text>
+                    </View>
+                ) : null}
                 <Button
                     styles={styles}
                     onPress={() => navigate('/history')}

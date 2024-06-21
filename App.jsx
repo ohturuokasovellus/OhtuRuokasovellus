@@ -18,6 +18,7 @@ import MenuQR from './src/components/MenuQR';
 import MealQR from './src/components/MealQR';
 import Settings from './src/components/Settings';
 import RestaurantComparison from './src/components/RestaurantComparison';
+import AdminPanel from '/src/components/AdminPanel';
 import './src/lang/i18n'; // should be inported in index.js, but idk if
 //they mean the backend's index.js or frontend's app.jsx. Works when imported
 // here.
@@ -64,6 +65,8 @@ const App = () => {
                     <Route path='/settings' element={<Settings />} />
                     <Route path='/restaurant-comparison' 
                         element={<RestaurantComparison />} />
+                    <Route path='/admin-panel' element={<AdminPanel 
+                        user={user} />} />
                 </Routes>
             </Router>
         </ThemeController>
