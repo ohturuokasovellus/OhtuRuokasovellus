@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { View, ScrollView, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { getSession } from '../controllers/sessionController';
 import createStyles from '../styles/styles';
 import { Button } from './ui/Buttons';
 import apiUrl from '../utils/apiUrl';
@@ -8,12 +9,17 @@ import apiUrl from '../utils/apiUrl';
 
 const ResearchData = () => {
     const { t } = useTranslation();
+    const userSession = getSession();
     const styles = createStyles();
 
     const getResearchData = async () => {
         let response = null;
         try {
-            response = await axios.get(`${apiUrl}/research-data/`);
+            response = await axios.get(`${apiUrl}/research-data/`, {
+                headers: {
+                    Authorization: `Bearer ${userSession.token}`,
+                }
+            });
             if (!response.data) return;
             download(response.data);
         } catch (error) {
