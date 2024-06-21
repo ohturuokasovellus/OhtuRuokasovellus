@@ -49,7 +49,7 @@ const streamToString = async stream => {
     });
 };
 
-test.describe('user data export', () => {
+test.describe('research data export', () => {
     test.beforeEach(async () => {
         await initDb();
     });
@@ -64,10 +64,14 @@ test.describe('user data export', () => {
         const download = await downloadPromise;
         const downloadStream = await download.createReadStream();
         const downloadString = await streamToString(downloadStream);
-        const downloadContent = JSON.parse(downloadString);
 
-        expect(downloadContent.userInfo.username).toBe('test');
-        expect(downloadContent.purchases[0].meal_name).toBe('Kana bolognese');
-        expect(downloadContent.selfEvaluations.climate).toBe(5);
+        let headerLineEnd = downloadString
+            .search('purchase_count_over_5500,\n');
+        expect(headerLineEnd).not.toBe(-1);
+    });
+
+    test('non-admin user cannot export research data', async ({ page }) => {
+        await page.goto('/admin-panel');
+        await expect(page).toHaveURL('/');
     });
 });

@@ -18,15 +18,15 @@ const AdminPanel = ({ user }) => {
     const navigate = useNavigate();
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
     const styles = createStyles();
-    const headers = {
-        Authorization: `Bearer ${user.token}`,
-    };
-
-    useEffect(() => {
-        if (!user.isAdmin) {
-            navigate('/');
-        }
-    }, []);
+    let headers;
+    if (!user) {
+        navigate('/');
+    }
+    else {
+        headers = {
+            Authorization: `Bearer ${user.token}`,
+        };
+    }
 
     return (
         <ScrollView style={styles.background}>
