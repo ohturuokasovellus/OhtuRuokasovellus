@@ -1,10 +1,6 @@
 /* eslint-disable camelcase */
 require('dotenv').config();
-const postgres = require('postgres');
-
-const sql = postgres(process.env.E2ETEST == '1' ?
-    process.env.E2ETEST_POSTGRES_URL :
-    process.env.BACKEND_POSTGRES_URL);
+const { sql } = require('../database');
 
 /**
  * Get restaurants
