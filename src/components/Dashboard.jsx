@@ -42,13 +42,13 @@ const UserDashboard = () => {
         setAgeGroup(data.ageGroup);
         switch (data.gender.toLowerCase()) {
         case 'man':
-            setGender('MEN');
+            setGender('M');
             break;
         case 'woman':
-            setGender('WOMEN');
+            setGender('F');
             break;
         default:
-            setGender('OTHERS');
+            setGender('X');
             break;
         }
         setAverages(data.averages);
@@ -78,7 +78,7 @@ const UserDashboard = () => {
         );
     }
 
-    const labels = [t('YOU'), t('ALL'), t(gender), ageGroup];
+    const labels = [t('YOU'), t('ALL'), gender, ageGroup];
     const co2Data = {
         labels: labels,
         datasets: [{
@@ -149,12 +149,12 @@ const UserDashboard = () => {
     };
 
     return (
-        <View style={styles.cardContainer}>
+        <View style={styles.cardContainer} id='user-dashboard'>
             <Text style={styles.h3}>
                         Dashboard
             </Text>
             <View style={styles.chartDescrContainer}>
-                <View style={styles.mealDescrContainer}>
+                <View style={styles.mealDescrContainer} id='avg-co2'>
                     <BarChartCustom
                         title={`${t('AVG_CO2')}\n${t('G_PER_MEAL')}`}
                         data={co2Data}
@@ -162,7 +162,7 @@ const UserDashboard = () => {
                         withCustomBarColorFromData={true}
                     />
                 </View>
-                <View style={styles.mealDescrContainer}>
+                <View style={styles.mealDescrContainer} id='avg-carbs'>
                     <BarChartCustom
                         title={`${t('AVG_CARBS')}\n${t('G_PER_MEAL')}`}
                         data={carbsData}
@@ -172,7 +172,7 @@ const UserDashboard = () => {
                 </View>
             </View>
             <View style={styles.chartDescrContainer}>
-                <View style={styles.mealDescrContainer}>
+                <View style={styles.mealDescrContainer} id='avg-fat'>
                     <BarChartCustom
                         title={`${t('AVG_FAT')}\n${t('G_PER_MEAL')}`}
                         data={fatData}
@@ -180,7 +180,7 @@ const UserDashboard = () => {
                         withCustomBarColorFromData={true}
                     />
                 </View>
-                <View style={styles.mealDescrContainer}>
+                <View style={styles.mealDescrContainer} id='avg-protein'>
                     <BarChartCustom
                         title={`${t('AVG_PROTEIN')}\n${t('G_PER_MEAL')}`}
                         data={proteinData}
