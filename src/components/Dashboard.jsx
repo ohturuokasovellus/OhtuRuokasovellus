@@ -104,7 +104,7 @@ const RestaurantDashboard = () => {
     };
 
     return (
-        <View style={styles.cardContainer}>
+        <View style={styles.cardContainer} id='restaurant-bar-chart'>
             <Text style={styles.h3}>
                 {restaurantName}
             </Text>
