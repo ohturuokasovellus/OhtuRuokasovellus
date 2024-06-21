@@ -5,7 +5,7 @@ import {
     Button, DeleteButton, CancelButton, ButtonVariant
 } from './ui/Buttons';
 import { Input } from './ui/InputFields';
-import { ResearchData } from  './ResearchData';
+import ResearchData from  './ResearchData';
 
 import { useTranslation } from 'react-i18next';
 import createStyles from '../styles/styles';
