@@ -153,7 +153,6 @@ const SelfEvaluationForm = ({ styles, token }) => {
     ];
 
     const handleEvalSubmit = async () => {
-        setError(null);
         try {
             await axios.post(
                 `${apiUrl}/evaluation`,
@@ -169,6 +168,10 @@ const SelfEvaluationForm = ({ styles, token }) => {
             console.error(err);
             setError(t('FAILED_TO_SUBMIT'));
         }
+        setTimeout(() => {
+            setSuccess(null);
+            setError(null);
+        }, 5000);
     };
     
     return (

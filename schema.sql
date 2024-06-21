@@ -9,7 +9,8 @@ DROP TABLE IF EXISTS evaluations CASCADE;
 
 CREATE TABLE restaurants (
     restaurant_id SERIAL PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL
+    name TEXT UNIQUE NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE users (
@@ -21,7 +22,8 @@ CREATE TABLE users (
     gender TEXT,
     education TEXT,
     income TEXT,
-    restaurant_id INT REFERENCES restaurants DEFAULT NULL
+    restaurant_id INT REFERENCES restaurants DEFAULT NULL,
+    is_admin BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE meals (
