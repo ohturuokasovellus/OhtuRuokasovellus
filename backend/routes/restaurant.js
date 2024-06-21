@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getRestaurantName } = require('../utils/restaurant');
+const { getRestaurantName } = require('../databaseUtils/restaurant');
 const { verifyToken } = require('../services/authorization');
 
 /**

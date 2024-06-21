@@ -5,7 +5,7 @@ const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
     = require('../database');
 const { verifyToken } = require('../services/authorization');
 const { getNutrients } = require('../services/calculateNutrients');
-const { getAllMealEmissions } = require('../utils/meal');
+const { getAllMealEmissions } = require('../databaseUtils/meal');
 
 const router = express.Router();
 
