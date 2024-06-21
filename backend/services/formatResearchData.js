@@ -20,7 +20,13 @@ function formatResearchData (researchData) {
         let line = '';
         for (const key in researchData[index])
         {
-            line+=researchData[index][key] + ',';
+            if (key == 'meal_id' || key == 'name'|| key == 'price') {
+                line+= researchData[index][key] + ',';
+            }
+            else {
+                const value = Math.max(Number(researchData[index][key]),5);
+                line+= value.toString() + ',';
+            }
         }
         line += '\n';
         formattedResearchData+=line;
