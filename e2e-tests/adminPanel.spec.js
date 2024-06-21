@@ -43,10 +43,14 @@ test.describe('admin panel', () => {
         await page.waitForURL('/');
         await page.locator('#language-toggle').click();
         await page.locator('#admin-panel-button').click();
-        await page.waitForURL('/admin-panel');
+        await page.waitForURL('/');
     });
 
-    test('self evaluation segment is visible', async ({ page }) => {
+    test('admin user has admin panel button that takes to admin page',
+        async ({ page }) => {
+        await expect(page.locator('#admin-panel-button')).toBeVisible();
+        await page.locator('#admin-panel-button').click();
+        
         await expect(page.locator('text=Self evaluation')).toBeVisible();
         await expect(
             page.locator('text=How important climate friendliness is to you?'))

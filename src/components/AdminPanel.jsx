@@ -22,9 +22,21 @@ const AdminPanel = ({ user }) => {
     };
 
     useEffect(() => {
-        if (!user.isAdmin) {
-            navigate('/');
-        }
+        const verifyAdminStatus = async () => {
+            try {
+                const response = await axios.get(
+                    `${apiUrl}/verify-admin-status`,
+                    { headers }
+                );
+                if (!response.data.isAdmin) {
+                    navigate('/');
+                }
+            } catch (err) {
+                console.error(err);
+                navigate('/');
+            }
+        };
+        verifyAdminStatus();
     }, []);
 
     return (
