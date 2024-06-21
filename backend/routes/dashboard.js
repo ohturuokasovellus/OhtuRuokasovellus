@@ -31,10 +31,10 @@ router.get('/api/user/dashboard', async (req, res) => {
     }
 
     const averages = {
-        all: { co2: null, carbs: null, fat: null, protein: null },
-        user: { co2: null, carbs: null, fat: null, protein: null },
-        gender: { co2: null, carbs: null, fat: null, protein: null },
-        age: { co2: null, carbs: null, fat: null, protein: null },
+        all: { co2: 0, carbs: 0, fat: 0, protein: 0 },
+        user: { co2: 0, carbs: 0, fat: 0, protein: 0 },
+        gender: { co2: 0, carbs: 0, fat: 0, protein: 0 },
+        age: { co2: 0, carbs: 0, fat: 0, protein: 0 },
     };
 
     let birthYear;

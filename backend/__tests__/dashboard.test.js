@@ -271,4 +271,52 @@ describe('user dashboard api', () => {
         expect(postgresMock.runSqlCommands().length).toBe(10);
     });
 
+    test('returns correct data when cannot calc averages', async () => {
+        postgresMock.setSqlResults([
+            [{decrypted_birth_year: '1958'}],
+            [{decrypted_gender: 'man'}],
+            [{avg_co2_emissions: null}],
+            [{avg_co2_emissions: null}],
+            [{avg_co2_emissions: null}],
+            [{avg_co2_emissions: null}],
+            [{
+                avg_carbohydrates: null,
+                avg_fat: null,
+                avg_protein: null
+            }],
+            [{
+                avg_carbohydrates: null,
+                avg_fat: null,
+                avg_protein: null
+            }],
+            [{
+                avg_carbohydrates: null,
+                avg_fat: null,
+                avg_protein: null
+            }],
+            [{
+                avg_carbohydrates: null,
+                avg_fat: null,
+                avg_protein: null
+            }],
+        ]);
+        await request(app)
+            .get('/api/user/dashboard')
+            .set('Authorization', `Bearer ${createToken('test', 1)}`)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+            .expect({
+                ageGroup: '65+',
+                gender: 'man',
+                averages: {
+                    all: {co2: 0, carbs: 0, fat: 0, protein: 0},
+                    user: {co2: 0, carbs: 0, fat: 0, protein: 0},
+                    gender: {co2: 0, carbs: 0, fat: 0, protein: 0},
+                    age: {co2: 0, carbs: 0, fat: 0, protein: 0},
+                }
+            });
+
+        expect(postgresMock.runSqlCommands().length).toBe(10);
+    });
+
 });
