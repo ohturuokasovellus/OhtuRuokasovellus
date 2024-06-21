@@ -1,20 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { View, ScrollView, Text } from 'react-native';
-import { BarChart } from 'react-native-chart-kit';
 import { getSession } from '../controllers/sessionController';
 import { useNavigate } from '../Router';
 import createStyles from '../styles/styles';
 import apiUrl from '../utils/apiUrl';
-
-const chartConfig = {
-    backgroundGradientFrom: '#1E2923',
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: '#08130D',
-    backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    barPercentage: 1
-};
+import { BarChartCustom } from './ui/BarCharts';
 
 const RestaurantComparison = () => {
     const styles = createStyles();
@@ -86,7 +77,9 @@ const RestaurantComparison = () => {
         labels: [restaurantName, 'All restaurants'],
         datasets: [
             {
-                data: [ownEmissions, allEmissions]
+                data: [
+                    parseFloat(ownEmissions.toFixed(1)),
+                    parseFloat(allEmissions.toFixed(1))]
             }
         ]
     };
@@ -94,19 +87,17 @@ const RestaurantComparison = () => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container} id='bar-chart'>
-                <Text style={styles.body}>
-                    {restaurantName}
-                </Text>
-                <BarChart 
-                    style={{}}
-                    data={chartData}
-                    width={500}
-                    height={220}
-                    yAxisLabel="CO2 "
-                    chartConfig={chartConfig}
-                    showValuesOnTopOfBars={true}
-                    fromZero={true}
-                />
+                <View style={styles.cardContainer}>
+                    <Text style={styles.h3}>
+                        {restaurantName}
+                    </Text>
+                    <BarChartCustom
+                        data={chartData}
+                        title='Total CO2 emissions of meals'
+                        styles={styles}
+                        showValuesOnTopOfBars={true}
+                    />
+                </View>
             </View>
         </ScrollView>
     );
