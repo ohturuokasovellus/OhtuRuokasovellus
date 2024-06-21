@@ -144,7 +144,6 @@
         "MEAL_UPDATED": "Meal updated succesfully!",
         "MEAL_NOT_UPDATED": "Error occured, meal not created.",
         "DOWNLOAD": "Download",
-        "UNAUTHORIZED": "You are not authorized to view this content",
         "UNEXPECTED_ERROR": "A unexpected error occured, please try again later",
         "SELF_EVALUATION": "Self evaluation",
         "HOW_IMPORTANT_IS_CLIMATE": "How important climate friendliness is to you?",
