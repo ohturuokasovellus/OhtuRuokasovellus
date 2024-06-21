@@ -10,6 +10,7 @@ import createStyles from '../styles/styles';
 import { Button, ButtonVariant } from './ui/Buttons';
 
 import MealDeletion from './MealDeletion';
+import Dashboard from './Dashboard';
 
 const Home = () => {
     const {t} = useTranslation();
@@ -158,6 +159,7 @@ const Home = () => {
                             text={t('EXPORT_MENU_QR')}
                             id='restaurant-menu-button'
                         />
+                        <Dashboard isRestaurant={true} />
                         <MealDeletion />
                     </>
                 ) : null}

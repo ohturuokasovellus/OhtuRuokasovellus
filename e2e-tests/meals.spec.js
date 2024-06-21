@@ -1,6 +1,5 @@
 import {
-    sql, insertRestaurant, insertUser,
-    insertMeal, addMealImage, updateUserRestaurantByEmail
+    sql, insertRestaurant, insertUser, addMealImage, updateUserRestaurantByEmail
 } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
@@ -20,7 +19,7 @@ const initTestDB = async () => {
     const gender = 'other';
     const education = 'primary';
     const income = 'below 1500';
-    insertUser(user, password, email, birthYear,
+    await insertUser(user, password, email, birthYear,
         gender, education, income
     );
     const restaurantId = await insertRestaurant(restaurant);
@@ -84,14 +83,15 @@ test.describe('restaurant meal page', () => {
         await page.locator('#pannacotta-button').click();
         await expect(page.locator('text=Lorem ipsum dolor sit amet'))
             .toBeVisible();
-        await expect(page.locator('text=Ut enim ad minim veniam')).toBeVisible;
+        await expect(page.locator('text=Ut enim ad minim veniam'))
+            .toBeVisible();
 
         await page.locator('#kana-bolognese-button').click();
         await page.locator('#pannacotta-button').click();
         await expect(page.locator('text=Lorem ipsum dolor sit amet'))
             .not.toBeVisible();
         await expect(page.locator('text=Ut enim ad minim veniam'))
-            .not.toBeVisible;
+            .not.toBeVisible();
     });
 
     test('renders meal info correctly if selected', async ({ page }) => {

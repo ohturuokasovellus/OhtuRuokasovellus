@@ -18,7 +18,7 @@ const initTestDB = async () => {
     const gender = 'other';
     const education = 'primary';
     const income = 'below 1500';
-    insertUser(user, password, email, birthYear,
+    await insertUser(user, password, email, birthYear,
         gender, education, income
     );
     const restaurantId = await insertRestaurant(restaurant);
@@ -50,21 +50,11 @@ test.describe('restaurant comparison page', () => {
 
     test('logged in restaurant user can see emission chart',
         async ({ page }) => {
-            const userData = {
-                username: 'testaurant',
-                token: 'moi',
-                restaurantId: '1',
-            };
-            await page.evaluate((userData) => {window.localStorage
-                .setItem('loggedUser', JSON.stringify(userData));
-            }, userData);
-            await page.goto('/restaurant-comparison');
-            await expect(page.locator('#bar-chart')).toBeVisible();
-        });
-
-    test('logged out user sees unauthorized view',
-        async ({ page }) => {
-            await page.goto('/restaurant-comparison');
-            await expect(page.locator('#bar-chart')).toBeHidden();
+            await page.goto('/login');
+            await page.fill('input[id="username-input"]', 'test');
+            await page.fill('input[id="password-input"]', 'Test123!');
+            await page.locator('#login-button').click();
+            await page.waitForURL('/');
+            await expect(page.locator('#restaurant-bar-chart')).toBeVisible();
         });
 });

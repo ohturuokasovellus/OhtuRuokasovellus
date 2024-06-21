@@ -396,7 +396,8 @@ const getMeal = async mealId => {
  */
 const getMealByPurchaseCode = async purchaseCode => {
     const result = await sql`
-        SELECT meal_id, name FROM meals WHERE purchase_code = ${purchaseCode};
+        SELECT meal_id, name, meal_description
+        FROM meals WHERE purchase_code = ${purchaseCode} AND is_active = TRUE;
     `;
     if (result.length === 0) {
         return null;
@@ -404,6 +405,7 @@ const getMealByPurchaseCode = async purchaseCode => {
     return {
         mealId: result[0].meal_id,
         name: result[0].name,
+        description: result[0].meal_description,
     };
 };
 

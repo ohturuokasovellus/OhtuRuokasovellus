@@ -144,7 +144,6 @@
         "MEAL_UPDATED": "Ateria päivitetty!",
         "MEAL_NOT_UPDATED": "Tapahtui virhe, ateria ei päivitetty.",
         "DOWNLOAD": "Lataa",
-        "UNAUTHORIZED": "Sinulla ei ole oikeutta nähdä tätä sisältöä",
         "UNEXPECTED_ERROR": "Virhe tapahtui, yritä uudelleen myöhemmin",
         "SELF_EVALUATION": "Itsearvionti",
         "HOW_IMPORTANT_IS_CLIMATE": "Kuinka merkityksellistä ilmastoystävällisyys on sinulle?",
