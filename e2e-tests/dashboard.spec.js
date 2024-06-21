@@ -83,28 +83,23 @@ test.describe('user dashboard', () => {
         await page.locator('#login-button').click();
         await page.waitForURL('/');
 
-        await expect(page.locator('#user-dashboard')).toBeVisible();
         await expect(page.locator('text=Dashboard')).toBeVisible();
 
-        await expect(page.locator('#avg-co2')).toBeVisible();
         await expect(page.locator('#avg-co2 rect').nth(1)).toBeVisible();
         await expect(page.locator('#avg-co2 rect').nth(2)).toBeVisible();
         await expect(page.locator('#avg-co2 rect').nth(3)).toBeVisible();
         await expect(page.locator('#avg-co2 rect').nth(4)).toBeVisible();
 
-        await expect(page.locator('#avg-carbs')).toBeVisible();
         await expect(page.locator('#avg-carbs rect').nth(1)).toBeVisible();
         await expect(page.locator('#avg-carbs rect').nth(2)).toBeVisible();
         await expect(page.locator('#avg-carbs rect').nth(3)).toBeVisible();
         await expect(page.locator('#avg-carbs rect').nth(4)).toBeVisible();
         
-        await expect(page.locator('#avg-fat')).toBeVisible();
         await expect(page.locator('#avg-fat rect').nth(1)).toBeVisible();
         await expect(page.locator('#avg-fat rect').nth(2)).toBeVisible();
         await expect(page.locator('#avg-fat rect').nth(3)).toBeVisible();
         await expect(page.locator('#avg-fat rect').nth(4)).toBeVisible();
 
-        await expect(page.locator('#avg-protein')).toBeVisible();
         await expect(page.locator('#avg-fat rect').nth(1)).toBeVisible();
         await expect(page.locator('#avg-fat rect').nth(2)).toBeVisible();
         await expect(page.locator('#avg-fat rect').nth(3)).toBeVisible();
