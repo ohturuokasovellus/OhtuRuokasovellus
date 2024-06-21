@@ -115,6 +115,7 @@ const Home = () => {
                         </Text>
                     </View>
                 ) : null}
+                <UserDashboard />
                 <Button
                     styles={styles}
                     onPress={() => navigate('/history')}
