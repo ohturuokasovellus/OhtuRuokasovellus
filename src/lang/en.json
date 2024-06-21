@@ -164,6 +164,8 @@
         "VERY_IMPORTANT": "Very important",
         "SUBMIT": "Submit",
         "EVALUATION_SENT": "Evaluation sent",
-        "FAILED_TO_SUBMIT": "Failed to submit"
+        "FAILED_TO_SUBMIT": "Failed to submit",
+        "EXPORT_USER_DATA": "Export data",
+        "EXPORT_USER_DATA_DESCRIPTION": "You can download all the data collected about you."
     }
 }
