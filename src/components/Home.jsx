@@ -147,6 +147,7 @@ const Home = () => {
                             text={t('EXPORT_MENU_QR')}
                             id='restaurant-menu-button'
                         />
+                        <Dashboard isRestaurant={true} />
                         <MealDeletion />
                     </>
                 ) : null}

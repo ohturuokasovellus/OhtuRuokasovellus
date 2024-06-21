@@ -154,6 +154,7 @@
         "AVG_FAT": "Average fat",
         "AVG_PROTEIN": "Average protein",
         "G_PER_MEAL": "(g per meal)",
+        "UNEXPECTED_ERROR": "A unexpected error occured, please try again later",
         "SELF_EVALUATION": "Self evaluation",
         "HOW_IMPORTANT_IS_CLIMATE": "How important climate friendliness is to you?",
         "HOW_IMPORTANT_ARE_NUTRITIONAL_VALUES": "How important nutritional values are to you?",

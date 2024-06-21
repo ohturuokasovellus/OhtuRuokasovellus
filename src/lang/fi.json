@@ -154,6 +154,7 @@
         "AVG_FAT": "Rasvaa keskimäärin",
         "AVG_PROTEIN": "Proteiinia keskimäärin",
         "G_PER_MEAL": "(g/annos)",
+        "UNEXPECTED_ERROR": "Virhe tapahtui, yritä uudelleen myöhemmin",
         "SELF_EVALUATION": "Itsearvionti",
         "HOW_IMPORTANT_IS_CLIMATE": "Kuinka merkityksellistä ilmastoystävällisyys on sinulle?",
         "HOW_IMPORTANT_ARE_NUTRITIONAL_VALUES": "Kuinka merkityksellisiä ravintoarvot ovat sinulle?",

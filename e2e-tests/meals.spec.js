@@ -20,7 +20,7 @@ const initTestDB = async () => {
     const gender = 'other';
     const education = 'primary';
     const income = 'below 1500';
-    insertUser(user, password, email, birthYear,
+    await insertUser(user, password, email, birthYear,
         gender, education, income
     );
     const restaurantId = await insertRestaurant(restaurant);
@@ -84,7 +84,8 @@ test.describe('restaurant meal page', () => {
         await page.locator('#pannacotta-button').click();
         await expect(page.locator('text=Lorem ipsum dolor sit amet'))
             .toBeVisible();
-        await expect(page.locator('text=Ut enim ad minim veniam')).toBeVisible;
+        await expect(page.locator('text=Ut enim ad minim veniam'))
+            .toBeVisible();
 
         await page.locator('#kana-bolognese-button').click();
         await page.locator('#pannacotta-button').click();

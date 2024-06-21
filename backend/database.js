@@ -249,8 +249,7 @@ const doesRestaurantExist = async name => {
  * Insert a new meal to the database.
  * @param {string} name Name of the meal.
  * @param {number} restaurantId Id of the restaurant who created the meal.
- * @param {string} mealDescription 
- * @param {number} co2Emissions CO2 emissions of the meal.
+ * @param {string} mealDescription
  * @param {string} mealAllergens Allergens of the meal.
  * @param {Dictionary} nutrientDictionary Nutrients of a meal in a dictionary
  * @param {string} ingredients ingredient list in json
@@ -395,7 +394,8 @@ const getMeal = async mealId => {
  */
 const getMealByPurchaseCode = async purchaseCode => {
     const result = await sql`
-        SELECT meal_id, name FROM meals WHERE purchase_code = ${purchaseCode};
+        SELECT meal_id, name, meal_description
+        FROM meals WHERE purchase_code = ${purchaseCode} AND is_active = TRUE;
     `;
     if (result.length === 0) {
         return null;
@@ -403,6 +403,7 @@ const getMealByPurchaseCode = async purchaseCode => {
     return {
         mealId: result[0].meal_id,
         name: result[0].name,
+        description: result[0].meal_description,
     };
 };
 
