@@ -15,7 +15,6 @@ const {
     getAvgMacronutrientsByGender,
     getAvgMacronutrientsByAgeGroup
 } = require('../databaseUtils/averages');
-const { ErrorMessage } = require('formik');
 
 // /**
 //  * Route for requesting data for dashboard.
