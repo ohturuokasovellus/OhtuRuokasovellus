@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { View, ScrollView, Platform } from 'react-native';
+import { View, ScrollView, Platform, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { getSession } from '../controllers/sessionController';
 import createStyles from '../styles/styles';
@@ -45,14 +45,15 @@ const ResearchData = () => {
 
     return (
         <ScrollView style={styles.background}>
-            <View style={styles.container} id='bar-chart'>
-                <Button
+            <View style={styles.container}>
+                <Text>{t('DOWNLOAD_RESEARCH_DATA')}</Text>
+                <Button id='research-data-download-button'
                     styles={styles} onPress={getResearchData}
-                    text={t('DOWNLOAD')} id='export-user-data'
+                    text={t('DOWNLOAD')}
                 />
             </View>
         </ScrollView>
     );
 };
 
-export default ResearchData;
+export default { ResearchData };
