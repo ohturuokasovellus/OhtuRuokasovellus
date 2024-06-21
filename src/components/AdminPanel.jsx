@@ -12,6 +12,11 @@ import createStyles from '../styles/styles';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
 
+/**
+ * Panel for admin users.
+ * @param {Object} user
+ * @returns {JSX.Element} 
+ */
 const AdminPanel = ({ user }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
@@ -78,6 +83,13 @@ const AdminPanel = ({ user }) => {
     );
 };
 
+/**
+ * Restaurant list view.
+ * @param {Object} headers authorization headers
+ * @param {Object} styles
+ * @param {Function} setSelectedRestaurant sets selected restaurant
+ * @returns {JSX.Element} 
+ */
 const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
 }) => {
     const {t} = useTranslation();
@@ -190,6 +202,14 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
     );
 };
 
+/**
+ * Restaurant edit view.
+ * @param {Object} headers authorization headers
+ * @param {Object} styles
+ * @param {List} selectedRestaurant id and name of restaurant
+ * @param {Function} setSelectedRestaurant
+ * @returns {JSX.Element} 
+ */
 const RestaurantEditContainer = ({
     headers, styles, selectedRestaurant, setSelectedRestaurant }) => {
 
@@ -306,6 +326,15 @@ const RestaurantEditContainer = ({
     );
 };
 
+/**
+ * Confirmation pop up.
+ * @param {Object} styles
+ * @param {Boolean} showModal true if activated
+ * @param {String} confirmMessage confirmation message
+ * @param {Function} handleConfirmation
+ * @param {Boolean} isDelete confirmation context
+ * @returns {JSX.Element} 
+ */
 const ConfirmationPopUp = (
     { styles, showModal, setShowModal, confirmMessage, handleConfirmation,
         isDelete }) => {
