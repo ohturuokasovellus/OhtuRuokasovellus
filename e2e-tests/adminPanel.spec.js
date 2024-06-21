@@ -8,7 +8,7 @@ const initTestDB = async () => {
     await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
     await sql`TRUNCATE TABLE restaurants RESTART IDENTITY CASCADE`;
 
-    let user = 'admin';
+    let user = 'adminTest';
     let password = hash('Testi123!');
     let email = 'test@test.com';
     let birthYear = '2000';
@@ -37,44 +37,43 @@ test.describe('admin panel', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
         await page.goto('/login');
-        await page.fill('input[id="username-input"]', 'admin');
+        await page.fill('input[id="username-input"]', 'adminTest');
         await page.fill('input[id="password-input"]', 'Testi123!');
         await page.locator('#login-button').click();
         await page.waitForURL('/');
         await page.locator('#language-toggle').click();
-        await page.locator('#admin-panel-button').click();
         await page.waitForURL('/');
+        await page.locator('#admin-panel-button').click();
+        await page.waitForURL('/admin-panel');
     });
 
     test('admin user has admin panel button that takes to admin page',
         async ({ page }) => {
+        await page.goto('/');
+        await page.waitForURL('/');
         await expect(page.locator('#admin-panel-button')).toBeVisible();
         await page.locator('#admin-panel-button').click();
+        await page.waitForURL('/admin-panel');
         
-        await expect(page.locator('text=Self evaluation')).toBeVisible();
-        await expect(
-            page.locator('text=How important climate friendliness is to you?'))
-            .toBeVisible();
-        await expect(
-            page.locator('text=How important nutritional values are to you?'))
-            .toBeVisible();
-
-        await expect(page.locator('text=SUBMIT')).toBeVisible();
+        await expect(page.locator('text=Admin panel')).toBeVisible();
+        await expect(page.locator('text=Manage restaurants')).toBeVisible();
+        await expect(page.locator('text=testaurant')).toBeVisible();
+   
     });
 
-    test('user can submit self evaluation', async ({ page }) => {
+    test('admin user can delete restaurant', async ({ page }) => {
         await page.locator('text=SUBMIT').click();
         await expect(page.locator('text=Evaluation sent')).toBeVisible();
     });
 
     test('self evaluation is saved in database', async ({ page }) => {
-        await page.locator('text=SUBMIT').click();
-        await page.waitForSelector('text=Evaluation sent');
-        const result = await sql `SELECT eval_value FROM evaluations
+        await expect(page.locator('text=testaurant')).toBeVisible();
+        await page.locator('#delete-restaurant-button-0').click();
+        await page.locator('#confirm-delete-button').click();
+        const result = await sql `SELECT is_active FROM evaluations
             WHERE user_id = 1;`;
         expect(result.at(0).eval_value).toBe(3);
         expect(result.at(1).eval_value).toBe(3);
     });
 
-    // possible TODO: try testing slider value changing
 });
