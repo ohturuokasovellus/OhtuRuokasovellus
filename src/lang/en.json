@@ -169,6 +169,7 @@
         "NO_USERS": "No users.",
         "ADMIN_PANEL": "Admin panel",
         "NON_ADMIN_FUNCTIONALITY": "Non admin functionality",
-        "CONFIRM_USER_ADDITION": "Confirm user addition:"
+        "CONFIRM_USER_ADDITION": "Confirm user addition:",
+        "DOWNLOAD_RESEARCH_DATA": "Download research data"
     }
 }

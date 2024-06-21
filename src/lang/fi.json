@@ -169,6 +169,7 @@
         "NO_USERS": "Ei käyttäjiä.",
         "ADMIN_PANEL": "Admin paneeli",
         "NON_ADMIN_FUNCTIONALITY": "Ei-admin funktionaalisuus",
-        "CONFIRM_USER_ADDITION": "Varmenna käyttäjän lisäys:"
+        "CONFIRM_USER_ADDITION": "Varmenna käyttäjän lisäys:",
+        "DOWNLOAD_RESEARCH_DATA": "Lataa tutkimusdata"
     }
 }
