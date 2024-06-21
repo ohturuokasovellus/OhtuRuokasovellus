@@ -167,7 +167,7 @@
         "NO_USERS": "No users.",
         "ADMIN_PANEL": "Admin panel",
         "NON_ADMIN_FUNCTIONALITY": "Non admin functionality",
-        "CONFIRM_USER_ADDITION": "Confirm user addition:"
+        "CONFIRM_USER_ADDITION": "Confirm user addition:",
         "EXPORT_USER_DATA": "Export data",
         "EXPORT_USER_DATA_DESCRIPTION": "You can download all the data collected about you."
     }
