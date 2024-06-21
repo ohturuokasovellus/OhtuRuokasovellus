@@ -1,10 +1,12 @@
 /**
  * Function for converting research data.
- * @param {Object} researchData - Research data
+ * @param {Object[]} researchData - Research data
  * @returns {string[]} Formatted research data
  */
 function formatResearchData (researchData) {
     let formattedResearchData = '';
+
+    if (researchData.length < 1) return [];
 
     for (const key in researchData[0])
     {
