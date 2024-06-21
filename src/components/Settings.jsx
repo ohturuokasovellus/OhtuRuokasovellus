@@ -1,6 +1,6 @@
 import { ScrollView, Text, View } from 'react-native';
 import createStyles from '../styles/styles';
-import { DeleteButton, Button } from './ui/Buttons';
+import { Button, DeleteButton } from './ui/Buttons';
 import { PasswordInput } from './ui/InputFields';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -11,6 +11,61 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import Slider from '@react-native-community/slider';
+import { Platform } from 'react-native';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+
+const DataExport = ({ styles, token }) => {
+    const { t } = useTranslation();
+
+    const getUserData = async () => {
+        try {
+            const response = await axios.get(
+                `${apiUrl}/export-user-data`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            console.log(response.data);
+            download(response.data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const download = async data => {
+        if (Platform.OS === 'web') {
+            const uri = 'data:application/json;charset=utf-8,' +
+                encodeURIComponent(JSON.stringify(data));
+            // eslint-disable-next-line no-undef
+            const link = document.createElement('a');
+            link.href = uri;
+            link.download = 'ruokalaskuri.json';
+            // eslint-disable-next-line no-undef
+            document.body.appendChild(link);
+            link.click();
+            // eslint-disable-next-line no-undef
+            document.body.removeChild(link);
+        } else {
+            const fileUrl = FileSystem.documentDirectory + 'ruokalaskuri.json';
+            await FileSystem.writeAsStringAsync(fileUrl, JSON.stringify(data));
+            await Sharing.shareAsync(fileUrl);
+        }
+    };
+
+    return (
+        <View>
+            <Text style={styles.h3}>{t('EXPORT_USER_DATA')}</Text>
+            <Text style={styles.body}>{t('EXPORT_USER_DATA_DESCRIPTION')}</Text>
+            <Button
+                styles={styles} onPress={getUserData}
+                text={t('DOWNLOAD')} id='export-user-data'
+            />
+        </View>
+    );
+};
 
 const DataRemoval = ({ styles, token }) => {
     const navigate = useNavigate();
@@ -190,6 +245,7 @@ const Settings = () => {
                 <SelfEvaluationForm
                     styles={styles} token={userSession.token}
                 />
+                <DataExport styles={styles} token={userSession.token} />
                 <DataRemoval styles={styles} token={userSession.token} />
             </View>
         </ScrollView>
