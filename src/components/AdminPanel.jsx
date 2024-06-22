@@ -5,6 +5,7 @@ import {
     Button, DeleteButton, CancelButton, ButtonVariant
 } from './ui/Buttons';
 import { Input } from './ui/InputFields';
+import ResearchData from  './ResearchData';
 
 import { useTranslation } from 'react-i18next';
 import createStyles from '../styles/styles';
@@ -60,6 +61,7 @@ const AdminPanel = ({ user }) => {
                     <Text style={[styles.h2, { alignSelf: 'center' }]}>
                         {t('ADMIN_PANEL')}
                     </Text>
+                    <ResearchData />
                     {selectedRestaurant ? (
                         <RestaurantEditContainer
                             headers={headers}

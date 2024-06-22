@@ -16,7 +16,9 @@ const router = express.Router();
  */
 router.get('/api/verify-admin-status', express.json(), async (req, res) => {
     const userInfo = verifyToken(req.header('Authorization'));
-    return res.status(200).send({ isAdmin: userInfo.isAdmin });
+    !userInfo
+        ? res.status(401).send('unauthorized') 
+        : res.status(200).send({ isAdmin: userInfo.isAdmin });
 });
 
 /**

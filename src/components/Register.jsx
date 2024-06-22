@@ -102,7 +102,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     const income = [
         {key: 'below 1500', value: '<1500 €/kk'},
         {key: '1500-2500', value: '1500–2500 €/kk'},
-        {key: '2500t-3500', value: '2500–3500 €/kk'},
+        {key: '2500-3500', value: '2500–3500 €/kk'},
         {key: '3500-4500', value: '3500–4500 €/kk'},
         {key: '4500-5500', value: '4500–5500 €/kk'},
         {key: 'over 5500', value: '>5500 €/kk'},

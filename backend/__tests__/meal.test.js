@@ -1,10 +1,12 @@
+/* eslint-disable camelcase */
+
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const app = require('../app');
 // eslint-disable-next-line jest/no-mocks-import
 const postgresMock = require('../__mocks__/postgres');
 
-const token = jwt.sign({ username: 'moi', userId: 1, restaurantId: 1 },
+const token = jwt.sign({ username: 'moi', userId: 1, restaurantId: 2 },
     process.env.SECRET_KEY);
 
 describe('meal api', () => {
@@ -17,8 +19,8 @@ describe('meal api', () => {
 
     test('new meal is saved to the database', async () => {
         postgresMock.setSqlResults([
-            [{ restaurant_id: 2 }], // eslint-disable-line camelcase
-            [{ meal_id: 1234 }], // eslint-disable-line camelcase
+            [{ restaurant_id: 2 }],
+            [{ meal_id: 1234 }],
             { count: 1 },
         ]);
         
@@ -26,8 +28,8 @@ describe('meal api', () => {
             .post('/api/meals')
             .send({ mealName: 'pasta', mealDescription: 'good pasta',
                 mealAllergenString: 'Gluten, Dairy', ingredients: [{
-                    mealId: '1', category: 'starches', ingredient: 'wheat',
-                    weight: '150'
+                    ingredientId: '1', category: 'starches', 
+                    ingredient: 'wheat', weight: '150'
                 }], formattedPrice: '12,30'
             })
             .set(headers)
@@ -48,7 +50,7 @@ describe('meal api', () => {
 
     test('meal creation fails with missing name', async () => {
         postgresMock.setSqlResults([
-            [{ restaurant_id: 2 }], // eslint-disable-line camelcase
+            [{ restaurant_id: 2 }], // eslint-disable-line 
         ]);
 
         await request(app)
@@ -111,5 +113,21 @@ describe('meal api', () => {
 
         const res = await request(app).get('/api/meals/images/2');
         expect(res.status).toBe(404);
+    });
+
+    test('emissions are fetched correctly', async () => {
+        postgresMock.setSqlResults([
+            [{ restaurant_id: 2, co2_emissions: 123714308 }],
+        ]);
+
+        await request(app)
+            .get('/api/all-meal-emissions/')
+            .set(headers)
+            .expect(200)
+            .expect(
+                {'emissions': [{ restaurant_id: 2, co2_emissions: 123714308 }],
+                    'restaurantId': 2});
+
+        expect(postgresMock.runSqlCommands().length).toBe(1);
     });
 });

@@ -144,6 +144,7 @@
         "MEAL_UPDATED": "Ateria päivitetty!",
         "MEAL_NOT_UPDATED": "Tapahtui virhe, ateria ei päivitetty.",
         "DOWNLOAD": "Lataa",
+        "UNEXPECTED_ERROR": "Virhe tapahtui, yritä uudelleen myöhemmin",
         "SELF_EVALUATION": "Itsearvionti",
         "HOW_IMPORTANT_IS_CLIMATE": "Kuinka merkityksellistä ilmastoystävällisyys on sinulle?",
         "HOW_IMPORTANT_ARE_NUTRITIONAL_VALUES": "Kuinka merkityksellisiä ravintoarvot ovat sinulle?",
@@ -168,6 +169,7 @@
         "ADMIN_PANEL": "Admin paneeli",
         "NON_ADMIN_FUNCTIONALITY": "Ei-admin funktionaalisuus",
         "CONFIRM_USER_ADDITION": "Varmenna käyttäjän lisäys:",
+        "DOWNLOAD_RESEARCH_DATA": "Lataa tutkimusdata",
         "EXPORT_USER_DATA": "Vie tiedot",
         "EXPORT_USER_DATA_DESCRIPTION": "Voit ladata kaikki sinusta kerätyt tiedot."
     }

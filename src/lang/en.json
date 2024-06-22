@@ -144,6 +144,7 @@
         "MEAL_UPDATED": "Meal updated succesfully!",
         "MEAL_NOT_UPDATED": "Error occured, meal not created.",
         "DOWNLOAD": "Download",
+        "UNEXPECTED_ERROR": "A unexpected error occured, please try again later",
         "SELF_EVALUATION": "Self evaluation",
         "HOW_IMPORTANT_IS_CLIMATE": "How important climate friendliness is to you?",
         "HOW_IMPORTANT_ARE_NUTRITIONAL_VALUES": "How important nutritional values are to you?",
@@ -168,6 +169,7 @@
         "ADMIN_PANEL": "Admin panel",
         "NON_ADMIN_FUNCTIONALITY": "Non admin functionality",
         "CONFIRM_USER_ADDITION": "Confirm user addition:",
+        "DOWNLOAD_RESEARCH_DATA": "Download research data",
         "EXPORT_USER_DATA": "Export data",
         "EXPORT_USER_DATA_DESCRIPTION": "You can download all the data collected about you."
     }
