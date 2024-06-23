@@ -5,6 +5,8 @@ import { useNavigate, Link } from '../Router';
 import { useTranslation } from 'react-i18next';
 import Survey, { fetchSurveyUrl } from './Survey';
 import { getSession } from '../controllers/sessionController';
+import axios from 'axios';
+import apiUrl from '../utils/apiUrl';
 
 import createStyles from '../styles/styles';
 import { Button, ButtonVariant } from './ui/Buttons';
@@ -19,6 +21,7 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
     const styles = createStyles();
     const userSession = getSession();
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const loremIpsum = 'Lorem ipsum dolor sit amet, \
     consectetur adipiscing elit. \
@@ -80,19 +83,34 @@ const Home = () => {
         );
     }
 
+    let username, isRestaurantUser;
+    if (userSession) {
+        username = userSession.username;
+        isRestaurantUser = userSession.restaurantId !== null;
+    }
+
+    const setAdminStatus = async () => {
+        try {
+            const response = await axios.get(
+                `${apiUrl}/verify-admin-status`,
+                { headers: {
+                    Authorization: `Bearer ${userSession.token}`,
+                }}
+            );
+            setIsAdmin(response.data.isAdmin);
+        } catch (err) {
+            console.error(err);
+            setIsAdmin(false);
+        }
+    };
+
     useEffect(() => {
         fetchSurveyUrl(setSurveyUrl, setLoading);
+        setAdminStatus();
     }, [navigate]);
 
     if (loading) {
         return <ActivityIndicator size='large' color='#0000ff' />;
-    }
-
-    let username, isRestaurantUser, isAdmin;
-    if (userSession) {
-        username = userSession.username;
-        isRestaurantUser = userSession.restaurantId !== null;
-        isAdmin = userSession.isAdmin;
     }
 
     return (
@@ -103,17 +121,13 @@ const Home = () => {
                     {t('WELCOME')}, {username}
                 </Text>
                 {isAdmin ? (
-                    <View>
-                        <Button
-                            styles={styles}
-                            onPress={() => navigate('/admin-panel')}
-                            text={t('ADMIN_PANEL')}
-                            id='admin-panel-button'
-                        />
-                        <Text style={styles.h4}>
-                            {t('NON_ADMIN_FUNCTIONALITY')}
-                        </Text>
-                    </View>
+                    <ButtonVariant
+                        styles={styles}
+                        onPress={() => navigate('/admin-panel')}
+                        text={t('ADMIN_PANEL')}
+                        id='admin-panel-button'
+                    />
+                        
                 ) : null}
                 <UserDashboard />
                 <Button

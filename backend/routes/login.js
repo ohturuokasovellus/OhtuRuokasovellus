@@ -27,7 +27,6 @@ router.post('/api/login', async (req, res) => {
         console.log(error);
         return res.status(500).json({ error: 'internal server error' });
     }
-
     if (user) {
         res
             .status(200)
@@ -39,7 +38,6 @@ router.post('/api/login', async (req, res) => {
                     ),
                     username: user.username,
                     restaurantId: user.restaurantId,
-                    isAdmin: user.isAdmin,
                     message: 'Login succesful'
                 }
             );

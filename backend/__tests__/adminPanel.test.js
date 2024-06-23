@@ -18,10 +18,33 @@ describe('admin panel api', () => {
         postgresMock.clearDatabase();
     });
 
+    test('checks admin status correctly', async () => {
+        postgresMock.setSqlResults([
+        ]);
+
+        const nonAdminHeaders = {'Authorization': 'Bearer '+jwt.sign({
+            username: 'notAdmin', userId: 2, restaurantId: 2, isAdmin: false
+        }, process.env.SECRET_KEY),
+        'Content-Type': 'application/json'};
+
+        await request(app)
+            .get('/api/verify-admin-status')
+            .set(headers)
+            .expect(200)
+            .expect({ isAdmin: true });
+
+        await request(app)
+            .get('/api/verify-admin-status')
+            .set(nonAdminHeaders)
+            .expect(200)
+            .expect({ isAdmin: false });
+
+    });
+
     test('gives error if not admin', async () => {
         postgresMock.setSqlResults([]);
         
-        const wrongTokenHeaders = {'Authorization': jwt.sign({
+        const wrongTokenHeaders = {'Authorization': 'Bearer '+jwt.sign({
             username: 'notAdmin', userId: 2, restaurantId: 2, isAdmin: false
         }, process.env.SECRET_KEY),
         'Content-Type': 'application/json'};

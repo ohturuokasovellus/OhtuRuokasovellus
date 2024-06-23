@@ -9,6 +9,19 @@ const { verifyToken } = require('../services/authorization');
 const router = express.Router();
 
 /**
+ * Route for verifying admin status
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} 200 - success status.
+ */
+router.get('/api/verify-admin-status', express.json(), async (req, res) => {
+    const userInfo = verifyToken(req.header('Authorization'));
+    !userInfo
+        ? res.status(401).send('unauthorized') 
+        : res.status(200).send({ isAdmin: userInfo.isAdmin });
+});
+
+/**
  * Route for fetching restaurants to admin panel
  * @param {Object} req - The request object.
  * @param {number} req.params.purchaseCode - The purchase code of the meal.
