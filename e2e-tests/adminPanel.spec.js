@@ -56,7 +56,7 @@ test.describe('admin panel', () => {
         await page.locator('#admin-panel-button').click();
         await page.waitForURL('/admin-panel');
 
-        await page.waitForSelector('text=testaurant');
+        // await page.waitForSelector('text=testaurant');
         await expect(page.locator('text=Admin panel')).toBeVisible();
         await expect(page.locator('text=Manage restaurants')).toBeVisible();
         await expect(page.locator('text=testaurant')).toBeVisible();
