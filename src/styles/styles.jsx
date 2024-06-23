@@ -86,7 +86,7 @@ const createStyles = () => {
         },
         success: {
             fontSize: 14,
-            color: 'green',
+            color: colors.secondary,
             marginBottom: 8,
             fontFamily: 'Roboto-Bold',
         },

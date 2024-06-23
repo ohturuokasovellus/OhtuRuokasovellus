@@ -6,6 +6,7 @@ import DoughnutChart from './DoughnutChart';
 import { NutriButton } from './Buttons';
 import NutritionalValues from './NutritionalValuesContainer';
 import { Nutriscore } from './Nutriscore';
+import { formatPrice } from '../../utils/price';
 
 /** Custom wrapper for cards with images
  * @param {object} styles styles passed from the global stylesheet
@@ -43,6 +44,7 @@ const MealCard = (
     const {t} = useTranslation();
     const [expanded, setExpanded] = useState(false);
 
+    const formattedPrice = formatPrice(meal.price);
     const nutrition = {
         energy: meal.energy,
         carbohydrates: meal.carbohydrates,
@@ -113,20 +115,6 @@ const MealCard = (
         );
     };
 
-    const formatPrice = (price) => {
-        let formatted =(price/100).toString().replace(/\./, ',');
-        if (formatted.indexOf(',') !== -1) {
-            const fractionalPart = formatted.split(',')[1];
-            if (fractionalPart.length === 1) {
-                formatted += '0';
-            }
-        } else {
-            formatted += ',00';
-        }
-        return formatted += ' €';
-    };
-    const formattedPrice = formatPrice(meal.price);
-
     return (
         <View style={styles.cardContainer}>
             <PressableImageContainer />
@@ -164,7 +152,10 @@ const MealCard = (
                             styles={styles}
                             nutrition={nutrition}
                         />
-                        {Nutriscore(nutrition, styles)}
+                        <Nutriscore
+                            styles={styles}
+                            nutrition={nutrition}
+                        />
                     </View>
                 )}
             </View>

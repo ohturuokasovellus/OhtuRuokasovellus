@@ -10,7 +10,7 @@ import createStyles from '../styles/styles';
 import { Button, ButtonVariant } from './ui/Buttons';
 
 import MealDeletion from './MealDeletion';
-import Dashboard from './Dashboard';
+import { UserDashboard, RestaurantDashboard } from './Dashboard';
 
 const Home = () => {
     const {t} = useTranslation();
@@ -115,6 +115,7 @@ const Home = () => {
                         </Text>
                     </View>
                 ) : null}
+                <UserDashboard />
                 <Button
                     styles={styles}
                     onPress={() => navigate('/history')}
@@ -124,6 +125,7 @@ const Home = () => {
                 {surveyUrl && (
                     <Survey surveyUrl={surveyUrl}/>
                 )}
+                <UserDashboard />
                 <Button
                     styles={styles}
                     onPress={() => navigate('/settings')}
@@ -159,7 +161,7 @@ const Home = () => {
                             text={t('EXPORT_MENU_QR')}
                             id='restaurant-menu-button'
                         />
-                        <Dashboard isRestaurant={true} />
+                        <RestaurantDashboard />
                         <MealDeletion />
                     </>
                 ) : null}

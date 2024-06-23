@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/js/indent */
 import { test, expect } from '@playwright/test';
 import {
     sql, insertUser,
@@ -55,16 +56,18 @@ test.describe('home page', () => {
         await page.locator('#language-toggle').click();
     });
 
-    test('home page is displayed correctly for all users', async ({ page }) => {
-        // not logged in
-        await expect(page.locator('#root'))
-            .toContainText('Lorem ipsum dolor sit amet, ');
-        await expect(page.locator('#login-link'))
-            .toBeVisible();
-        await expect(page.locator('#register-link'))
-            .toBeVisible();
+    test('home page is displayed correctly if not logged in',
+        async ({ page }) => {
+            await expect(page.locator('#root'))
+                .toContainText('Lorem ipsum dolor sit amet, ');
+            await expect(page.locator('#login-link'))
+                .toBeVisible();
+            await expect(page.locator('#register-link'))
+                .toBeVisible();
+        });
 
-        // logged in
+    test('home page is displayed correctly for regular users',
+        async ({ page }) => {
         await page.locator('#navigation-login').click();
         await page.locator('#username-input').click();
         await page.locator('#username-input').fill('test2');
@@ -88,8 +91,11 @@ test.describe('home page', () => {
         await expect(page).toHaveURL(/\/settings$/);
         await page.locator('#navigation-logout').click();
         await expect(page).toHaveURL(/\/login$/);
+    });
 
-        // logged in as a restaurant user
+    test('home page is displayed correctly for restaurant users',
+        async ({ page }) => {
+        await page.locator('#navigation-login').click();
         await page.locator('#username-input').click();
         await page.locator('#username-input').fill('test');
         await page.locator('#password-input').click();

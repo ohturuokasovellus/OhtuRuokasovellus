@@ -7,7 +7,7 @@ import { CalculateNutriScore } from '../../utils/calculateNutriScore';
  * @param {Object} nutrition meal item including nutritional info, image, etc.
  * @param {Object} styles styles passed from the global stylesheet
  */
-const Nutriscore = (nutrition, styles) => {
+const Nutriscore = ({ nutrition, styles }) => {
     const nutriScore = CalculateNutriScore(nutrition);
     const scoreColors = {
         ScoreA: '#038C3E',
