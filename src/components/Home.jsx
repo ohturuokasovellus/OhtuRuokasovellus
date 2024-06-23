@@ -121,17 +121,13 @@ const Home = () => {
                     {t('WELCOME')}, {username}
                 </Text>
                 {isAdmin ? (
-                    <View>
-                        <Button
-                            styles={styles}
-                            onPress={() => navigate('/admin-panel')}
-                            text={t('ADMIN_PANEL')}
-                            id='admin-panel-button'
-                        />
-                        <Text style={styles.h4}>
-                            {t('NON_ADMIN_FUNCTIONALITY')}
-                        </Text>
-                    </View>
+                    <ButtonVariant
+                        styles={styles}
+                        onPress={() => navigate('/admin-panel')}
+                        text={t('ADMIN_PANEL')}
+                        id='admin-panel-button'
+                    />
+                        
                 ) : null}
                 <Button
                     styles={styles}
