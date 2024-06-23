@@ -125,7 +125,6 @@ const Home = () => {
                 {surveyUrl && (
                     <Survey surveyUrl={surveyUrl}/>
                 )}
-                <UserDashboard />
                 <Button
                     styles={styles}
                     onPress={() => navigate('/settings')}
