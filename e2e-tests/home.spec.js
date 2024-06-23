@@ -95,6 +95,7 @@ test.describe('home page', () => {
 
     test('home page is displayed correctly for restaurant users',
         async ({ page }) => {
+        await page.locator('#navigation-login').click();
         await page.locator('#username-input').click();
         await page.locator('#username-input').fill('test');
         await page.locator('#password-input').click();
