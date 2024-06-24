@@ -153,6 +153,7 @@ const AddUser = () => {
     const [isAuthorised, setIsAuthorised] = useState(true);
     const [results, setResults] = useState([]);
     const userSession = getSession();
+    const styles = createStyles();
 
     useEffect(() => {
         if (!userSession || !userSession.restaurantId) {
@@ -197,7 +198,7 @@ const AddUser = () => {
             results={results}
         />
     ) : (
-        <Text>
+        <Text style={styles.error}>
             401: unauthorised
         </Text>
     );
