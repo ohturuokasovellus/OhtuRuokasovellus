@@ -63,7 +63,7 @@ const AdminPanel = ({ user }) => {
                         {t('ADMIN_PANEL')}
                     </Text>
                     <ResearchData />
-                    <SurveyUrlEditContainer
+                    <SurveyLinkEditContainer
                         headers={headers}
                         styles={styles}
                     />
@@ -91,12 +91,12 @@ const AdminPanel = ({ user }) => {
 };
 
 /**
- * View for modifying survey link url.
+ * View for updating survey link url.
  * @param {Object} headers authorization headers
  * @param {Object} styles
  * @returns {JSX.Element} 
  */
-const SurveyUrlEditContainer = ({ headers, styles }) => {
+const SurveyLinkEditContainer = ({ headers, styles }) => {
     const {t} = useTranslation();
     const [newUrl, setNewUrl] = useState('');
     const [urlPlaceholder, setUrlPlaceholder] = useState('');

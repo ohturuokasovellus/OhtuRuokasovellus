@@ -3,6 +3,7 @@ import { sql, insertUser, insertRestaurant } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 import { addUserToRestaurant } from '../backend/databaseUtils/adminPanel';
+import { getUrl } from '../backend/databaseUtils/url';
 
 const initTestDB = async () => {
     await sql`SET client_min_messages TO WARNING`;
@@ -78,7 +79,7 @@ test.describe('admin panel', () => {
         await page.waitForSelector('text=testaurant');
         await page.locator('#edit-button-0').click();
         await page.waitForSelector('text=test');
-        await expect(page.locator('text=test')).toBeVisible();
+        await expect(page.getByText('test', { exact: true })).toBeVisible();
     });
 
     test('admin user can attach existing users to restaurant',
@@ -124,4 +125,14 @@ test.describe('admin panel', () => {
         await expect(page.locator('text=Admin panel')).toBeHidden();
         await expect(page.locator('text=Manage restaurants')).toBeHidden();
     });
+
+    test('admin user can update survey link',
+        async ({ page, context }) => {
+        await page.locator('#survey-link-input').fill('https://google.com');
+        await page.locator('#update-survey-link-button').click();
+        await page.locator('#confirm-button').click();
+        const result = await getUrl('survey');
+        expect(result.at(0).url).toBe('https://google.com');
+    });
+
 });
