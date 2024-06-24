@@ -45,7 +45,7 @@ const UserDashboard = () => {
             setGender('M');
             break;
         case 'woman':
-            setGender('F');
+            setGender(t('F'));
             break;
         default:
             setGender('X');

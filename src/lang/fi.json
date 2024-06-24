@@ -114,6 +114,7 @@
         "WOMEN": "Naiset",
         "OTHER": "Muu",
         "OTHERS": "Muunsukupuoliset",
+        "F": "N",
         "YEAR_MUST_BE_NUMBER": "Vuosiluku tulee syöttää numeroina",
         "YEAR_IS_REQUIRED": "Syötä syntymävuosi",
         "YEAR_1900_LATER": "Syntymävuosi ei voi olla ennen vuotta 1900",
