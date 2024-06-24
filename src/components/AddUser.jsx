@@ -111,12 +111,16 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                                 )}
                             </View>
                         ))}
-                        <SmallButton
-                            styles={styles}
-                            onPress={addEmailInput}
-                            text='+'
-                            id='add-email-button'
-                        />
+                        {
+                            formik.values.emails.length < 10 && (
+                                <SmallButton
+                                    styles={styles}
+                                    onPress={addEmailInput}
+                                    text='+'
+                                    id='add-email-button'
+                                />
+                            )
+                        }
                         <PasswordInput
                             styles={styles}
                             placeholder={t('CONFIRM_WITH_PASSWORD')}
