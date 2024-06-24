@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
-
+import { Text, View, ScrollView, 
+    ActivityIndicator, WebView } from 'react-native';
 import { useNavigate, Link } from '../Router';
 import { useTranslation } from 'react-i18next';
 import Survey, { fetchSurveyUrl } from './Survey';
 import { getSession } from '../controllers/sessionController';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
-
 import createStyles from '../styles/styles';
 import { Button, ButtonVariant } from './ui/Buttons';
-
 import MealDeletion from './MealDeletion';
 import { UserDashboard, RestaurantDashboard } from './Dashboard';
 
@@ -30,6 +28,9 @@ const Home = () => {
                     <Text style={styles.h1}>{t('HOME')}</Text>
                     <View style={styles.cardContainer}>
                         <Text style={styles.body}>{t('APP_DESCRIPTION')}</Text>
+                        <Text style={styles.body}>
+                            {t('NUTRISCORE_MAY_NOT_BE_CORRECT')}
+                        </Text>
                     </View>
                     <Text style={styles.body}>
                         <Link to='/login'>
