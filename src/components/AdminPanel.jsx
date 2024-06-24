@@ -6,6 +6,7 @@ import {
 } from './ui/Buttons';
 import { Input } from './ui/InputFields';
 import ResearchData from  './ResearchData';
+import { fetchSurveyUrl } from './Survey';
 
 import { useTranslation } from 'react-i18next';
 import createStyles from '../styles/styles';
@@ -62,6 +63,10 @@ const AdminPanel = ({ user }) => {
                         {t('ADMIN_PANEL')}
                     </Text>
                     <ResearchData />
+                    <SurveyUrlEditContainer
+                        headers={headers}
+                        styles={styles}
+                    />
                     {selectedRestaurant ? (
                         <RestaurantEditContainer
                             headers={headers}
@@ -82,6 +87,91 @@ const AdminPanel = ({ user }) => {
             </ScrollView>
 
         ): null
+    );
+};
+
+/**
+ * View for modifying survey link url.
+ * @param {Object} headers authorization headers
+ * @param {Object} styles
+ * @returns {JSX.Element} 
+ */
+const SurveyUrlEditContainer = ({ headers, styles }) => {
+    const {t} = useTranslation();
+    const [newUrl, setNewUrl] = useState('');
+    const [urlPlaceholder, setUrlPlaceholder] = useState('');
+    const [success, setSuccess] = useState(null);
+    const [error, setError] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        fetchSurveyUrl(setUrlPlaceholder);
+    }, []);
+
+    const changeSurveyUrl = async () => {
+        try {
+            await axios.post(
+                `${apiUrl}/url/change/survey`,
+                { newUrl },
+                { headers }
+            );
+            fetchSurveyUrl(setUrlPlaceholder);
+            setNewUrl('');
+            setSuccess(t('SURVEY_LINK_UPDATED'));
+        } catch (err) {
+            console.error(err);
+            setError(t('SURVEY_LINK_NOT_CHANGED'));
+        }
+        setTimeout(() => {
+            setSuccess(null);
+            setError(null);
+        }, 5000);
+        setShowModal(false);
+    };
+
+    return (
+        <View>
+            <View style={styles.mealContainer}>
+                <View style={{ padding: '10px'}}>
+                    <Text style={styles.h4}>
+                        {t('UPDATE_SURVEY_LINK')}
+                    </Text>
+                    <Input
+                        styles={styles}
+                        placeholder={urlPlaceholder}
+                        value={newUrl}
+                        onChangeText={setNewUrl}
+                        id="survey-link-input"
+                    />
+                    <ButtonVariant
+                        styles={styles}
+                        onPress={newUrl ? () => setShowModal(true)
+                            : null
+                        }
+                        text={t('EDIT')}
+                        id="update-survey-link-button"
+                    />
+                    {success ? (
+                        <View>
+                            <Text style={styles.success}>{success}</Text>
+                        </View>
+                    ): null}
+                    {error ? (
+                        <View>
+                            <Text style={styles.error}>{error}</Text>
+                        </View>
+                    ): null}
+                </View>
+            </View>
+            <ConfirmationPopUp
+                styles={styles}
+                showModal={showModal}
+                setShowModal={setShowModal}
+                confirmMessage={t('CONFIRM_SURVEY_LINK_UPDATE')}
+                handleConfirmation={changeSurveyUrl}
+                isDelete={false}
+            />
+        </View>
     );
 };
 

@@ -34,9 +34,8 @@ const Survey = ({ surveyUrl } ) => {
 /**
  * Fetches a survely link from the backend
  * @param {Function} setsSurveyUrl - sets survey url;
- * @param {Function} setLoading - manages loading indicator;
  */
-export const fetchSurveyUrl = async (setSurveyUrl, setLoading) => {
+export const fetchSurveyUrl = async (setSurveyUrl) => {
     try {
         const res = await axios.get(
             `${apiUrl}/url/survey`
@@ -44,8 +43,6 @@ export const fetchSurveyUrl = async (setSurveyUrl, setLoading) => {
         setSurveyUrl(res.data);
     } catch (error) {
         console.error('Survey not found');
-    } finally {
-        setLoading(false);
     }
 };
 
