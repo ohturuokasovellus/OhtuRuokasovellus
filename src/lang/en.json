@@ -182,6 +182,8 @@
         "DOWNLOAD_RESEARCH_DATA": "Download research data",
         "EXPORT_USER_DATA": "Export data",
         "EXPORT_USER_DATA_DESCRIPTION": "You can download all the data collected about you.",
-        "APP_DESCRIPTION": "With this application you can track the nutritional values and climate impact of your meal choices."
+        "APP_DESCRIPTION": "With this application you can track the nutritional values and climate impact of your meal choices.",
+        "CO2_TOTAL": "Total CO2 emissions of all meals",
+        "RESTAURANTS_ALL": "All restaurants"
     }
 }
