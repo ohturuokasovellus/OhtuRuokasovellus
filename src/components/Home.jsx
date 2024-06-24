@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, 
-    ActivityIndicator, WebView } from 'react-native';
+import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
 import { useNavigate, Link } from '../Router';
 import { useTranslation } from 'react-i18next';
-import Survey, { fetchSurveyUrl } from './Survey';
+import ExternalLink, { fetchSurveyUrl } from './Survey';
 import { getSession } from '../controllers/sessionController';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
@@ -20,6 +19,8 @@ const Home = () => {
     const styles = createStyles();
     const userSession = getSession();
     const [isAdmin, setIsAdmin] = useState(false);
+    const repositoryUrl = 'https://github.com/'
+        + 'ohturuokasovellus/OhtuRuokasovellus/';
 
     if (!userSession) {
         return (
@@ -31,6 +32,8 @@ const Home = () => {
                         <Text style={styles.body}>
                             {t('NUTRISCORE_MAY_NOT_BE_CORRECT')}
                         </Text>
+                        <ExternalLink surveyUrl={repositoryUrl} 
+                            textIdentifier={'LINK_TO_REPOSITORY'}/>
                     </View>
                     <Text style={styles.body}>
                         <Link to='/login'>
@@ -104,7 +107,8 @@ const Home = () => {
                     id='history-button'
                 />
                 {surveyUrl && (
-                    <Survey surveyUrl={surveyUrl}/>
+                    <ExternalLink surveyUrl={surveyUrl} 
+                        textIdentifier={'SURVEY'}/>
                 )}
                 <Button
                     styles={styles}
