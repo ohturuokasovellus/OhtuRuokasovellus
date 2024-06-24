@@ -126,13 +126,21 @@ test.describe('admin panel', () => {
         await expect(page.locator('text=Manage restaurants')).toBeHidden();
     });
 
-    test('admin user can update survey link', async ({ page }) => {
+    test('admin user can update survey link', async ({ page, context }) => {
         await page.locator('#survey-link-input').fill('https://google.com');
         await page.locator('#update-survey-link-button').click();
         await page.locator('#confirm-button').click();
-        await page.waitForSelector('text=Survey link updated.');
-        const result = await getUrl('survey');
-        expect(result.at(0).url).toBe('https://google.com');
-    });
 
+        await page.goto('/');
+        // const result = await getUrl('survey');
+        // expect(result.at(0).url).toBe('https://google.com');
+
+        const [newPage] = await Promise.all([
+            context.waitForEvent('page'),
+            page.click('text=Take a survey')
+        ]);
+
+        await newPage.waitForLoadState();
+        await expect(newPage.url()).toContain('google.com');
+    });
 });
