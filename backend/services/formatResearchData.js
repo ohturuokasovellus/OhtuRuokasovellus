@@ -1,10 +1,12 @@
 /**
  * Function for converting research data.
- * @param {Object} researchData - Research data
+ * @param {Object[]} researchData - Research data
  * @returns {string[]} Formatted research data
  */
 function formatResearchData (researchData) {
     let formattedResearchData = '';
+
+    if (researchData.length < 1) return [];
 
     for (const key in researchData[0])
     {
@@ -18,7 +20,13 @@ function formatResearchData (researchData) {
         let line = '';
         for (const key in researchData[index])
         {
-            line+=researchData[index][key] + ',';
+            if (key == 'meal_id' || key == 'name'|| key == 'price') {
+                line+= researchData[index][key] + ',';
+            }
+            else {
+                const value = Math.max(Number(researchData[index][key]),5);
+                line+= value.toString() + ',';
+            }
         }
         line += '\n';
         formattedResearchData+=line;

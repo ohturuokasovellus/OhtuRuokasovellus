@@ -10,8 +10,6 @@ const { sql } = require('../database');
 */
 const getResearchData = async () => {
     const thisYear = new Date().getFullYear();
-    // TODO: if some field is less than 5, return less than five instead of real
-    // value
     const researchData = await sql`
         SELECT 
             meals.meal_id,

@@ -44,7 +44,6 @@ const LoginForm = ({ updateUser }) => {
                 username: response.data.username,
                 token: response.data.token,
                 restaurantId: response.data.restaurantId,
-                isAdmin: response.data.isAdmin
             };
             createSession(userData);
             updateUser(userData);

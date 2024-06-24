@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { View, Platform, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 import { getSession } from '../controllers/sessionController';
 import createStyles from '../styles/styles';
 import { Button } from './ui/Buttons';
@@ -40,6 +42,10 @@ const ResearchData = () => {
             link.click();
             // eslint-disable-next-line no-undef
             document.body.removeChild(link);
+        } else {
+            const fileUrl = FileSystem.documentDirectory + 'research_data.csv';
+            await FileSystem.writeAsStringAsync(fileUrl, data);
+            await Sharing.shareAsync(fileUrl);
         }
     };
 

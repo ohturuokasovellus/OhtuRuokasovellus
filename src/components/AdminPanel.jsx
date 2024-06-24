@@ -13,49 +13,85 @@ import createStyles from '../styles/styles';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
 
+/**
+ * Panel for admin users.
+ * @param {Object} user
+ * @returns {JSX.Element} 
+ */
 const AdminPanel = ({ user }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
     const styles = createStyles();
     let headers;
-    if (!user) {
+    
+    if (user) {
+        headers = {
+            Authorization: `Bearer ${user.token}`
+        };
+    } else {
         navigate('/');
     }
-    else {
-        headers = {
-            Authorization: `Bearer ${user.token}`,
+
+    useEffect(() => {
+        const verifyAdminStatus = async () => {
+            
+            try {
+                const response = await axios.get(
+                    `${apiUrl}/verify-admin-status`,
+                    { headers }
+                );
+                if (!response.data.isAdmin) {
+                    navigate('/');
+                }
+                setIsAdmin(true);
+            } catch (err) {
+                console.error(err);
+                navigate('/');
+            }
         };
-    }
+        verifyAdminStatus();
+    }, []);
 
     return (
-        <ScrollView style={styles.background}>
-            <View style={styles.container}>
-                <Text style={[styles.h2, { alignSelf: 'center' }]}>
-                    {t('ADMIN_PANEL')}
-                </Text>
-                <ResearchData />
-                {selectedRestaurant ? (
-                    <RestaurantEditContainer
-                        headers={headers}
-                        styles={styles}
-                        selectedRestaurant={selectedRestaurant}
-                        setSelectedRestaurant={setSelectedRestaurant}
-                    />
-                ): (
-                    <View style={styles.container}>
-                        <RestaurantListContainer
+        isAdmin ? (
+            <ScrollView style={styles.background}>
+                <View style={styles.container}>
+                    <Text style={[styles.h2, { alignSelf: 'center' }]}>
+                        {t('ADMIN_PANEL')}
+                    </Text>
+                    <ResearchData />
+                    {selectedRestaurant ? (
+                        <RestaurantEditContainer
                             headers={headers}
                             styles={styles}
+                            selectedRestaurant={selectedRestaurant}
                             setSelectedRestaurant={setSelectedRestaurant}
                         />
-                    </View>
-                )}
-            </View>
-        </ScrollView>
+                    ): (
+                        <View style={styles.container}>
+                            <RestaurantListContainer
+                                headers={headers}
+                                styles={styles}
+                                setSelectedRestaurant={setSelectedRestaurant}
+                            />
+                        </View>
+                    )}
+                </View>
+            </ScrollView>
+
+        ): null
     );
 };
 
+/**
+ * Restaurant list view.
+ * @param {Object} headers authorization headers
+ * @param {Object} styles
+ * @param {Function} setSelectedRestaurant sets selected restaurant
+ * @returns {JSX.Element} 
+ */
 const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
 }) => {
     const {t} = useTranslation();
@@ -168,6 +204,14 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
     );
 };
 
+/**
+ * Restaurant edit view.
+ * @param {Object} headers authorization headers
+ * @param {Object} styles
+ * @param {List} selectedRestaurant id and name of restaurant
+ * @param {Function} setSelectedRestaurant
+ * @returns {JSX.Element} 
+ */
 const RestaurantEditContainer = ({
     headers, styles, selectedRestaurant, setSelectedRestaurant }) => {
 
@@ -244,6 +288,7 @@ const RestaurantEditContainer = ({
                             placeholder={t('USERNAME')}
                             value={userToAdd}
                             onChangeText={setUserToAdd}
+                            id="username-input"
                         />
                         <ButtonVariant
                             styles={styles}
@@ -251,6 +296,7 @@ const RestaurantEditContainer = ({
                                 : null
                             }
                             text={t('ADD_USER')}
+                            id="attach-user-button"
                         />
                         {success ? (
                             <View>
@@ -282,6 +328,15 @@ const RestaurantEditContainer = ({
     );
 };
 
+/**
+ * Confirmation pop up.
+ * @param {Object} styles
+ * @param {Boolean} showModal true if activated
+ * @param {String} confirmMessage confirmation message
+ * @param {Function} handleConfirmation
+ * @param {Boolean} isDelete confirmation context
+ * @returns {JSX.Element} 
+ */
 const ConfirmationPopUp = (
     { styles, showModal, setShowModal, confirmMessage, handleConfirmation,
         isDelete }) => {
@@ -314,6 +369,7 @@ const ConfirmationPopUp = (
                                 styles={styles}
                                 onPress={handleConfirmation}
                                 text={t('CONFIRM')}
+                                id="confirm-button"
                             />
                         )}
                     </View>

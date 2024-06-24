@@ -109,8 +109,11 @@
         "MASTERS_DEGREE": "Higher university level (Master's)",
         "DOCTORAL": "Doctoral education",
         "MAN": "Man",
+        "MEN": "Men",
         "WOMAN": "Woman",
+        "WOMEN": "Women",
         "OTHER": "Other",
+        "OTHERS": "Other genders",
         "YEAR_MUST_BE_NUMBER": "The year must be a number",
         "YEAR_IS_REQUIRED": "Year of birth is required",
         "YEAR_1900_LATER": "The year cannot be before 1900",
@@ -144,6 +147,13 @@
         "MEAL_UPDATED": "Meal updated succesfully!",
         "MEAL_NOT_UPDATED": "Error occured, meal not created.",
         "DOWNLOAD": "Download",
+        "YOU": "You",
+        "ALL": "All",
+        "AVG_CO2": "Average CO2 emissions",
+        "AVG_CARBS": "Average carbohydrates",
+        "AVG_FAT": "Average fat",
+        "AVG_PROTEIN": "Average protein",
+        "G_PER_MEAL": "(g per meal)",
         "UNEXPECTED_ERROR": "A unexpected error occured, please try again later",
         "SELF_EVALUATION": "Self evaluation",
         "HOW_IMPORTANT_IS_CLIMATE": "How important climate friendliness is to you?",
@@ -167,10 +177,10 @@
         "NO_RESTAURANTS": "No restaurants.",
         "NO_USERS": "No users.",
         "ADMIN_PANEL": "Admin panel",
-        "NON_ADMIN_FUNCTIONALITY": "Non admin functionality",
         "CONFIRM_USER_ADDITION": "Confirm user addition:",
         "DOWNLOAD_RESEARCH_DATA": "Download research data",
         "EXPORT_USER_DATA": "Export data",
-        "EXPORT_USER_DATA_DESCRIPTION": "You can download all the data collected about you."
+        "EXPORT_USER_DATA_DESCRIPTION": "You can download all the data collected about you.",
+        "APP_DESCRIPTION": "With this application you can track the nutritional values and climate impact of your meal choices."
     }
 }

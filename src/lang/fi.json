@@ -109,8 +109,11 @@
         "MASTERS_DEGREE": "Ylempi korkeakouluaste",
         "DOCTORAL": "Tutkijakoulutusaste",
         "MAN": "Mies",
+        "MEN": "Miehet",
         "WOMAN": "Nainen",
+        "WOMEN": "Naiset",
         "OTHER": "Muu",
+        "OTHERS": "Muunsukupuoliset",
         "YEAR_MUST_BE_NUMBER": "Vuosiluku tulee syöttää numeroina",
         "YEAR_IS_REQUIRED": "Syötä syntymävuosi",
         "YEAR_1900_LATER": "Syntymävuosi ei voi olla ennen vuotta 1900",
@@ -144,6 +147,13 @@
         "MEAL_UPDATED": "Ateria päivitetty!",
         "MEAL_NOT_UPDATED": "Tapahtui virhe, ateria ei päivitetty.",
         "DOWNLOAD": "Lataa",
+        "YOU": "Sinä",
+        "ALL": "Kaikki",
+        "AVG_CO2": "CO2-päästöt keskimäärin",
+        "AVG_CARBS": "Hiilihydraatit keskimäärin",
+        "AVG_FAT": "Rasvaa keskimäärin",
+        "AVG_PROTEIN": "Proteiinia keskimäärin",
+        "G_PER_MEAL": "(g/annos)",
         "UNEXPECTED_ERROR": "Virhe tapahtui, yritä uudelleen myöhemmin",
         "SELF_EVALUATION": "Itsearvionti",
         "HOW_IMPORTANT_IS_CLIMATE": "Kuinka merkityksellistä ilmastoystävällisyys on sinulle?",
@@ -167,10 +177,10 @@
         "NO_RESTAURANTS": "Ei ravintoloita.",
         "NO_USERS": "Ei käyttäjiä.",
         "ADMIN_PANEL": "Admin paneeli",
-        "NON_ADMIN_FUNCTIONALITY": "Ei-admin funktionaalisuus",
         "CONFIRM_USER_ADDITION": "Varmenna käyttäjän lisäys:",
         "DOWNLOAD_RESEARCH_DATA": "Lataa tutkimusdata",
         "EXPORT_USER_DATA": "Vie tiedot",
-        "EXPORT_USER_DATA_DESCRIPTION": "Voit ladata kaikki sinusta kerätyt tiedot."
+        "EXPORT_USER_DATA_DESCRIPTION": "Voit ladata kaikki sinusta kerätyt tiedot.",
+        "APP_DESCRIPTION": "Ruokalaskurisovelluksella voit seurata syömiesi ruokien ravintoarvoja ja ilmastovaikutuksia."
     }
 }
