@@ -180,6 +180,7 @@
         "CONFIRM_USER_ADDITION": "Varmenna käyttäjän lisäys:",
         "DOWNLOAD_RESEARCH_DATA": "Lataa tutkimusdata",
         "EXPORT_USER_DATA": "Vie tiedot",
-        "EXPORT_USER_DATA_DESCRIPTION": "Voit ladata kaikki sinusta kerätyt tiedot."
+        "EXPORT_USER_DATA_DESCRIPTION": "Voit ladata kaikki sinusta kerätyt tiedot.",
+        "APP_DESCRIPTION": "Ruokalaskurisovelluksella voit seurata syömiesi ruokien ravintoarvoja ja ilmastovaikutuksia."
     }
 }

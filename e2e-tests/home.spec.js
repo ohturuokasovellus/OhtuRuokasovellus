@@ -59,7 +59,7 @@ test.describe('home page', () => {
     test('home page is displayed correctly if not logged in',
         async ({ page }) => {
             await expect(page.locator('#root'))
-                .toContainText('Lorem ipsum dolor sit amet, ');
+                .toContainText('With this application you can track');
             await expect(page.locator('#login-link'))
                 .toBeVisible();
             await expect(page.locator('#register-link'))
