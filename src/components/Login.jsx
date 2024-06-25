@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Formik } from 'formik';
 import { View, Text, ScrollView } from 'react-native';
 
 import { Link, useNavigate } from '../Router';
-import { createSession, getSession } from '../controllers/sessionController';
+import { createSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
 import { useTranslation } from 'react-i18next';
 import { loginValidationSchema } from '../utils/formValidationSchemas';
@@ -20,17 +20,14 @@ import { Input, PasswordInput } from './ui/InputFields';
  * @param {{ updateUser: Function }} props - handle user session management;
  * @returns {React.JSX.Element}
  */
-const LoginForm = ({ updateUser }) => {
+const LoginForm = ({ updateUser, userSession }) => {
     const {t} = useTranslation();
     const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate();
-    useEffect(() => {
-        const userSession = getSession();
-        if (userSession) {
-            navigate('/home');
-        }
-    }, []);
-
+    const navigate = useNavigate();    
+    if (userSession) {
+        navigate('/home');
+    }
+   
     const styles = createStyles();
 
     const handleSubmit = async (values, actions) => {

@@ -1,10 +1,8 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { useFonts } from 'expo-font';
-
 import Router, { Routes, Route } from './src/Router';
 import { getSession } from './src/controllers/sessionController';
 import { ThemeController } from './src/controllers/themeController';
-
 import NavigationBar from './src/components/NavigationBar';
 import Home from './src/components/Home';
 import Register from './src/components/Register';
@@ -24,10 +22,19 @@ import './src/lang/i18n'; // should be inported in index.js, but idk if
 // here.
 
 const App = () => {
-    const [user, setUser] = useState(getSession());
+    const [user, setUser] = useState(null);
     const updateUser = (userData) => {
         setUser(userData);
     };
+
+    useEffect(() => {
+        const getUserSession = async () => {
+            const userSession = await getSession();
+            setUser(userSession);
+        };
+        
+        getUserSession();
+    }, []);
 
     useFonts({
         'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
@@ -40,14 +47,15 @@ const App = () => {
     return (
         <ThemeController>
             <Router>
-                <NavigationBar updateUser={updateUser}/>
+                <NavigationBar updateUser={updateUser} userSession={user}/>
                 <Routes>
-                    <Route path='/' element={<About />} />
-                    <Route path='/home' element={<Home />} />
+                    <Route path='/' element={<About userSession={user} />} />
+                    <Route path='/home' element={<Home userSession={user} />} />
                     <Route path='/register'
                         element={<Register updateUser={updateUser}/>} />
                     <Route path='/login'
-                        element={<LoginForm updateUser={updateUser}/>} />
+                        element={<LoginForm updateUser={updateUser} 
+                            userSession={user}/>} />
                     <Route path='/restaurant/:restaurantId'
                         element={<MealList />}/>
                     <Route path='/create-meal' element={<CreateMeal 

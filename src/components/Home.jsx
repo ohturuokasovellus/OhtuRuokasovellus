@@ -3,7 +3,6 @@ import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
 import { useNavigate } from '../Router';
 import { useTranslation } from 'react-i18next';
 import ExternalLink, { fetchSurveyUrl } from './Survey';
-import { getSession } from '../controllers/sessionController';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
 import createStyles from '../styles/styles';
@@ -11,13 +10,12 @@ import { Button, ButtonVariant } from './ui/Buttons';
 import MealDeletion from './MealDeletion';
 import { UserDashboard, RestaurantDashboard } from './Dashboard';
 
-const Home = () => {
+const Home = ({ userSession }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [surveyUrl, setSurveyUrl] = useState(null);
     const [loading, setLoading] = useState(true);
     const styles = createStyles();
-    const userSession = getSession();
     const [isAdmin, setIsAdmin] = useState(false);
     
 
@@ -71,7 +69,7 @@ const Home = () => {
                     />
                         
                 ) : null}
-                <UserDashboard />
+                <UserDashboard userSession={userSession}/>
                 <Button
                     styles={styles}
                     onPress={() => navigate('/history')}
@@ -117,7 +115,7 @@ const Home = () => {
                             text={t('EXPORT_MENU_QR')}
                             id='restaurant-menu-button'
                         />
-                        <RestaurantDashboard />
+                        <RestaurantDashboard userSession={userSession} />
                         <MealDeletion />
                     </>
                 ) : null}

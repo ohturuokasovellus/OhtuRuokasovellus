@@ -2,19 +2,16 @@ import { useEffect, useState, useContext } from 'react';
 import { Text, View, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-
-import { getSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
 import createStyles from '../styles/styles';
 import { themeContext } from '../controllers/themeController';
 
 import { BarChartCustom } from './ui/BarCharts';
 
-const UserDashboard = () => {
+const UserDashboard = ({ userSession }) => {
     const { t } = useTranslation();
     const { colors } = useContext(themeContext);
     const styles = createStyles();
-    const userSession = getSession();
     const [averages, setAverages] = useState({
         all: { co2: null, carbs: null, fat: null, protein: null },
         user: { co2: null, carbs: null, fat: null, protein: null },
@@ -187,10 +184,9 @@ const UserDashboard = () => {
     );
 };
 
-const RestaurantDashboard = () => {
+const RestaurantDashboard = ({ userSession }) => {
     const { colors } = useContext(themeContext);
     const styles = createStyles();
-    const userSession = getSession();
     const [restaurantName, setrestaurantName] = useState('');
     const [allEmissions, setAllEmissions] = useState(0);
     const [ownEmissions, setOwnEmissions] = useState(0);
@@ -295,15 +291,5 @@ const RestaurantDashboard = () => {
         </View>
     );
 };
-
-// const Dashboard = ({ isRestaurant }) => {
-//     return (
-//         isRestaurant ? (
-//             <RestaurantDashboard />
-//         ) : (
-//             <UserDashboard />
-//         )
-//     );
-// };
 
 export { UserDashboard, RestaurantDashboard };

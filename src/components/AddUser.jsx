@@ -147,9 +147,16 @@ const AddUser = () => {
     const navigate = useNavigate();
     const [isAuthorised, setIsAuthorised] = useState(true);
     const [results, setResults] = useState([]);
-    const userSession = getSession();
+    const [userSession, setUserSession] = useState(null);
 
     useEffect(() => {
+        const setSession = async () => {
+            const session = await getSession();
+            setUserSession(session);
+        };
+
+        setSession();
+
         if (!userSession){
             setIsAuthorised(false);
             navigate('/login', { replace: true });

@@ -1,13 +1,11 @@
 import { Text, View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Link } from '../Router';
-import { getSession } from '../controllers/sessionController';
 import ExternalLink from './Survey';
 import createStyles from '../styles/styles';
 
-const About = () => {
+const About = (props) => {
     const {t} = useTranslation();
-    const userSession = getSession();
     const styles = createStyles();
     const repositoryUrl = 'https://github.com/'
         + 'ohturuokasovellus/OhtuRuokasovellus/';
@@ -15,7 +13,7 @@ const About = () => {
     return (
         <ScrollView style={styles.background}>
             <View style={[styles.container, { alignItems: 'center' }]}>
-                <Text style={styles.h1}>{t('HOME')}</Text>
+                <Text style={styles.h1}>{t('ABOUT')}</Text>
                 <View style={styles.cardContainer}>
                     <Text style={styles.body}>{t('APP_DESCRIPTION')}</Text>
                     <Text style={styles.body}>
@@ -24,7 +22,7 @@ const About = () => {
                     <ExternalLink surveyUrl={repositoryUrl} 
                         textIdentifier={'LINK_TO_REPOSITORY'}/>
                 </View>
-                {!userSession &&
+                {!props.userSession &&
                     <Text style={styles.body}>
                         <Link to='/login'>
                             <Text style={styles.link} id='login-link'>
