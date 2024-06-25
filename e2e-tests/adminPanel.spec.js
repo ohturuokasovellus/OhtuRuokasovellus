@@ -3,6 +3,7 @@ import { sql, insertUser, insertRestaurant } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 import { addUserToRestaurant } from '../backend/databaseUtils/adminPanel';
+import { getUrl } from '../backend/databaseUtils/url';
 
 const initTestDB = async () => {
     await sql`SET client_min_messages TO WARNING`;
@@ -68,7 +69,7 @@ test.describe('admin panel', () => {
         await page.locator('#delete-restaurant-button-0').click();
         await page.locator('#confirm-delete-button').click();
         await expect(page.locator('text=testaurant')).toBeHidden();
-        const result = await sql `SELECT is_active FROM restaurants
+        const result = await sql`SELECT is_active FROM restaurants
             WHERE name = 'testaurant';`;
         expect(result.at(0).is_active).toBe(false);
     });
@@ -93,7 +94,7 @@ test.describe('admin panel', () => {
         await expect(page.getByText('test', { exact: true })).toBeVisible();
         await expect(page.getByText('adminTest', { exact: true }))
             .toBeVisible();
-        const result = await sql `SELECT restaurant_id FROM users
+        const result = await sql`SELECT restaurant_id FROM users
             WHERE user_id = 1;`;
         expect(result.at(0).restaurant_id).not.toBe(null);
     });
