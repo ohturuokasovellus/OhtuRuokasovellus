@@ -201,10 +201,8 @@ test.describe('meal management page', () => {
 
             await page.goto('/');
             await page.locator('#restaurant-page-button').click();
-            await page.waitForURL('/restaurant/1');
 
-            await page.waitForSelector('text=Chicken bolognese');
-            await expect(page.locator('text=Chicken bolognese')).toBeVisible();
+            await expect(page.getByText('Chicken bolognese')).toBeVisible();
             await page.locator('#chicken-bolognese-button').click();
             await expect(page.locator('text=CO2 EMISSIONS: 50')).toBeHidden();
             await expect(page.locator('text=Ipsum lorem')).toBeVisible();
