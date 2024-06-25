@@ -183,6 +183,7 @@
         "EXPORT_USER_DATA_DESCRIPTION": "Voit ladata kaikki sinusta kerätyt tiedot.",
         "APP_DESCRIPTION": "Ruokalaskurisovelluksella voit seurata syömiesi ruokien ravintoarvoja ja ilmastovaikutuksia.",
         "NUTRISCORE_MAY_NOT_BE_CORRECT": "Aterioiden nutri-scoret eivät ole välttämättä laskettu oikein.",
-        "LINK_TO_REPOSITORY": "Linkki repositorioon"
+        "LINK_TO_REPOSITORY": "Linkki repositorioon",
+        "ABOUT": "Tietoa"
     }
 }

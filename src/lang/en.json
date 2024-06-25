@@ -183,6 +183,7 @@
         "EXPORT_USER_DATA_DESCRIPTION": "You can download all the data collected about you.",
         "APP_DESCRIPTION": "With this application you can track the nutritional values and climate impact of your meal choices.",
         "NUTRISCORE_MAY_NOT_BE_CORRECT": "The nutri-scores of meals might be incorrect",
-        "LINK_TO_REPOSITORY": "Link to the repository"
+        "LINK_TO_REPOSITORY": "Link to the repository",
+        "ABOUT": "About"
     }
 }
