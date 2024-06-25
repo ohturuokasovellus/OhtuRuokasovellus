@@ -67,6 +67,36 @@ describe('POST /api/add-users', () => {
             .expect({ error: 'user does not belong to any restaurant' });
     });
 
+    test('fails if more than 10 email addresses are provided', async () => {
+        // hash of "password"
+        const password =
+            '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
+        postgresMock.setSqlResults([
+            [{ password }], // checkPassword
+            // eslint-disable-next-line camelcase
+            [{ restaurant_id: 123 }] // getRestaurantIdByUserId
+        ]);
+    
+        const emails = [];
+        // eslint-disable-next-line id-length
+        for (let i = 0; i < 11; i++) {
+            emails.push(`test${i}@example.com`);
+        }
+    
+        await request(app)
+            .post('/api/add-users')
+            .send({
+                emails,
+                password: 'password',
+            })
+            .set('Content-Type', 'application/json')
+            .set('Authorization', `Bearer ${createToken('testuser', 42)}`)
+            .expect(400)
+            .expect({
+                error: 'cannot add more than 10 email addresses at once'
+            });
+    });
+
     test('handles non-existing emails', async () => {
         // hash of "password"
         const password =

@@ -31,7 +31,7 @@ router.post('/api/meals', express.json(), async (req, res) => {
     // Token decoding from 
     // https://fullstackopen.com/en/part4/token_authentication
     const decodedToken = verifyToken(req.header('Authorization'));
-        
+
     if (!decodedToken.userId) {
         return res.status(401).json({ error: 'token invalid' });
     }
@@ -50,11 +50,15 @@ router.post('/api/meals', express.json(), async (req, res) => {
     if (!mealName) {
         return res.status(400).send('invalid meal name');
     }
-    
+
+    if (ingredients.length > 20) {
+        return res.status(400).send('too many ingredients');
+    }
+
     if (!loggedInUsersRestaurantId) {
         return res.status(400).send('You do not have permissions to add meals');
     }
-    
+
     let mealIngredients = {};
     
     ingredients.forEach(element => {
