@@ -110,6 +110,17 @@ test.describe('adding restaurant users: authorised', () => {
         await expect(page).toHaveURL('/');
     });
 
+    test('cannot add more than 10 email fields at once', async ({ page }) => {
+        // eslint-disable-next-line id-length
+        for (let i = 1; i < 10; i++) {
+            await page.locator('#add-email-button').click();
+        }
+
+        await expect(page.locator('#add-email-button'))
+            .not
+            .toBeVisible();
+    });
+
     test('restaurant user can add one user to their restaurant',
         async ({ page }) => {
             await page.getByPlaceholder('email').click();
