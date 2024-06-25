@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from '../Router';
-import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
+import { useNavigate } from '../Router';
+import { Text, View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import ExternalLink, { fetchSurveyUrl } from './Survey';
 import { getSession } from '../controllers/sessionController';
