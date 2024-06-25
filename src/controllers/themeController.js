@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { lightTheme, darkTheme } from '../styles/colors';
 
 /**
@@ -13,19 +14,25 @@ export const themeContext = createContext();
 export const ThemeController = ({ children }) => {
     const [theme, setTheme] = useState('light');
 
-    useEffect(() => {
-        // eslint-disable-next-line no-undef
-        const storedTheme = localStorage.getItem('appTheme');
-        if (storedTheme) {
-            setTheme(storedTheme);
+    useEffect(async () => {
+        try {
+            const storedTheme = await AsyncStorage.getItem('appTheme');
+            if (storedTheme) {
+                setTheme(storedTheme);
+            }
+        } catch (error) {
+            console.log(error);
         }
     }, []);
 
-    const toggleTheme = () => {
-        setTheme((prevTheme) => {
+    const toggleTheme = async () => {
+        await setTheme(async (prevTheme) => {
             const newTheme = prevTheme === 'light' ? 'dark' : 'light';
-            // eslint-disable-next-line no-undef
-            localStorage.setItem('appTheme', newTheme);
+            try {
+                await AsyncStorage.setItem('appTheme', newTheme);
+            } catch (error) {
+                console.log(error);
+            }
             return newTheme;
         });
     };

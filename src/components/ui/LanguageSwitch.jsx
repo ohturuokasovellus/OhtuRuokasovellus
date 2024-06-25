@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavButton } from './Buttons';
 
 const LanguageSwitch = ({ styles }) => {
     const { i18n } = useTranslation();
     const [isEnglish, setIsEnglish] = useState(i18n.language === 'eng');
 
-    const toggleLang = () => {
+    const toggleLang = async () => {
         const newLanguage = isEnglish ? 'fin' : 'eng';
         setIsEnglish(!isEnglish);
         i18n.changeLanguage(newLanguage);
-        // eslint-disable-next-line no-undef
-        localStorage.setItem('i18nextLng', newLanguage);
+        try {
+            await AsyncStorage.setItem('i18nextLng', newLanguage);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
