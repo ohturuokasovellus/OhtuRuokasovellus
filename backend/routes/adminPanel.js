@@ -14,7 +14,7 @@ const router = express.Router();
  * @param {Object} res - The response object.
  * @returns {Object} 200 - success status.
  */
-router.get('/api/verify-admin-status', express.json(), async (req, res) => {
+router.get('/api/verify-admin-status', express.json(), (req, res) => {
     const userInfo = verifyToken(req.header('Authorization'));
     !userInfo
         ? res.status(401).send('unauthorized') 
