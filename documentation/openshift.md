@@ -505,7 +505,9 @@ oc annotate route your-route-name kubernetes.io/tls-acme='true'
 ```
 
 Replace `your-route-name` with the name of the route configuration
-(`ruokasovellus-route-prod-domain` in our case).
+(in our case, run this command
+first with `ruokasovellus-route-prod-domain` and
+then with `ruokasovellus-route-prod-domain-www`).
 
 Lastly, let's make the route aware of the TLS.
 Add `spec.tls` section to the route configuration
