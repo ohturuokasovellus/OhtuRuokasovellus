@@ -567,18 +567,19 @@ const createStyles = () => {
             marginVertical: 10,
         },
         picker: {
-            height: 50,
+            height: 40,
             width: 150,
             marginRight: 10,
             borderRadius: 8,
-            backgroundColor: colors.primaryContainer,
-            
+            borderColor: colors.outlineVariant,
+            borderWidth: 1,
+            paddingLeft: 8,
+            backgroundColor: colors.surfaceVariant,
+            color: colors.outline,
+            fontFamily: 'Roboto-Regular',
         },
 
         // self eval slider
-        // background: {
-        //     flex: 1,
-        //     backgroundColor: '#fff',
         questionContainer: {
             marginBottom: 20,
             backgroundColor: colors.primaryContainer,
