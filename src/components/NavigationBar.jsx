@@ -32,12 +32,6 @@ const NavigationBar = ({ updateUser }) => {
                 text='🌗︎'
                 id='theme-toggle'
             />
-            <NavLink
-                styles={styles}
-                path='/'
-                text={t('HOME')}
-                id='navigation-home'
-            />
             {!userSession &&
                     <NavLink
                         styles={styles}
@@ -54,6 +48,14 @@ const NavigationBar = ({ updateUser }) => {
                         id='navigation-register'
                     />
             }
+            {userSession &&
+                <NavLink
+                    styles={styles}
+                    path='/home'
+                    text={t('HOME')}
+                    id='navigation-home'
+                />
+            } 
             {(userSession && userSession.restaurantId) &&
                     <NavLink
                         styles={styles}
@@ -62,6 +64,12 @@ const NavigationBar = ({ updateUser }) => {
                         id='navigation-add-meal'
                     />
             }
+            <NavLink
+                styles={styles}
+                path='/'
+                text={t('ABOUT')}
+                id='navigation-about'
+            />
             {userSession &&
                     <NavButton
                         styles={styles}

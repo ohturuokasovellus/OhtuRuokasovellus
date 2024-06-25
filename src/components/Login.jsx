@@ -27,7 +27,7 @@ const LoginForm = ({ updateUser }) => {
     useEffect(() => {
         const userSession = getSession();
         if (userSession) {
-            navigate('/');
+            navigate('/home');
         }
     }, []);
 
@@ -48,7 +48,7 @@ const LoginForm = ({ updateUser }) => {
             createSession(userData);
             updateUser(userData);
             
-            navigate('/');
+            navigate('/home');
 
         } catch (error) {
             console.error(error);

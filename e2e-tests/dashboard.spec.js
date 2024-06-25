@@ -66,7 +66,7 @@ const initTestDB = async () => {
 test.describe('user dashboard', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
-        await page.goto('/');
+        await page.goto('/home');
     });
 
     test('users that are not logged in cannot see dashboard',
@@ -81,7 +81,7 @@ test.describe('user dashboard', () => {
         await page.fill('input[id="username-input"]', 'test');
         await page.fill('input[id="password-input"]', 'Test123!');
         await page.locator('#login-button').click();
-        await page.waitForURL('/');
+        await page.waitForURL('/home');
 
         await expect(page.locator('#avg-co2 rect').nth(1)).toBeVisible();
         await expect(page.locator('#avg-co2 rect').nth(2)).toBeVisible();

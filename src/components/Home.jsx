@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
-
-import { useNavigate, Link } from '../Router';
+import { useNavigate } from '../Router';
 import { useTranslation } from 'react-i18next';
-import Survey, { fetchSurveyUrl } from './Survey';
+import ExternalLink, { fetchSurveyUrl } from './Survey';
 import { getSession } from '../controllers/sessionController';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
-
 import createStyles from '../styles/styles';
 import { Button, ButtonVariant } from './ui/Buttons';
-
 import MealDeletion from './MealDeletion';
 import { UserDashboard, RestaurantDashboard } from './Dashboard';
 
@@ -22,31 +19,10 @@ const Home = () => {
     const styles = createStyles();
     const userSession = getSession();
     const [isAdmin, setIsAdmin] = useState(false);
+    
 
     if (!userSession) {
-        return (
-            <ScrollView style={styles.background}>
-                <View style={[styles.container, { alignItems: 'center' }]}>
-                    <Text style={styles.h1}>{t('HOME')}</Text>
-                    <View style={styles.cardContainer}>
-                        <Text style={styles.body}>{t('APP_DESCRIPTION')}</Text>
-                    </View>
-                    <Text style={styles.body}>
-                        <Link to='/login'>
-                            <Text style={styles.link} id='login-link'>
-                                {t('LOGIN')}
-                            </Text>
-                        </Link>
-                        /
-                        <Link to='/register'>
-                            <Text style={styles.link} id='register-link'>
-                                {t('REGISTER')}
-                            </Text>
-                        </Link>
-                    </Text>
-                </View>
-            </ScrollView>
-        );
+        navigate('/login');
     }
 
     let username, isRestaurantUser;
@@ -103,7 +79,8 @@ const Home = () => {
                     id='history-button'
                 />
                 {surveyUrl && (
-                    <Survey surveyUrl={surveyUrl}/>
+                    <ExternalLink surveyUrl={surveyUrl} 
+                        textIdentifier={'SURVEY'}/>
                 )}
                 <Button
                     styles={styles}
