@@ -5,19 +5,17 @@ import { useNavigate } from '../Router';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
-import { getSession } from '../controllers/sessionController';
 
 import createStyles from '../styles/styles';
 import { Button, CancelButton, DeleteButton } from './ui/Buttons';
 
-const MealDeletion = () => {
+const MealDeletion = ({ userSession }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [meals, setMeals] = useState([]);
     const [mealToDelete, setMealToDelete] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const styles = createStyles();
-    const userSession = getSession();
     const deleteMealButtonId = (index) => `delete-meal-button-${index}`;
     const exportMealQrButtonId = (index) => `export-meal-qr-button-${index}`;
 

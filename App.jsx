@@ -51,29 +51,30 @@ const App = () => {
                 <Routes>
                     <Route path='/' element={<About userSession={user} />} />
                     <Route path='/home' element={<Home userSession={user} />} />
-                    <Route path='/register'
-                        element={<Register updateUser={updateUser}/>} />
-                    <Route path='/login'
-                        element={<LoginForm updateUser={updateUser} 
-                            userSession={user}/>} />
+                    <Route path='/register' element={<Register 
+                        updateUser={updateUser} userSession={user}/>} />
+                    <Route path='/login' element={<LoginForm 
+                        updateUser={updateUser} userSession={user}/>} />
                     <Route path='/restaurant/:restaurantId'
                         element={<MealList />}/>
                     <Route path='/create-meal' element={<CreateMeal 
-                        user={user} />} />
+                        userSession={user} />} />
                     <Route path='/edit-meal/:mealId' element={<CreateMeal 
-                        user={user} />} />
+                        userSession={user} />} />
                     <Route path='/add-users'
-                        element={<AddUser />} />
+                        element={<AddUser userSession={user} />} />
                     <Route path='/purchase/:purchaseCode'
-                        element={<Purchase />} />
-                    <Route path='/history' element={<PurchaseHistory />} />
+                        element={<Purchase userSession={user} />} />
+                    <Route path='/history' element={<PurchaseHistory 
+                        userSession={user} />} />
                     <Route path='/menu-qr/:restaurantId'
                         element={<MenuQR />}/>
                     <Route path='/meal-qr/:mealPurchaseCode'
                         element={<MealQR />}/>
-                    <Route path='/settings' element={<Settings />} />
+                    <Route path='/settings' element={<Settings 
+                        userSession={user}/>} />
                     <Route path='/admin-panel' element={<AdminPanel 
-                        user={user} />} />
+                        userSession={user} />} />
                 </Routes>
             </Router>
         </ThemeController>

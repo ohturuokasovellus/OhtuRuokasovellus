@@ -116,7 +116,7 @@ const Home = ({ userSession }) => {
                             id='restaurant-menu-button'
                         />
                         <RestaurantDashboard userSession={userSession} />
-                        <MealDeletion />
+                        <MealDeletion userSession={userSession} />
                     </>
                 ) : null}
             </View>

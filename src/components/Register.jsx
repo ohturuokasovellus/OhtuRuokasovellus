@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { Text, View, ScrollView, Linking } from 'react-native';
 
 import { Link, useNavigate } from '../Router';
-import { getSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
 import { registrationValidationSchema } from '../utils/formValidationSchemas';
 
@@ -322,10 +321,9 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 
-const Register = () => {
+const Register = ({ userSession }) => {
     const navigate = useNavigate();
     useEffect(() => {
-        const userSession = getSession();
         if (userSession) {
             navigate('/home');
         }

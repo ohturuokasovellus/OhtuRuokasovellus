@@ -5,7 +5,7 @@ import { PasswordInput } from './ui/InputFields';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
-import { deleteSession, getSession } from '../controllers/sessionController';
+import { deleteSession } from '../controllers/sessionController';
 import { useNavigate } from '../Router';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -83,7 +83,7 @@ const DataRemoval = ({ styles, token }) => {
                     },
                 }
             );
-            deleteSession();
+            await deleteSession();
             navigate('/register');
         } catch (err) {
             console.error(err);
@@ -227,10 +227,9 @@ const SelfEvaluationForm = ({ styles, token }) => {
     );
 };
 
-const Settings = () => {
+const Settings = ({ userSession }) => {
     const navigate = useNavigate();
     const styles = createStyles();
-    const userSession = getSession();
     const { t } = useTranslation();
 
     useEffect(() => {

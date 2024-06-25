@@ -4,7 +4,6 @@ import { Card } from './ui/Card';
 import createStyles from '../styles/styles';
 import apiUrl from '../utils/apiUrl';
 import axios from 'axios';
-import { getSession } from '../controllers/sessionController';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from '../Router';
 
@@ -38,10 +37,9 @@ const HistoryItem = ({ meal, images, styles }) => {
     );
 };
 
-const PurchaseHistory = () => {
+const PurchaseHistory = ({ userSession }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const userSession = getSession();
     const styles = createStyles();
     const [history, setHistory] = useState([]);
     const [images, setImages] = useState({});
