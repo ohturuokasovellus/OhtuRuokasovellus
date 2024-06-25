@@ -40,7 +40,7 @@ const logIn = async page => {
  * @param {import('stream').Readable} stream
  * @return {Promise<string>}
  */
-const streamToString = async stream => {
+const streamToString = stream => {
     return new Promise((resolve, reject) => {
         let string = '';
         stream.on('data', chunk => { string += chunk; });
