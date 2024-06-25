@@ -20,7 +20,7 @@ const initTestDB = async () => {
     await insertUser(user, password, email, birthYear,
         gender, education, income
     );
-    await sql `UPDATE users SET is_admin = TRUE;`;
+    await sql`UPDATE users SET is_admin = TRUE;`;
 
     user = 'test';
     password = hash('Testi123!');
