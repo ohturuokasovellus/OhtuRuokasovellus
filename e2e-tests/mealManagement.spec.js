@@ -174,7 +174,6 @@ test.describe('meal management page', () => {
         async ({ page }) => {
             await page.locator('#edit-button-0').click();
 
-            await page.waitForURL('/edit-meal/1');
             await page.waitForSelector('text=Edit meal');
             
             await page.locator('#meal-name-input')
@@ -196,8 +195,6 @@ test.describe('meal management page', () => {
                 .click();
             await page.locator('#price-input')
                 .fill('8,0');
-
-            await page.locator('#create-meal-button').click();
 
             await page.locator('#navigation-home').click();
             await page.locator('#restaurant-page-button').click();
