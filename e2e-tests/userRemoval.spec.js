@@ -34,7 +34,7 @@ const logIn = async page => {
     await page.fill('input[id="username-input"]', 'test');
     await page.fill('input[id="password-input"]', 'Test123!');
     await page.locator('#login-button').click();
-    await page.waitForURL('/');
+    await page.waitForURL('/home');
 };
 
 /**
@@ -57,7 +57,7 @@ test.describe('user removal', () => {
         await purchaseMeal(page, '12345678');
 
         // password is required
-        await page.goto('/');
+        await page.goto('/home');
         await page.click('#settings-button');
         await expect(page).toHaveURL('/settings');
         await page.click('#account_removal_button');
