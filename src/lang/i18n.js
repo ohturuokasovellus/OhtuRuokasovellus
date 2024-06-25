@@ -1,5 +1,8 @@
+
+
 import i18next from 'i18next';
 import {initReactI18next} from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import engl from './en.json';
 import finn from './fi.json';
 
@@ -8,20 +11,33 @@ const resources = {
     fin: finn,
 };
 
-i18next
-    // pass the i18n instance to react-i18next.
-    .use(initReactI18next)
-    // init i18next
-    // for all options read:
-    // https://www.i18next.com/overview/configuration-options
-    .init({
-        compatibilityJSON: 'v3',
-        resources,
-        fallbackLng: 'eng',
-        lng: 'fin', // default language to use.
-        supportedLngs: ['fin', 'eng'],
-        preload: ['fin', 'eng'],
-        initImmediate: false
-    });
+// Function to get the stored language or default to 'fin'
+async function getStoredLanguage() {
+    try {
+        const savedLanguage = await AsyncStorage
+            .getItem('i18nextLanguage');
+        // Default to 'fin' if no language is saved
+        return savedLanguage || 'fin'; 
+    } catch (error) {
+        console.error('Failed to load the language from storage', error);
+        return 'fin'; // Default to 'fin' in case of error
+    }
+}
 
-export default {i18next};
+// Initialize i18next with the stored language
+(async () => {
+    const language = await getStoredLanguage();
+    i18next
+        .use(initReactI18next)
+        .init({
+            compatibilityJSON: 'v3',
+            resources,
+            fallbackLng: 'eng',
+            lng: language,
+            supportedLngs: ['fin', 'eng'],
+            preload: ['fin', 'eng'],
+            initImmediate: false
+        });
+})();
+
+export default i18next;

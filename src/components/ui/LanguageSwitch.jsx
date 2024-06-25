@@ -12,7 +12,7 @@ const LanguageSwitch = ({ styles }) => {
         setIsEnglish(!isEnglish);
         i18n.changeLanguage(newLanguage);
         try {
-            await AsyncStorage.setItem('i18nextLng', newLanguage);
+            await AsyncStorage.setItem('i18nextLanguage', newLanguage);
         } catch (error) {
             console.log(error);
         }
