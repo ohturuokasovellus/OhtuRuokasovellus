@@ -35,7 +35,7 @@ test.describe('menu qr page', () => {
         await page.locator('#username-input').fill('test');
         await page.locator('#password-input').fill('Test123!');
         await page.locator('#login-button').click();
-        await page.waitForURL('/');
+        await page.waitForURL('/home');
     });
 
     test('displays restaurant menu QR code correctly',

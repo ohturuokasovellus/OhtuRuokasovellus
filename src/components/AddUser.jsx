@@ -143,7 +143,6 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
 /**
  * AddUser component for managing user addition.
  */
-
 const AddUser = () => {
     const navigate = useNavigate();
     const [isAuthorised, setIsAuthorised] = useState(true);
@@ -151,9 +150,13 @@ const AddUser = () => {
     const userSession = getSession();
 
     useEffect(() => {
-        if (!userSession || !userSession.restaurantId) {
+        if (!userSession){
             setIsAuthorised(false);
-            navigate('/', { replace: true });
+            navigate('/login', { replace: true });
+        }
+        else if (!userSession.restaurantId) {
+            setIsAuthorised(false);
+            navigate('/home', { replace: true });
         }
     }, [navigate]);
 

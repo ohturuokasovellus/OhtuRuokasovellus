@@ -43,15 +43,15 @@ test.describe('admin panel', () => {
         await page.fill('input[id="username-input"]', 'adminTest');
         await page.fill('input[id="password-input"]', 'Testi123!');
         await page.locator('#login-button').click();
-        await page.waitForURL('/');
+        await page.waitForURL('/home');
         await page.locator('#admin-panel-button').click();
         await page.waitForURL('/admin-panel');
     });
 
     test('admin user has admin panel button that takes to admin page',
         async ({ page }) => {
-        await page.goto('/');
-        await page.waitForURL('/');
+        await page.goto('/home');
+        await page.waitForURL('/home');
         await expect(page.locator('#admin-panel-button')).toBeVisible();
         await page.locator('#admin-panel-button').click();
         await page.waitForURL('/admin-panel');
@@ -116,7 +116,7 @@ test.describe('admin panel', () => {
         await page.fill('input[id="username-input"]', 'test');
         await page.fill('input[id="password-input"]', 'Testi123!');
         await page.locator('#login-button').click();
-        await page.waitForURL('/');
+        await page.waitForURL('/home');
         await expect(page.locator('#admin-panel-button')).toBeHidden();
 
         await page.goto('/admin-panel');
