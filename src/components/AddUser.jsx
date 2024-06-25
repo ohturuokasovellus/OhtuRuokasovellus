@@ -131,7 +131,7 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                         />
                     </View>
                 )}
-                <Link to='/'>
+                <Link to='/home'>
                     <Text style={styles.link}>{t('BACK_TO_HOME')}</Text>
                 </Link>
             </View>

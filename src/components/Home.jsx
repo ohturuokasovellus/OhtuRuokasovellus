@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
-import { useNavigate, Link } from '../Router';
+import { useNavigate } from '../Router';
 import { useTranslation } from 'react-i18next';
 import ExternalLink, { fetchSurveyUrl } from './Survey';
 import { getSession } from '../controllers/sessionController';
@@ -19,38 +19,10 @@ const Home = () => {
     const styles = createStyles();
     const userSession = getSession();
     const [isAdmin, setIsAdmin] = useState(false);
-    const repositoryUrl = 'https://github.com/'
-        + 'ohturuokasovellus/OhtuRuokasovellus/';
+    
 
     if (!userSession) {
-        return (
-            <ScrollView style={styles.background}>
-                <View style={[styles.container, { alignItems: 'center' }]}>
-                    <Text style={styles.h1}>{t('HOME')}</Text>
-                    <View style={styles.cardContainer}>
-                        <Text style={styles.body}>{t('APP_DESCRIPTION')}</Text>
-                        <Text style={styles.body}>
-                            {t('NUTRISCORE_MAY_NOT_BE_CORRECT')}
-                        </Text>
-                        <ExternalLink surveyUrl={repositoryUrl} 
-                            textIdentifier={'LINK_TO_REPOSITORY'}/>
-                    </View>
-                    <Text style={styles.body}>
-                        <Link to='/login'>
-                            <Text style={styles.link} id='login-link'>
-                                {t('LOGIN')}
-                            </Text>
-                        </Link>
-                        /
-                        <Link to='/register'>
-                            <Text style={styles.link} id='register-link'>
-                                {t('REGISTER')}
-                            </Text>
-                        </Link>
-                    </Text>
-                </View>
-            </ScrollView>
-        );
+        navigate('/login');
     }
 
     let username, isRestaurantUser;
