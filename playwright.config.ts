@@ -11,6 +11,10 @@ require('dotenv').config();
  */
 export default defineConfig({
   testDir: './e2e-tests',
+  timeout: 60000,
+  expect: {
+    timeout: 10000,
+  },
   /* Run tests in files in parallel */
   timeout: 60000,
   expect: {
