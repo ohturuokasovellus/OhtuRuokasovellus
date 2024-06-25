@@ -125,7 +125,7 @@ const CreateMealForm = ({
 
     useEffect(() => {
         fetchIngredients();
-    }), [];
+    }, []);
 
     const formik = useFormik({
         initialValues,
