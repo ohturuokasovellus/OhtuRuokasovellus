@@ -19,7 +19,7 @@ const initTestDB = async () => {
     await insertUser(user, password, email, birthYear,
         gender, education, income
     );
-    await sql `UPDATE users SET is_admin = TRUE;`;
+    await sql`UPDATE users SET is_admin = TRUE;`;
 
     user = 'test';
     password = hash('Testi123!');
@@ -78,7 +78,7 @@ test.describe('admin panel', () => {
         await page.waitForSelector('text=testaurant');
         await page.locator('#edit-button-0').click();
         await page.waitForSelector('text=test');
-        await expect(page.locator('text=test')).toBeVisible();
+        await expect(page.getByText('test', { exact: true })).toBeVisible();
     });
 
     test('admin user can attach existing users to restaurant',

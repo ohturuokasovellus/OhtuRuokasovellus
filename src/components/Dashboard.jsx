@@ -146,9 +146,7 @@ const UserDashboard = () => {
 
     return (
         <View style={styles.cardContainer} id='user-dashboard'>
-            <Text style={styles.h3}>
-                        Dashboard
-            </Text>
+            <Text style={styles.h3}>Dashboard</Text>
             <View style={styles.chartDescrContainer}>
                 <View style={styles.mealDescrContainer} id='avg-co2'>
                     <BarChartCustom
