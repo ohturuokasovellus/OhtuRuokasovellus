@@ -424,16 +424,7 @@ const isRestaurantUser = async userId => {
     return result.at(0).exists;
 };
 
-/**
- * @param {string} urlName
- * @returns {Promise<string>} url as a string
- */
-const getSurveyUrl = async (urlName) => {
-    const result = await sql`
-        SELECT url FROM urls WHERE name = ${urlName};
-    `;
-    return result;
-};
+
 
 /**
  * Save purchase to the database.
@@ -596,7 +587,6 @@ module.exports = {
     getMeal,
     getMealByPurchaseCode,
     isRestaurantUser,
-    getSurveyUrl,
     updateUserRestaurantByEmail,
     addPurchase,
     getMealRestaurantId,

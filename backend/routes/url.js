@@ -1,5 +1,5 @@
 const express = require('express');
-const { getSurveyUrl } = require('../database');
+const { getUrl } = require('../databaseUtils/url');
 const router = express.Router();
 router.use(express.json());
 
@@ -13,9 +13,11 @@ router.use(express.json());
  */
 router.get('/api/url/:urlName', async (req, res) => {
     try {
-        const result = await getSurveyUrl(req.params.urlName);
+        const result = await getUrl(req.params.urlName);
         if (result) {
             res.status(200).send(result[0].url);
+        } else {
+            throw new Error('database not updated');
         }
     } catch (err) {
         return res.sendStatus(404);
