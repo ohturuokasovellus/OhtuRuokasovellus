@@ -135,7 +135,7 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                         />
                     </View>
                 )}
-                <Link to='/'>
+                <Link to='/home'>
                     <Text style={styles.link}>{t('BACK_TO_HOME')}</Text>
                 </Link>
             </View>
@@ -147,7 +147,6 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
 /**
  * AddUser component for managing user addition.
  */
-
 const AddUser = () => {
     const navigate = useNavigate();
     const [isAuthorised, setIsAuthorised] = useState(true);
@@ -156,9 +155,13 @@ const AddUser = () => {
     const styles = createStyles();
 
     useEffect(() => {
-        if (!userSession || !userSession.restaurantId) {
+        if (!userSession){
             setIsAuthorised(false);
-            navigate('/', { replace: true });
+            navigate('/login', { replace: true });
+        }
+        else if (!userSession.restaurantId) {
+            setIsAuthorised(false);
+            navigate('/home', { replace: true });
         }
     }, [navigate]);
 

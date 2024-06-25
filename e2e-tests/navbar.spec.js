@@ -53,9 +53,11 @@ test.describe('navbar', () => {
                 .not.toBeVisible();
             await expect(page.locator('#navigation-logout'))
                 .not.toBeVisible();
+            await expect(page.locator('#navigation-home'))
+                .not.toBeVisible();
             await page.locator('#navigation-register').click();
             await expect(page).toHaveURL(/\/register$/);
-            await page.locator('#navigation-home').click();
+            await page.locator('#navigation-about').click();
             await expect(page).toHaveURL(/\/$/);
             await page.locator('#navigation-login').click();
             await expect(page).toHaveURL(/\/login$/);
@@ -64,7 +66,7 @@ test.describe('navbar', () => {
             await page.fill('input[id="username-input"]', 'testi');
             await page.fill('input[id="password-input"]', 'Testi123!');
             await page.locator('#login-button').click();
-            await page.waitForURL('/');
+            await page.waitForURL('/home');
             await expect(page.locator('#navigation-add-meal'))
                 .not.toBeVisible();
             await expect(page.locator('#navigation-login'))
@@ -72,7 +74,7 @@ test.describe('navbar', () => {
             await expect(page.locator('#navigation-register'))
                 .not.toBeVisible();
             await page.locator('#navigation-home').click();
-            await expect(page).toHaveURL(/\/$/);
+            await expect(page).toHaveURL(/\/home$/);
             await page.locator('#navigation-logout').click();
             await expect(page).toHaveURL(/\/login$/);
 
@@ -80,7 +82,7 @@ test.describe('navbar', () => {
             await page.fill('input[id="username-input"]', 'testaurante');
             await page.fill('input[id="password-input"]', 'Testaurante123!');
             await page.locator('#login-button').click();
-            await page.waitForURL('/');
+            await page.waitForURL('/home');
             await page.locator('#navigation-add-meal').click();
             await expect(page).toHaveURL(/\/create-meal$/);
         });
