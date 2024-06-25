@@ -176,6 +176,9 @@ test.describe('meal management page', () => {
 
             await page.waitForURL('/edit-meal/1');
             await page.waitForSelector('text=Edit meal');
+
+            await expect(page.locator('#meal-name-input'))
+                .toHaveValue('Kana bolognese');
             
             await page.locator('#meal-name-input')
                 .fill('Chicken bolognese');
