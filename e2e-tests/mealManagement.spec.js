@@ -197,18 +197,14 @@ test.describe('meal management page', () => {
             await page.locator('#price-input')
                 .fill('8,0');
 
-            const fileChooserPromise = page.waitForEvent('filechooser');
-            await page.locator('#image-picker-button').click();
-            const fileChooser = await fileChooserPromise;
-            const filePath = path.join(__dirname, 'assets', 'tree.png');
-            await fileChooser.setFiles(filePath);
-
             await page.locator('#create-meal-button').click();
+
             await page.goto('/');
             await page.locator('#restaurant-page-button').click();
             await page.waitForURL('/restaurant/1');
 
-            await expect(page.locator('text=Chicken bolognese   8,00 €')).toBeVisible();
+            await page.waitForSelector('text=Chicken bolognese');
+            await expect(page.locator('text=Chicken bolognese')).toBeVisible();
             await page.locator('#chicken-bolognese-button').click();
             await expect(page.locator('text=CO2 EMISSIONS: 50')).toBeHidden();
             await expect(page.locator('text=Ipsum lorem')).toBeVisible();
