@@ -211,6 +211,5 @@ test.describe('meal management page', () => {
             await expect(page.locator('text=Carbohydrates: 1.3 g')).toBeHidden();
             await expect(page.locator('text=Fat: 8.2 g')).toBeHidden();
             await expect(page.locator('text=Protein: 11.7 g')).toBeHidden();
-            
         });
 });
