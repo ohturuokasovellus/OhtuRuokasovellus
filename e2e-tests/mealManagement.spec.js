@@ -201,6 +201,8 @@ test.describe('meal management page', () => {
                 .fill('8,0');
 
             await page.locator('#create-meal-button').click();
+            await expect(page.locator('#root'))
+                .toContainText('Meal updated succesfully!');
             await page.locator('#navigation-home').click();
             await page.goto('/home');
             await page.locator('#restaurant-page-button').click();
