@@ -14,15 +14,19 @@ export const themeContext = createContext();
 export const ThemeController = ({ children }) => {
     const [theme, setTheme] = useState('light');
 
-    useEffect(async () => {
-        try {
-            const storedTheme = await AsyncStorage.getItem('appTheme');
-            if (storedTheme) {
-                setTheme(storedTheme);
+    useEffect(() => {
+        const setPageTheme = async () => {
+            try {
+                const storedTheme = await AsyncStorage.getItem('appTheme');
+                if (storedTheme) {
+                    setTheme(storedTheme);
+                }
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log(error);
-        }
+        };
+
+        setPageTheme();
     }, []);
 
     const toggleTheme = async () => {
