@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { sql, insertUser, insertRestaurant, addPurchase, setEvaluationMetric } from '../backend/database';
+import { sql, insertUser, insertRestaurant,
+    addPurchase, setEvaluationMetric } from '../backend/database';
 import { hash } from '../backend/services/hash';
 
 const initDb = async () => {
@@ -33,7 +34,7 @@ const logIn = async page => {
     await page.fill('input[id="username-input"]', 'test');
     await page.fill('input[id="password-input"]', 'Test123!');
     await page.locator('#login-button').click();
-    await page.waitForURL('/');
+    await page.waitForURL('/home');
 };
 
 /**
@@ -43,7 +44,7 @@ const logIn = async page => {
 const streamToString = async stream => {
     return new Promise((resolve, reject) => {
         let string = '';
-        stream.on('data', chunk => { string += chunk });
+        stream.on('data', chunk => { string += chunk; });
         stream.on('end', () => resolve(string));
         stream.on('error', err => reject(err));
     });
@@ -56,7 +57,7 @@ test.describe('user data export', () => {
 
     test('user can export their data', async ({ page }) => {
         await logIn(page);
-        await page.goto('/');
+        await page.goto('/home');
 
         await page.click('#settings-button');
         await expect(page).toHaveURL('/settings');

@@ -11,7 +11,7 @@ const logIn = async page => {
     await page.fill('input[id="username-input"]', 'test');
     await page.fill('input[id="password-input"]', 'Test123!');
     await page.locator('#login-button').click();
-    await page.waitForURL('/');
+    await page.waitForURL('/home');
 };
 
 test.describe('purchase', () => {
@@ -58,8 +58,8 @@ test.describe('purchase', () => {
             await expect(page.getByText('Meatballs')).toBeVisible();
             await page.click('#purchase_button');
 
-            // go to frontpage and click meal history button
-            await page.goto('/');
+            // go to home page and click meal history button
+            await page.goto('/home');
             await page.click('#history-button');
             await expect(page).toHaveURL(/\/history$/);
 

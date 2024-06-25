@@ -10,9 +10,10 @@ import { Button } from './ui/Buttons';
 /**
  * Renders a survey link
  * @param {string} surveyUrl - url of the survey;
+ * @param {string} textIdentifier - identifier used in translations;
  * @returns {React.JSX.Element}
  */
-const Survey = ({ surveyUrl } ) => {
+const ExternalLink = ({ surveyUrl, textIdentifier } ) => {
     const {t} = useTranslation();
 
     const openLink = () => {
@@ -25,7 +26,7 @@ const Survey = ({ surveyUrl } ) => {
         <Button
             styles={styles}
             onPress={ openLink }
-            text={t('SURVEY')}
+            text={t(textIdentifier)}
             id='survey-link'
         />
     );
@@ -46,4 +47,4 @@ export const fetchSurveyUrl = async (setSurveyUrl) => {
     }
 };
 
-export default Survey;
+export default ExternalLink;

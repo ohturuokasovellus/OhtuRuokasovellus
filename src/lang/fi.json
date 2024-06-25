@@ -185,6 +185,9 @@
         "UPDATE_SURVEY_LINK": "Päivitä kyselylinkki",
         "CONFIRM_SURVEY_LINK_UPDATE": "Vahvista kyselylinkin päivitys",
         "SURVEY_LINK_UPDATED": "Päivitys onnistui.",
-        "SURVEY_LINK_NOT_UPDATED": "Päivitys epäonnistui."
+        "SURVEY_LINK_NOT_UPDATED": "Päivitys epäonnistui.",
+        "NUTRISCORE_MAY_NOT_BE_CORRECT": "Aterioiden nutri-scoret eivät ole välttämättä laskettu oikein.",
+        "LINK_TO_REPOSITORY": "Linkki repositorioon",
+        "ABOUT": "Tietoa"
     }
 }

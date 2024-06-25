@@ -42,16 +42,16 @@ test.describe('login page', () => {
         await page.locator('#password-input')
             .fill('Testi123!');
         await page.locator('#login-button').click();
-        await expect(page).toHaveURL(/\/$/);
+        await expect(page).toHaveURL(/\/home$/);
         await page.goto('/register');
-        await expect(page).toHaveURL(/\/$/);
+        await expect(page).toHaveURL(/\/home$/);
     });
 
     test('logs in succesfully with correct credentials', async ({page}) => {
         await page.fill('input[id="username-input"]', 'testi');
         await page.fill('input[id="password-input"]', 'Testi123!');
         await page.locator('#login-button').click();
-        await expect(page).toHaveURL('/');
+        await expect(page).toHaveURL('/home');
     });
 
     test('does not log in with incorrect credentials', async ({page}) => {

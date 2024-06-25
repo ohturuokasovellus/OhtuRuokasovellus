@@ -47,9 +47,9 @@ test.describe('registration page', () => {
         await page.locator('#password-input')
             .fill('Test123!');
         await page.locator('#login-button').click();
-        await expect(page).toHaveURL(/\/$/);
+        await expect(page).toHaveURL(/\/home$/);
         await page.goto('/register');
-        await expect(page).toHaveURL(/\/$/);
+        await expect(page).toHaveURL(/\/home$/);
     });
 
     test('registers user with correct details', async ({ page }) => {
@@ -78,7 +78,7 @@ test.describe('registration page', () => {
         await page.fill('input[id="username-input"]', 'best');
         await page.fill('input[id="password-input"]', 'Test123!');
         await page.locator('#login-button').click();
-        await expect(page).toHaveURL('/');
+        await expect(page).toHaveURL('/home');
         await expect(page.locator('#restaurant-page-button'))
             .not.toBeVisible;
     });
@@ -125,7 +125,7 @@ test.describe('registration page', () => {
         await page.fill('input[id="username-input"]', 'best');
         await page.fill('input[id="password-input"]', 'Test123!');
         await page.locator('#login-button').click();
-        await expect(page).toHaveURL('/');
+        await expect(page).toHaveURL('/home');
         await expect(page.locator('#restaurant-page-button'))
             .toBeVisible;
     });

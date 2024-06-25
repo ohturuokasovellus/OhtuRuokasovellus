@@ -77,18 +77,18 @@ test.describe('adding restaurant users: unauthorised', () => {
             await page.getByPlaceholder('Password').fill('Best456@');
             await page.locator('#login-button').click();
 
-            await page.waitForURL('/');
+            await page.waitForURL('/home');
             await expect(page.locator('text=Welcome,')).toBeVisible();
 
             await page.goto('/add-users');
-            await page.waitForURL('/');
+            await page.waitForURL('/home');
             await expect(page.locator('text=Welcome,')).toBeVisible();
         });
 
     test('redirects to home if user is not logged in',
         async ({ page }) => {
             await page.goto('/add-users');
-            await expect(page).toHaveURL(/\/$/);
+            await expect(page).toHaveURL(/\/login$/);
         });
 });
 
@@ -107,7 +107,7 @@ test.describe('adding restaurant users: authorised', () => {
 
     test('user can go back to home page', async ({ page }) => {
         await page.getByRole('link', { name: 'back to home' }).click();
-        await expect(page).toHaveURL('/');
+        await expect(page).toHaveURL('/home');
     });
 
     test('restaurant user can add one user to their restaurant',
