@@ -199,7 +199,7 @@ test.describe('meal management page', () => {
 
             await page.locator('#create-meal-button').click();
 
-            await page.goto('/');
+            await page.locator('#navigation-home').click();
             await page.locator('#restaurant-page-button').click();
 
             await expect(page.getByText('Chicken bolognese')).toBeVisible();
