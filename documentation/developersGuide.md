@@ -1,0 +1,2 @@
+# Guide for future developers
+
