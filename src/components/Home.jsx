@@ -3,7 +3,6 @@ import { useNavigate } from '../Router';
 import { Text, View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import ExternalLink, { fetchSurveyUrl } from './Survey';
-import { getSession } from '../controllers/sessionController';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
 import createStyles from '../styles/styles';
@@ -11,18 +10,12 @@ import { Button, ButtonVariant } from './ui/Buttons';
 import MealDeletion from './MealDeletion';
 import { UserDashboard, RestaurantDashboard } from './Dashboard';
 
-const Home = () => {
+const Home = ({ userSession }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [surveyUrl, setSurveyUrl] = useState(null);
     const styles = createStyles();
-    const userSession = getSession();
     const [isAdmin, setIsAdmin] = useState(false);
-    
-
-    if (!userSession) {
-        navigate('/login');
-    }
 
     let username, isRestaurantUser;
     if (userSession) {
@@ -46,9 +39,16 @@ const Home = () => {
     };
 
     useEffect(() => {
+        if (!userSession) {
+            navigate('/login');
+            return;
+        }
+
         void fetchSurveyUrl(setSurveyUrl);
         void setAdminStatus();
-    }, [navigate]);
+    }, [userSession]);
+
+    if (!userSession) return null;
 
     return (
         <ScrollView style={styles.background}>
@@ -66,7 +66,7 @@ const Home = () => {
                     />
                         
                 ) : null}
-                <UserDashboard />
+                <UserDashboard userSession={userSession}/>
                 <Button
                     styles={styles}
                     onPress={() => navigate('/history')}
@@ -112,8 +112,8 @@ const Home = () => {
                             text={t('EXPORT_MENU_QR')}
                             id='restaurant-menu-button'
                         />
-                        <RestaurantDashboard />
-                        <MealDeletion />
+                        <RestaurantDashboard userSession={userSession} />
+                        <MealDeletion userSession={userSession} />
                     </>
                 ) : null}
             </View>

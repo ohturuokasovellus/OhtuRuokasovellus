@@ -5,17 +5,15 @@ import { Card } from './ui/Card';
 import { useParams, useNavigate } from '../Router';
 import createStyles from '../styles/styles';
 import apiUrl from '../utils/apiUrl';
-import { getSession } from '../controllers/sessionController';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
-const Purchase = () => {
+const Purchase = ({ userSession }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { purchaseCode } = useParams();
     const [meal, setMeal] = useState(null);
     const [image, setImage] = useState(null);
-    const userSession = getSession();
 
     const loadMeal = async () => {
         let response;

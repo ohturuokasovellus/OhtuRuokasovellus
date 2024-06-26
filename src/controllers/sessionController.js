@@ -1,18 +1,30 @@
-const createSession = (userData) => {
-    window.localStorage.setItem(
-        'loggedUser', JSON.stringify(userData)
-    );
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const createSession = async (userData) => {
+    try {
+        await AsyncStorage.setItem('loggedUser', JSON.stringify(userData));
+    } catch (error) {
+        console.log(error);
+    }
 };
 
-const getSession = () => {
-    const loggedUserJSON = window.localStorage.getItem('loggedUser');
-    return loggedUserJSON
-        ? JSON.parse(loggedUserJSON)
-        : null;
+const getSession = async () => {
+    try {
+        const loggedUserJSON = await AsyncStorage.getItem('loggedUser');
+        return loggedUserJSON
+            ? JSON.parse(loggedUserJSON)
+            : null;
+    } catch (error) {
+        console.log(error);
+    }
 };
 
-const deleteSession = () => {
-    window.localStorage.removeItem('loggedUser');
+const deleteSession = async () => {
+    try {
+        await AsyncStorage.removeItem('loggedUser');
+    } catch(error) {
+        console.log(error);
+    }
 };
 
 export {

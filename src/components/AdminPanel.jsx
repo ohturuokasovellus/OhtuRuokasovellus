@@ -19,7 +19,7 @@ import apiUrl from '../utils/apiUrl';
  * @param {Object} user
  * @returns {JSX.Element} 
  */
-const AdminPanel = ({ user }) => {
+const AdminPanel = ({ userSession }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
@@ -27,9 +27,9 @@ const AdminPanel = ({ user }) => {
     const styles = createStyles();
     let headers;
     
-    if (user) {
+    if (userSession) {
         headers = {
-            Authorization: `Bearer ${user.token}`
+            Authorization: `Bearer ${userSession.token}`
         };
     } else {
         navigate('/');
@@ -62,7 +62,7 @@ const AdminPanel = ({ user }) => {
                     <Text style={[styles.h2, { alignSelf: 'center' }]}>
                         {t('ADMIN_PANEL')}
                     </Text>
-                    <ResearchData />
+                    <ResearchData userSession={userSession}/>
                     <SurveyLinkEditContainer
                         headers={headers}
                         styles={styles}

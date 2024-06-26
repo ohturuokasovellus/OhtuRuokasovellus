@@ -5,7 +5,6 @@ import { Text, View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { Link, useNavigate } from '../Router';
-import { getSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
 
 import createStyles from '../styles/styles';
@@ -147,11 +146,10 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
 /**
  * AddUser component for managing user addition.
  */
-const AddUser = () => {
+const AddUser = ({ userSession }) => {
     const navigate = useNavigate();
     const [isAuthorised, setIsAuthorised] = useState(true);
     const [results, setResults] = useState([]);
-    const userSession = getSession();
     const styles = createStyles();
 
     useEffect(() => {

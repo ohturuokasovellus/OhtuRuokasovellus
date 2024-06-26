@@ -191,6 +191,7 @@
         "SURVEY_LINK_NOT_UPDATED": "Päivitys epäonnistui.",
         "NUTRISCORE_MAY_NOT_BE_CORRECT": "Aterioiden nutri-scoret eivät ole välttämättä laskettu oikein.",
         "LINK_TO_REPOSITORY": "Linkki repositorioon",
-        "ABOUT": "Tietoa"
+        "ABOUT": "Tietoa",
+        "LOADING": "Loading"
     }
 }
