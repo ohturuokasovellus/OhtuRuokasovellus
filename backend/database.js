@@ -359,26 +359,6 @@ const getMeal = async mealId => {
 };
 
 /**
- * Fetch a single meal by its purchase code.
- * @param {number} purchaseCode The purchase code of the meal.
- * @returns {Promise<{ mealId: number, name: string }?>} The meal information.
- */
-const getMealByPurchaseCode = async purchaseCode => {
-    const result = await sql`
-        SELECT meal_id, name, meal_description
-        FROM meals WHERE purchase_code = ${purchaseCode} AND is_active = TRUE;
-    `;
-    if (result.length === 0) {
-        return null;
-    }
-    return {
-        mealId: result[0].meal_id,
-        name: result[0].name,
-        description: result[0].meal_description,
-    };
-};
-
-/**
  * Save purchase to the database.
  * @param {number} userId ID of the user who made the purchase.
  * @param {string} purchaseCode The 8-character purchase code of the meal.
@@ -457,7 +437,6 @@ module.exports = {
     getMealImage,
     getMeals,
     getMeal,
-    getMealByPurchaseCode,
     updateUserRestaurantByEmail,
     addPurchase,
     getPurchases,

@@ -18,6 +18,26 @@ const getAllMealEmissions = async () => {
 };
 
 /**
+ * Fetch a single meal by its purchase code.
+ * @param {number} purchaseCode The purchase code of the meal.
+ * @returns {Promise<{ mealId: number, name: string }?>} The meal information.
+ */
+const getMealByPurchaseCode = async purchaseCode => {
+    const result = await sql`
+        SELECT meal_id, name, meal_description
+        FROM meals WHERE purchase_code = ${purchaseCode} AND is_active = TRUE;
+    `;
+    if (result.length === 0) {
+        return null;
+    }
+    return {
+        mealId: result[0].meal_id,
+        name: result[0].name,
+        description: result[0].meal_description,
+    };
+};
+
+/**
  * Get meal for editing
  * @param {number} mealId
  * @returns {Promise<{ mealId: number, name: string }
@@ -97,6 +117,7 @@ const updateMeal = async (mealId, name, mealDescription,
 
 module.exports = {
     getAllMealEmissions,
+    getMealByPurchaseCode,
     getMealForEdit,
     getMealsRestaurantId,
     setMealInactive,
