@@ -1,6 +1,6 @@
-import { sql, insertUser, insertRestaurant,
-    updateUserRestaurantByEmail } from '../backend/database';
 import { test, expect } from '@playwright/test';
+import { sql, insertUser, insertRestaurant } from '../backend/database';
+import { updateUserRestaurantByEmail } from '../backend/databaseUtils/user';
 import { hash } from '../backend/services/hash';
 
 const initTestDB = async () => {

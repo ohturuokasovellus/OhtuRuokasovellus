@@ -176,24 +176,6 @@ const getRestaurantIdByUserId = async (userId) => {
 };
 
 /**
- * Update user's restaurant id based on email.
- * @param {string} email
- * @param {number} restaurantId new restaurant id
- * @returns {Promise<boolean>} true if successful
- */
-const updateUserRestaurantByEmail = async (email, restaurantId) => {
-    const result = await sql`
-        UPDATE users
-        SET restaurant_id = ${restaurantId}
-        WHERE pgp_sym_decrypt(email::bytea, 
-            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email}
-            AND email IS NOT NULL
-        RETURNING restaurant_id
-    `;
-    return result.length > 0;
-};
-
-/**
  * @param {string} email 
  * @returns {Promise<boolean>} Whether the given restaurant
  *  already exists in the database.
@@ -277,7 +259,6 @@ module.exports = {
     getUserIdByEmail,
     getRestaurantIdByUserId,
     doesRestaurantExist,
-    updateUserRestaurantByEmail,
     addPurchase,
     getPurchases,
     setEvaluationMetric,

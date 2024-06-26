@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import path from 'node:path';
-import { sql, insertUser,
-    insertRestaurant, updateUserRestaurantByEmail} from '../backend/database';
+import { sql, insertUser, insertRestaurant } from '../backend/database';
+import { updateUserRestaurantByEmail } from '../backend/databaseUtils/user';
 import { hash } from '../backend/services/hash';
 
 let restaurantId;
