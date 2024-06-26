@@ -363,7 +363,7 @@ const Register = ({ userSession, updateUser }) => {
                 token: response.data.token,
                 restaurantId: response.data.restaurantId,
             };
-            createSession(userData);
+            await createSession(userData);
             updateUser(userData);
             navigate('/home');
         } catch (err) {
