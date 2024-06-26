@@ -123,7 +123,7 @@ const CreateMealForm = ({
     };
 
     useEffect(() => {
-        fetchIngredients();
+        void fetchIngredients();
     }, []);
 
     const formik = useFormik({
@@ -169,7 +169,7 @@ const CreateMealForm = ({
     });
 
     useEffect(() => {
-        formik.setValues(initialValues);
+        void formik.setValues(initialValues);
     }, [isEditing]);
 
     const openImagePicker = () => {
@@ -180,7 +180,7 @@ const CreateMealForm = ({
             maxHeight: 1024,
         };
     
-        launchImageLibrary(options, handleResponse);
+        void launchImageLibrary(options, handleResponse);
     };
 
     const handleResponse = (response) => {
@@ -191,14 +191,14 @@ const CreateMealForm = ({
         } else {
             const imageBase64 = response.assets[0].base64;
             const imageUri = `data:image/jpeg;base64,${imageBase64}`;
-            formik.setFieldValue('imageUri', imageUri);
+            void formik.setFieldValue('imageUri', imageUri);
         }
     };
 
     const styles = createStyles();
 
     const addIngredientInput = () => {
-        formik.setFieldValue('ingredients',
+        void formik.setFieldValue('ingredients',
             [...formik.values.ingredients,
                 { ingredientId: '', category: '', ingredient: '', weight: '' }
             ]
@@ -208,34 +208,34 @@ const CreateMealForm = ({
     const removeIngredientInput = index => {
         const updatedIngredients = [...formik.values.ingredients];
         updatedIngredients.splice(index, 1);
-        formik.setFieldValue('ingredients', updatedIngredients);
+        void formik.setFieldValue('ingredients', updatedIngredients);
     };
 
     const handleCategoryChange = (value, index) => {
         const updatedIngredients = [...formik.values.ingredients];
         updatedIngredients[index].category = value;
         // updatedIngredients[index].ingredient = '';
-        formik.setFieldValue('ingredients', updatedIngredients);
+        void formik.setFieldValue('ingredients', updatedIngredients);
     };
 
     const handleIngredientChange = (value, index) => {
         const updatedIngredients = [...formik.values.ingredients];
         updatedIngredients[index].ingredient = value;
         updatedIngredients[index].ingredientId = ingredients[value];
-        formik.setFieldValue('ingredients', updatedIngredients);
+        void formik.setFieldValue('ingredients', updatedIngredients);
     };
 
     const handleWeightChange = (value, index) => {
         const updatedIngredients = [...formik.values.ingredients];
         const numericValue = value.replace(/[^0-9]/g, '');
         updatedIngredients[index].weight = numericValue;
-        formik.setFieldValue('ingredients', updatedIngredients);
+        void formik.setFieldValue('ingredients', updatedIngredients);
     };
 
     const handleAllergenChange = (allergen) => {
         const updatedAllergens = { ...formik.values.allergens };
         updatedAllergens[allergen] = !formik.values.allergens[allergen];
-        formik.setFieldValue('allergens', updatedAllergens);
+        void formik.setFieldValue('allergens', updatedAllergens);
     };
 
     const handlePriceChange = (value) => {
@@ -250,7 +250,7 @@ const CreateMealForm = ({
         if (parts[1] !== undefined) {
             formattedPrice += ',' + parts[1].slice(0, 2);
         }
-        formik.setFieldValue('price', formattedPrice);
+        void formik.setFieldValue('price', formattedPrice);
     };
 
     return (
@@ -486,7 +486,7 @@ const CreateMeal = ({ userSession }) => {
                     }
                 }
             };
-            fetchMeal();
+            void fetchMeal();
         }
         else if (isEditing) {
             setIsEditing(false);

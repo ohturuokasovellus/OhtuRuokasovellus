@@ -21,7 +21,7 @@ const ResearchData = ({ userSession }) => {
                 }
             });
             if (!response.data) return;
-            download(response.data);
+            void download(response.data);
         } catch (error) {
             console.log(error);
         }

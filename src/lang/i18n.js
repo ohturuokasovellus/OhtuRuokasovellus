@@ -27,7 +27,7 @@ async function getStoredLanguage() {
 // Initialize i18next with the stored language
 (async () => {
     const language = await getStoredLanguage();
-    i18next
+    void i18next
         .use(initReactI18next)
         .init({
             compatibilityJSON: 'v3',

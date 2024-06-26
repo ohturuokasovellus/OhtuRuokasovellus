@@ -59,7 +59,7 @@ const PurchaseHistory = ({ userSession }) => {
             return;
         }
         setHistory(meals);
-        loadImages(meals);
+        void loadImages(meals);
     };
 
     /**
@@ -87,7 +87,7 @@ const PurchaseHistory = ({ userSession }) => {
             navigate('/login');
             return;
         }
-        loadHistory();
+        void loadHistory();
     }, []);
 
     return (

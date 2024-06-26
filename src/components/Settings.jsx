@@ -29,7 +29,7 @@ const DataExport = ({ styles, token }) => {
                 }
             );
             console.log(response.data);
-            download(response.data);
+            void download(response.data);
         } catch (err) {
             console.error(err);
         }

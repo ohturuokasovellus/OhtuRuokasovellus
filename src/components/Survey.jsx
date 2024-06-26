@@ -17,7 +17,7 @@ const ExternalLink = ({ surveyUrl, textIdentifier } ) => {
     const {t} = useTranslation();
 
     const openLink = () => {
-        Linking.openURL(surveyUrl);
+        void Linking.openURL(surveyUrl);
     };
 
     const styles = createStyles();

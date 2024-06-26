@@ -59,7 +59,7 @@ const Purchase = ({ userSession }) => {
             navigate('/login');
             return;
         }
-        loadMeal();
+        void loadMeal();
     }, []);
 
     const styles = createStyles();

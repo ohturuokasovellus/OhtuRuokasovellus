@@ -10,12 +10,13 @@ const LanguageSwitch = ({ styles }) => {
     const toggleLang = async () => {
         const newLanguage = isEnglish ? 'fin' : 'eng';
         setIsEnglish(!isEnglish);
-        i18n.changeLanguage(newLanguage);
+        void i18n.changeLanguage(newLanguage);
         try {
             await AsyncStorage.setItem('i18nextLanguage', newLanguage);
         } catch (error) {
             console.log(error);
         }
+
     };
 
     return (

@@ -33,7 +33,7 @@ const MealDeletion = ({ userSession }) => {
 
     useEffect(() => {
         if (userSession.restaurantId) {
-            fetchMeals();
+            void fetchMeals();
         }
     }, [navigate]);
 

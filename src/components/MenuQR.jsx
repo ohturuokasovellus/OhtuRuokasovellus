@@ -28,7 +28,7 @@ const MenuQR = () => {
             }
         };
 
-        fetchWebpageURL();
+        void fetchWebpageURL();
     }, [restaurantId]);
 
     const getMenuQR = async () => {
@@ -42,7 +42,7 @@ const MenuQR = () => {
             }
         } catch (error) {
             console.error(error);
-        }
+        };
     };    
     
     const download = async uri => {

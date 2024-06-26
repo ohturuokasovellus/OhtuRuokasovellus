@@ -54,7 +54,7 @@ const UserDashboard = ({ userSession }) => {
 
     useEffect(() => {
         if (userSession) {
-            loadData();
+            void loadData();
         } else {
             setLoading(false);
         }
@@ -249,7 +249,7 @@ const RestaurantDashboard = ({ userSession }) => {
             setLoading(false);
         };
         if (userSession) {
-            fetchData();
+            void fetchData();
         } else {
             setLoading(false);
         }

@@ -60,8 +60,8 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             } catch (err) {
                 onError(err);
                 setFormError(err.message);
-                formik.setFieldValue('password', '');
-                formik.setFieldValue('confirmPassword', '');
+                void formik.setFieldValue('password', '');
+                void formik.setFieldValue('confirmPassword', '');
             }
         },
     });
@@ -79,7 +79,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             }
         };
 
-        fetchWebpageURL();
+        void fetchWebpageURL();
     }, []);
 
     const styles = createStyles();
@@ -108,10 +108,10 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     ];
     
     const openTCLink = () => {
-        Linking.openURL(termsPDFURL);
+        void Linking.openURL(termsPDFURL);
     };
     const openPrivacyLink = () => {
-        Linking.openURL(privacyPDFURL);
+        void Linking.openURL(privacyPDFURL);
     };
 
     const renderCheckboxTitle = (isTerms) => {
@@ -146,7 +146,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     checked={formik.values.isRestaurant}
                     onPress={() => {
                         const newValue = !formik.values.isRestaurant;
-                        formik.setFieldValue('isRestaurant', newValue);
+                        void formik.setFieldValue('isRestaurant', newValue);
                         setShowRestaurantName(newValue);
                     }}
                     id='restaurant-checkbox'

@@ -47,13 +47,13 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
     });
 
     const addEmailInput = () => {
-        formik.setFieldValue('emails', [...formik.values.emails, '']);
+        void formik.setFieldValue('emails', [...formik.values.emails, '']);
     };
 
     const removeEmailInput = index => {
         const updatedEmails = [...formik.values.emails];
         updatedEmails.splice(index, 1);
-        formik.setFieldValue('emails', updatedEmails);
+        void formik.setFieldValue('emails', updatedEmails);
     };
 
     const styles = createStyles();
@@ -95,7 +95,7 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                                         const updatedEmails =
                                     [...formik.values.emails];
                                         updatedEmails[index] = text;
-                                        formik.setFieldValue(
+                                        void formik.setFieldValue(
                                             'emails', updatedEmails
                                         );
                                     }}

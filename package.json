@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build": "expo export:web",
-    "lint": "eslint ./{src,backend,e2e-test}/**/*.{js,jsx} ./{src,backend,e2e-test}/*.{js,jsx} App.jsx --no-error-on-unmatched-pattern",
+    "lint": "eslint ./{src,backend,e2e-tests}/**/*.{js,jsx} ./{src,backend,e2e-tests}/*.{js,jsx} App.jsx --no-error-on-unmatched-pattern",
     "test": "jest --coverage",
     "test:e2e": "E2ETEST=1 playwright test"
   },
@@ -98,7 +98,8 @@
     "react-router-dom": "^6.23.1",
     "react-test-renderer": "18.2.0",
     "supertest": "^7.0.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "typescript-eslint": "^7.14.1"
   },
   "overrides": {
     "@expo/webpack-config": {

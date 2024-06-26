@@ -28,7 +28,7 @@ const MealQR = () => {
             }
         };
 
-        fetchWebpageURL();
+        void fetchWebpageURL();
     }, [mealPurchaseCode]);
 
     const getMealQR = async () => {
@@ -42,7 +42,7 @@ const MealQR = () => {
             }
         } catch (error) {
             console.error(error);
-        }
+        };
     };    
     
     const download = async uri => {
