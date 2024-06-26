@@ -39,3 +39,29 @@ The first `8080` can be changed to customize the port that the server listens to
 ## Definition of Done:
 
 [DoD](https://github.com/ohturuokasovellus/OhtuRuokasovellus/blob/main/documentation/DoD.md)
+
+## For further devolpment:
+
+Application has a few technical impurities which can be fixed, for example by
+* fixing UI views for mobile devices
+   * User dashboard, bar chart scaling
+* security measures to prevent e.g DDoS attacks
+ 
+To do features
+* Logging in redirects back to previously visited page
+* No duplicate ingredients in restaurant's meal creation form
+* Meal comparison between two or more meals on menu page
+* User's profile page
+* Restaurants can see anonymously their customers demographic information
+* Expand admin's functionality pool
+* Meal recommendation system, integrating official nutritional recommendations
+  * Meal card shows macronutrient percentage of daily recomenndation
+* Reward system
+  * Gather points and badges from meals
+
+Possible code-level refactoring
+* Unification of playwright E2E tests
+* Good practices
+  * Remove API calls from UI components
+  * Divide components to more balanced-sized components
+  * More logical assignment of component responsibilities
