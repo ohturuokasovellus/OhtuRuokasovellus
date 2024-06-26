@@ -36,6 +36,22 @@ const getRestaurantIdByUserId = async (userId) => {
 };
 
 /**
+ * Get user id based on email.
+ * @param {string} email
+ * @returns {Promise<number|null>} - user id or null if not found
+ */
+const getUserIdByEmail = async (email) => {
+    const result = await sql`
+    SELECT user_id FROM users
+    WHERE pgp_sym_decrypt(email::bytea, 
+        ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email}
+        AND email IS NOT NULL
+    LIMIT 1
+    `;
+    return result.at(0).user_id;
+};
+
+/**
  * Delete user's username, email and password from the database.
  * @param {number} userId ID of the user.
  */
@@ -119,6 +135,7 @@ module.exports = {
     getBirthYear,
     getGender,
     getRestaurantIdByUserId,
+    getUserIdByEmail,
     deleteUser,
     doesEmailExist,
     doesUsernameExist,
