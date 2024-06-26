@@ -2,8 +2,14 @@ import React, { useContext } from 'react';
 import { StyleSheet, View, Text, Modal } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { themeContext } from '../../controllers/themeController';
-import { DeleteButton, CancelButton } from './Buttons';
+import { Button, DeleteButton, CancelButton } from './Buttons';
 
+/**
+ * Delete pop up.
+ * @param {Boolean} showModal true if activated
+ * @param {Function} onDelete
+ * @returns {JSX.Element} 
+ */
 const DeletePopUp = ({showModal, setShowModal, onDelete}) => {
     const styles = createStyles();
     const { t } = useTranslation();
@@ -20,13 +26,52 @@ const DeletePopUp = ({showModal, setShowModal, onDelete}) => {
                         {t('CONFIRM_DELETE')}
                     </Text>
                     <View style={styles.modalButtonContainer}>
-                        <CancelButton styles={styles}
+                        <CancelButton
                             onPress={() => setShowModal(false)}
                             id="cancel-button"
                         />
-                        <DeleteButton styles={styles}
+                        <DeleteButton
                             onPress={onDelete}
                             id="confirm-delete-button"
+                        />
+                    </View>
+                </View>
+            </View>
+        </Modal>
+    );
+};
+
+/**
+ * Confirmation pop up.
+ * @param {Boolean} showModal true if activated
+ * @param {String} message confirmation message
+ * @param {Function} onConfirm
+ * @returns {JSX.Element} 
+ */
+const ConfirmationPopUp = ({showModal, setShowModal, onConfirm, message}) => {
+    const styles = createStyles();
+    const { t } = useTranslation();
+    return (
+        <Modal
+            visible={showModal}
+            transparent={true}
+            animationType="fade"
+            onRequestClose={() => setShowModal(false)}
+        >
+            <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                    <Text style={styles.modalText}>
+                        {t(message)}
+                    </Text>
+                    <View style={styles.modalButtonContainer}>
+                        <CancelButton
+                            onPress={() => setShowModal(false)}
+                            id="cancel-button"
+                        />
+                        <Button
+                            onPress={onConfirm}
+                            text={t('CONFIRM')}
+                            id="confirm-button"
                         />
                     </View>
                 </View>
@@ -66,4 +111,4 @@ const createStyles = () => {
     });
 };
 
-export { DeletePopUp };
+export { DeletePopUp, ConfirmationPopUp };

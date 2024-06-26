@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from '../Router';
-import { Text, View, ScrollView, Modal } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import { 
-    Button, DeleteButton, CancelButton, ButtonVariant
+    Button, DeleteButton, ButtonVariant
 } from './ui/Buttons';
 import { Input } from './ui/InputFields';
 import ResearchData from  './ResearchData';
@@ -13,6 +13,7 @@ import createStyles from '../styles/styles';
 
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
+import { DeletePopUp, ConfirmationPopUp } from './ui/PopUp';
 
 /**
  * Panel for admin users.
@@ -163,12 +164,10 @@ const SurveyLinkEditContainer = ({ headers, styles }) => {
                 ): null}
             </View>
             <ConfirmationPopUp
-                styles={styles}
                 showModal={showModal}
                 setShowModal={setShowModal}
-                confirmMessage={t('CONFIRM_SURVEY_LINK_UPDATE')}
-                handleConfirmation={changeSurveyUrl}
-                isDelete={false}
+                message='CONFIRM_SURVEY_LINK_UPDATE'
+                onConfirm={changeSurveyUrl}
             />
         </View>
     );
@@ -281,13 +280,10 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
                     {t('NO_RESTAURANTS')}
                 </Text>
             )}
-            <ConfirmationPopUp
-                styles={styles}
+            <DeletePopUp
                 showModal={showModal}
                 setShowModal={setShowModal}
-                confirmMessage={t('CONFIRM_DELETE')}
-                handleConfirmation={confirmRestaurantDeletion}
-                isDelete={true}
+                onDelete={confirmRestaurantDeletion}
             />
         </ScrollView>
     );
@@ -400,65 +396,12 @@ const RestaurantEditContainer = ({
                 text={t('GO_BACK')}
             />
             <ConfirmationPopUp
-                styles={styles}
                 showModal={showModal}
                 setShowModal={setShowModal}
-                confirmMessage={t('CONFIRM_USER_ADDITION')}
-                handleConfirmation={addUserToRestaurant}
-                isDelete={false}
+                message='CONFIRM_USER_ADDITION'
+                onConfirm={addUserToRestaurant}
             />
         </View>
-    );
-};
-
-/**
- * Confirmation pop up.
- * @param {Object} styles
- * @param {Boolean} showModal true if activated
- * @param {String} confirmMessage confirmation message
- * @param {Function} handleConfirmation
- * @param {Boolean} isDelete confirmation context
- * @returns {JSX.Element} 
- */
-const ConfirmationPopUp = (
-    { styles, showModal, setShowModal, confirmMessage, handleConfirmation,
-        isDelete }) => {
-    const {t} = useTranslation();
-
-    return (
-        <Modal
-            visible={showModal}
-            transparent={true}
-            animationType="fade"
-            onRequestClose={() => setShowModal(false)}
-        >
-            <View style={styles.modalContainer}>
-                <View style={styles.modalContent}>
-                    <Text style={styles.modalText}>
-                        {confirmMessage}
-                    </Text>
-                    <View style={styles.modalButtonContainer}>
-                        <CancelButton styles={styles}
-                            onPress={() => setShowModal(false)}
-                            id="cancel-button"
-                        />
-                        {isDelete ? (
-                            <DeleteButton styles={styles}
-                                onPress={handleConfirmation}
-                                id="confirm-delete-button"
-                            />
-                        ): (
-                            <Button
-                                styles={styles}
-                                onPress={handleConfirmation}
-                                text={t('CONFIRM')}
-                                id="confirm-button"
-                            />
-                        )}
-                    </View>
-                </View>
-            </View>
-        </Modal>
     );
 };
 
