@@ -194,17 +194,6 @@ const updateUserRestaurantByEmail = async (email, restaurantId) => {
 };
 
 /**
- * Delete user's username, email and password from the database.
- * @param {number} userId ID of the user.
- */
-const deleteUser = async userId => {
-    await sql`
-        UPDATE users SET username = NULL, password = NULL, email = NULL
-        WHERE user_id = ${userId};
-    `;
-};
-
-/**
  * @param {string} email 
  * @returns {Promise<boolean>} Whether the given restaurant
  *  already exists in the database.
@@ -287,7 +276,6 @@ module.exports = {
     getUserInfo,
     getUserIdByEmail,
     getRestaurantIdByUserId,
-    deleteUser,
     doesRestaurantExist,
     updateUserRestaurantByEmail,
     addPurchase,

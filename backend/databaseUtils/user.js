@@ -1,5 +1,36 @@
 const { sql } = require('../database');
 
+const getBirthYear = async (userId) => {
+    const result = await sql`
+    SELECT pgp_sym_decrypt(birth_year::bytea, 
+            ${process.env.DATABASE_ENCRYPTION_KEY})
+            as decrypted_birth_year
+    FROM users WHERE user_id = ${userId}
+    `;
+    return result.at(0).decrypted_birth_year;
+};
+
+const getGender = async (userId) => {
+    const result = await sql `
+    SELECT pgp_sym_decrypt(gender::bytea, 
+            ${process.env.DATABASE_ENCRYPTION_KEY})
+            as decrypted_gender FROM users
+    WHERE user_id = ${userId}
+    `;
+    return result.at(0).decrypted_gender;
+};
+
+/**
+ * Delete user's username, email and password from the database.
+ * @param {number} userId ID of the user.
+ */
+const deleteUser = async userId => {
+    await sql`
+        UPDATE users SET username = NULL, password = NULL, email = NULL
+        WHERE user_id = ${userId};
+    `;
+};
+
 /**
  * @param {string} email 
  * @returns {Promise<boolean>} Whether the given email
@@ -36,26 +67,6 @@ const doesUsernameExist = async username => {
     return result.at(0).exists;
 };
 
-const getBirthYear = async (userId) => {
-    const result = await sql`
-    SELECT pgp_sym_decrypt(birth_year::bytea, 
-            ${process.env.DATABASE_ENCRYPTION_KEY})
-            as decrypted_birth_year
-    FROM users WHERE user_id = ${userId}
-    `;
-    return result.at(0).decrypted_birth_year;
-};
-
-const getGender = async (userId) => {
-    const result = await sql `
-    SELECT pgp_sym_decrypt(gender::bytea, 
-            ${process.env.DATABASE_ENCRYPTION_KEY})
-            as decrypted_gender FROM users
-    WHERE user_id = ${userId}
-    `;
-    return result.at(0).decrypted_gender;
-};
-
 /**
  * Check if a user is associated with a restaurant.
  * @param {number} userId
@@ -72,9 +83,10 @@ const isRestaurantUser = async userId => {
 };
 
 module.exports = {
-    doesEmailExist,
-    doesUsernameExist,
     getBirthYear,
     getGender,
+    deleteUser,
+    doesEmailExist,
+    doesUsernameExist,
     isRestaurantUser
 };
