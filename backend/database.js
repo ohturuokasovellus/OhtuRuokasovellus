@@ -344,21 +344,6 @@ const getMealIdsNamesPurchaseCodes = async (restaurantId) => {
 };
 
 /**
- * Fetch a single meal by its ID.
- * @param {number} mealId The ID of the meal.
- * @returns {Promise<{ name: string }?>} The meal information.
- */
-const getMeal = async mealId => {
-    const result = await sql`
-        SELECT name FROM meals WHERE meal_id = ${mealId};
-    `;
-    if (result.length === 0) {
-        return null;
-    }
-    return result.at(0);
-};
-
-/**
  * Save purchase to the database.
  * @param {number} userId ID of the user who made the purchase.
  * @param {string} purchaseCode The 8-character purchase code of the meal.
@@ -436,7 +421,6 @@ module.exports = {
     addMealImage,
     getMealImage,
     getMeals,
-    getMeal,
     updateUserRestaurantByEmail,
     addPurchase,
     getPurchases,
