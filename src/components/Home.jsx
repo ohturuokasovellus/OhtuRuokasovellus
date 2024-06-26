@@ -17,11 +17,6 @@ const Home = ({ userSession }) => {
     const [loading, setLoading] = useState(true);
     const styles = createStyles();
     const [isAdmin, setIsAdmin] = useState(false);
-    
-
-    if (!userSession) {
-        navigate('/login');
-    }
 
     let username, isRestaurantUser;
     if (userSession) {
@@ -45,9 +40,13 @@ const Home = ({ userSession }) => {
     };
 
     useEffect(() => {
+        if (!userSession) {
+            navigate('/login');
+        }
+
         fetchSurveyUrl(setSurveyUrl, setLoading);
         setAdminStatus();
-    }, [navigate]);
+    }, [userSession, navigate]);
 
     if (loading) {
         return <ActivityIndicator size='large' color='#0000ff' />;

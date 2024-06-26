@@ -1,4 +1,6 @@
 import { React, useState, useEffect } from 'react';
+import { Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useFonts } from 'expo-font';
 import Router, { Routes, Route } from './src/Router';
 import { getSession } from './src/controllers/sessionController';
@@ -23,6 +25,9 @@ import './src/lang/i18n'; // should be inported in index.js, but idk if
 
 const App = () => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const {t} = useTranslation();
+
     const updateUser = (userData) => {
         setUser(userData);
     };
@@ -31,6 +36,7 @@ const App = () => {
         const getUserSession = async () => {
             const userSession = await getSession();
             setUser(userSession);
+            setLoading(false);
         };
         
         getUserSession();
@@ -43,6 +49,16 @@ const App = () => {
         'Roboto-Italic': require('./assets/fonts/Roboto-Italic.ttf'),
         'Roboto-Thin': require('./assets/fonts/Roboto-Thin.ttf'),
     });
+
+    // This has to be here or React Native renders routes before userSession 
+    // has been fetched.
+    if (loading) {
+        return (
+            <View>
+                <Text>{t('LOADING')}</Text>
+            </View>
+        );
+    }
 
     return (
         <ThemeController>
