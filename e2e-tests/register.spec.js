@@ -80,7 +80,7 @@ test.describe('registration page', () => {
         await page.locator('#login-button').click();
         await expect(page).toHaveURL('/home');
         await expect(page.locator('#restaurant-page-button'))
-            .not.toBeVisible;
+            .not.toBeVisible();
     });
 
     test('registers restaurant with correct details', async ({ page }) => {
@@ -127,7 +127,7 @@ test.describe('registration page', () => {
         await page.locator('#login-button').click();
         await expect(page).toHaveURL('/home');
         await expect(page.locator('#restaurant-page-button'))
-            .toBeVisible;
+            .toBeVisible();
     });
 
     test('cannot register without filling the form', async ({ page }) => {
