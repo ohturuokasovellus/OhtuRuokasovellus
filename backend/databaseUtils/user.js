@@ -1,4 +1,5 @@
 const { sql } = require('../database');
+const { compareHashes } = require('../services/hash');
 
 const getBirthYear = async (userId) => {
     const result = await sql`
@@ -33,6 +34,35 @@ const getRestaurantIdByUserId = async (userId) => {
     LIMIT 1
     `;
     return result.at(0).restaurant_id;
+};
+
+/**
+ * @param {string} username 
+ * @param {string} password hashed password 
+ * @returns {Promise<{ userId: number, username: string,
+*  restaurantId: number?}?>} User if there exists user with given credentials
+*/
+const getUser = async (username, password) => {
+    const result = await sql`
+        SELECT user_id, pgp_sym_decrypt(username::bytea, 
+            ${process.env.DATABASE_ENCRYPTION_KEY}) AS username, 
+            password, restaurant_id, is_admin FROM users
+        WHERE pgp_sym_decrypt(username::bytea, 
+            ${process.env.DATABASE_ENCRYPTION_KEY}) 
+            = ${username} AND username IS NOT NULL AND password IS NOT NULL;
+    `;
+    if (result.length !== 1) {
+        return null;
+    }
+    if (compareHashes(password, result[0].password) !== true) {
+        return null;
+    }
+    return {
+        userId: result[0].user_id,
+        username: result[0].username,
+        restaurantId: result[0].restaurant_id,
+        isAdmin: result[0].is_admin
+    };
 };
 
 /**
@@ -163,6 +193,7 @@ module.exports = {
     getBirthYear,
     getGender,
     getRestaurantIdByUserId,
+    getUser,
     getUserIdByEmail,
     getUserInfo,
     deleteUser,

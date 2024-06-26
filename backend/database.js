@@ -71,35 +71,6 @@ const insertRestaurant = async (restaurantName) => {
 };
 
 /**
- * @param {string} username 
- * @param {string} password hashed password 
- * @returns {Promise<{ userId: number, username: string,
- *  restaurantId: number?}?>} Whether there exists user with given credentials
- */
-const getUser = async (username, password) => {
-    const result = await sql`
-        SELECT user_id, pgp_sym_decrypt(username::bytea, 
-            ${process.env.DATABASE_ENCRYPTION_KEY}) AS username, 
-            password, restaurant_id, is_admin FROM users
-        WHERE pgp_sym_decrypt(username::bytea, 
-            ${process.env.DATABASE_ENCRYPTION_KEY}) 
-            = ${username} AND username IS NOT NULL AND password IS NOT NULL;
-    `;
-    if (result.length !== 1) {
-        return null;
-    }
-    if (compareHashes(password, result[0].password) !== true) {
-        return null;
-    }
-    return {
-        userId: result[0].user_id,
-        username: result[0].username,
-        restaurantId: result[0].restaurant_id,
-        isAdmin: result[0].is_admin
-    };
-};
-
-/**
  * Check whether the given password matches the correct password of a user.
  * @param {number} userId ID of the user whose password to check
  * @param {string} password Hashed password
@@ -194,7 +165,6 @@ module.exports = {
     sql,
     insertUser,
     insertRestaurant,
-    getUser,
     checkPassword,
     doesRestaurantExist,
     addPurchase,
