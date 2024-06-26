@@ -6,7 +6,6 @@ Welcome to our project! This guide is intended to help future developers underst
 ## Table of contents
 
 1. Setting Up the Development Environment
-2. Command-line commands
 3. Code Structure
 4. Technology stack
 5. Running the Application
@@ -14,7 +13,7 @@ Welcome to our project! This guide is intended to help future developers underst
 7. Our contribution techniques
 8. Useful Resources
 
-## Setting Up the Development Environment
+## Setting up the development environment
 To set up the development environment, follow these steps:
 
 1. Install dependencies with `npm install`
@@ -35,7 +34,7 @@ WEBPAGE_URL=YOUR_WEBPAGE_URL
 
 Now development environemt is set and you can start contributing to the project.
 
-## Command-line commands
+### Command-line commands
 1. `npm install` to install project dependencies
 2. `npm start` to start the frontend
 3. `npm run start:server` to start the backend server
@@ -46,3 +45,39 @@ Now development environemt is set and you can start contributing to the project.
 To start the application locally, run `npm start` and `npm run start:server` in different windows.
 
 NB: before running Playwright tests or if there's unexplained errors with them, generate new production build with `npm run build`.
+
+## Code structure
+```php
+root/
+│
+├── .github/workflows  # CI/CD pipeline configuration
+├── assets/            # Project assets
+├── backend/           # Backend
+│   ├── __mocks__/     # Mocks
+│   ├── __tests__/     # Backend unit tests
+│   ├── assets/        # Asset folder for backend
+│   ├── csvFiles/      # Csv files
+│   ├── databaseUtils/ # Modules with DB queries
+│   ├── routes/        # Modules with API routes   
+│   ├── services/      # Service modules
+│   ├── app.js         # App configuration module
+│   ├── database.js    # Module for DB queries
+│   ├── index.js       # Backend index file
+│
+├── documentation/     # Documentation files
+├── e2e-tests/         # E2E-tests
+├── openshift/         # Configuration files for openshift
+├── src/               # Source files
+│   ├── __tests__/     # Frontend unit tests
+│   ├── components/    # React components
+│   ├── controllers/   # Controllers for frontend
+│   ├── lang/          # language config file and translation files
+│   ├── styles/        # Application styling
+│   ├── utils/         # Util modules
+│   └── ...
+│
+├── App.jsx            # React App
+├── README.md          # Project documentation
+├── schema.sql         # SQL schema for DB
+└── ...
+```   
