@@ -51,7 +51,7 @@ const ResearchData = () => {
 
     return (
         <View>
-            <Text style={styles.body}>
+            <Text style={styles.h4}>
                 {t('DOWNLOAD_RESEARCH_DATA')}
             </Text>
             <Button 

@@ -96,41 +96,16 @@ const createStyles = () => {
             textDecorationLine: 'underline',
             fontFamily: 'Roboto-Regular',
         },
-        placeholderText: {
-            color: colors.outline,
-            fontFamily: 'Roboto-Regular',
-        },
 
         // containers
-        flexInputContainer: {
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            width: '100%',
-            borderRadius: 8,
-        },
         primaryContainer: {
             marginBottom: 16,
             backgroundColor: colors.primaryContainer,
             padding: 16,
             borderRadius: 8,
         },
-        qrContainer: {
-            padding: 16,
-        },
-        sortContainer: {
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginVertical: 10,
-        },
-
-        // buttons
-
-        // input fields
-
-        // cards
         cardContainer: {
-            maxWidth: 600,
+            maxWidth: 700,
             width: '100%',
             padding: 16,
             backgroundColor: colors.surfaceVariant,
@@ -143,6 +118,35 @@ const createStyles = () => {
             elevation: 3,
             alignSelf: 'center',
         },
+        flexRowContainer: {
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            width: '100%',
+            borderRadius: 8,
+        },
+        flexButtonContainer: {
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            flexWrap: 'wrap',
+        },
+        qrContainer: {
+            padding: 16,
+        },
+        sortContainer: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginVertical: 10,
+        },
+        scrollViewContainer: {
+            maxHeight: 400,
+        },
+
+        // buttons
+
+        // input fields
+
+        // cards
         imageContainer: {
             backgroundColor: colors.surface,
             position: 'absolute',
@@ -248,29 +252,6 @@ const createStyles = () => {
         // };
 
         // Meal list
-        mealContainer: {
-            marginVertical: 8,
-            borderWidth: 1,
-            borderColor: colors.outlineVariant,
-            backgroundColor: colors.surfaceVariant,
-            borderRadius: 8,
-        },
-        mealContent: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            paddingHorizontal: 16,
-            paddingVertical: 8,
-        },
-        mealListContainer: {
-            maxHeight: 400,
-        },
-        managementButtons: {
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
-            flexWrap: 'wrap',
-        },
 
         // Modal
         modalContainer: {

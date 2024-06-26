@@ -131,37 +131,36 @@ const SurveyLinkEditContainer = ({ headers, styles }) => {
 
     return (
         <View>
-            <View style={styles.mealContainer}>
-                <View style={{ padding: '10px'}}>
-                    <Text style={styles.h4}>
-                        {t('UPDATE_SURVEY_LINK')}
-                    </Text>
-                    <Input
-                        styles={styles}
-                        placeholder={urlPlaceholder}
-                        value={newUrl}
-                        onChangeText={setNewUrl}
-                        id="survey-link-input"
-                    />
-                    <ButtonVariant
-                        styles={styles}
-                        onPress={newUrl ? () => setShowModal(true)
-                            : null
-                        }
-                        text={t('EDIT')}
-                        id="update-survey-link-button"
-                    />
-                    {success ? (
-                        <View>
-                            <Text style={styles.success}>{success}</Text>
-                        </View>
-                    ): null}
-                    {error ? (
-                        <View>
-                            <Text style={styles.error}>{error}</Text>
-                        </View>
-                    ): null}
-                </View>
+            <Text style={styles.h4}>
+                {t('UPDATE_SURVEY_LINK')}
+            </Text>
+            <View style={[styles.cardContainer, {padding: 32}]}>
+                
+                <Input
+                    styles={styles}
+                    placeholder={urlPlaceholder}
+                    value={newUrl}
+                    onChangeText={setNewUrl}
+                    id="survey-link-input"
+                />
+                <ButtonVariant
+                    styles={styles}
+                    onPress={newUrl ? () => setShowModal(true)
+                        : null
+                    }
+                    text={t('EDIT')}
+                    id="update-survey-link-button"
+                />
+                {success ? (
+                    <View>
+                        <Text style={styles.success}>{success}</Text>
+                    </View>
+                ): null}
+                {error ? (
+                    <View>
+                        <Text style={styles.error}>{error}</Text>
+                    </View>
+                ): null}
             </View>
             <ConfirmationPopUp
                 styles={styles}
@@ -236,7 +235,7 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
     };
 
     return (
-        <ScrollView style={styles.mealListContainer}>
+        <ScrollView style={styles.scrollViewContainer}>
             <Text style={styles.h3}>
                 {t('MANAGE_RESTAURANTS')}
             </Text>
@@ -244,14 +243,14 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
                 restaurants.map((restaurant, index) => (
                     <View
                         key={restaurant.restaurantId} 
-                        style={styles.mealContainer}
+                        style={styles.cardContainer}
                     >
-                        <View style={styles.mealContent}>
-                            <Text style={styles.body}>
+                        <View style={styles.flexRowContainer}>
+                            <Text style={styles.h6}>
                                 {restaurant.name}
                             </Text>
                             <View 
-                                style={styles.managementButtons}
+                                style={styles.flexButtonContainer}
                             >
                                 <Button
                                     styles={styles}
@@ -355,51 +354,45 @@ const RestaurantEditContainer = ({
             <Text style={styles.h3}>
                 {t('MANAGE_RESTAURANT')}{' '}{selectedRestaurant[1]}
             </Text>
-            <View style={styles.mealContainer}>
-                <View style={{ padding: '10px'}}>
-                    <Text style={styles.h5}>
-                        {t('USERS_OF_RESTAURANT')}{':'}
-                    </Text>
-                    {restaurantUsers.length > 0 ? (
-                        restaurantUsers.map((user, index) => (
-                            <View key={index} style={styles.mealContent}>
-                                <Text style={styles.body}>{user.username}</Text>
-                            </View>
-                        ))
-                    ) : (
-                        <Text style={styles.body}>{t('NO_USERS')}</Text>
-                    )}
-                    <View style={{ padding: '10px'}}>
-                        <Text style={styles.h4}>
-                            {t('ADD_USERS_BY_USERNAME')}
-                        </Text>
-                        <Input
-                            styles={styles}
-                            placeholder={t('USERNAME')}
-                            value={userToAdd}
-                            onChangeText={setUserToAdd}
-                            id="username-input"
-                        />
-                        <ButtonVariant
-                            styles={styles}
-                            onPress={userToAdd ? () => setShowModal(true)
-                                : null
-                            }
-                            text={t('ADD_USER')}
-                            id="attach-user-button"
-                        />
-                        {success ? (
-                            <View>
-                                <Text style={styles.success}>{success}</Text>
-                            </View>
-                        ): null}
-                        {error ? (
-                            <View>
-                                <Text style={styles.error}>{error}</Text>
-                            </View>
-                        ): null}
+            <View style={[styles.cardContainer, {paddingHorizontal: 32}]}>
+                <Text style={styles.h5}>
+                    {t('USERS_OF_RESTAURANT')}{':'}
+                </Text>
+                {restaurantUsers.length > 0 ? (
+                    restaurantUsers.map((user, index) => (
+                        <View key={index} style={styles.flexRowContainer}>
+                            <Text style={styles.body}>{user.username}</Text>
+                        </View>
+                    ))
+                ) : (
+                    <Text style={styles.body}>{t('NO_USERS')}</Text>
+                )}
+                <Text style={styles.h5}>
+                    {t('ADD_USERS_BY_USERNAME')}
+                </Text>
+                <Input
+                    placeholder={t('USERNAME')}
+                    value={userToAdd}
+                    onChangeText={setUserToAdd}
+                    id="username-input"
+                />
+                <ButtonVariant
+                    onPress={userToAdd ? () => setShowModal(true)
+                        : null
+                    }
+                    text={t('ADD_USER')}
+                    id="attach-user-button"
+                />
+                {success ? (
+                    <View>
+                        <Text style={styles.success}>{success}</Text>
                     </View>
-                </View>
+                ): null}
+                {error ? (
+                    <View>
+                        <Text style={styles.error}>{error}</Text>
+                    </View>
+                ): null}
             </View>
             <Button
                 styles={styles}

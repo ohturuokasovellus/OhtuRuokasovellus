@@ -66,7 +66,7 @@ const MealDeletion = () => {
 
     const MealListContainer = () => {
         return (
-            <ScrollView style={styles.mealListContainer}>
+            <ScrollView style={styles.scrollViewContainer}>
                 <Text style={styles.h3}>
                     {t('MANAGE_RESTAURANT_MEALS')}
                 </Text>
@@ -74,14 +74,14 @@ const MealDeletion = () => {
                     meals.map((meal, index) => (
                         <View
                             key={meal.meal_id} 
-                            style={styles.mealContainer}
+                            style={styles.cardContainer}
                         >
-                            <View style={styles.mealContent}>
+                            <View style={styles.flexRowContainer}>
                                 <Text style={styles.body}>
                                     {meal.meal_name}
                                 </Text>
                                 <View 
-                                    style={styles.managementButtons}
+                                    style={styles.flexButtonContainer}
                                 >
                                     <Button
                                         styles={styles}

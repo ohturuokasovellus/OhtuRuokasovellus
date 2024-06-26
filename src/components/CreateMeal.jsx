@@ -287,7 +287,7 @@ const CreateMealForm = ({
                     rows={5}
                 />
                 {formik.values.ingredients.map((ingredient, index) => (
-                    <View key={index} style={styles.flexInputContainer}>
+                    <View key={index} style={styles.flexRowContainer}>
                         <Dropdown
                             search={false}
                             placeholder={t('FOOD_GROUP')}

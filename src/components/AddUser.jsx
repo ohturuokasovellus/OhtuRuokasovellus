@@ -87,7 +87,7 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                 ) : (
                     <View>
                         {formik.values.emails.map((email, index) => (
-                            <View key={index} style={styles.flexInputContainer}>
+                            <View key={index} style={styles.flexRowContainer}>
                                 <FlexInput
                                     styles={styles}
                                     placeholder={t('EMAIL')}
