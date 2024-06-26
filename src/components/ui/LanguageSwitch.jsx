@@ -9,7 +9,7 @@ const LanguageSwitch = ({ styles }) => {
     const toggleLang = () => {
         const newLanguage = isEnglish ? 'fin' : 'eng';
         setIsEnglish(!isEnglish);
-        i18n.changeLanguage(newLanguage);
+        void i18n.changeLanguage(newLanguage);
         // eslint-disable-next-line no-undef
         localStorage.setItem('i18nextLng', newLanguage);
     };
