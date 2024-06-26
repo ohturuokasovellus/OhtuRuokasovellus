@@ -7,16 +7,10 @@ import {
 } from '../backend/database';
 import { hash } from '../backend/services/hash';
 
-const testSurveyUrl = 'fi.wikipedia.org/';
-
 const initTestDB = async () => {
     await sql`SET client_min_messages TO WARNING`;
     await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
     await sql`TRUNCATE TABLE restaurants RESTART IDENTITY CASCADE`;
-    await sql`TRUNCATE TABLE urls RESTART IDENTITY CASCADE`;
-    await sql`
-    INSERT INTO urls (name, url) VALUES ('survey', ${testSurveyUrl})
-    `;
     await insertRestaurant('testaurant');
 
     const users = [
