@@ -570,6 +570,7 @@ const createStyles = () => {
             height: 40,
             width: 150,
             marginRight: 10,
+            marginBottom: 8,
             borderRadius: 8,
             borderColor: colors.outlineVariant,
             borderWidth: 1,
@@ -577,6 +578,7 @@ const createStyles = () => {
             backgroundColor: colors.surfaceVariant,
             color: colors.outline,
             fontFamily: 'Roboto-Regular',
+            overflow: 'hidden',
         },
 
         // self eval slider
