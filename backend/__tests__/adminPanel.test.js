@@ -72,6 +72,12 @@ describe('admin panel api', () => {
             .set(wrongTokenHeaders)
             .expect(401)
             .expect('Unauthorized');
+    
+        await request(app)
+            .post('/api/url/change/survey')
+            .set(wrongTokenHeaders)
+            .expect(401)
+            .expect('Unauthorized');
     });
 
     test('fetches restaurants if authorized', async () => {
@@ -147,5 +153,22 @@ describe('admin panel api', () => {
             .set(headers)
             .expect(404)
             .expect('invalid username');
+    });
+
+    test('updates url with correct url name', async () => {
+        postgresMock.setSqlResults([
+            { count: 1 }
+        ]);
+
+        const body = {
+            newUrl: 'https://test.fi'
+        };
+
+        await request(app)
+            .post('/api/url/change/survey')
+            .send(body)
+            .set(headers)
+            .expect(200)
+            .expect('Survey url changed');
     });
 });

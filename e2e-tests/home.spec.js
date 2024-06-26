@@ -52,18 +52,13 @@ const initTestDB = async () => {
 test.describe('home page', () => {
     test.beforeEach(async ({ page }) => {
         await initTestDB();
-        await page.goto('/');
+        await page.goto('/home');
         await page.locator('#language-toggle').click();
     });
 
-    test('home page is displayed correctly if not logged in',
+    test('redirects to login page if not logged in',
         async ({ page }) => {
-            await expect(page.locator('#root'))
-                .toContainText('With this application you can track');
-            await expect(page.locator('#login-link'))
-                .toBeVisible();
-            await expect(page.locator('#register-link'))
-                .toBeVisible();
+            await expect(page).toHaveURL(/\/login$/);
         });
 
     test('home page is displayed correctly for regular users',
@@ -74,7 +69,7 @@ test.describe('home page', () => {
         await page.locator('#password-input').click();
         await page.locator('#password-input').fill('Best456@');
         await page.locator('#login-button').click();
-        await expect(page).toHaveURL(/\/$/);
+        await expect(page).toHaveURL(/\/home$/);
         await expect(page.locator('text=Welcome, test2')).toBeVisible();
         await expect(page.locator('#survey-link'))
             .toBeVisible();
@@ -86,7 +81,7 @@ test.describe('home page', () => {
             .not.toBeVisible();
         await page.locator('#history-button').click();
         await expect(page).toHaveURL(/\/history$/);
-        await page.goto('/');
+        await page.goto('/home');
         await page.locator('#settings-button').click();
         await expect(page).toHaveURL(/\/settings$/);
         await page.locator('#navigation-logout').click();
@@ -113,10 +108,10 @@ test.describe('home page', () => {
             .toBeVisible();
         await page.locator('#add-users-button').click();
         await expect(page).toHaveURL(/\/add-users$/);
-        await page.goto('/');
+        await page.goto('/home');
         await page.locator('#restaurant-page-button').click();
         await expect(page).toHaveURL('/restaurant/1');
-        await page.goto('/');
+        await page.goto('/home');
         await page.locator('#restaurant-menu-button').click();
         await expect(page).toHaveURL('/menu-qr/1');
     });

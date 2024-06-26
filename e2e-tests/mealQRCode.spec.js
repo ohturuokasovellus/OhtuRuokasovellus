@@ -47,7 +47,7 @@ test.describe('meal qr page', () => {
         await page.locator('#username-input').fill('test');
         await page.locator('#password-input').fill('Test123!');
         await page.locator('#login-button').click();
-        await page.waitForURL('/');
+        await page.waitForURL('/home');
     });
 
     test('displays meal QR code correctly',

@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
-import {
-    sql, insertUser, insertRestaurant, addPurchase, setEvaluationMetric
-} from '../backend/database';
+import { sql, insertUser, insertRestaurant,
+    addPurchase, setEvaluationMetric } from '../backend/database';
 import { hash } from '../backend/services/hash';
 
 const initDb = async () => {
@@ -35,7 +34,7 @@ const logIn = async page => {
     await page.fill('input[id="username-input"]', 'test');
     await page.fill('input[id="password-input"]', 'Test123!');
     await page.locator('#login-button').click();
-    await page.waitForURL('/');
+    await page.waitForURL('/home');
 };
 
 /**
@@ -58,7 +57,7 @@ test.describe('user data export', () => {
 
     test('user can export their data', async ({ page }) => {
         await logIn(page);
-        await page.goto('/');
+        await page.goto('/home');
 
         await page.click('#settings-button');
         await expect(page).toHaveURL('/settings');

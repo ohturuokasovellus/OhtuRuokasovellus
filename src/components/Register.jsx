@@ -327,7 +327,7 @@ const Register = () => {
     useEffect(() => {
         const userSession = getSession();
         if (userSession) {
-            navigate('/');
+            navigate('/home');
         }
     }, []);
 

@@ -52,7 +52,7 @@ test.describe('meal creation page', () => {
         await page.fill('input[id="username-input"]', 'test');
         await page.fill('input[id="password-input"]', 'Test123!');
         await page.locator('#login-button').click();
-        await page.waitForURL('/');
+        await page.waitForURL('/home');
 
         await page.goto('/create-meal');
         await page.locator('#language-toggle').click();

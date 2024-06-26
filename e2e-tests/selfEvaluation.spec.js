@@ -27,7 +27,7 @@ test.describe('self evaluation', () => {
         await page.fill('input[id="username-input"]', 'test');
         await page.fill('input[id="password-input"]', 'Testi123!');
         await page.locator('#login-button').click();
-        await page.waitForURL('/');
+        await page.waitForURL('/home');
         await page.locator('#language-toggle').click();
         await page.locator('#settings-button').click();
         await page.waitForURL('/settings');

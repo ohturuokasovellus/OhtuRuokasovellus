@@ -181,6 +181,13 @@
         "DOWNLOAD_RESEARCH_DATA": "Download research data",
         "EXPORT_USER_DATA": "Export data",
         "EXPORT_USER_DATA_DESCRIPTION": "You can download all the data collected about you.",
-        "APP_DESCRIPTION": "With this application you can track the nutritional values and climate impact of your meal choices."
+        "APP_DESCRIPTION": "With this application you can track the nutritional values and climate impact of your meal choices.",
+        "UPDATE_SURVEY_LINK": "Update survey link",
+        "CONFIRM_SURVEY_LINK_UPDATE": "Confirm survey link update",
+        "SURVEY_LINK_UPDATED": "Survey link updated.",
+        "SURVEY_LINK_NOT_UPDATED": "Survely link not updated.",
+        "NUTRISCORE_MAY_NOT_BE_CORRECT": "The nutri-scores of meals might be incorrect",
+        "LINK_TO_REPOSITORY": "Link to the repository",
+        "ABOUT": "About"
     }
 }

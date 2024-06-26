@@ -455,7 +455,7 @@ const CreateMeal = (props) => {
             navigate('/login');
         }
         else if (!props.user.restaurantId) {
-            navigate('/');
+            navigate('/home');
         }
         else if (mealId) {
             const fetchMeal = async () => {

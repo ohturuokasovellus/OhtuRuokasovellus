@@ -4,6 +4,7 @@ const {
     setRestaurantMealsToInactive, deattachUsersFromRestaurant,
     addUserToRestaurant
 } = require('../databaseUtils/adminPanel');
+const { changeUrl } = require('../databaseUtils/url');
 const { verifyToken } = require('../services/authorization');
 
 const router = express.Router();
@@ -135,5 +136,29 @@ router.post('/api/restaurant/:restaurantId/add-user', express.json(),
             return res.status(500).send('unexpected internal server error');
         }
     });
+
+/**
+ * Route for updating urls.
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The body of the request.
+ * @param {Object} res - The response object.
+ * @returns {Object} 200 - Success status.
+ * @returns {Object} 401 - Unauthorized.
+ */
+router.post('/api/url/change/:urlName', async (req, res) => {
+    const userInfo = verifyToken(req.header('Authorization'));
+    if (!userInfo || !userInfo.isAdmin) {
+        return res.status(401).send('Unauthorized');
+    }
+
+    try {
+        const success = await changeUrl(req.params.urlName, req.body.newUrl);
+        if (success) {
+            res.status(200).send('Survey url changed');
+        }
+    } catch (err) {
+        return res.sendStatus(404);
+    }
+});
 
 module.exports = router;
