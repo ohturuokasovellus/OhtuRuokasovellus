@@ -254,31 +254,7 @@ const createStyles = () => {
         // Meal list
 
         // Modal
-        modalContainer: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        },
-        modalContent: {
-            maxWidth: 300,
-            width: '100%',
-            padding: 20,
-            backgroundColor: colors.surface,
-            borderRadius: 10,
-            alignItems: 'center',
-        },
-        modalText: {
-            fontSize: 18,
-            fontFamily: 'Roboto-Regular',
-            color: colors.onSurface,
-            marginBottom: 20,
-        },
-        modalButtonContainer: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-        },
+        
         
         // selectList
 

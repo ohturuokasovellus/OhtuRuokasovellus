@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, Modal } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 
 import { useNavigate } from '../Router';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,8 @@ import apiUrl from '../utils/apiUrl';
 import { getSession } from '../controllers/sessionController';
 
 import createStyles from '../styles/styles';
-import { Button, CancelButton, DeleteButton } from './ui/Buttons';
+import { Button, DeleteButton } from './ui/Buttons';
+import { DeletePopUp } from './ui/PopUp';
 
 const MealDeletion = () => {
     const {t} = useTranslation();
@@ -123,39 +124,14 @@ const MealDeletion = () => {
         );
     };
 
-    const DeleteMealPopUp = () => {
-        return (
-            <Modal
-                visible={showModal}
-                transparent={true}
-                animationType="fade"
-                onRequestClose={() => setShowModal(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalText}>
-                            {t('CONFIRM_DELETE')}
-                        </Text>
-                        <View style={styles.modalButtonContainer}>
-                            <CancelButton styles={styles}
-                                onPress={() => setShowModal(false)}
-                                id="cancel-button"
-                            />
-                            <DeleteButton styles={styles}
-                                onPress={confirmMealDeletion}
-                                id="confirm-delete-button"
-                            />
-                        </View>
-                    </View>
-                </View>
-            </Modal>
-        );
-    };
-
     return (
         <View>
             <MealListContainer />
-            <DeleteMealPopUp/>
+            <DeletePopUp
+                showModal={showModal}
+                setShowModal={setShowModal}
+                onDelete={confirmMealDeletion}
+            />
         </View>
     );
 };
