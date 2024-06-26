@@ -7,7 +7,7 @@ const getAgeGroup = (birthYear) => {
     } else if (age > 18 && age <= 25) {
         return {'19-25': [currentYear - 25, currentYear - 19]};
     } else if (age > 25 && age <= 35) {
-        return {'26-25': [currentYear - 35, currentYear - 26]};
+        return {'26-35': [currentYear - 35, currentYear - 26]};
     } else if (age > 35 && age <= 45) {
         return {'36-45': [currentYear - 45, currentYear - 36]};
     } else if (age > 45 && age <= 55) {

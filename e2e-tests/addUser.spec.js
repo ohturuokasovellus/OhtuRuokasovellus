@@ -85,7 +85,7 @@ test.describe('adding restaurant users: unauthorised', () => {
             await expect(page.locator('text=Welcome,')).toBeVisible();
         });
 
-    test('redirects to home if user is not logged in',
+    test('redirects to login if user is not logged in',
         async ({ page }) => {
             await page.goto('/add-users');
             await expect(page).toHaveURL(/\/login$/);
@@ -108,6 +108,17 @@ test.describe('adding restaurant users: authorised', () => {
     test('user can go back to home page', async ({ page }) => {
         await page.getByRole('link', { name: 'back to home' }).click();
         await expect(page).toHaveURL('/home');
+    });
+
+    test('cannot add more than 10 email fields at once', async ({ page }) => {
+        // eslint-disable-next-line id-length
+        for (let i = 1; i < 10; i++) {
+            await page.locator('#add-email-button').click();
+        }
+
+        await expect(page.locator('#add-email-button'))
+            .not
+            .toBeVisible();
     });
 
     test('restaurant user can add one user to their restaurant',

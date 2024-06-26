@@ -1,3 +1,4 @@
+/* eslint-disable jest/expect-expect */
 /* eslint-disable camelcase */
 
 const request = require('supertest');
@@ -14,7 +15,7 @@ describe('meal api', () => {
         'Content-Type': 'application/json'};
 
     beforeEach(() => {
-        return postgresMock.clearDatabase(); // why is this being returned?
+        postgresMock.clearDatabase();
     });
 
     test('new meal is saved to the database', async () => {
@@ -46,6 +47,35 @@ describe('meal api', () => {
             .expect(200);
 
         expect(postgresMock.runSqlCommands().length).toBe(3);
+    });
+
+    test('meal creation fails with too many ingredients', async () => {
+        postgresMock.setSqlResults([
+            [{ restaurant_id: 2 }],
+            [{ meal_id: 1234 }],
+            { count: 1 },
+        ]);
+
+        // eslint-disable-next-line id-length
+        const ingredients = Array(21).fill().map((_, i) => ({
+            ingredientId: `${i + 1}`,
+            category: 'category',
+            ingredient: `ingredient${i + 1}`,
+            weight: '100'
+        }));
+    
+        await request(app)
+            .post('/api/meals')
+            .send({
+                mealName: 'too many ingredients',
+                mealDescription: 'this meal has too many ingredients',
+                mealAllergenString: 'Gluten',
+                ingredients,
+                formattedPrice: '10,00'
+            })
+            .set(headers)
+            .expect(400)
+            .expect('too many ingredients');
     });
 
     test('meal creation fails with missing name', async () => {

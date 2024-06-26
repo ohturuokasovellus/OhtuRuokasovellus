@@ -161,4 +161,16 @@ test.describe('meal creation page', () => {
         await expect((page.getByText('Ingredient'))).toHaveCount(1);
         await expect((page.getByPlaceholder('Weight (g)'))).toHaveCount(1);
     });
+
+    test('cannot add more than 20 ingredients to a meal',
+        async ({ page }) => {
+        // eslint-disable-next-line id-length
+            for (let i = 1; i < 20; i++) {
+                await page.locator('#add-ingredient-button').click();
+            }
+
+            await expect(page.locator('#add-ingredient-button'))
+                .not
+                .toBeVisible();
+        });
 });

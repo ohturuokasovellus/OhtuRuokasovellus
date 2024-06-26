@@ -50,7 +50,9 @@ const MealQR = () => {
         return (
             <ScrollView style={styles.background}>
                 <View style={styles.container}>
-                    <Text>Loading...</Text>
+                    <Text style={styles.body}>
+                        Loading...
+                    </Text>
                 </View>
             </ScrollView>
         );
@@ -61,7 +63,9 @@ const MealQR = () => {
             <ScrollView style={styles.background}>
                 <View style={styles.container}>
                     <View style={styles.qrPage}>
-                        <Text>{t('QR_CODE_TO_MEAL_CONFIRM')}</Text>
+                        <Text style={styles.body}>
+                            {t('QR_CODE_TO_MEAL_CONFIRM')}
+                        </Text>
                         <View style={styles.qrContainer} ref={qrViewReference} 
                             id='meal-qr-code'>
                             <QRCode size={500} style={{ height: 'auto', 
