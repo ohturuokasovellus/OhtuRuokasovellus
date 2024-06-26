@@ -20,17 +20,6 @@ const sql = postgres(databaseURL,
 );
 
 /**
- * @param {string} email 
- * @returns {Promise<boolean>} Whether the given restaurant
- *  already exists in the database.
- */
-const doesRestaurantExist = async name => {
-    const result = await sql`
-    SELECT exists (SELECT 1 FROM restaurants WHERE name = ${name} LIMIT 1)`;
-    return result.at(0).exists;
-};
-
-/**
  * Save purchase to the database.
  * @param {number} userId ID of the user who made the purchase.
  * @param {string} purchaseCode The 8-character purchase code of the meal.
@@ -95,7 +84,6 @@ const getEvaluations = async userId => {
 
 module.exports = {
     sql,
-    doesRestaurantExist,
     addPurchase,
     getPurchases,
     setEvaluationMetric,

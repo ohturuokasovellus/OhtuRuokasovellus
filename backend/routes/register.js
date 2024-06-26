@@ -5,8 +5,8 @@ const {
 const { hash } = require('../services/hash');
 const { doesEmailExist, doesUsernameExist, insertUser,
     updateUserRestaurantByEmail } = require('../databaseUtils/user.js');
-const { insertRestaurant } = require('../databaseUtils/restaurant.js');
-const { doesRestaurantExist } = require('../database');
+const { doesRestaurantExist, 
+    insertRestaurant } = require('../databaseUtils/restaurant.js');
 
 const router = express.Router();
 

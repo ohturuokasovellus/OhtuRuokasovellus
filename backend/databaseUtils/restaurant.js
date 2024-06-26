@@ -1,6 +1,17 @@
 const { sql } = require('../database');
 
 /**
+ * @param {string} email 
+ * @returns {Promise<boolean>} Whether the given restaurant
+ *  already exists in the database.
+ */
+const doesRestaurantExist = async name => {
+    const result = await sql`
+    SELECT exists (SELECT 1 FROM restaurants WHERE name = ${name} LIMIT 1)`;
+    return result.at(0).exists;
+};
+
+/**
  * Fetch all meal emissions from database.
  * @param {number} restaurantId
  * @returns {Promise<{restaurant_name: string}>|[]}
@@ -30,6 +41,7 @@ const insertRestaurant = async (restaurantName) => {
 };
 
 module.exports = {
+    doesRestaurantExist,
     getRestaurantName,
     insertRestaurant
 };
