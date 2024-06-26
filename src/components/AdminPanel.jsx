@@ -105,7 +105,7 @@ const SurveyLinkEditContainer = ({ headers, styles }) => {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        fetchSurveyUrl(setUrlPlaceholder);
+        void fetchSurveyUrl(setUrlPlaceholder);
     }, []);
 
     const changeSurveyUrl = async () => {
@@ -115,7 +115,7 @@ const SurveyLinkEditContainer = ({ headers, styles }) => {
                 { newUrl },
                 { headers }
             );
-            fetchSurveyUrl(setUrlPlaceholder);
+            await fetchSurveyUrl(setUrlPlaceholder);
             setNewUrl('');
             setSuccess(t('SURVEY_LINK_UPDATED'));
         } catch (err) {
