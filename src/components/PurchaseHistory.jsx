@@ -61,7 +61,7 @@ const PurchaseHistory = () => {
             return;
         }
         setHistory(meals);
-        loadImages(meals);
+        void loadImages(meals);
     };
 
     /**
@@ -89,7 +89,7 @@ const PurchaseHistory = () => {
             navigate('/login');
             return;
         }
-        loadHistory();
+        void loadHistory();
     }, []);
 
     return (

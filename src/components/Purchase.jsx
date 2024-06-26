@@ -61,7 +61,7 @@ const Purchase = () => {
             navigate('/login');
             return;
         }
-        loadMeal();
+        void loadMeal();
     }, []);
 
     const styles = createStyles();

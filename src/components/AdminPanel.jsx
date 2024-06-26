@@ -52,7 +52,7 @@ const AdminPanel = ({ user }) => {
                 navigate('/');
             }
         };
-        verifyAdminStatus();
+        void verifyAdminStatus();
     }, []);
 
     return (
@@ -105,7 +105,7 @@ const SurveyLinkEditContainer = ({ headers, styles }) => {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        fetchSurveyUrl(setUrlPlaceholder);
+        void fetchSurveyUrl(setUrlPlaceholder);
     }, []);
 
     const changeSurveyUrl = async () => {
@@ -115,7 +115,7 @@ const SurveyLinkEditContainer = ({ headers, styles }) => {
                 { newUrl },
                 { headers }
             );
-            fetchSurveyUrl(setUrlPlaceholder);
+            await fetchSurveyUrl(setUrlPlaceholder);
             setNewUrl('');
             setSuccess(t('SURVEY_LINK_UPDATED'));
         } catch (err) {
@@ -203,7 +203,7 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
     };
 
     useEffect(() => {
-        fetchRestaurants();
+        void fetchRestaurants();
     }, []);
 
 
@@ -326,7 +326,7 @@ const RestaurantEditContainer = ({
     };
 
     useEffect(() => {
-        fetchRestaurantUsers(selectedRestaurant[0]);
+        void fetchRestaurantUsers(selectedRestaurant[0]);
     }, []);
 
     const addUserToRestaurant = async () => {
@@ -336,7 +336,7 @@ const RestaurantEditContainer = ({
                 { userToAdd },
                 { headers }
             );
-            fetchRestaurantUsers(selectedRestaurant[0]);
+            await fetchRestaurantUsers(selectedRestaurant[0]);
             setUserToAdd('');
             setSuccess(t('USER_ADDED'));
         } catch (err) {

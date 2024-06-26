@@ -8,7 +8,7 @@ router.use(express.json());
  * @returns {Object} 200 - Success status.
  * @returns {Object} 404 - Url not found.
  */
-router.get('/api/webpageURL', async (req, res) => {
+router.get('/api/webpageURL', (req, res) => {
     res.status(200).send(process.env.WEBPAGE_URL);
 });
 

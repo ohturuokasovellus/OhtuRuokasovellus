@@ -3,7 +3,6 @@ import { sql, insertUser, insertRestaurant } from '../backend/database';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 import { addUserToRestaurant } from '../backend/databaseUtils/adminPanel';
-import { getUrl } from '../backend/databaseUtils/url';
 
 const initTestDB = async () => {
     await sql`SET client_min_messages TO WARNING`;

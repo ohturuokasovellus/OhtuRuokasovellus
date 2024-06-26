@@ -27,7 +27,7 @@ const MenuQR = () => {
             }
         };
 
-        fetchWebpageURL();
+        void fetchWebpageURL();
     }, [restaurantId]);
 
     useEffect(() => {
@@ -42,7 +42,7 @@ const MenuQR = () => {
         };
 
         if (menuQRCode) {
-            formImage();
+            void formImage();
         }
     }, [menuQRCode]);
 

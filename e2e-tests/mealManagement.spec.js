@@ -2,7 +2,6 @@ import { sql, insertRestaurant,
     insertUser, updateUserRestaurantByEmail, addMealImage
 } from '../backend/database';
 import { test, expect } from '@playwright/test';
-import path from 'node:path';
 import { hash } from '../backend/services/hash';
 
 const initTestDB = async () => {

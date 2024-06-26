@@ -46,8 +46,8 @@ const Home = () => {
     };
 
     useEffect(() => {
-        fetchSurveyUrl(setSurveyUrl);
-        setAdminStatus();
+        void fetchSurveyUrl(setSurveyUrl);
+        void setAdminStatus();
     }, [navigate]);
 
     return (

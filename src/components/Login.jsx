@@ -63,7 +63,7 @@ const LoginForm = ({ updateUser }) => {
             initialValues={{ username: '', password: '' }}
             onSubmit={(values, actions) => {
                 setErrorMessage('');
-                handleSubmit(values, actions);
+                void handleSubmit(values, actions);
             }}
             validationSchema={loginValidationSchema}
         >
