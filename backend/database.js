@@ -12,9 +12,14 @@ const { generatePurchaseCode } = require('./services/random');
 //  password: process.env.POSTGRES_PASSWORD,   // Password of database user
 //})
 
-const sql = postgres(process.env.E2ETEST == '1' ?
-    process.env.E2ETEST_POSTGRES_URL :
-    process.env.BACKEND_POSTGRES_URL);
+const databaseURL = process.env.E2ETEST == '1' ?
+process.env.E2ETEST_POSTGRES_URL : process.env.BACKEND_POSTGRES_URL;
+
+// Our databases for workflows do not support many connectios
+// so we have to limit them here
+const sql = postgres(databaseURL, 
+    { max: process.env.E2ETEST == '1' ? 1 : 10 }
+);
 
 /**
  * Insert a new user into the database.
