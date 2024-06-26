@@ -127,7 +127,7 @@ const createStyles = () => {
             padding: 12,
             borderRadius: 8,
             alignItems: 'center',
-            marginBottom: 12,
+            marginVertical: 8,
         },
         buttonText: {
             fontSize: 18,
@@ -140,7 +140,7 @@ const createStyles = () => {
             padding: 12,
             borderRadius: 8,
             alignItems: 'center',
-            marginBottom: 12,
+            marginVertical: 8,
         },
         buttonVariantText: {
             fontSize: 18,
@@ -153,8 +153,7 @@ const createStyles = () => {
             padding: 12,
             borderRadius: 8,
             alignItems: 'center',
-            marginBottom: 12,
-            marginHorizontal: 8,
+            margin: 8,
             width: 80,
         },
         deleteButtonText: {
@@ -168,8 +167,7 @@ const createStyles = () => {
             padding: 12,
             borderRadius: 8,
             alignItems: 'center',
-            marginBottom: 12,
-            marginHorizontal: 8,
+            margin: 8,
             width: 90,
         },
         cancelButtonText: {
