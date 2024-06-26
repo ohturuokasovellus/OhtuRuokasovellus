@@ -21,6 +21,21 @@ const getGender = async (userId) => {
 };
 
 /**
+ * Get user's restaurant id based on user's id.
+ * @param {number} userId
+ * @returns {Promise<number|null>} restaurant id or null if not found
+ */
+const getRestaurantIdByUserId = async (userId) => {
+    const result = await sql`
+    SELECT restaurant_id FROM users
+    WHERE user_id = ${userId}
+    AND username IS NOT NULL
+    LIMIT 1
+    `;
+    return result.at(0).restaurant_id;
+};
+
+/**
  * Delete user's username, email and password from the database.
  * @param {number} userId ID of the user.
  */
@@ -103,6 +118,7 @@ const updateUserRestaurantByEmail = async (email, restaurantId) => {
 module.exports = {
     getBirthYear,
     getGender,
+    getRestaurantIdByUserId,
     deleteUser,
     doesEmailExist,
     doesUsernameExist,

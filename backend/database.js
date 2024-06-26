@@ -161,21 +161,6 @@ const getUserIdByEmail = async (email) => {
 };
 
 /**
- * Get user's restaurant id based on user's id.
- * @param {number} userId
- * @returns {Promise<number|null>} - restaurant id or null if not found
- */
-const getRestaurantIdByUserId = async (userId) => {
-    const result = await sql`
-    SELECT restaurant_id FROM users
-    WHERE user_id = ${userId}
-    AND username IS NOT NULL
-    LIMIT 1
-    `;
-    return result.at(0).restaurant_id;
-};
-
-/**
  * @param {string} email 
  * @returns {Promise<boolean>} Whether the given restaurant
  *  already exists in the database.
@@ -257,7 +242,6 @@ module.exports = {
     checkPassword,
     getUserInfo,
     getUserIdByEmail,
-    getRestaurantIdByUserId,
     doesRestaurantExist,
     addPurchase,
     getPurchases,
