@@ -1,6 +1,7 @@
-import React from 'react';
-import { Pressable, Text } from 'react-native';
+import React, { useContext } from 'react';
+import { Pressable, Text, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { themeContext } from '../../controllers/themeController';
 
 /**
  * Custom button wrapper
@@ -10,7 +11,8 @@ import { useTranslation } from 'react-i18next';
  * @param {...any} props https://reactnative.dev/docs/pressable#props
  */
 
-const Button = ({ onPress, text, styles, ...props }) => {
+const Button = ({ onPress, text, ...props }) => {
+    const styles = createStyles();
     return (
         <Pressable
             style={
@@ -25,7 +27,8 @@ const Button = ({ onPress, text, styles, ...props }) => {
     );
 };
 
-const ButtonVariant = ({ onPress, text, styles, ...props }) => {
+const ButtonVariant = ({ onPress, text, ...props }) => {
+    const styles = createStyles();
     return (
         <Pressable
             style={
@@ -41,7 +44,8 @@ const ButtonVariant = ({ onPress, text, styles, ...props }) => {
 };
 
 /** Nutritional info button. */
-const NutriButton = ({ onPress, text, styles, ...props }) => {
+const NutriButton = ({ onPress, text, ...props }) => {
+    const styles = createStyles();
     return (
         <Pressable
             style={
@@ -57,7 +61,8 @@ const NutriButton = ({ onPress, text, styles, ...props }) => {
 };
 
 /** Custom wrapper for generic delete button */
-const DeleteButton = ({ onPress, styles, ...props}) => {
+const DeleteButton = ({ onPress, ...props}) => {
+    const styles = createStyles();
     const {t} = useTranslation();
     return (
         <Pressable
@@ -76,8 +81,9 @@ const DeleteButton = ({ onPress, styles, ...props}) => {
 };
 
 /** Custom wrapper for generic cancel button */
-const CancelButton = ({ onPress, styles, ...props}) => {
+const CancelButton = ({ onPress, ...props}) => {
     const {t} = useTranslation();
+    const styles = createStyles();
     return (
         <Pressable
             style={
@@ -95,7 +101,8 @@ const CancelButton = ({ onPress, styles, ...props}) => {
 };
 
 /** Custom wrapper for small buttons */
-const SmallButton = ({ onPress, text, styles, ...props }) => {
+const SmallButton = ({ onPress, text, ...props }) => {
+    const styles = createStyles();
     return (
         <Pressable
             style={
@@ -112,22 +119,95 @@ const SmallButton = ({ onPress, text, styles, ...props }) => {
     );
 };
 
-/** Custom wrapper for navigation bar buttons.
- * Use only for toggles etc. actual buttons, not links.
-*/
-const NavButton = ({ styles, onPress, text, ...props }) => {
-    return (
-        <Pressable
-            style={
-                ({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0}
-                ]}
-            onPress={onPress}
-            role='link'
-            {...props}
-        >
-            <Text style={styles.navigationLink}>{text}</Text>
-        </Pressable>
-    );
+const createStyles = () => {
+    const { colors } = useContext(themeContext);
+    return StyleSheet.create({
+        button: {
+            backgroundColor: colors.primaryContainer,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+        },
+        buttonText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onPrimaryContainer,
+            fontFamily: 'Roboto-Bold',
+        },
+        buttonVariant: {
+            backgroundColor: colors.secondaryContainer,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+        },
+        buttonVariantText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onSecondaryContainer,
+            fontFamily: 'Roboto-Bold',
+        },
+        deleteButton: {
+            backgroundColor: colors.errorContainer,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+            marginHorizontal: 8,
+            width: 80,
+        },
+        deleteButtonText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onErrorContainer,
+            fontFamily: 'Roboto-Bold',
+        },
+        cancelButton: {
+            backgroundColor: colors.outlineVariant,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+            marginHorizontal: 8,
+            width: 90,
+        },
+        cancelButtonText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onSurfaceVariant,
+            fontFamily: 'Roboto-Bold',
+        },
+        iconButton: {
+            height: 30,
+            width: 30,
+            backgroundColor: colors.tertiary,
+            padding: 8,
+            borderRadius: 100,
+            marginBottom: 6,
+            marginHorizontal: 6,
+            alignItems: 'center',
+        },
+        iconButtonText: {
+            fontsize: 32,
+            color: colors.onTertiary,
+            fontFamily: 'Roboto-Bold',
+        },
+        nutriButton: {
+            backgroundColor: colors.secondary,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 12,
+            marginHorizontal: 8,
+        },
+        nutriButtonText: {
+            fontSize: 18,
+            textTransform: 'uppercase',
+            color: colors.onSecondary,
+            fontFamily: 'Roboto-Bold',
+        },
+    });
 };
 
 export {
@@ -137,5 +217,4 @@ export {
     DeleteButton,
     CancelButton,
     SmallButton,
-    NavButton
 };
