@@ -27,7 +27,7 @@ const MealQR = () => {
             }
         };
 
-        fetchWebpageURL();
+        void fetchWebpageURL();
     }, [mealPurchaseCode]);
 
     useEffect(() => {
@@ -42,7 +42,7 @@ const MealQR = () => {
         };
 
         if (menuQRCode) {
-            formImage();
+            void formImage();
         }
     }, [menuQRCode]);
 

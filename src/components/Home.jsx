@@ -71,8 +71,8 @@ const Home = () => {
     };
 
     useEffect(() => {
-        fetchSurveyUrl(setSurveyUrl, setLoading);
-        setAdminStatus();
+        void fetchSurveyUrl(setSurveyUrl, setLoading);
+        void setAdminStatus();
     }, [navigate]);
 
     if (loading) {

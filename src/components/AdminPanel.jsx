@@ -51,7 +51,7 @@ const AdminPanel = ({ user }) => {
                 navigate('/');
             }
         };
-        verifyAdminStatus();
+        void verifyAdminStatus();
     }, []);
 
     return (
@@ -113,7 +113,7 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
     };
 
     useEffect(() => {
-        fetchRestaurants();
+        void fetchRestaurants();
     }, []);
 
 
@@ -236,7 +236,7 @@ const RestaurantEditContainer = ({
     };
 
     useEffect(() => {
-        fetchRestaurantUsers(selectedRestaurant[0]);
+        void fetchRestaurantUsers(selectedRestaurant[0]);
     }, []);
 
     const addUserToRestaurant = async () => {
@@ -246,7 +246,7 @@ const RestaurantEditContainer = ({
                 { userToAdd },
                 { headers }
             );
-            fetchRestaurantUsers(selectedRestaurant[0]);
+            await fetchRestaurantUsers(selectedRestaurant[0]);
             setUserToAdd('');
             setSuccess(t('USER_ADDED'));
         } catch (err) {

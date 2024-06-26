@@ -18,7 +18,7 @@ const languageDetector = new LanguageDetector(null, {
     caches: ['localStorage', 'cookie']
 });
 
-i18next
+void i18next
     // pass the i18n instance to react-i18next.
     .use(languageDetector)
     .use(initReactI18next)

@@ -61,8 +61,8 @@ test.describe('survey', () => {
 
     test('survey link does not display if survey link does not exist',
         async ({page}) => {
-            deleteSurveyUrl();
+            await deleteSurveyUrl();
             await expect(page.locator('text=Take a survey')).toHaveCount(0);
-            restoreDB();
+            await restoreDB();
         });
 });
