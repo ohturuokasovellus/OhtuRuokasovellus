@@ -5,8 +5,9 @@ const {
     '../services/validators'
 );
 const { hash } = require('../services/hash');
+const { doesEmailExist } = require('../databaseUtils/user.js');
 const {
-    insertUser, doesUsernameExist, doesEmailExist,
+    insertUser, doesUsernameExist,
     doesRestaurantExist, insertRestaurant,
     updateUserRestaurantByEmail
 } = require('../database');

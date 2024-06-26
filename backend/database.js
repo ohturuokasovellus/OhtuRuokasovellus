@@ -213,22 +213,6 @@ const doesUsernameExist = async username => {
     return result.at(0).exists;
 };
 
-/**
- * @param {string} email 
- * @returns {Promise<boolean>} Whether the given email
- *  already exists in the database.
- */
-const doesEmailExist = async email => {
-    const result = await sql`
-        SELECT exists (SELECT 1 FROM users 
-        WHERE 
-            pgp_sym_decrypt(email::bytea, 
-            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email}
-            AND email IS NOT NULL
-            LIMIT 1);
-    `;
-    return result.at(0).exists;
-};
 
 /**
  * Delete user's username, email and password from the database.
@@ -582,7 +566,6 @@ module.exports = {
     getUserInfo,
     getUserIdByEmail,
     getRestaurantIdByUserId,
-    doesEmailExist,
     deleteUser,
     doesRestaurantExist,
     insertMeal,

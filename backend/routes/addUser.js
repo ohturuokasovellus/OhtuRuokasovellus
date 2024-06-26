@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { doesEmailExist } = require('../databaseUtils/user.js');
 const {
-    doesEmailExist,
     updateUserRestaurantByEmail,
     checkPassword,
     getUserIdByEmail,
