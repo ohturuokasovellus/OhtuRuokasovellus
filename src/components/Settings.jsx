@@ -1,19 +1,20 @@
-import { ScrollView, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ScrollView, Text, View, Platform } from 'react-native';
+import axios from 'axios';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
+
+import apiUrl from '../utils/apiUrl';
+import { passwordValidationSchema } from '../utils/formValidationSchemas';
+import { useNavigate } from '../Router';
+import { deleteSession, getSession } from '../controllers/sessionController';
+
 import createStyles from '../styles/styles';
 import { Button, DeleteButton } from './ui/Buttons';
 import { PasswordInput } from './ui/InputFields';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import apiUrl from '../utils/apiUrl';
-import { deleteSession, getSession } from '../controllers/sessionController';
-import { useNavigate } from '../Router';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { useTranslation } from 'react-i18next';
-import Slider from '@react-native-community/slider';
-import { Platform } from 'react-native';
-import * as FileSystem from 'expo-file-system';
-import * as Sharing from 'expo-sharing';
+import { Slider } from './ui/Slider';
 
 const DataExport = ({ styles, token }) => {
     const { t } = useTranslation();
@@ -91,9 +92,7 @@ const DataRemoval = ({ styles, token }) => {
         }
     };
 
-    const validationSchema = yup.object().shape({
-        password: yup.string().required(t('PASSWORD_IS_REQUIRED')),
-    });
+    const validationSchema = passwordValidationSchema;
 
     const [formError, setFormError] = useState(null);
     const formik = useFormik({
@@ -175,50 +174,40 @@ const SelfEvaluationForm = ({ styles, token }) => {
     };
     
     return (
-        <View style={styles.evaluationContainer}>
+        <View style={styles.cardContainer}>
             <Text style={styles.h3}>{t('SELF_EVALUATION')}</Text>
 
-            <View style={styles.questionContainer}>
+            <View style={styles.primaryContainer}>
                 <Text style={styles.body}>
                     {t('HOW_IMPORTANT_IS_CLIMATE')}
                 </Text>
                 <Slider
-                    style={styles.slider}
-                    minimumValue={1}
-                    maximumValue={5}
-                    step={1}
+                    minVal={1}
+                    maxVal={5}
                     value={climateValue}
-                    onValueChange={value => setClimateValue(value)}
-                    minimumTrackTintColor="#0C749C"
-                    maximumTrackTintColor="#d3d3d3"
-                    thumbTintColor="#0C749C"
+                    onValueChange={setClimateValue}
                 />
                 <Text style={styles.body}>
                     {sliderLabels[climateValue]}
                 </Text>
             </View>
 
-            <View style={styles.questionContainer}>
+            <View style={styles.primaryContainer}>
                 <Text style={styles.body}>
                     {t('HOW_IMPORTANT_ARE_NUTRITIONAL_VALUES')}
                 </Text>
                 <Slider
-                    style={styles.slider}
-                    minimumValue={1}
-                    maximumValue={5}
-                    step={1}
+                    minVal={1}
+                    maxVal={5}
                     value={nutritionValue}
-                    onValueChange={value => setNutritionValue(value)}
-                    minimumTrackTintColor="#0C749C"
-                    maximumTrackTintColor="#d3d3d3"
-                    thumbTintColor="#0C749C"
+                    onValueChange={setNutritionValue}
                 />
                 <Text style={styles.body}>
                     {sliderLabels[nutritionValue]}
                 </Text>
             </View>
             <Button
-                styles={styles} text={t('SUBMIT')}
+                text={t('SUBMIT')}
                 onPress={() => handleEvalSubmit()}
             />
             {error && <Text style={styles.error}>{error}</Text>}
