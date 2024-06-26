@@ -18,6 +18,20 @@ const getAllMealEmissions = async () => {
 };
 
 /**
+ * Get meal for editing
+ * @param {number} mealId
+ * @returns {Promise<{ mealId: number, name: string }
+* >} true if success
+*/
+const getMealForEdit = async (mealId) => {
+    const result = await sql`
+       SELECT name, meal_description, meal_allergens, price, ingredients
+       FROM meals WHERE meal_id = ${mealId}
+   `;
+    return result.at(0);
+};
+
+/**
  * Query for updating existing meal.
  * @param {number} mealId
  * @param {string} name Name of the meal.
@@ -59,5 +73,6 @@ const updateMeal = async (mealId, name, mealDescription,
 
 module.exports = {
     getAllMealEmissions,
+    getMealForEdit,
     updateMeal
 };

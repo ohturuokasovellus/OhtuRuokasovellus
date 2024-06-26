@@ -437,20 +437,6 @@ const setMealInactive = async (mealId) => {
 };
 
 /**
- * Get meal for editing
- * @param {number} mealId
- * @returns {Promise<{ mealId: number, name: string }
- * >} true if success
- */
-const getMealForEdit = async (mealId) => {
-    const result = await sql`
-        SELECT name, meal_description, meal_allergens, price, ingredients
-        FROM meals WHERE meal_id = ${mealId}
-    `;
-    return result.at(0);
-};
-
-/**
  * Query for setting evaluation metric
  * @param {number} evalKey evaluation metric key
  * @param {number} evalValue evaluation value
@@ -501,7 +487,6 @@ module.exports = {
     getMealRestaurantId,
     getPurchases,
     setMealInactive,
-    getMealForEdit,
     getMealIdsNamesPurchaseCodes,
     setEvaluationMetric,
     getEvaluations,
