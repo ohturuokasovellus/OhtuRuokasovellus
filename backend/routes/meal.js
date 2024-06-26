@@ -1,9 +1,9 @@
 const express = require('express');
-const { insertMeal, addMealImage, getMeals, 
+const { insertMeal, addMealImage, 
     getRestaurantIdByUserId, getMealImage,
     getMealIdsNamesPurchaseCodes }
     = require('../database');
-const { getMealForEdit, getMealsRestaurantId, setMealInactive, 
+const { getMealForEdit, getMeals, getMealsRestaurantId, setMealInactive, 
     updateMeal } = require('../databaseUtils/meal.js');
 const { verifyToken } = require('../services/authorization');
 const { getNutrients } = require('../services/calculateNutrients');

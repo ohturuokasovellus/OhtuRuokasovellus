@@ -291,46 +291,6 @@ const getMealImage = async mealId => {
  * @returns {Promise<{ 
 *      meal_id: number, 
 *      meal_name: string, 
-*      image: string, 
-*      restaurant_name: string,
-*      meal_description: string,
-*      co2_emissions: number,
-*      meal_allergens: string,
-*      carbohydrates: number,
-*      protein: number,
-*      fat: number,
-*      fiber: number,
-*      sugar: number,
-*      salt: number,
-*      saturated_fat: number,
-*      energy: number,
-*      vegetable_percent: number,
-*      price: number,
-*  }[]>}
-*/
-const getMeals = async (restaurantId) => {
-    const result = await sql`
-       SELECT m.meal_id, m.name as meal_name, m.meal_description, 
-       m.co2_emissions, m.meal_allergens, m.carbohydrates, m.protein, m.fat,
-       m.fiber, m.sugar, m.salt, m.saturated_fat, m.energy, m.vegetable_percent,
-       m.price,
-       CASE 
-           WHEN r.restaurant_id IS NOT NULL THEN r.name 
-           ELSE NULL 
-       END as restaurant_name 
-       FROM meals m
-       LEFT JOIN restaurants r ON m.restaurant_id = r.restaurant_id
-       WHERE m.restaurant_id = ${restaurantId} AND m.is_active = TRUE;
-   `;
-    return result;
-};
-
-/**
- * Fetch restaurant specific meals from database.
- * @param {number} restaurantId
- * @returns {Promise<{ 
-*      meal_id: number, 
-*      meal_name: string, 
 *      purchase_code: string,
 *  }[]>}
 */
@@ -420,7 +380,6 @@ module.exports = {
     insertMeal,
     addMealImage,
     getMealImage,
-    getMeals,
     updateUserRestaurantByEmail,
     addPurchase,
     getPurchases,
