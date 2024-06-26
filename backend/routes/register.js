@@ -5,9 +5,10 @@ const {
     '../services/validators'
 );
 const { hash } = require('../services/hash');
-const { doesEmailExist } = require('../databaseUtils/user.js');
+const { doesEmailExist,
+    doesUsernameExist } = require('../databaseUtils/user.js');
 const {
-    insertUser, doesUsernameExist,
+    insertUser,
     doesRestaurantExist, insertRestaurant,
     updateUserRestaurantByEmail
 } = require('../database');

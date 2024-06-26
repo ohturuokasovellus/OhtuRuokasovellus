@@ -195,26 +195,6 @@ const updateUserRestaurantByEmail = async (email, restaurantId) => {
 };
 
 /**
- * @param {string} username 
- * @returns {Promise<boolean>} Whether the given 
- * username already exists in the database.
- */
-const doesUsernameExist = async username => {
-    // https://stackoverflow.com/q/8149596
-    const result = await sql`
-        SELECT exists
-        (SELECT 1 FROM users 
-        WHERE 
-            pgp_sym_decrypt(username::bytea, 
-            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${username}
-            AND username IS NOT NULL
-            LIMIT 1);
-    `;
-    return result.at(0).exists;
-};
-
-
-/**
  * Delete user's username, email and password from the database.
  * @param {number} userId ID of the user.
  */
@@ -399,23 +379,6 @@ const getMealByPurchaseCode = async purchaseCode => {
 };
 
 /**
- * Check if a user is associated with a restaurant.
- * @param {number} userId
- * @returns {Promise<boolean>} true if user is a restaurant user
- */
-const isRestaurantUser = async userId => {
-    const result = await sql`
-        SELECT exists
-        (SELECT restaurant_id FROM users WHERE user_id = ${userId}
-        AND username IS NOT NULL
-        AND restaurant_id IS NOT NULL LIMIT 1);
-    `;
-    return result.at(0).exists;
-};
-
-
-
-/**
  * Save purchase to the database.
  * @param {number} userId ID of the user who made the purchase.
  * @param {string} purchaseCode The 8-character purchase code of the meal.
@@ -560,7 +523,6 @@ module.exports = {
     sql,
     insertUser,
     insertRestaurant,
-    doesUsernameExist,
     getUser,
     checkPassword,
     getUserInfo,
@@ -574,7 +536,6 @@ module.exports = {
     getMeals,
     getMeal,
     getMealByPurchaseCode,
-    isRestaurantUser,
     updateUserRestaurantByEmail,
     addPurchase,
     getMealRestaurantId,
