@@ -1,7 +1,7 @@
 const express = require('express');
 const { verifyToken } = require('../services/authorization');
-const { setEvaluationMetric, getPurchases,
-    getEvaluations } = require('../database');
+const { setEvaluationMetric, getEvaluations } = require('../database');
+const { getPurchases } = require('../databaseUtils/purchase.js');
 const { checkPassword, getUserInfo, 
     deleteUser } = require('../databaseUtils/user');
 const { hash } = require('../services/hash');
