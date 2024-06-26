@@ -101,13 +101,6 @@ const createStyles = () => {
             color: colors.onSurfaceVariant,
             backgroundColor: colors.surfaceVariant,
         },
-        flexInputContainer: {
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            width: '100%',
-            borderRadius: 8,
-        },
         flexInput: {
             flex: 1,
             height: 40,

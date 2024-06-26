@@ -289,7 +289,6 @@ const CreateMealForm = ({
                 {formik.values.ingredients.map((ingredient, index) => (
                     <View key={index} style={styles.flexInputContainer}>
                         <Dropdown
-                            styles={styles}
                             search={false}
                             placeholder={t('FOOD_GROUP')}
                             setSelected={val => 
@@ -302,7 +301,6 @@ const CreateMealForm = ({
                             save="value"
                         />
                         <Dropdown
-                            styles={styles}
                             search={false}
                             placeholder={t(
                                 isEditing ? ingredient.ingredient :'INGREDIENT'

@@ -24,6 +24,13 @@ const createStyles = () => {
             marginBottom: 8,
             alignSelf: 'center',
         },
+        flexInputContainer: {
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            width: '100%',
+            borderRadius: 8,
+        },
 
         // typography
         body: {
@@ -283,34 +290,6 @@ const createStyles = () => {
         },
         
         // selectList
-        selectList: {
-            height: 40,
-            borderColor: colors.outlineVariant,
-            borderWidth: 1,
-            borderRadius: 8,
-            marginBottom: 12,
-            paddingLeft: 8,
-            color: colors.outline,
-            backgroundColor: colors.surfaceVariant,
-        },
-        inputStyles: {
-            color: colors.onSurfaceVariant,
-        },
-        dropdownStyles: {
-            borderColor: colors.outlineVariant,
-            borderwidth: 1,
-            borderRadius: 8,
-            backgroundColor: 'rgba(255,255,255,0.05)',
-            marginBottom: 12,
-            marginTop: -6,
-        },
-        dropdownItemStyles: {
-            color: colors.outline,
-        },
-        dropdownTextStyles : {
-            color: colors.onSurface,
-            fontFamily: 'Roboto-Regular'
-        },
 
         // checkboxes
         checkboxContainer: {
