@@ -291,29 +291,6 @@ const createStyles = () => {
         // selectList
 
         // checkboxes
-        checkboxContainer: {
-            backgroundColor: colors.surfaceVariant,
-            borderColor: colors.outlineVariant,
-            borderRadius: 8,
-            borderwidth: 1,
-            padding: 8,
-            marginBottom: 12,
-        },
-        checkboxContainerVariant: {
-            backgroundColor: 'transparent',
-            borderWidth: 0,
-            padding: 0,
-            margin: 0,
-        },
-        checkboxWrapper: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 8,
-        },
-        checkboxText: {
-            color: colors.outline,
-            fontFamily: 'Roboto-Regular',
-        },
 
         // nutriscore
         nutriscoreContainer: {
