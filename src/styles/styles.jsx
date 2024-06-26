@@ -24,13 +24,6 @@ const createStyles = () => {
             marginBottom: 8,
             alignSelf: 'center',
         },
-        flexInputContainer: {
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            width: '100%',
-            borderRadius: 8,
-        },
 
         // typography
         body: {
@@ -106,6 +99,18 @@ const createStyles = () => {
         placeholderText: {
             color: colors.outline,
             fontFamily: 'Roboto-Regular',
+        },
+
+        // containers
+        flexInputContainer: {
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            width: '100%',
+            borderRadius: 8,
+        },
+        qrContainer: {
+            padding: 16,
         },
 
         // buttons
@@ -191,13 +196,7 @@ const createStyles = () => {
         },
 
         // QR
-        qrContainer: {
-            padding: 16,
-        },
-        qrPage: {
-            justifyContent: 'center',
-            alignItems: 'center'
-        },
+        
 
         // navigation
 

@@ -61,24 +61,25 @@ const MealQR = () => {
     if(Platform.OS === 'web'){
         return (
             <ScrollView style={styles.background}>
-                <View style={styles.container}>
-                    <View style={styles.qrPage}>
-                        <Text style={styles.body}>
-                            {t('QR_CODE_TO_MEAL_CONFIRM')}
-                        </Text>
-                        <View style={styles.qrContainer} ref={qrViewReference} 
-                            id='meal-qr-code'>
-                            <QRCode size={500} style={{ height: 'auto', 
-                                maxWidth: '500px', width: '500px'}}
-                            value={menuQRCode}/>
-                        </View>
-                        <Link style={{textDecorationLine: 'none'}}
-                            to={imageUri} target="_blank" download>
-                            <Button styles={styles} onPress={()=>{}} 
-                                text={t('DOWNLOAD')} id='download-meal-qr-code'>
-                            </Button>
-                        </Link>
+                <View style={[
+                    styles.container,
+                    {alignItems: 'center', justifyContent: 'center'}
+                ]}>
+                    <Text style={styles.body}>
+                        {t('QR_CODE_TO_MEAL_CONFIRM')}
+                    </Text>
+                    <View style={styles.qrContainer} ref={qrViewReference}
+                        id='meal-qr-code'>
+                        <QRCode size={500} style={{ height: 'auto',
+                            maxWidth: '500px', width: '500px'}}
+                        value={menuQRCode}/>
                     </View>
+                    <Link style={{textDecorationLine: 'none'}}
+                        to={imageUri} target="_blank" download>
+                        <Button onPress={()=>{}} 
+                            text={t('DOWNLOAD')} id='download-meal-qr-code'>
+                        </Button>
+                    </Link>
                 </View>
             </ScrollView>
         );

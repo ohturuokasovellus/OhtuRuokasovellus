@@ -59,26 +59,28 @@ const MenuQR = () => {
     if(Platform.OS === 'web'){
         return (
             <ScrollView style={styles.background}>
-                <View style={styles.container}>
-                    <View style={styles.qrPage}>
-                        <Text style={styles.body}>
-                            {t('QR_CODE_TO_YOUR_MENU')}
-                        </Text>
-                        <View style={styles.qrContainer} ref={qrViewReference} 
-                            id='menu-qr-code'>
-                            <QRCode size={500} style={{ height: 'auto', 
-                                maxWidth: '500px', width: '500px'}}
-                            value={menuQRCode}/>
-                        </View>
-                        <Link
-                            style={{textDecorationLine: 'none'}}
-                            to={imageUri} target="_blank" download
-                        >
-                            <Button styles={styles} onPress={()=>{}} 
-                                text={t('DOWNLOAD')} id='download-QR-code'>
-                            </Button>
-                        </Link>
+                <View style={[
+                    styles.container,
+                    {alignItems: 'center', justifyContent: 'center'}
+                ]}>
+                    <Text style={styles.body}>
+                        {t('QR_CODE_TO_YOUR_MENU')}
+                    </Text>
+                    <View style={styles.qrContainer} ref={qrViewReference}
+                        id='menu-qr-code'>
+                        <QRCode size={500} style={{ height: 'auto',
+                            maxWidth: '500px', width: '500px'}}
+                        value={menuQRCode}/>
                     </View>
+                    <Link
+                        style={{textDecorationLine: 'none'}}
+                        to={imageUri} target="_blank" download
+                    >
+                        <Button onPress={()=>{}}
+                            text={t('DOWNLOAD')} id='download-QR-code'>
+                        </Button>
+                    </Link>
+
                 </View>
             </ScrollView>
         );
