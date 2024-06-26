@@ -32,6 +32,18 @@ const getMealForEdit = async (mealId) => {
 };
 
 /**
+ * Set meal to inactive.
+ * @param {number} mealId
+ * @returns {Promise<Boolean>} true if success
+ */
+const setMealInactive = async (mealId) => {
+    const result = await sql`
+        UPDATE meals SET is_active = FALSE WHERE meal_id = ${mealId}
+    `;
+    return result.count === 1;
+};
+
+/**
  * Query for updating existing meal.
  * @param {number} mealId
  * @param {string} name Name of the meal.
@@ -74,5 +86,6 @@ const updateMeal = async (mealId, name, mealDescription,
 module.exports = {
     getAllMealEmissions,
     getMealForEdit,
+    setMealInactive,
     updateMeal
 };

@@ -1,9 +1,10 @@
 const express = require('express');
 const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
-    getMealRestaurantId, setMealInactive, getMealImage,
+    getMealRestaurantId, getMealImage,
     getMealIdsNamesPurchaseCodes }
     = require('../database');
-const { getMealForEdit, updateMeal } = require('../databaseUtils/meal.js');
+const { getMealForEdit, setMealInactive, 
+    updateMeal } = require('../databaseUtils/meal.js');
 const { verifyToken } = require('../services/authorization');
 const { getNutrients } = require('../services/calculateNutrients');
 const { getAllMealEmissions } = require('../databaseUtils/meal');

@@ -425,18 +425,6 @@ const getPurchases = async userId => {
 };
 
 /**
- * Set meal to inactive.
- * @param {number} mealId
- * @returns {Promise<Boolean>} true if success
- */
-const setMealInactive = async (mealId) => {
-    const result = await sql`
-        UPDATE meals SET is_active = FALSE WHERE meal_id = ${mealId}
-    `;
-    return result.count === 1;
-};
-
-/**
  * Query for setting evaluation metric
  * @param {number} evalKey evaluation metric key
  * @param {number} evalValue evaluation value
@@ -486,7 +474,6 @@ module.exports = {
     addPurchase,
     getMealRestaurantId,
     getPurchases,
-    setMealInactive,
     getMealIdsNamesPurchaseCodes,
     setEvaluationMetric,
     getEvaluations,
