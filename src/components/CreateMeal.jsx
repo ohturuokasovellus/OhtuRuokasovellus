@@ -350,12 +350,16 @@ const CreateMealForm = ({
                         }
                     </View>
                 ))}
-                <SmallButton
-                    styles={styles}
-                    onPress={() => addIngredientInput()}
-                    text='+'
-                    id='add-ingredient-button'
-                />
+                {
+                    formik.values.ingredients.length < 20 && (
+                        <SmallButton
+                            styles={styles}
+                            onPress={() => addIngredientInput()}
+                            text='+'
+                            id='add-ingredient-button'
+                        />
+                    )
+                }
                 <Text style={styles.h2}>{t('COMMON_ALLERGENS')}</Text>
                 {allergens.map((allergen) => (
                     <Checkbox

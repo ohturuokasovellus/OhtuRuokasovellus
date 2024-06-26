@@ -52,6 +52,12 @@ router.post('/api/add-users', async (req, res) => {
         });
     }
 
+    if (emails.length > 10) {
+        return res.status(400).json({
+            error: 'cannot add more than 10 email addresses at once'
+        });
+    }
+
     const results = emails.map(email => ({ email, status: 'pending' }));
 
     for (const result of results) {

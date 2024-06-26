@@ -42,7 +42,7 @@ const UserDashboard = ({ userSession }) => {
             setGender('M');
             break;
         case 'woman':
-            setGender('F');
+            setGender(t('F'));
             break;
         default:
             setGender('X');
@@ -185,6 +185,7 @@ const UserDashboard = ({ userSession }) => {
 };
 
 const RestaurantDashboard = ({ userSession }) => {
+    const { t } = useTranslation();
     const { colors } = useContext(themeContext);
     const styles = createStyles();
     const [restaurantName, setrestaurantName] = useState('');
@@ -266,7 +267,7 @@ const RestaurantDashboard = ({ userSession }) => {
     }
 
     const chartData = {
-        labels: [restaurantName, 'All restaurants'],
+        labels: [restaurantName, t('RESTAURANTS_ALL')],
         datasets: [
             {
                 data: [
@@ -284,7 +285,7 @@ const RestaurantDashboard = ({ userSession }) => {
             </Text>
             <BarChartCustom
                 data={chartData}
-                title='Total CO2 emissions of meals'
+                title={t('CO2_TOTAL')}
                 styles={styles}
                 showValuesOnTopOfBars={true}
             />

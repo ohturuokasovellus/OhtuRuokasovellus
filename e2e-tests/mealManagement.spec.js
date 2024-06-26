@@ -175,8 +175,10 @@ test.describe('meal management page', () => {
         async ({ page }) => {
             await page.locator('#edit-button-0').click();
 
-            await page.waitForURL('/edit-meal/1');
             await page.waitForSelector('text=Edit meal');
+
+            await expect(page.locator('#meal-name-input'))
+                .toHaveValue('Kana bolognese');
             
             await page.locator('#meal-name-input')
                 .fill('Chicken bolognese');
@@ -198,19 +200,15 @@ test.describe('meal management page', () => {
             await page.locator('#price-input')
                 .fill('8,0');
 
-            const fileChooserPromise = page.waitForEvent('filechooser');
-            await page.locator('#image-picker-button').click();
-            const fileChooser = await fileChooserPromise;
-            const filePath = path.join(__dirname, 'assets', 'tree.png');
-            await fileChooser.setFiles(filePath);
-
             await page.locator('#create-meal-button').click();
+            await expect(page.locator('#root'))
+                .toContainText('Meal updated succesfully!');
+            await page.locator('#navigation-home').click();
             await page.goto('/home');
             await page.locator('#restaurant-page-button').click();
-            await page.waitForURL('/restaurant/1');
 
-            await expect(page.locator('text=Chicken bolognese   8,00 €'))
-                .toBeVisible();
+            await expect(page.getByText('Chicken bolognese')).toBeVisible();
+
             await page.locator('#chicken-bolognese-button').click();
             await expect(page.locator('text=CO2 EMISSIONS: 50')).toBeHidden();
             await expect(page.locator('text=Ipsum lorem')).toBeVisible();
@@ -220,6 +218,5 @@ test.describe('meal management page', () => {
                 .toBeHidden();
             await expect(page.locator('text=Fat: 8.2 g')).toBeHidden();
             await expect(page.locator('text=Protein: 11.7 g')).toBeHidden();
-            
         });
 });

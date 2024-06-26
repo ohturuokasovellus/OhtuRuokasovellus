@@ -67,7 +67,9 @@ const MealQR = () => {
         return (
             <ScrollView style={styles.background}>
                 <View style={styles.container}>
-                    <Text>Loading...</Text>
+                    <Text style={styles.body}>
+                        Loading...
+                    </Text>
                 </View>
             </ScrollView>
         );

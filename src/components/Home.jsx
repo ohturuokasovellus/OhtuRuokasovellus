@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, ActivityIndicator } from 'react-native';
 import { useNavigate } from '../Router';
+import { Text, View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import ExternalLink, { fetchSurveyUrl } from './Survey';
 import axios from 'axios';
@@ -14,7 +14,6 @@ const Home = ({ userSession }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [surveyUrl, setSurveyUrl] = useState(null);
-    const [loading, setLoading] = useState(true);
     const styles = createStyles();
     const [isAdmin, setIsAdmin] = useState(false);
 
@@ -44,13 +43,9 @@ const Home = ({ userSession }) => {
             navigate('/login');
         }
 
-        fetchSurveyUrl(setSurveyUrl, setLoading);
+        fetchSurveyUrl(setSurveyUrl);
         setAdminStatus();
     }, [userSession, navigate]);
-
-    if (loading) {
-        return <ActivityIndicator size='large' color='#0000ff' />;
-    }
 
     return (
         <ScrollView style={styles.background}>
