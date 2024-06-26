@@ -41,11 +41,14 @@ const Home = ({ userSession }) => {
     useEffect(() => {
         if (!userSession) {
             navigate('/login');
+            return;
         }
 
         void fetchSurveyUrl(setSurveyUrl);
         void setAdminStatus();
-    }, [userSession, navigate]);
+    }, [userSession]);
+
+    if (!userSession) return null;
 
     return (
         <ScrollView style={styles.background}>

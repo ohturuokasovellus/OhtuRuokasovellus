@@ -88,7 +88,7 @@ const App = () => {
                     <Route path='/meal-qr/:mealPurchaseCode'
                         element={<MealQR />}/>
                     <Route path='/settings' element={<Settings 
-                        userSession={user}/>} />
+                        userSession={user} updateUser={updateUser}/>} />
                     <Route path='/admin-panel' element={<AdminPanel 
                         userSession={user} />} />
                 </Routes>

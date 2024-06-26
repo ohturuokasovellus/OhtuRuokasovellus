@@ -67,7 +67,7 @@ const DataExport = ({ styles, token }) => {
     );
 };
 
-const DataRemoval = ({ styles, token }) => {
+const DataRemoval = ({ styles, token, updateUser }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
 
@@ -84,6 +84,7 @@ const DataRemoval = ({ styles, token }) => {
                 }
             );
             await deleteSession();
+            updateUser(null);
             navigate('/register');
         } catch (err) {
             console.error(err);
@@ -227,7 +228,7 @@ const SelfEvaluationForm = ({ styles, token }) => {
     );
 };
 
-const Settings = ({ userSession }) => {
+const Settings = ({ userSession, updateUser }) => {
     const navigate = useNavigate();
     const styles = createStyles();
     const { t } = useTranslation();
@@ -248,7 +249,8 @@ const Settings = ({ userSession }) => {
                     styles={styles} token={userSession.token}
                 />
                 <DataExport styles={styles} token={userSession.token} />
-                <DataRemoval styles={styles} token={userSession.token} />
+                <DataRemoval styles={styles} token={userSession.token} 
+                 updateUser={updateUser}/>
             </View>
         </ScrollView>
     );
