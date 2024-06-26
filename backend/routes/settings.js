@@ -2,9 +2,8 @@ const express = require('express');
 const { verifyToken } = require('../services/authorization');
 const {
     checkPassword, setEvaluationMetric, getPurchases,
-    getEvaluations, getUserInfo,
-} = require('../database');
-const { deleteUser } = require('../databaseUtils/user');
+    getEvaluations } = require('../database');
+const { getUserInfo, deleteUser } = require('../databaseUtils/user');
 const { hash } = require('../services/hash');
 
 const router = express.Router();

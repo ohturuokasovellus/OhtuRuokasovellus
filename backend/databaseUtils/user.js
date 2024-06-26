@@ -52,6 +52,34 @@ const getUserIdByEmail = async (email) => {
 };
 
 /**
+ * Get most of the personal information of a user.
+ * @param {number} userId
+ * @returns {Promise<{ username: string, email: string, birth_year: string,
+*  gender: string, education: string, income: string }?>}
+*/
+const getUserInfo = async userId => {
+    const result = await sql`
+       SELECT
+           pgp_sym_decrypt(username::bytea,
+           ${process.env.DATABASE_ENCRYPTION_KEY}) AS username,
+           pgp_sym_decrypt(email::bytea,
+           ${process.env.DATABASE_ENCRYPTION_KEY}) AS email,
+           pgp_sym_decrypt(birth_year::bytea,
+           ${process.env.DATABASE_ENCRYPTION_KEY}) AS birth_year,
+           pgp_sym_decrypt(gender::bytea,
+           ${process.env.DATABASE_ENCRYPTION_KEY}) AS gender,
+           pgp_sym_decrypt(education::bytea,
+           ${process.env.DATABASE_ENCRYPTION_KEY}) AS education,
+           pgp_sym_decrypt(income::bytea,
+           ${process.env.DATABASE_ENCRYPTION_KEY}) AS income
+       FROM users
+       WHERE user_id = ${userId} AND username IS NOT NULL;
+   `;
+    if (result.length !== 1) return null;
+    return result[0];
+};
+
+/**
  * Delete user's username, email and password from the database.
  * @param {number} userId ID of the user.
  */
@@ -136,6 +164,7 @@ module.exports = {
     getGender,
     getRestaurantIdByUserId,
     getUserIdByEmail,
+    getUserInfo,
     deleteUser,
     doesEmailExist,
     doesUsernameExist,
