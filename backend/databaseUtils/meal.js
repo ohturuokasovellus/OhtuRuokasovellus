@@ -1,6 +1,20 @@
 const { sql } = require('../database');
 
 /**
+ * Attach image to the meal.
+ * @param {number} mealId
+ * @param {Buffer} imageData
+ * @returns {Promise<boolean>} Whether the meal existed
+ *  (and thus the image was successfully added).
+ */
+const addMealImage = async (mealId, imageData) => {
+    const result = await sql`
+        UPDATE meals SET image = ${imageData} WHERE meal_id = ${mealId};
+    `;
+    return result.count === 1;
+};
+
+/**
  * Fetch all meal emissions from database.
  * @param {number} restaurantId
  * @returns {Promise<{ 
@@ -189,6 +203,7 @@ const updateMeal = async (mealId, name, mealDescription,
 };
 
 module.exports = {
+    addMealImage,
     getAllMealEmissions,
     getMealByPurchaseCode,
     getMealForEdit,

@@ -257,20 +257,6 @@ const insertMeal = async (name, restaurantId, mealDescription,
 };
 
 /**
- * Attach image to the meal.
- * @param {number} mealId
- * @param {Buffer} imageData
- * @returns {Promise<boolean>} Whether the meal existed
- *  (and thus the image was successfully added).
- */
-const addMealImage = async (mealId, imageData) => {
-    const result = await sql`
-        UPDATE meals SET image = ${imageData} WHERE meal_id = ${mealId};
-    `;
-    return result.count === 1;
-};
-
-/**
  * Save purchase to the database.
  * @param {number} userId ID of the user who made the purchase.
  * @param {string} purchaseCode The 8-character purchase code of the meal.
@@ -345,7 +331,6 @@ module.exports = {
     deleteUser,
     doesRestaurantExist,
     insertMeal,
-    addMealImage,
     updateUserRestaurantByEmail,
     addPurchase,
     getPurchases,

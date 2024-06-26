@@ -1,6 +1,7 @@
 import { sql, insertRestaurant,
-    insertUser, updateUserRestaurantByEmail, addMealImage
+    insertUser, updateUserRestaurantByEmail,
 } from '../backend/database';
+import {  addMealImage } from '../backend/databaseUtils/meal';
 import { test, expect } from '@playwright/test';
 import { hash } from '../backend/services/hash';
 
