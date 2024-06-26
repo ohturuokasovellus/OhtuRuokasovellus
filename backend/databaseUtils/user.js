@@ -1,6 +1,23 @@
 const { sql } = require('../database');
 const { compareHashes } = require('../services/hash');
 
+/**
+ * Check whether the given password matches the correct password of a user.
+ * @param {number} userId ID of the user whose password to check
+ * @param {string} password Hashed password
+ * @returns {Promise<boolean>} Whether the password is correct
+ */
+const checkPassword = async (userId, password) => {
+    const result = await sql`
+        SELECT password FROM users
+        WHERE user_id = ${userId} AND password IS NOT NULL;
+    `;
+    if (result.length !== 1) {
+        return false;
+    }
+    return compareHashes(password, result[0].password);
+};
+
 const getBirthYear = async (userId) => {
     const result = await sql`
     SELECT pgp_sym_decrypt(birth_year::bytea, 
@@ -190,15 +207,16 @@ const updateUserRestaurantByEmail = async (email, restaurantId) => {
 };
 
 module.exports = {
+    checkPassword,
+    deleteUser,
+    doesEmailExist,
+    doesUsernameExist,
     getBirthYear,
     getGender,
     getRestaurantIdByUserId,
     getUser,
     getUserIdByEmail,
     getUserInfo,
-    deleteUser,
-    doesEmailExist,
-    doesUsernameExist,
     isRestaurantUser,
     updateUserRestaurantByEmail
 };

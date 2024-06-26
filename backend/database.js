@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 require('dotenv').config();
 const postgres = require('postgres');
-const { compareHashes } = require('./services/hash');
 
 //const sql = postgres('postgres://username:password@host:port/database', {
 //  host: process.env.POSTGRES_IP, // Postgres ip address[s] or domain name[s]
@@ -68,23 +67,6 @@ const insertRestaurant = async (restaurantName) => {
         RETURNING restaurant_id
     `;
     return result.at(0).restaurant_id;
-};
-
-/**
- * Check whether the given password matches the correct password of a user.
- * @param {number} userId ID of the user whose password to check
- * @param {string} password Hashed password
- * @returns {Promise<boolean>} Whether the password is correct
- */
-const checkPassword = async (userId, password) => {
-    const result = await sql`
-        SELECT password FROM users
-        WHERE user_id = ${userId} AND password IS NOT NULL;
-    `;
-    if (result.length !== 1) {
-        return false;
-    }
-    return compareHashes(password, result[0].password);
 };
 
 /**
@@ -165,7 +147,6 @@ module.exports = {
     sql,
     insertUser,
     insertRestaurant,
-    checkPassword,
     doesRestaurantExist,
     addPurchase,
     getPurchases,

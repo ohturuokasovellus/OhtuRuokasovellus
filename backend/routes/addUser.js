@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { getRestaurantIdByUserId, getUserIdByEmail, 
-    doesEmailExist, isRestaurantUser, 
+const { checkPassword, doesEmailExist, getRestaurantIdByUserId, 
+    getUserIdByEmail, isRestaurantUser, 
     updateUserRestaurantByEmail } = require('../databaseUtils/user.js');
-const { checkPassword } = require('../database.js');
 const { hash } = require('../services/hash');
 const { verifyToken } = require('../services/authorization');
 
