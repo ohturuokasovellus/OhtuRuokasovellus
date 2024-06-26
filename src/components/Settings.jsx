@@ -250,7 +250,7 @@ const Settings = ({ userSession, updateUser }) => {
                 />
                 <DataExport styles={styles} token={userSession.token} />
                 <DataRemoval styles={styles} token={userSession.token} 
-                 updateUser={updateUser}/>
+                    updateUser={updateUser}/>
             </View>
         </ScrollView>
     );
