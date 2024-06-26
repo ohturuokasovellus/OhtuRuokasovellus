@@ -11,6 +11,7 @@ const initTestDB = async () => {
     await sql`SET client_min_messages TO WARNING`;
     await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
     await sql`TRUNCATE TABLE restaurants RESTART IDENTITY CASCADE`;
+    await sql`TRUNCATE TABLE urls RESTART IDENTITY CASCADE`;
     await insertRestaurant('testaurant');
 
     const users = [
@@ -41,6 +42,9 @@ const initTestDB = async () => {
     }
 
     await updateUserRestaurantByEmail('test@test.com', 1);
+    await sql`
+    INSERT INTO urls (name, url) VALUES ('survey', 'https://fi.wikipedia.org')
+    `;
 };
 
 test.describe('home page', () => {
