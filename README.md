@@ -38,7 +38,7 @@ The first `8080` can be changed to customize the port that the server listens to
 
 ## Definition of Done:
 
-[DoD](https://github.com/ohturuokasovellus/OhtuRuokasovellus/blob/main/documentation/DoD.md)
+*The requirement has been analyzed (acceptance criteria created), planned (divided into technical tasks), programmed, tested (with minimum coverage of 70%), testing automated (CI-pipeline), documented as necessary and merged into main production branch.*
 
 ## For further devolpment:
 
