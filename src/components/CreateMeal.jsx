@@ -7,7 +7,6 @@ import { Text, View, Image, ScrollView} from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import apiUrl from '../utils/apiUrl';
 import { useNavigate } from '../Router';
-import { getSession } from '../controllers/sessionController';
 import { mealValidationSchema } from '../utils/formValidationSchemas';
 import createStyles from '../styles/styles';
 import { Button, SmallButton } from './ui/Buttons';
@@ -428,7 +427,7 @@ const CreateMealForm = ({
 /**
  * CreateMeal component for managing meal addition.
  */
-const CreateMeal = (props) => {
+const CreateMeal = ({ userSession }) => {
     let { mealId } = useParams();
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false);
@@ -455,10 +454,10 @@ const CreateMeal = (props) => {
     };
 
     useEffect(() => {
-        if (!props.user) {
+        if (!userSession) {
             navigate('/login');
         }
-        else if (!props.user.restaurantId) {
+        else if (!userSession.restaurantId) {
             navigate('/home');
         }
         else if (mealId) {
@@ -471,7 +470,7 @@ const CreateMeal = (props) => {
                             {
                                 headers: {
                                     Authorization:
-                                    `Bearer ${getSession().token}`
+                                    `Bearer ${userSession.token}`
                                 }
                             });
                         const imageRes = await axios.get(
@@ -532,7 +531,7 @@ const CreateMeal = (props) => {
                     formattedValues,
                     {
                         headers: {
-                            Authorization: `Bearer ${getSession().token}`
+                            Authorization: `Bearer ${userSession.token}`
                         }
                     });
             } else {
@@ -540,7 +539,7 @@ const CreateMeal = (props) => {
                     `${apiUrl}/meals`, formattedValues,
                     {
                         headers: {
-                            Authorization: `Bearer ${getSession().token}`
+                            Authorization: `Bearer ${userSession.token}`
                         }
                     });
                 mealId = response.data.mealId;

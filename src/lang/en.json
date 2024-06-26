@@ -191,6 +191,7 @@
         "SURVEY_LINK_NOT_UPDATED": "Survely link not updated.",
         "NUTRISCORE_MAY_NOT_BE_CORRECT": "The nutri-scores of meals might be incorrect",
         "LINK_TO_REPOSITORY": "Link to the repository",
-        "ABOUT": "About"
+        "ABOUT": "About",
+        "LOADING": "Loading"
     }
 }

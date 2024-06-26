@@ -1,10 +1,10 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
+import { Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useFonts } from 'expo-font';
-
 import Router, { Routes, Route } from './src/Router';
 import { getSession } from './src/controllers/sessionController';
 import { ThemeController } from './src/controllers/themeController';
-
 import NavigationBar from './src/components/NavigationBar';
 import Home from './src/components/Home';
 import Register from './src/components/Register';
@@ -24,10 +24,23 @@ import './src/lang/i18n'; // should be inported in index.js, but idk if
 // here.
 
 const App = () => {
-    const [user, setUser] = useState(getSession());
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const {t} = useTranslation();
+
     const updateUser = (userData) => {
         setUser(userData);
     };
+
+    useEffect(() => {
+        const getUserSession = async () => {
+            const userSession = await getSession();
+            setUser(userSession);
+            setLoading(false);
+        };
+        
+        void getUserSession();
+    }, []);
 
     useFonts({
         'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
@@ -37,35 +50,47 @@ const App = () => {
         'Roboto-Thin': require('./assets/fonts/Roboto-Thin.ttf'),
     });
 
+    // This has to be here or React Native renders routes before userSession 
+    // has been fetched.
+    if (loading) {
+        return (
+            <View>
+                <Text>{t('LOADING')}</Text>
+            </View>
+        );
+    }
+
     return (
         <ThemeController>
             <Router>
-                <NavigationBar updateUser={updateUser}/>
+                <NavigationBar updateUser={updateUser} userSession={user}/>
                 <Routes>
-                    <Route path='/' element={<About />} />
-                    <Route path='/home' element={<Home />} />
-                    <Route path='/register'
-                        element={<Register updateUser={updateUser}/>} />
-                    <Route path='/login'
-                        element={<LoginForm updateUser={updateUser}/>} />
+                    <Route path='/' element={<About userSession={user} />} />
+                    <Route path='/home' element={<Home userSession={user} />} />
+                    <Route path='/register' element={<Register 
+                        updateUser={updateUser} userSession={user}/>} />
+                    <Route path='/login' element={<LoginForm 
+                        updateUser={updateUser} userSession={user}/>} />
                     <Route path='/restaurant/:restaurantId'
                         element={<MealList />}/>
                     <Route path='/create-meal' element={<CreateMeal 
-                        user={user} />} />
+                        userSession={user} />} />
                     <Route path='/edit-meal/:mealId' element={<CreateMeal 
-                        user={user} />} />
+                        userSession={user} />} />
                     <Route path='/add-users'
-                        element={<AddUser />} />
+                        element={<AddUser userSession={user} />} />
                     <Route path='/purchase/:purchaseCode'
-                        element={<Purchase />} />
-                    <Route path='/history' element={<PurchaseHistory />} />
+                        element={<Purchase userSession={user} />} />
+                    <Route path='/history' element={<PurchaseHistory 
+                        userSession={user} />} />
                     <Route path='/menu-qr/:restaurantId'
                         element={<MenuQR />}/>
                     <Route path='/meal-qr/:mealPurchaseCode'
                         element={<MealQR />}/>
-                    <Route path='/settings' element={<Settings />} />
+                    <Route path='/settings' element={<Settings 
+                        userSession={user} updateUser={updateUser}/>} />
                     <Route path='/admin-panel' element={<AdminPanel 
-                        user={user} />} />
+                        userSession={user} />} />
                 </Routes>
             </Router>
         </ThemeController>

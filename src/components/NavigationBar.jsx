@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from '../Router';
-import { getSession, deleteSession } from '../controllers/sessionController';
+import { deleteSession } from '../controllers/sessionController';
 import { themeContext } from '../controllers/themeController';
 
 import { NavButton } from './ui/Buttons';
@@ -11,18 +11,16 @@ import NavLink from './ui/NavigationLink';
 import LanguageSwitch from './ui/LanguageSwitch';
 import createStyles from '../styles/styles';
 
-const NavigationBar = ({ updateUser }) => {
+const NavigationBar = ({ updateUser, userSession }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
-    const logOutPress = () => {
-        deleteSession();
+    const logOutPress = async () => {
+        await deleteSession();
         updateUser(null);
         navigate('/login');
     };
     const { toggleTheme } = useContext(themeContext);
     const styles = createStyles();
-
-    const userSession = getSession();
 
     return (
         <View style={styles.navigationBar}>
