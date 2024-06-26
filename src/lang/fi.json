@@ -184,6 +184,7 @@
         "APP_DESCRIPTION": "Ruokalaskurisovelluksella voit seurata syömiesi ruokien ravintoarvoja ja ilmastovaikutuksia.",
         "NUTRISCORE_MAY_NOT_BE_CORRECT": "Aterioiden nutri-scoret eivät ole välttämättä laskettu oikein.",
         "LINK_TO_REPOSITORY": "Linkki repositorioon",
-        "ABOUT": "Tietoa"
+        "ABOUT": "Tietoa",
+        "LOADING": "Loading"
     }
 }
