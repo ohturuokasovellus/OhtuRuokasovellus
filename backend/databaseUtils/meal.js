@@ -1,4 +1,5 @@
 const { sql } = require('../database');
+const { generatePurchaseCode } = require('../services/random');
 
 /**
  * Attach image to the meal.
@@ -151,6 +152,46 @@ const getMealsRestaurantId = async (mealId) => {
 };
 
 /**
+ * Insert a new meal to the database.
+ * @param {string} name Name of the meal.
+ * @param {number} restaurantId Id of the restaurant who created the meal.
+ * @param {string} mealDescription
+ * @param {string} mealAllergens Allergens of the meal.
+ * @param {Dictionary} nutrientDictionary Nutrients of a meal in a dictionary
+ * @param {string} ingredients ingredient list in json
+ * @returns {Promise<number>} ID of the created meal.
+ */
+const insertMeal = async (name, restaurantId, mealDescription, 
+    mealAllergens, nutrientDictionary, price, ingredients) => {
+    const co2Emissions = nutrientDictionary['co2Emissions'];
+    const carbohydrates = nutrientDictionary['carbohydrates'];
+    const protein = nutrientDictionary['protein'];
+    const fat = nutrientDictionary['fat'];
+    const fiber = nutrientDictionary['fiber'];
+    const sugar = nutrientDictionary['sugar'];
+    const salt = nutrientDictionary['salt'];
+    const saturatedFat = nutrientDictionary['saturatedFat'];
+    const energy = nutrientDictionary['energy'];
+
+    const vegetablePercent = Math.floor(nutrientDictionary['vegetablePercent']);
+
+    const purchaseCode = generatePurchaseCode();
+
+    const result = await sql`
+        INSERT INTO meals (name, restaurant_id, purchase_code, meal_description,
+            ingredients, co2_emissions, meal_allergens, carbohydrates, protein,
+            fat, fiber, sugar, salt, saturated_fat, energy, vegetable_percent,
+            price)
+        VALUES (${name}, ${restaurantId}, ${purchaseCode}, ${mealDescription},
+            ${ingredients}, ${co2Emissions}, ${mealAllergens}, ${carbohydrates},
+            ${protein}, ${fat}, ${fiber}, ${sugar}, ${salt}, ${saturatedFat},
+            ${energy}, ${vegetablePercent}, ${price})
+            RETURNING meal_id;`;
+
+    return result.at(0).meal_id;
+};
+
+/**
  * Set meal to inactive.
  * @param {number} mealId
  * @returns {Promise<Boolean>} true if success
@@ -211,6 +252,7 @@ module.exports = {
     getMealImage,
     getMeals,
     getMealsRestaurantId,
+    insertMeal,
     setMealInactive,
     updateMeal
 };
