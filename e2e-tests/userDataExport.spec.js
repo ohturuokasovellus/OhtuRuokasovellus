@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { sql, addPurchase, setEvaluationMetric } from '../backend/database';
+import { sql, setEvaluationMetric } from '../backend/database';
 import { insertRestaurant} from '../backend/databaseUtils/restaurant';
+import { addPurchase} from '../backend/databaseUtils/purchase';
 import { insertUser } from '../backend/databaseUtils/user';
 import { hash } from '../backend/services/hash';
 

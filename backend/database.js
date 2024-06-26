@@ -20,23 +20,6 @@ const sql = postgres(databaseURL,
 );
 
 /**
- * Save purchase to the database.
- * @param {number} userId ID of the user who made the purchase.
- * @param {string} purchaseCode The 8-character purchase code of the meal.
- */
-const addPurchase = async (userId, purchaseCode) => {
-    await sql`
-        INSERT INTO purchases (user_id, meal_id)
-        VALUES (
-            ${userId},
-            (SELECT meal_id FROM meals WHERE purchase_code = ${purchaseCode})
-        );
-    `;
-};
-
-
-
-/**
  * Query for setting evaluation metric
  * @param {number} evalKey evaluation metric key
  * @param {number} evalValue evaluation value
@@ -67,7 +50,6 @@ const getEvaluations = async userId => {
 
 module.exports = {
     sql,
-    addPurchase,
     setEvaluationMetric,
     getEvaluations,
 };

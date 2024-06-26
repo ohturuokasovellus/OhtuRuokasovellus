@@ -1,6 +1,21 @@
 const { sql } = require('../database');
 
 /**
+ * Save purchase to the database.
+ * @param {number} userId ID of the user who made the purchase.
+ * @param {string} purchaseCode The 8-character purchase code of the meal.
+ */
+const addPurchase = async (userId, purchaseCode) => {
+    await sql`
+        INSERT INTO purchases (user_id, meal_id)
+        VALUES (
+            ${userId},
+            (SELECT meal_id FROM meals WHERE purchase_code = ${purchaseCode})
+        );
+    `;
+};
+
+/**
  * Fetch all purchases of a single user.
  * @param {number} userId The ID of the user whose purchases to return.
  * @returns {Promise<{ date: string, mealId: number, mealName: string }[]>}
@@ -20,5 +35,6 @@ const getPurchases = async userId => {
 };
 
 module.exports = {
+    addPurchase,
     getPurchases
 };
