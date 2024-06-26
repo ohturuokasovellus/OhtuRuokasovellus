@@ -150,7 +150,6 @@ const AddUser = ({ userSession }) => {
     const navigate = useNavigate();
     const [isAuthorised, setIsAuthorised] = useState(true);
     const [results, setResults] = useState([]);
-    const userSession = getSession();
     const styles = createStyles();
 
     useEffect(() => {
