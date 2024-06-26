@@ -52,6 +52,24 @@ const getMealForEdit = async (mealId) => {
 };
 
 /**
+ * Fetch restaurant specific meals from database.
+ * @param {number} restaurantId
+ * @returns {Promise<{ 
+*      meal_id: number, 
+*      meal_name: string, 
+*      purchase_code: string,
+*  }[]>}
+*/
+const getMealIdsNamesPurchaseCodes = async (restaurantId) => {
+    const result = await sql`
+       SELECT meal_id, name as meal_name, purchase_code
+       FROM meals
+       WHERE restaurant_id = ${restaurantId} AND is_active = TRUE;
+   `;
+    return result;
+};
+
+/**
  * Get the image data of a meal.
  * @param {number} mealId
  * @returns {Promise<string?>} Image data
@@ -174,6 +192,7 @@ module.exports = {
     getAllMealEmissions,
     getMealByPurchaseCode,
     getMealForEdit,
+    getMealIdsNamesPurchaseCodes,
     getMealImage,
     getMeals,
     getMealsRestaurantId,
