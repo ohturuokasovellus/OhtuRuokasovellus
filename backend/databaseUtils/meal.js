@@ -32,6 +32,18 @@ const getMealForEdit = async (mealId) => {
 };
 
 /**
+ * Get restaurantId of the meal.
+ * @param {number} mealId
+ * @returns {Promise<Number>} restaurant_id
+ */
+const getMealsRestaurantId = async (mealId) => {
+    const result = await sql`
+        SELECT restaurant_id FROM meals where meal_id = ${mealId}
+    `;
+    return result.at(0);
+};
+
+/**
  * Set meal to inactive.
  * @param {number} mealId
  * @returns {Promise<Boolean>} true if success
@@ -86,6 +98,7 @@ const updateMeal = async (mealId, name, mealDescription,
 module.exports = {
     getAllMealEmissions,
     getMealForEdit,
+    getMealsRestaurantId,
     setMealInactive,
     updateMeal
 };

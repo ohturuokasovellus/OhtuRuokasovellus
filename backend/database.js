@@ -394,18 +394,6 @@ const addPurchase = async (userId, purchaseCode) => {
 };
 
 /**
- * Get restaurantId of the meal.
- * @param {number} mealId
- * @returns {Promise<Number>} restaurant_id
- */
-const getMealRestaurantId = async (mealId) => {
-    const result = await sql`
-        SELECT restaurant_id FROM meals where meal_id = ${mealId}
-    `;
-    return result.at(0);
-};
-
-/**
  * Fetch all purchases of a single user.
  * @param {number} userId The ID of the user whose purchases to return.
  * @returns {Promise<{ date: string, mealId: number, mealName: string }[]>}
@@ -472,7 +460,6 @@ module.exports = {
     getMealByPurchaseCode,
     updateUserRestaurantByEmail,
     addPurchase,
-    getMealRestaurantId,
     getPurchases,
     getMealIdsNamesPurchaseCodes,
     setEvaluationMetric,

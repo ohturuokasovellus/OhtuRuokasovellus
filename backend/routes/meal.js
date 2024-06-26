@@ -1,9 +1,9 @@
 const express = require('express');
-const { insertMeal, addMealImage, getMeals, getRestaurantIdByUserId,
-    getMealRestaurantId, getMealImage,
+const { insertMeal, addMealImage, getMeals, 
+    getRestaurantIdByUserId, getMealImage,
     getMealIdsNamesPurchaseCodes }
     = require('../database');
-const { getMealForEdit, setMealInactive, 
+const { getMealForEdit, getMealsRestaurantId, setMealInactive, 
     updateMeal } = require('../databaseUtils/meal.js');
 const { verifyToken } = require('../services/authorization');
 const { getNutrients } = require('../services/calculateNutrients');
@@ -190,7 +190,7 @@ router.put('/api/meals/delete/:mealId', express.json(), async (req, res) => {
     const mealId = req.params.mealId;
 
     try {
-        const result = await getMealRestaurantId(mealId);
+        const result = await getMealsRestaurantId(mealId);
         const userInfo = verifyToken(req.header('Authorization'));
 
         if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
@@ -230,7 +230,7 @@ router.post('/api/meals/meal/:mealId', express.json(), async (req, res) => {
     const userInfo = verifyToken(req.header('Authorization'));
 
     try {
-        const result = await getMealRestaurantId(mealId);
+        const result = await getMealsRestaurantId(mealId);
         if (!userInfo || userInfo.restaurantId !== result.restaurant_id) {
             return res.status(401).json('Unauthorized');
         }
@@ -272,7 +272,7 @@ router.put('/api/meals/update/:mealId', express.json(), async (req, res) => {
     const userInfo = verifyToken(req.header('Authorization'));
 
     try {
-        const mealRestId = await getMealRestaurantId(mealId);
+        const mealRestId = await getMealsRestaurantId(mealId);
         if (!userInfo || userInfo.restaurantId !== mealRestId.restaurant_id) {
             return res.status(401).json('Unauthorized');
         }
