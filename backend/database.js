@@ -20,20 +20,6 @@ const sql = postgres(databaseURL,
 );
 
 /**
- * Insert a new restaurant into the database.
- * @param {string} restaurantName
- * @returns {Promise<number>} - id of the new restaurant
- */
-const insertRestaurant = async (restaurantName) => {
-    const result = await sql`
-        INSERT INTO restaurants (name)
-        VALUES (${restaurantName})
-        RETURNING restaurant_id
-    `;
-    return result.at(0).restaurant_id;
-};
-
-/**
  * @param {string} email 
  * @returns {Promise<boolean>} Whether the given restaurant
  *  already exists in the database.
@@ -109,7 +95,6 @@ const getEvaluations = async userId => {
 
 module.exports = {
     sql,
-    insertRestaurant,
     doesRestaurantExist,
     addPurchase,
     getPurchases,

@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { sql, insertRestaurant } from '../backend/database';
+import { sql } from '../backend/database';
+import {  addMealImage } from '../backend/databaseUtils/meal';
+import { insertRestaurant} from '../backend/databaseUtils/restaurant';
 import { insertUser,
     updateUserRestaurantByEmail } from '../backend/databaseUtils/user';
-import {  addMealImage } from '../backend/databaseUtils/meal';
 import { hash } from '../backend/services/hash';
 import { convertKJ2Kcal } from '../src/utils/KJKcalConverter';
 

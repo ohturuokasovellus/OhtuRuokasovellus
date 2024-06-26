@@ -15,6 +15,21 @@ const getRestaurantName = async (restaurantId) => {
     return result;
 };
 
+/**
+ * Insert a new restaurant into the database.
+ * @param {string} restaurantName
+ * @returns {Promise<number>} - id of the new restaurant
+ */
+const insertRestaurant = async (restaurantName) => {
+    const result = await sql`
+        INSERT INTO restaurants (name)
+        VALUES (${restaurantName})
+        RETURNING restaurant_id
+    `;
+    return result.at(0).restaurant_id;
+};
+
 module.exports = {
-    getRestaurantName
+    getRestaurantName,
+    insertRestaurant
 };
