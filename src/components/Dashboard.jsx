@@ -45,7 +45,7 @@ const UserDashboard = () => {
             setGender('M');
             break;
         case 'woman':
-            setGender('F');
+            setGender(t('F'));
             break;
         default:
             setGender('X');
@@ -188,6 +188,7 @@ const UserDashboard = () => {
 };
 
 const RestaurantDashboard = () => {
+    const { t } = useTranslation();
     const { colors } = useContext(themeContext);
     const styles = createStyles();
     const userSession = getSession();
@@ -270,7 +271,7 @@ const RestaurantDashboard = () => {
     }
 
     const chartData = {
-        labels: [restaurantName, 'All restaurants'],
+        labels: [restaurantName, t('RESTAURANTS_ALL')],
         datasets: [
             {
                 data: [
@@ -288,22 +289,12 @@ const RestaurantDashboard = () => {
             </Text>
             <BarChartCustom
                 data={chartData}
-                title='Total CO2 emissions of meals'
+                title={t('CO2_TOTAL')}
                 styles={styles}
                 showValuesOnTopOfBars={true}
             />
         </View>
     );
 };
-
-// const Dashboard = ({ isRestaurant }) => {
-//     return (
-//         isRestaurant ? (
-//             <RestaurantDashboard />
-//         ) : (
-//             <UserDashboard />
-//         )
-//     );
-// };
 
 export { UserDashboard, RestaurantDashboard };

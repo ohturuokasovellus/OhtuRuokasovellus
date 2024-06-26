@@ -111,12 +111,16 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                                 )}
                             </View>
                         ))}
-                        <SmallButton
-                            styles={styles}
-                            onPress={addEmailInput}
-                            text='+'
-                            id='add-email-button'
-                        />
+                        {
+                            formik.values.emails.length < 10 && (
+                                <SmallButton
+                                    styles={styles}
+                                    onPress={addEmailInput}
+                                    text='+'
+                                    id='add-email-button'
+                                />
+                            )
+                        }
                         <PasswordInput
                             styles={styles}
                             placeholder={t('CONFIRM_WITH_PASSWORD')}
@@ -148,6 +152,7 @@ const AddUser = () => {
     const [isAuthorised, setIsAuthorised] = useState(true);
     const [results, setResults] = useState([]);
     const userSession = getSession();
+    const styles = createStyles();
 
     useEffect(() => {
         if (!userSession){
@@ -196,7 +201,7 @@ const AddUser = () => {
             results={results}
         />
     ) : (
-        <Text>
+        <Text style={styles.error}>
             401: unauthorised
         </Text>
     );
