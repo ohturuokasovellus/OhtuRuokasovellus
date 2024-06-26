@@ -13,7 +13,7 @@ const { generatePurchaseCode } = require('./services/random');
 //})
 
 const databaseURL = process.env.E2ETEST == '1' ?
-process.env.E2ETEST_POSTGRES_URL : process.env.BACKEND_POSTGRES_URL;
+    process.env.E2ETEST_POSTGRES_URL : process.env.BACKEND_POSTGRES_URL;
 
 // Our databases for workflows do not support many connectios
 // so we have to limit them here
