@@ -104,55 +104,7 @@ const createStyles = () => {
         // buttons
 
         // input fields
-        input: {
-            height: 40,
-            borderColor: colors.outlineVariant,
-            borderWidth: 1,
-            borderRadius: 8,
-            marginBottom: 12,
-            paddingLeft: 8,
-            color: colors.onSurfaceVariant,
-            backgroundColor: colors.surfaceVariant,
-        },
-        passwordInput: {
-            height: 40,
-            borderColor: colors.outlineVariant,
-            borderWidth: 1,
-            borderRadius: 8,
-            marginBottom: 12,
-            paddingLeft: 8,
-            color: colors.onSurfaceVariant,
-            secureTextEntry: true,
-            backgroundColor: colors.surfaceVariant,
-        },
-        multilineInput: {
-            borderColor: colors.outlineVariant,
-            borderWidth: 1,
-            borderRadius: 8,
-            marginBottom: 12,
-            padding: 8,
-            verticalAlign: 'top',
-            color: colors.onSurfaceVariant,
-            backgroundColor: colors.surfaceVariant,
-        },
-        flexInputContainer: {
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            width: '100%',
-            borderRadius: 8,
-        },
-        flexInput: {
-            flex: 1,
-            height: 40,
-            borderColor: colors.outlineVariant,
-            borderWidth: 1,
-            borderRadius: 8,
-            paddingLeft: 8,
-            marginBottom: 8,
-            color: colors.onSurfaceVariant,
-            backgroundColor: colors.surfaceVariant,
-        },
+
         
         // cards
         cardContainer: {
@@ -242,31 +194,6 @@ const createStyles = () => {
         },
 
         // navigation
-        navigationBar: {
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            paddingVertical: 12,
-            backgroundColor: colors.tertiary,
-            position: 'fixed',
-            top: 0,
-            width: '100%',
-            height: 60,
-            zIndex: 1000,
-            overflowX: 'auto',
-        },
-        navigationLink: {
-            padding: 8,
-            color: colors.onTertiary,
-            fontSize: 16,
-            fontFamily: 'Roboto-Black',
-            textTransform: 'uppercase',
-            textDecorationLine: 'none',
-            whiteSpace: 'nowrap',
-        },
-
-        activeNavigationLink: {
-            color: colors.primary,
-        },
 
         // doughnut chart
         chartContainer: {
