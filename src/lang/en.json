@@ -183,7 +183,7 @@
         "EXPORT_USER_DATA": "Export data",
         "EXPORT_USER_DATA_DESCRIPTION": "You can download all the data collected about you.",
         "APP_DESCRIPTION": "With this application you can track the nutritional values and climate impact of your meal choices.",
-        "CO2_TOTAL": "Total CO2 emissions of all meals",
+        "CO2_TOTAL": "Average CO2 emissions of all meals",
         "RESTAURANTS_ALL": "All restaurants",
         "UPDATE_SURVEY_LINK": "Update survey link",
         "CONFIRM_SURVEY_LINK_UPDATE": "Confirm survey link update",
