@@ -1,10 +1,12 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { convertKJ2Kcal } from '../../utils/KJKcalConverter';
+import { themeContext } from '../../controllers/themeController';
 
-const NutritionalValues = ({ styles, nutrition }) => {
+const NutritionalValues = ({ nutrition }) => {
     const {t} = useTranslation();
+    const styles = createStyles();
     const kcal = convertKJ2Kcal(nutrition.energy);
     return (
         <View style={styles.nutritionalValueContainer}>
@@ -80,6 +82,55 @@ const NutritionalValues = ({ styles, nutrition }) => {
             </View>
         </View>
     );
+};
+
+const createStyles = () => {
+    const { colors } = useContext(themeContext);
+    return StyleSheet.create({
+        nutritionalValueContainer: {
+            padding: 16,
+            backgroundColor: colors.primaryContainer,
+            borderRadius: 8,
+            margin: 8,
+        },
+        nutritionalValueTitle: {
+            fontSize: 14,
+            fontFamily: 'Roboto-Bold',
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            marginBottom: 4,
+            color: colors.onPrimaryContainer,
+        },
+        nutritionalValueSubTitle: {
+            fontSize: 12,
+            fontFamily: 'Roboto-Regular',
+            textAlign: 'center',
+            marginBottom: 12,
+            color: colors.onPrimaryContainer,
+        },
+        nutritionalValueValueContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: 8,
+        },
+        nutritionalValueSubValueContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginLeft: 16,
+            marginBottom: 8,
+        },
+        nutritionalValueLabel: {
+            fontSize: 14,
+            fontFamily: 'Roboto-Regular',
+            color: colors.onPrimaryContainer,
+        },
+        nutritionalValueSubLabel: {
+            fontSize: 14,
+            fontFamily: 'Roboto-Thin',
+            color: colors.onPrimaryContainer,
+        },
+
+    });
 };
 
 export default NutritionalValues;

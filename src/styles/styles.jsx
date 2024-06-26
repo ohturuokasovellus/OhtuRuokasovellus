@@ -105,7 +105,6 @@ const createStyles = () => {
 
         // input fields
 
-        
         // cards
         cardContainer: {
             maxWidth: 600,
@@ -196,79 +195,40 @@ const createStyles = () => {
         // navigation
 
         // doughnut chart
-        chartContainer: {
-            alignItems: 'center',
-            flexDirection: 'column',
-            marginBottom: 6,
-            marginHorizontal: 20,
-        },
-        legendContainer: {
-            flexDirection: 'column',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            marginTop: 8,
-            marginLeft: 8,
-        },
-        legendItem: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginRight: 8,
-            marginBottom: 6,
-        },
-        legendColor: {
-            width: 16,
-            height: 16,
-            marginRight: 8,
-        },
-        legendText: {
-            fontSize: 12,
-            color: colors.onSurfaceVariant,
-            fontFamily: 'Roboto-Regular'
-        },
-
-        // nutritional values
-        nutritionalValueContainer: {
-            padding: 16,
-            backgroundColor: colors.primaryContainer,
-            borderRadius: 8,
-            margin: 8,
-        },
-        nutritionalValueTitle: {
-            fontSize: 14,
-            fontFamily: 'Roboto-Bold',
-            textAlign: 'center',
-            textTransform: 'uppercase',
-            marginBottom: 4,
-            color: colors.onPrimaryContainer,
-        },
-        nutritionalValueSubTitle: {
-            fontSize: 12,
-            fontFamily: 'Roboto-Regular',
-            textAlign: 'center',
-            marginBottom: 12,
-            color: colors.onPrimaryContainer,
-        },
-        nutritionalValueValueContainer: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginBottom: 8,
-        },
-        nutritionalValueSubValueContainer: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginLeft: 16,
-            marginBottom: 8,
-        },
-        nutritionalValueLabel: {
-            fontSize: 14,
-            fontFamily: 'Roboto-Regular',
-            color: colors.onPrimaryContainer,
-        },
-        nutritionalValueSubLabel: {
-            fontSize: 14,
-            fontFamily: 'Roboto-Thin',
-            color: colors.onPrimaryContainer,
-        },
+        // const createStyles = () => {
+        //     const { colors } = useContext(themeContext);
+        //     return StyleSheet.create({
+                chartContainer: {
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    marginBottom: 6,
+                    marginHorizontal: 20,
+                },
+                legendContainer: {
+                    flexDirection: 'column',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    marginTop: 8,
+                    marginLeft: 8,
+                },
+                legendItem: {
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginRight: 8,
+                    marginBottom: 6,
+                },
+                legendColor: {
+                    width: 16,
+                    height: 16,
+                    marginRight: 8,
+                },
+                legendText: {
+                    fontSize: 12,
+                    color: colors.onSurfaceVariant,
+                    fontFamily: 'Roboto-Regular'
+                },
+        //     });
+        // };
 
         // Meal list
         mealContainer: {

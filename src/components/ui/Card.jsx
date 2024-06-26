@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import DoughnutChart from './DoughnutChart';
 import { NutriButton } from './Buttons';
-import NutritionalValues from './NutritionalValuesContainer';
+import NutritionalValues from './NutritionalValuesCard';
 import { Nutriscore } from './Nutriscore';
 import { formatPrice } from '../../utils/price';
 
@@ -136,7 +136,6 @@ const MealCard = (
                             <InfoContainer />
                         </View>
                         <NutriButton
-                            styles={styles}
                             text={expanded ?
                                 t('HIDE_NUTR_INFO') :
                                 t('SHOW_NUTR_INFO')
