@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { themeContext } from '../../controllers/themeController';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Picker as PickerNative } from 'react-native';
 
 /** Wrapper for SelectList with styling consistent
  * with the app layout. Takes all SelectList props, see
@@ -18,6 +18,26 @@ const Dropdown = ({ ...props }) => {
             dropdownTextStyles={styles.dropdownTextStyles}
             {...props}
         />
+    );
+};
+
+/** Wrapper for react-native's picker consistent with the app layout. */
+const Picker = ({ selectedValue, onValueChange, items }) => {
+    const styles = createStyles();
+    return (
+        <PickerNative
+            selectedValue={selectedValue}
+            onValueChange={onValueChange}
+            style={styles.picker}
+        >
+            {items.map((item, index) => (
+                <PickerNative.Item
+                    key={index}
+                    label={item.label}
+                    value={item.value}
+                />
+            ))}
+        </PickerNative>
     );
 };
 
@@ -52,7 +72,21 @@ const createStyles = () => {
             color: colors.onSurface,
             fontFamily: 'Roboto-Regular'
         },
+        picker: {
+            height: 40,
+            width: 150,
+            marginRight: 10,
+            marginBottom: 8,
+            borderRadius: 8,
+            borderColor: colors.outlineVariant,
+            borderWidth: 1,
+            paddingLeft: 8,
+            backgroundColor: colors.surfaceVariant,
+            color: colors.outline,
+            fontFamily: 'Roboto-Regular',
+            overflow: 'hidden',
+        },
     });
 };
 
-export { Dropdown };
+export { Dropdown, Picker };

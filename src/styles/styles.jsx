@@ -112,6 +112,11 @@ const createStyles = () => {
         qrContainer: {
             padding: 16,
         },
+        sortContainer: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginVertical: 10,
+        },
 
         // buttons
 
@@ -295,25 +300,6 @@ const createStyles = () => {
         // nutriscore
 
         // meal sorting
-        sortControls: {
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginVertical: 10,
-        },
-        picker: {
-            height: 40,
-            width: 150,
-            marginRight: 10,
-            marginBottom: 8,
-            borderRadius: 8,
-            borderColor: colors.outlineVariant,
-            borderWidth: 1,
-            paddingLeft: 8,
-            backgroundColor: colors.surfaceVariant,
-            color: colors.outline,
-            fontFamily: 'Roboto-Regular',
-            overflow: 'hidden',
-        },
 
         // self eval slider
         questionContainer: {

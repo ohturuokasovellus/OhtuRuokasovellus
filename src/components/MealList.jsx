@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useContext } from 'react';
-import { View, Text, FlatList, ScrollView, Picker } from 'react-native';
+import { View, Text, FlatList, ScrollView } from 'react-native';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
@@ -8,6 +8,7 @@ import apiUrl from '../utils/apiUrl';
 import { themeContext } from '../controllers/themeController';
 
 import { MealCard } from './ui/Card';
+import { Picker } from './ui/Dropdown';
 import createStyles from '../styles/styles';
 
 /**
@@ -104,41 +105,44 @@ const MealList = () => {
             </View>
         );
     }
-    
+
+    const sortCriteriaItems = [
+        { label: t('PRICE_CRITERIA'), value: 'price' },
+        { label: t('CO2_EMISSIONS'), value: 'co2_emissions' },
+        { label: t('PROTEIN'), value: 'protein' },
+        { label: t('SUGAR'), value: 'sugar' },
+        { label: t('FIBER'), value: 'fiber' }
+    ];
+
+    const sortOrderItems = [
+        { label: t('ASCENDING'), value: 'asc' },
+        { label: t('DESCENDING'), value: 'desc' }
+    ];
+
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
                 <Text style={[styles.h1, { alignSelf: 'center' }]}>
                     {t('RESTAURANT')} {restaurantName}
                 </Text>
-            </View>
-            <View style={styles.sortControls}>
-                <Picker
-                    selectedValue={sortCriteria}
-                    style={styles.picker}
-                    onValueChange={
-                        (itemValue) => handleSortChange(itemValue, sortOrder)
-                    }
-                >
-                    <Picker.Item label={t('PRICE_CRITERIA')} value="price" />
-                    <Picker.Item label={t('CO2_EMISSIONS')}
-                        value="co2_emissions" />
-                    <Picker.Item label={t('PROTEIN')} value="protein" />
-                    <Picker.Item label={t('SUGAR')} value="sugar" />
-                    <Picker.Item label={t('FIBER')} value="fiber" />
-                </Picker>
-                <Picker
-                    selectedValue={sortOrder}
-                    style={styles.picker}
-                    onValueChange={
-                        (itemValue) => handleSortChange(sortCriteria, itemValue)
-                    }
-                >
-                    <Picker.Item label={t('ASCENDING')} value="asc" />
-                    <Picker.Item label={t('DESCENDING')} value="desc" />
-                </Picker>
-            </View>
-            <View style={styles.container}>
+                <View style={styles.sortContainer}>
+                    <Picker
+                        selectedValue={sortCriteria}
+                        onValueChange={
+                            (itemValue) =>
+                                handleSortChange(itemValue, sortOrder)
+                        }
+                        items={sortCriteriaItems}
+                    />
+                    <Picker
+                        selectedValue={sortOrder}
+                        onValueChange={
+                            (itemValue) =>
+                                handleSortChange(sortCriteria, itemValue)
+                        }
+                        items={sortOrderItems}
+                    />
+                </View>
                 <FlatList
                     data={meals}
                     keyExtractor={(item) => item.meal_id.toString()}
