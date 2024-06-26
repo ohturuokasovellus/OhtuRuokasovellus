@@ -1,5 +1,5 @@
 const express = require('express');
-const { addPurchase } = require('../database');
+const { addPurchase } = require('../databaseUtils/purchase.js');
 const { getMealByPurchaseCode } = require('../databaseUtils/meal.js');
 const { getPurchases } = require('../databaseUtils/purchase.js');
 const { verifyToken } = require('../services/authorization');
