@@ -42,7 +42,7 @@ const LoginForm = ({ updateUser, userSession }) => {
                 token: response.data.token,
                 restaurantId: response.data.restaurantId,
             };
-            createSession(userData);
+            void createSession(userData);
             updateUser(userData);
             
             navigate('/home');

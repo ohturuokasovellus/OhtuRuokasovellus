@@ -45,7 +45,7 @@ const Home = ({ userSession }) => {
 
         void fetchSurveyUrl(setSurveyUrl);
         void setAdminStatus();
-    }, [userSession, navigate]);n
+    }, [userSession, navigate]);
 
     return (
         <ScrollView style={styles.background}>

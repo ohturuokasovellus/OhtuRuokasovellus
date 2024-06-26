@@ -39,7 +39,7 @@ const App = () => {
             setLoading(false);
         };
         
-        getUserSession();
+        void getUserSession();
     }, []);
 
     useFonts({

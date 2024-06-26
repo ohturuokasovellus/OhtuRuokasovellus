@@ -25,7 +25,7 @@ async function getStoredLanguage() {
 }
 
 // Initialize i18next with the stored language
-(async () => {
+void (async () => {
     const language = await getStoredLanguage();
     void i18next
         .use(initReactI18next)

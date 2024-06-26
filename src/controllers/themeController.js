@@ -26,7 +26,7 @@ export const ThemeController = ({ children }) => {
             }
         };
 
-        setPageTheme();
+        void setPageTheme();
     }, []);
 
     const toggleTheme = async () => {

@@ -38,11 +38,11 @@ const MealQR = () => {
                     format: 'jpg',
                     quality: 1,
                 });
-                download(uri);
+                void download(uri);
             }
         } catch (error) {
             console.error(error);
-        };
+        }
     };    
     
     const download = async uri => {
