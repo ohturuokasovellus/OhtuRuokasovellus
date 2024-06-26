@@ -1,7 +1,8 @@
 /* eslint-disable @stylistic/js/indent */
 import { test, expect } from '@playwright/test';
-import { sql, insertUser, insertRestaurant } from '../backend/database';
-import { updateUserRestaurantByEmail } from '../backend/databaseUtils/user';
+import { sql, insertRestaurant } from '../backend/database';
+import { insertUser,
+    updateUserRestaurantByEmail } from '../backend/databaseUtils/user';
 import { hash } from '../backend/services/hash';
 
 const initTestDB = async () => {

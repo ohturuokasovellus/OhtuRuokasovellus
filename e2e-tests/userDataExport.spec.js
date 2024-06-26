@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { sql, insertUser, insertRestaurant,
+import { sql, insertRestaurant,
     addPurchase, setEvaluationMetric } from '../backend/database';
+import { insertUser } from '../backend/databaseUtils/user';
 import { hash } from '../backend/services/hash';
 
 const initDb = async () => {

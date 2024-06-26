@@ -1,8 +1,9 @@
 /* eslint-disable @stylistic/js/indent */
-import { sql, insertUser, insertRestaurant } from '../backend/database';
 import { test, expect } from '@playwright/test';
-import { hash } from '../backend/services/hash';
+import { sql, insertRestaurant } from '../backend/database';
+import { insertUser } from '../backend/databaseUtils/user';
 import { addUserToRestaurant } from '../backend/databaseUtils/adminPanel';
+import { hash } from '../backend/services/hash';
 
 const initTestDB = async () => {
     await sql`SET client_min_messages TO WARNING`;

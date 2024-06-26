@@ -18,6 +18,53 @@ const checkPassword = async (userId, password) => {
     return compareHashes(password, result[0].password);
 };
 
+/**
+ * Delete user's username, email and password from the database.
+ * @param {number} userId ID of the user.
+ */
+const deleteUser = async userId => {
+    await sql`
+        UPDATE users SET username = NULL, password = NULL, email = NULL
+        WHERE user_id = ${userId};
+    `;
+};
+
+/**
+ * @param {string} email 
+ * @returns {Promise<boolean>} Whether the given email
+ *  already exists in the database.
+ */
+const doesEmailExist = async email => {
+    const result = await sql`
+        SELECT exists (SELECT 1 FROM users 
+        WHERE 
+            pgp_sym_decrypt(email::bytea, 
+            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email}
+            AND email IS NOT NULL
+            LIMIT 1);
+    `;
+    return result.at(0).exists;
+};
+
+/**
+ * @param {string} username 
+ * @returns {Promise<boolean>} Whether the given 
+ * username already exists in the database.
+ */
+const doesUsernameExist = async username => {
+    // https://stackoverflow.com/q/8149596
+    const result = await sql`
+        SELECT exists
+        (SELECT 1 FROM users 
+        WHERE 
+            pgp_sym_decrypt(username::bytea, 
+            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${username}
+            AND username IS NOT NULL
+            LIMIT 1);
+    `;
+    return result.at(0).exists;
+};
+
 const getBirthYear = async (userId) => {
     const result = await sql`
     SELECT pgp_sym_decrypt(birth_year::bytea, 
@@ -127,50 +174,39 @@ const getUserInfo = async userId => {
 };
 
 /**
- * Delete user's username, email and password from the database.
- * @param {number} userId ID of the user.
+ * Insert a new user into the database.
+ * @param {string} username
+ * @param {string} password
+ * @param {string} email
+ * @param {number} birthYear
+ * @param {string} gender
+ * @param {string} education
+ * @param {string} income
  */
-const deleteUser = async userId => {
+const insertUser = async (
+    username, password, email, birthYear,
+    gender, education, income) => {
     await sql`
-        UPDATE users SET username = NULL, password = NULL, email = NULL
-        WHERE user_id = ${userId};
-    `;
-};
-
-/**
- * @param {string} email 
- * @returns {Promise<boolean>} Whether the given email
- *  already exists in the database.
- */
-const doesEmailExist = async email => {
-    const result = await sql`
-        SELECT exists (SELECT 1 FROM users 
-        WHERE 
-            pgp_sym_decrypt(email::bytea, 
-            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${email}
-            AND email IS NOT NULL
-            LIMIT 1);
-    `;
-    return result.at(0).exists;
-};
-
-/**
- * @param {string} username 
- * @returns {Promise<boolean>} Whether the given 
- * username already exists in the database.
- */
-const doesUsernameExist = async username => {
-    // https://stackoverflow.com/q/8149596
-    const result = await sql`
-        SELECT exists
-        (SELECT 1 FROM users 
-        WHERE 
-            pgp_sym_decrypt(username::bytea, 
-            ${process.env.DATABASE_ENCRYPTION_KEY}) = ${username}
-            AND username IS NOT NULL
-            LIMIT 1);
-    `;
-    return result.at(0).exists;
+        INSERT INTO users (
+            username, password, email, birth_year,
+            gender, education, income
+            )
+        VALUES (
+            pgp_sym_encrypt(${username},
+            ${process.env.DATABASE_ENCRYPTION_KEY}),
+            ${password},
+            pgp_sym_encrypt(
+            ${email},${process.env.DATABASE_ENCRYPTION_KEY}),
+            pgp_sym_encrypt(
+            ${birthYear},${process.env.DATABASE_ENCRYPTION_KEY}),
+            pgp_sym_encrypt(
+            ${gender},${process.env.DATABASE_ENCRYPTION_KEY}),
+            pgp_sym_encrypt(
+            ${education},${process.env.DATABASE_ENCRYPTION_KEY}),
+            pgp_sym_encrypt(
+            ${income},${process.env.DATABASE_ENCRYPTION_KEY})
+            )
+        `;
 };
 
 /**
@@ -217,6 +253,7 @@ module.exports = {
     getUser,
     getUserIdByEmail,
     getUserInfo,
+    insertUser,
     isRestaurantUser,
     updateUserRestaurantByEmail
 };

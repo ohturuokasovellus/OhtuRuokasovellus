@@ -5,10 +5,9 @@ const {
     '../services/validators'
 );
 const { hash } = require('../services/hash');
-const { doesEmailExist, doesUsernameExist, 
+const { doesEmailExist, doesUsernameExist, insertUser,
     updateUserRestaurantByEmail } = require('../databaseUtils/user.js');
-const {
-    insertUser, doesRestaurantExist, insertRestaurant,
+const { doesRestaurantExist, insertRestaurant,
 } = require('../database');
 
 const router = express.Router();
