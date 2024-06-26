@@ -70,6 +70,3 @@ CREATE TABLE evaluations (
     eval_value INT,
     UNIQUE (user_id, eval_key)
 );
-
--- let survey url be this for now
-INSERT INTO urls (name, url) VALUES ('survey', 'https://fi.wikipedia.org/');
