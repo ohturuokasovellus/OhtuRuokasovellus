@@ -1,6 +1,8 @@
+
+
 import i18next from 'i18next';
 import {initReactI18next} from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import engl from './en.json';
 import finn from './fi.json';
 
@@ -9,34 +11,33 @@ const resources = {
     fin: finn,
 };
 
-const languageDetector = new LanguageDetector(null, {
-    order: ['localStorage', 'navigator', 'cookie', 'queryString'],
+// Function to get the stored language or default to 'fin'
+async function getStoredLanguage() {
+    try {
+        const savedLanguage = await AsyncStorage
+            .getItem('i18nextLanguage');
+        // Default to 'fin' if no language is saved
+        return savedLanguage || 'fin'; 
+    } catch (error) {
+        console.error('Failed to load the language from storage', error);
+        return 'fin'; // Default to 'fin' in case of error
+    }
+}
 
-    lookupLocalStorage: 'i18nextLng',
-    lookupCookie: 'i18next',
+// Initialize i18next with the stored language
+void (async () => {
+    const language = await getStoredLanguage();
+    void i18next
+        .use(initReactI18next)
+        .init({
+            compatibilityJSON: 'v3',
+            resources,
+            fallbackLng: 'eng',
+            lng: language,
+            supportedLngs: ['fin', 'eng'],
+            preload: ['fin', 'eng'],
+            initImmediate: false
+        });
+})();
 
-    caches: ['localStorage', 'cookie']
-});
-
-i18next
-    // pass the i18n instance to react-i18next.
-    .use(languageDetector)
-    .use(initReactI18next)
-    // init i18next
-    // for all options read:
-    // https://www.i18next.com/overview/configuration-options
-    .init({
-        compatibilityJSON: 'v3',
-        resources,
-        fallbackLng: 'fin',
-        // lng: 'eng', // default language to use.
-        // supportedLngs: ['fin', 'eng'],
-        detection: {
-            order: ['localStorage', 'navigator', 'cookie', 'queryString'],
-            caches: ['localStorage', 'cookie']
-        },
-        // preload: ['fin', 'eng'],
-        // initImmediate: false
-    });
-
-export default {i18next};
+export default i18next;

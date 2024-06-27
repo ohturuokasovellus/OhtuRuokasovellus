@@ -1,6 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { sql, insertUser, insertRestaurant,
-    addPurchase, setEvaluationMetric } from '../backend/database';
+import { sql } from '../backend/database';
+import { setEvaluationMetric} from '../backend/databaseUtils/evaluations';
+import { insertRestaurant} from '../backend/databaseUtils/restaurant';
+import { addPurchase} from '../backend/databaseUtils/purchase';
+import { insertUser } from '../backend/databaseUtils/user';
 import { hash } from '../backend/services/hash';
 
 const initDb = async () => {
@@ -41,7 +44,7 @@ const logIn = async page => {
  * @param {import('stream').Readable} stream
  * @return {Promise<string>}
  */
-const streamToString = async stream => {
+const streamToString = stream => {
     return new Promise((resolve, reject) => {
         let string = '';
         stream.on('data', chunk => { string += chunk; });

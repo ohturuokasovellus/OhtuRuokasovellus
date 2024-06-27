@@ -193,6 +193,7 @@
         "LICENSE_DISCLAIMER": "Sovellus on lisensoitu MIT-lisenssillä, ja lähdekoodi on täten avoin. ",
         "VIEW_SOURCE": "Voit tutustua lähdekoodiin ",
         "HERE": "täällä",
-        "ABOUT": "Tietoa"
+        "ABOUT": "Tietoa",
+        "LOADING": "Loading"
     }
 }

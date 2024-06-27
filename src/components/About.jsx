@@ -1,19 +1,17 @@
 import { Text, View, ScrollView, Linking } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Link } from '../Router';
-import { getSession } from '../controllers/sessionController';
 import createStyles from '../styles/styles';
 
-const About = () => {
+const About = (props) => {
     const {t} = useTranslation();
-    const userSession = getSession();
     const styles = createStyles();
 
     const SourceCodeLink = () => {
         const repositoryURL = 'https://github.com/'
         + 'ohturuokasovellus/OhtuRuokasovellus/';
         const openLink = () => {
-            Linking.openURL(repositoryURL);
+            void Linking.openURL(repositoryURL);
         };
 
         return (
@@ -42,7 +40,7 @@ const About = () => {
                     </Text>
                     <SourceCodeLink />
                 </View>
-                {!userSession &&
+                {!props.userSession &&
                     <Text style={styles.body}>
                         <Link to='/login'>
                             <Text style={styles.link} id='login-link'>

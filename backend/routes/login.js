@@ -1,7 +1,7 @@
 const express = require('express');
 const { hash } = require('../services/hash');
 const router = express.Router();
-const { getUser } = require('../database');
+const { getUser } = require('../databaseUtils/user');
 const { createToken } = require('../services/authorization');
 
 router.use(express.json());

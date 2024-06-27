@@ -1,7 +1,7 @@
 const { formatResearchData } = require('../services/formatResearchData'); 
 
 describe('format research data', () => {
-    test('research data is formatted correctly', async () => {
+    test('research data is formatted correctly', () => {
         const researchData = [
             {'meal_id': '1', 'name': 'beans', 'price': '100'}];
 

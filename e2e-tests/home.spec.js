@@ -1,22 +1,16 @@
 /* eslint-disable @stylistic/js/indent */
 import { test, expect } from '@playwright/test';
-import {
-    sql, insertUser,
-    insertRestaurant,
-    updateUserRestaurantByEmail
-} from '../backend/database';
+import { sql } from '../backend/database';
+import { insertRestaurant} from '../backend/databaseUtils/restaurant';
+import { insertUser,
+    updateUserRestaurantByEmail } from '../backend/databaseUtils/user';
 import { hash } from '../backend/services/hash';
-
-const testSurveyUrl = 'fi.wikipedia.org/';
 
 const initTestDB = async () => {
     await sql`SET client_min_messages TO WARNING`;
     await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
     await sql`TRUNCATE TABLE restaurants RESTART IDENTITY CASCADE`;
     await sql`TRUNCATE TABLE urls RESTART IDENTITY CASCADE`;
-    await sql`
-    INSERT INTO urls (name, url) VALUES ('survey', ${testSurveyUrl})
-    `;
     await insertRestaurant('testaurant');
 
     const users = [
@@ -47,6 +41,9 @@ const initTestDB = async () => {
     }
 
     await updateUserRestaurantByEmail('test@test.com', 1);
+    await sql`
+    INSERT INTO urls (name, url) VALUES ('survey', 'https://fi.wikipedia.org')
+    `;
 };
 
 test.describe('home page', () => {

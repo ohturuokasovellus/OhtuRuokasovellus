@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import apiUrl from '../utils/apiUrl';
 import { passwordValidationSchema } from '../utils/formValidationSchemas';
 import { useNavigate } from '../Router';
-import { deleteSession, getSession } from '../controllers/sessionController';
+import { deleteSession } from '../controllers/sessionController';
 
 import createStyles from '../styles/styles';
 import { Button, DeleteButton } from './ui/Buttons';
@@ -30,7 +30,7 @@ const DataExport = ({ styles, token }) => {
                 }
             );
             console.log(response.data);
-            download(response.data);
+            void download(response.data);
         } catch (err) {
             console.error(err);
         }
@@ -69,7 +69,7 @@ const DataExport = ({ styles, token }) => {
     );
 };
 
-const DataRemoval = ({ styles, token }) => {
+const DataRemoval = ({ styles, token, updateUser }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
 
@@ -85,7 +85,8 @@ const DataRemoval = ({ styles, token }) => {
                     },
                 }
             );
-            deleteSession();
+            await deleteSession();
+            updateUser(null);
             navigate('/register');
         } catch (err) {
             console.error(err);
@@ -219,10 +220,9 @@ const SelfEvaluationForm = ({ styles, token }) => {
     );
 };
 
-const Settings = () => {
+const Settings = ({ userSession, updateUser }) => {
     const navigate = useNavigate();
     const styles = createStyles();
-    const userSession = getSession();
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -241,7 +241,8 @@ const Settings = () => {
                     styles={styles} token={userSession.token}
                 />
                 <DataExport styles={styles} token={userSession.token} />
-                <DataRemoval styles={styles} token={userSession.token} />
+                <DataRemoval styles={styles} token={userSession.token} 
+                    updateUser={updateUser}/>
             </View>
         </ScrollView>
     );

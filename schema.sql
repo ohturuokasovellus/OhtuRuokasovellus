@@ -30,7 +30,6 @@ CREATE TABLE meals (
     meal_id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     image BYTEA DEFAULT NULL,
-    -- TODO: change creator type to Restaurant ID
     restaurant_id INT NOT NULL,
     purchase_code CHAR(8) UNIQUE NOT NULL,
     meal_description TEXT,
@@ -70,6 +69,3 @@ CREATE TABLE evaluations (
     eval_value INT,
     UNIQUE (user_id, eval_key)
 );
-
--- let survey url be this for now
-INSERT INTO urls (name, url) VALUES ('survey', 'https://fi.wikipedia.org/');

@@ -89,7 +89,7 @@ const MealList = () => {
             setRestaurantName(fetchedMeals[0]?.restaurant_name || null);
         };
 
-        fetchAndSortMeals();
+        void fetchAndSortMeals();
     }, [restaurantId]);
 
     const handleSortChange = (criteria, order) => {

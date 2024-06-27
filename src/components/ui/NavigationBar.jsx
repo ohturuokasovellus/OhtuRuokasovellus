@@ -1,9 +1,10 @@
 import { useContext, useState } from 'react';
 import { View, Pressable, Text, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from '../../Router';
-import { getSession, deleteSession } from '../../controllers/sessionController';
+import { deleteSession } from '../../controllers/sessionController';
 import { themeContext } from '../../controllers/themeController';
 
 /** Component for navigation bar links.
@@ -56,12 +57,17 @@ const LanguageSwitch = () => {
     const { i18n } = useTranslation();
     const [isEnglish, setIsEnglish] = useState(i18n.language === 'eng');
 
-    const toggleLang = () => {
+    const toggleLang = async () => {
         const newLanguage = isEnglish ? 'fin' : 'eng';
         setIsEnglish(!isEnglish);
         i18n.changeLanguage(newLanguage);
         // eslint-disable-next-line no-undef
-        localStorage.setItem('i18nextLng', newLanguage);
+        void i18n.changeLanguage(newLanguage);
+        try {
+            await AsyncStorage.setItem('i18nextLanguage', newLanguage);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -73,17 +79,16 @@ const LanguageSwitch = () => {
     );
 };
 
-const NavigationBar = ({ updateUser }) => {
+const NavigationBar = ({ updateUser, userSession }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
-    const logOutPress = () => {
-        deleteSession();
+    const logOutPress = async () => {
+        await deleteSession();
         updateUser(null);
         navigate('/login');
     };
     const { toggleTheme } = useContext(themeContext);
     const styles = createStyles();
-    const userSession = getSession();
 
     return (
         <View style={styles.navigationBar}>

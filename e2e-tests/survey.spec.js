@@ -1,11 +1,10 @@
-import { sql, insertUser } from '../backend/database';
 import { test, expect } from '@playwright/test';
+import { sql } from '../backend/database';
+import { insertUser } from '../backend/databaseUtils/user';
 import { hash } from '../backend/services/hash';
 
-const testSurveyUrl = 'fi.wikipedia.org/';
-const prodSurveyUrl = '/create-meal';
-
 const initTestDB = async () => {
+    await sql`SET client_min_messages TO WARNING`;
     await sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
     await sql`TRUNCATE TABLE urls RESTART IDENTITY CASCADE`;
     const user = 'testi';
@@ -19,13 +18,7 @@ const initTestDB = async () => {
         gender, education, income
     );
     await sql`
-    INSERT INTO urls (name, url) VALUES ('survey', ${testSurveyUrl})
-    `;
-};
-
-const restoreDB = async () => {
-    await sql`
-    UPDATE urls SET url = ${prodSurveyUrl} WHERE name = 'survey'
+    INSERT INTO urls (name, url) VALUES ('survey', 'https://fi.wikipedia.org')
     `;
 };
 
@@ -55,7 +48,7 @@ test.describe('survey', () => {
             ]);
 
             await newPage.waitForLoadState();
-            await expect(newPage).toHaveURL(testSurveyUrl);
+            await expect(newPage).toHaveURL(/fi\.wikipedia\.org/);
 
         });
 
@@ -63,6 +56,5 @@ test.describe('survey', () => {
         async ({page}) => {
             await deleteSurveyUrl();
             await expect(page.locator('text=Take a survey')).toHaveCount(0);
-            await restoreDB();
         });
 });

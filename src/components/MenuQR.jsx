@@ -2,7 +2,9 @@ import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text, Platform, ScrollView } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
-import { useParams, Link } from '../Router';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import { useParams } from '../Router';
 import { Button } from './ui/Buttons';
 import QRCode from 'react-qr-code';
 import createStyles from '../styles/styles';
@@ -13,7 +15,6 @@ const MenuQR = () => {
     const { restaurantId } = useParams();
     const [menuQRCode, setmenuQRCode] = useState('');
     const qrViewReference = useRef(null);
-    const [imageUri, setImageUri] = useState('');
     const styles = createStyles();
 
     useEffect(() => {
@@ -27,24 +28,40 @@ const MenuQR = () => {
             }
         };
 
-        fetchWebpageURL();
+        void fetchWebpageURL();
     }, [restaurantId]);
 
-    useEffect(() => {
-        const formImage = async () => {
+    const getMenuQR = async () => {
+        try {
             if (qrViewReference.current){
                 const uri = await captureRef(qrViewReference, {
                     format: 'jpg',
                     quality: 1,
                 });
-                setImageUri(uri);
+                void download(uri);
             }
-        };
-
-        if (menuQRCode) {
-            formImage();
+        } catch (error) {
+            console.error(error);
         }
-    }, [menuQRCode]);
+    };    
+    
+    const download = async uri => {
+        if (Platform.OS === 'web') {
+            // eslint-disable-next-line no-undef
+            const link = document.createElement('a');
+            link.href = uri;
+            link.download = 'menuQR.jpg';
+            // eslint-disable-next-line no-undef
+            document.body.appendChild(link);
+            link.click();
+            // eslint-disable-next-line no-undef
+            document.body.removeChild(link);
+        } else {
+            const fileUrl = FileSystem.documentDirectory + 'menuQR.jpg';
+            await FileSystem.writeAsStringAsync(fileUrl, uri);
+            await Sharing.shareAsync(fileUrl);
+        }
+    };
 
     if (!menuQRCode) {
         return (
@@ -56,37 +73,29 @@ const MenuQR = () => {
         );
     }
 
-    if(Platform.OS === 'web'){
-        return (
-            <ScrollView style={styles.background}>
-                <View style={[
-                    styles.container,
-                    {alignItems: 'center', justifyContent: 'center'}
-                ]}>
-                    <Text style={styles.body}>
-                        {t('QR_CODE_TO_YOUR_MENU')}
-                    </Text>
-                    <View style={styles.qrContainer} ref={qrViewReference}
-                        id='menu-qr-code'>
-                        <QRCode size={500} style={{ height: 'auto',
-                            maxWidth: '500px', width: '500px'}}
-                        value={menuQRCode}/>
-                    </View>
-                    <Link
-                        style={{textDecorationLine: 'none'}}
-                        to={imageUri} target="_blank" download
-                    >
-                        <Button onPress={()=>{}}
-                            text={t('DOWNLOAD')} id='download-QR-code'>
-                        </Button>
-                    </Link>
-
+    return (
+        <ScrollView style={styles.background}>
+            <View style={[
+                styles.container,
+                {alignItems: 'center', justifyContent: 'center'}
+            ]}>
+                <Text style={styles.body}>
+                    {t('QR_CODE_TO_YOUR_MENU')}
+                </Text>
+                <View style={styles.qrContainer} ref={qrViewReference}
+                    id='menu-qr-code'>
+                    <QRCode size={500} style={{ height: 'auto',
+                        maxWidth: '500px', width: '500px'}}
+                    value={menuQRCode}/>
                 </View>
-            </ScrollView>
-        );
-    }
-
-    return null; // Handle non-web platforms or other cases when needed
+                <Button
+                    onPress={getMenuQR}
+                    text={t('DOWNLOAD')}
+                    id='download-QR-code'>
+                </Button>
+            </View>
+        </ScrollView>
+    );
 };
 
 export default MenuQR;

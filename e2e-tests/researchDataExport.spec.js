@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { sql, insertUser, insertRestaurant, 
-    addPurchase } from '../backend/database';
+import { sql } from '../backend/database';
+import { insertRestaurant} from '../backend/databaseUtils/restaurant';
+import { addPurchase} from '../backend/databaseUtils/purchase';
+import { insertUser } from '../backend/databaseUtils/user';
 import { hash } from '../backend/services/hash';
 
 const initDb = async () => {
@@ -40,7 +42,7 @@ const logIn = async page => {
  * @param {import('stream').Readable} stream
  * @return {Promise<string>}
  */
-const streamToString = async stream => {
+const streamToString = stream => {
     return new Promise((resolve, reject) => {
         let string = '';
         stream.on('data', chunk => { string += chunk; });
@@ -66,7 +68,7 @@ test.describe('research data export', () => {
         const downloadString = await streamToString(downloadStream);
 
         let headerLineEnd = downloadString
-            .search('purchase_count_over_5500,\n');
+            .search('purchases_from_nutritional_importance_5,\n');
         expect(headerLineEnd).not.toBe(-1);
     });
 

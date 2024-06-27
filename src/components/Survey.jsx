@@ -16,7 +16,7 @@ const SurveyLink = ({ surveyUrl, textIdentifier } ) => {
     const {t} = useTranslation();
 
     const openLink = () => {
-        Linking.openURL(surveyUrl);
+        void Linking.openURL(surveyUrl);
     };
 
     return (

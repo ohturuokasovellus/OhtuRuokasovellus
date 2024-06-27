@@ -3,15 +3,13 @@ import { View, Platform, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
-import { getSession } from '../controllers/sessionController';
 import createStyles from '../styles/styles';
 import { Button } from './ui/Buttons';
 import apiUrl from '../utils/apiUrl';
 
 
-const ResearchData = () => {
+const ResearchData = ({ userSession }) => {
     const { t } = useTranslation();
-    const userSession = getSession();
     const styles = createStyles();
 
     const getResearchData = async () => {
@@ -23,7 +21,7 @@ const ResearchData = () => {
                 }
             });
             if (!response.data) return;
-            download(response.data);
+            void download(response.data);
         } catch (error) {
             console.log(error);
         }

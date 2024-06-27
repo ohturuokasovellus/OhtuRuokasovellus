@@ -20,7 +20,7 @@ import { DeletePopUp, ConfirmationPopUp } from './ui/PopUp';
  * @param {Object} user
  * @returns {JSX.Element} 
  */
-const AdminPanel = ({ user }) => {
+const AdminPanel = ({ userSession }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
@@ -28,9 +28,9 @@ const AdminPanel = ({ user }) => {
     const styles = createStyles();
     let headers;
     
-    if (user) {
+    if (userSession) {
         headers = {
-            Authorization: `Bearer ${user.token}`
+            Authorization: `Bearer ${userSession.token}`
         };
     } else {
         navigate('/');
@@ -53,7 +53,7 @@ const AdminPanel = ({ user }) => {
                 navigate('/');
             }
         };
-        verifyAdminStatus();
+        void verifyAdminStatus();
     }, []);
 
     return (
@@ -63,7 +63,7 @@ const AdminPanel = ({ user }) => {
                     <Text style={[styles.h2, { alignSelf: 'center' }]}>
                         {t('ADMIN_PANEL')}
                     </Text>
-                    <ResearchData />
+                    <ResearchData userSession={userSession}/>
                     <SurveyLinkEditContainer
                         headers={headers}
                         styles={styles}
@@ -106,7 +106,7 @@ const SurveyLinkEditContainer = ({ headers, styles }) => {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        fetchSurveyUrl(setUrlPlaceholder);
+        void fetchSurveyUrl(setUrlPlaceholder);
     }, []);
 
     const changeSurveyUrl = async () => {
@@ -116,7 +116,7 @@ const SurveyLinkEditContainer = ({ headers, styles }) => {
                 { newUrl },
                 { headers }
             );
-            fetchSurveyUrl(setUrlPlaceholder);
+            await fetchSurveyUrl(setUrlPlaceholder);
             setNewUrl('');
             setSuccess(t('SURVEY_LINK_UPDATED'));
         } catch (err) {
@@ -199,7 +199,7 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
     };
 
     useEffect(() => {
-        fetchRestaurants();
+        void fetchRestaurants();
     }, []);
 
 
@@ -317,7 +317,7 @@ const RestaurantEditContainer = ({
     };
 
     useEffect(() => {
-        fetchRestaurantUsers(selectedRestaurant[0]);
+        void fetchRestaurantUsers(selectedRestaurant[0]);
     }, []);
 
     const addUserToRestaurant = async () => {
@@ -327,7 +327,7 @@ const RestaurantEditContainer = ({
                 { userToAdd },
                 { headers }
             );
-            fetchRestaurantUsers(selectedRestaurant[0]);
+            await fetchRestaurantUsers(selectedRestaurant[0]);
             setUserToAdd('');
             setSuccess(t('USER_ADDED'));
         } catch (err) {

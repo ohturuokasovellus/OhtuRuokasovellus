@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Text, View, ScrollView, Linking } from 'react-native';
 
 import { Link, useNavigate } from '../Router';
-import { getSession } from '../controllers/sessionController';
+import { createSession } from '../controllers/sessionController';
 import apiUrl from '../utils/apiUrl';
 import { registrationValidationSchema } from '../utils/formValidationSchemas';
 
@@ -44,7 +44,7 @@ const validationSchema = registrationValidationSchema;
  * @returns {React.JSX.Element}
  */
 
-const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
+const RegisterForm = ({ onSubmit }) => {
     const {t} = useTranslation();
     const [formError, setFormError] = useState('');
     const [showRestaurantName, setShowRestaurantName] = useState(false);
@@ -57,12 +57,10 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
         onSubmit: async values => {
             try {
                 await onSubmit(values);
-                onSuccess();
             } catch (err) {
-                onError(err);
                 setFormError(err.message);
-                formik.setFieldValue('password', '');
-                formik.setFieldValue('confirmPassword', '');
+                void formik.setFieldValue('password', '');
+                void formik.setFieldValue('confirmPassword', '');
             }
         },
     });
@@ -80,7 +78,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
             }
         };
 
-        fetchWebpageURL();
+        void fetchWebpageURL();
     }, []);
 
     const styles = createStyles();
@@ -109,10 +107,10 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     ];
     
     const openTCLink = () => {
-        Linking.openURL(termsPDFURL);
+        void Linking.openURL(termsPDFURL);
     };
     const openPrivacyLink = () => {
-        Linking.openURL(privacyPDFURL);
+        void Linking.openURL(privacyPDFURL);
     };
 
     const renderCheckboxTitle = (isTerms) => {
@@ -146,7 +144,7 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     checked={formik.values.isRestaurant}
                     onPress={() => {
                         const newValue = !formik.values.isRestaurant;
-                        formik.setFieldValue('isRestaurant', newValue);
+                        void formik.setFieldValue('isRestaurant', newValue);
                         setShowRestaurantName(newValue);
                     }}
                     id='restaurant-checkbox'
@@ -309,10 +307,9 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
     );
 };
 
-const Register = () => {
+const Register = ({ userSession, updateUser }) => {
     const navigate = useNavigate();
     useEffect(() => {
-        const userSession = getSession();
         if (userSession) {
             navigate('/home');
         }
@@ -325,6 +322,7 @@ const Register = () => {
             income, isRestaurant, restaurantName
         } = values;
 
+        // create a new account
         try {
             await axios.post(
                 `${apiUrl}/register`,
@@ -340,16 +338,29 @@ const Register = () => {
                 'an unexpected error occurred';
             throw new Error(errorMessage);
         }
-    };
-    const onSuccess = () => {
-        navigate('/login');
-    };
-    const onError = err => {
-        console.error('Registration error:', err);
+
+        // log in to the freshly created account
+        try {
+            const response = await axios.post(
+                `${apiUrl}/login`,
+                { username, password }
+            );
+            const userData = {
+                username: response.data.username,
+                token: response.data.token,
+                restaurantId: response.data.restaurantId,
+            };
+            await createSession(userData);
+            updateUser(userData);
+            navigate('/home');
+        } catch (err) {
+            console.error(err);
+            // account was created but login failed -> redirect to /login
+            navigate('/login');
+        }
     };
 
-    return <RegisterForm onSubmit={onSubmit}
-        onSuccess={onSuccess} onError={onError} />;
+    return <RegisterForm onSubmit={onSubmit} />;
 };
 
 export default Register;

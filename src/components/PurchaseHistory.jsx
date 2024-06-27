@@ -4,7 +4,6 @@ import { Card } from './ui/Card';
 import createStyles from '../styles/styles';
 import apiUrl from '../utils/apiUrl';
 import axios from 'axios';
-import { getSession } from '../controllers/sessionController';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from '../Router';
 
@@ -40,10 +39,9 @@ const HistoryItem = ({ meal, images }) => {
     );
 };
 
-const PurchaseHistory = () => {
+const PurchaseHistory = ({ userSession }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const userSession = getSession();
     const styles = createStyles();
     const [history, setHistory] = useState([]);
     const [images, setImages] = useState({});
@@ -63,7 +61,7 @@ const PurchaseHistory = () => {
             return;
         }
         setHistory(meals);
-        loadImages(meals);
+        void loadImages(meals);
     };
 
     /**
@@ -91,7 +89,7 @@ const PurchaseHistory = () => {
             navigate('/login');
             return;
         }
-        loadHistory();
+        void loadHistory();
     }, []);
 
     return (

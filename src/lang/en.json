@@ -193,6 +193,7 @@
         "LICENSE_DISCLAIMER": "The application is licensed under the MIT license, and is thus open source. ",
         "VIEW_SOURCE": "You can view the source code ",
         "HERE": "here",
-        "ABOUT": "About"
+        "ABOUT": "About",
+        "LOADING": "Loading"
     }
 }
