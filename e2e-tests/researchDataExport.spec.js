@@ -68,7 +68,7 @@ test.describe('research data export', () => {
         const downloadString = await streamToString(downloadStream);
 
         let headerLineEnd = downloadString
-            .search('purchase_count_over_5500,\n');
+            .search('purchases_from_nutritional_importance_5,\n');
         expect(headerLineEnd).not.toBe(-1);
     });
 
