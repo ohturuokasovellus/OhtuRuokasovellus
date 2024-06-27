@@ -98,3 +98,6 @@ root/
 5. Rahti Openshift and Docker
    * Dev-env containerization with Docker is possible
    * Staging and production environments are in Rahti which uses Openshift container platform
+6. ESLint for code formatting
+
+## Running the application
