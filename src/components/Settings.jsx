@@ -13,7 +13,7 @@ import { deleteSession, getSession } from '../controllers/sessionController';
 
 import createStyles from '../styles/styles';
 import { Button, DeleteButton } from './ui/Buttons';
-import { PasswordInput } from './ui/InputFields';
+import { FlexInput } from './ui/InputFields';
 import { Slider } from './ui/Slider';
 
 const DataExport = ({ styles, token }) => {
@@ -107,23 +107,26 @@ const DataRemoval = ({ styles, token }) => {
             <Text style={styles.body}>
                 {t('DELETE_USER_DESCRIPTION')}
             </Text>
-            <PasswordInput
-                styles={styles}
-                placeholder={t('PASSWORD')}
-                value={formik.values.password}
-                onChangeText={formik.handleChange('password')}
-                onBlur={formik.handleBlur('password')}
-                id='account_removal_password'
-            />
-            {formik.touched.password && formik.errors.password &&
+            <View style={[styles.flexRowContainer, {alignItems: 'center'}]}>
+                <FlexInput
+                    styles={styles}
+                    placeholder={t('PASSWORD')}
+                    value={formik.values.password}
+                    secureTextEntry={true}
+                    onChangeText={formik.handleChange('password')}
+                    onBlur={formik.handleBlur('password')}
+                    id='account_removal_password'
+                />
+                {formik.touched.password && formik.errors.password &&
                 <Text style={styles.error}>{formik.errors.password}</Text>
-            }
-            {formError && <Text style={styles.error}>{formError}</Text>}
-            <DeleteButton
-                onPress={formik.handleSubmit}
-                text={t('DELETE')} styles={styles}
-                id='account_removal_button'
-            />
+                }
+                {formError && <Text style={styles.error}>{formError}</Text>}
+                <DeleteButton
+                    onPress={formik.handleSubmit}
+                    text={t('DELETE')} styles={styles}
+                    id='account_removal_button'
+                />
+            </View>
         </View>
     );
 };
