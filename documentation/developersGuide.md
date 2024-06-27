@@ -5,11 +5,11 @@ Welcome to our project! This guide is intended to help future developers underst
 
 ## Table of contents
 
-1. Setting Up the Development Environment
-2. Technology stack
-3. Code structure
-4. Security
-5. CI/CD pipeline
+1. [Setting Up the Development Environment](#setting-up-the-development-environment)
+2. [Technology Stack](#technology-stack)
+3. [Code Structure](#code-structure)
+4. [Security](#security)
+5. [CI/CD Pipeline](#cicd-pipeline)
 
 ## Setting up the development environment
 To set up the development environment, follow these steps:
