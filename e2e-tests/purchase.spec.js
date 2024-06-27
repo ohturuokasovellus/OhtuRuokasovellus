@@ -59,9 +59,9 @@ test.describe('purchase', () => {
             await page.goto('/purchase/testabc1');
             await expect(page.getByText('Meatballs')).toBeVisible();
             await page.click('#purchase_button');
+            await expect(page).toHaveURL(/\/home$/);
 
-            // go to home page and click meal history button
-            await page.goto('/home');
+            // click meal history button
             await page.click('#history-button');
             await expect(page).toHaveURL(/\/history$/);
 
