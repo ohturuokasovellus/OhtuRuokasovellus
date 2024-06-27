@@ -8,10 +8,8 @@ Welcome to our project! This guide is intended to help future developers underst
 1. Setting Up the Development Environment
 3. Code Structure
 4. Technology stack
-5. Running the Application
-6. Testing
-7. Our contribution techniques
-8. Useful Resources
+5. CI/CD pipeline
+6. Useful Resources
 
 ## Setting up the development environment
 To set up the development environment, follow these steps:
@@ -100,4 +98,9 @@ root/
    * Staging and production environments are in Rahti which uses Openshift container platform
 6. ESLint for code formatting
 
-## Running the application
+## CI/CD pipeline
+* `main` branch contains code that is according to our Definition of Done and is used in production environment
+* Every user story has it's own branch, and upon completing it and workflow runs being succesful Pull request to main is made
+* Other team member reviews and approves PR which can then be merged into `main`
+* Upon merging into `main` and succesful workflow run codebase is automatically pushed into staging-environment in Rahti, where possible database schema changes are manually updated
+* From staging codebase is manually pushed to production in Rahti and db schema changes are updated manually.
