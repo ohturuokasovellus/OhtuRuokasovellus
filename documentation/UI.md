@@ -8,7 +8,7 @@ Light/dark mode is supported. The theme toggle is currently the leftmost button 
 
 Theme colours are defined in `/src/styles/colors.js`.
 
-## Usage
+# Usage
 To apply global styles to a new screen/component, use the following structure:
 
     // import the stylesheet
