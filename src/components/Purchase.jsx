@@ -49,6 +49,7 @@ const Purchase = ({ userSession }) => {
                 }
             );
             alert(t('PURCHASE_CONFIRMED'));
+            navigate('/home');
         } catch (err) {
             console.error(err);
         }
