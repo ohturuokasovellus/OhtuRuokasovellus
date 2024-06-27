@@ -132,6 +132,9 @@ const createStyles = () => {
         qrContainer: {
             padding: 16,
         },
+        chartContainer: {
+            marginRight: 16,
+        },
         sortContainer: {
             flexDirection: 'row',
             justifyContent: 'center',
