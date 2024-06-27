@@ -40,8 +40,6 @@ const About = () => {
                     <Text style={styles.body}>
                         {t('NUTRISCORE_MAY_NOT_BE_CORRECT')}
                     </Text>
-                    {/* <ExternalLink surveyUrl={repositoryUrl} 
-                        textIdentifier={'LINK_TO_REPOSITORY'}/> */}
                     <SourceCodeLink />
                 </View>
                 {!userSession &&
