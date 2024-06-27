@@ -118,16 +118,16 @@ const DataRemoval = ({ styles, token, updateUser }) => {
                     onBlur={formik.handleBlur('password')}
                     id='account_removal_password'
                 />
-                {formik.touched.password && formik.errors.password &&
-                <Text style={styles.error}>{formik.errors.password}</Text>
-                }
-                {formError && <Text style={styles.error}>{formError}</Text>}
                 <DeleteButton
                     onPress={formik.handleSubmit}
                     text={t('DELETE')}
                     id='account_removal_button'
                 />
             </View>
+            {formik.touched.password && formik.errors.password &&
+                <Text style={styles.error}>{t(formik.errors.password)}</Text>
+                }
+                {formError && <Text style={styles.error}>{formError}</Text>}
         </View>
     );
 };
