@@ -66,21 +66,15 @@ test.describe('registration page', () => {
         await page.getByText('Monthly income').click();
         await page.getByText('<1500 €/kk').click();
         await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('Test123!');
+        await page.locator('#password-input').fill('Test123!');
         await page.locator('#confirm-password-input').click();
         await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#terms-checkbox').click();
         await page.locator('#privacy-checkbox').click();
         await page.locator('#register-button').click();
 
-        await expect(page).toHaveURL(/\/login$/);
-        await page.fill('input[id="username-input"]', 'best');
-        await page.fill('input[id="password-input"]', 'Test123!');
-        await page.locator('#login-button').click();
-        await expect(page).toHaveURL('/home');
-        await expect(page.locator('#restaurant-page-button'))
-            .not.toBeVisible();
+        await expect(page).toHaveURL(/\/home$/);
+        await expect(page.locator('#restaurant-page-button')).not.toBeVisible();
     });
 
     test('registers restaurant with correct details', async ({ page }) => {
@@ -100,8 +94,7 @@ test.describe('registration page', () => {
         await page.getByText('Monthly income').click();
         await page.getByText('<1500 €/kk').click();
         await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('Test123!');
+        await page.locator('#password-input').fill('Test123!');
         await page.locator('#confirm-password-input').click();
         await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#terms-checkbox').click();
@@ -114,20 +107,14 @@ test.describe('registration page', () => {
         await page.locator('#restaurant-name-input').fill('bestaurant');
         await expect(page.locator('#password-input')).toHaveValue('');
         await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('Test123!');
+        await page.locator('#password-input').fill('Test123!');
         await expect(page.locator('#confirm-password-input')).toHaveValue('');
         await page.locator('#confirm-password-input').click();
         await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#register-button').click();
 
-        await expect(page).toHaveURL(/\/login$/);
-        await page.fill('input[id="username-input"]', 'best');
-        await page.fill('input[id="password-input"]', 'Test123!');
-        await page.locator('#login-button').click();
-        await expect(page).toHaveURL('/home');
-        await expect(page.locator('#restaurant-page-button'))
-            .toBeVisible();
+        await expect(page).toHaveURL(/\/home$/);
+        await expect(page.locator('#restaurant-page-button')).toBeVisible();
     });
 
     test('cannot register without filling the form', async ({ page }) => {
@@ -244,22 +231,19 @@ test.describe('registration page', () => {
                 'Password must contain at least one lowercase letter'
             );
         await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('testtest');
+        await page.locator('#password-input').fill('testtest');
         await page.locator('#confirm-password-input').click();
         await expect(page.locator('#root'))
             .toContainText(
                 'Password must contain at least one uppercase letter'
             );
         await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('testTEST');
+        await page.locator('#password-input').fill('testTEST');
         await page.locator('#confirm-password-input').click();
         await expect(page.locator('#root'))
             .toContainText('Password must contain at least one number');
         await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('test123A');
+        await page.locator('#password-input').fill('test123A');
         await page.locator('#confirm-password-input').click();
         await expect(page.locator('#root'))
             .toContainText(
@@ -270,8 +254,7 @@ test.describe('registration page', () => {
 
         // passwords do not match
         await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('Test123!');
+        await page.locator('#password-input').fill('Test123!');
         await page.locator('#confirm-password-input').click();
         await page.locator('#confirm-password-input').fill('Test123');
         await page.locator('#username-input').click();
@@ -281,7 +264,7 @@ test.describe('registration page', () => {
         await expect(page).toHaveURL(/\/register$/);
 
         // t&c and privacy policy are not accepted
-        await page.locator('#restaurant-checkbox.click');
+        await page.locator('#restaurant-checkbox').click();
         await page.locator('#username-input').click();
         await page.locator('#username-input').fill('best');
         await page.locator('#email-input').click();
@@ -289,13 +272,11 @@ test.describe('registration page', () => {
         await page.locator('#birth-year-input').click();
         await page.locator('#birth-year-input').fill('2000');
         await page.locator('#password-input').click();
-        await page.locator('#password-input')
-            .fill('Test123!');
+        await page.locator('#password-input').fill('Test123!');
         await page.locator('#confirm-password-input').click();
         await page.locator('#confirm-password-input').fill('Test123!');
         await page.locator('#terms-checkbox').click();
         await page.locator('#privacy-checkbox').click();
-        await page.locator('#register-button').click();
         await page.locator('#register-button').click();
         await expect(page).toHaveURL(/\/register$/);
     });
@@ -319,8 +300,7 @@ test.describe('registration page', () => {
             await page.locator('#email-input').click();
             await page.locator('#email-input').fill('test@test.fi');
             await page.locator('#password-input').click();
-            await page.locator('#password-input')
-                .fill('Test123!');
+            await page.locator('#password-input').fill('Test123!');
             await page.locator('#confirm-password-input').click();
             await page.locator('#confirm-password-input').fill('Test123!');
             await page.locator('#register-button').click();
