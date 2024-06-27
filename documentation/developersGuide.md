@@ -6,10 +6,9 @@ Welcome to our project! This guide is intended to help future developers underst
 ## Table of contents
 
 1. Setting Up the Development Environment
-3. Code Structure
-4. Technology stack
-5. CI/CD pipeline
-6. Useful Resources
+2. Code Structure
+3. Technology stack
+4. CI/CD pipeline
 
 ## Setting up the development environment
 To set up the development environment, follow these steps:
@@ -43,6 +42,24 @@ Now development environemt is set and you can start contributing to the project.
 To start the application locally, run `npm start` and `npm run start:server` in different windows.
 
 NB: before running Playwright tests or if there's unexplained errors with them, generate new production build with `npm run build`.
+
+## Technology stack
+
+1. React Native with Expo
+   * Frontend is built with React Native library since application is used mostly in mobile environment
+   * Easy to make iOS or/and Android app in the future
+2. Node.js with Express
+   * Server-side is implemented with Node using Express library to manage application programming interface
+3. PostgreSQL
+   * Simple and efficient database that is sufficient for our project needs
+   * In dev-env and Github workflow we used free databases from ElephantSQL and Render
+4. Playwright and Jest
+   * Backend tests are implemented using Jest framework
+   * End-to-end tests are implemented with Playwright framework which in our experience is more developer-friendly than it's competitor Robot Framework
+5. Rahti Openshift and Docker
+   * Dev-env containerization with Docker is possible
+   * Staging and production environments are in Rahti which uses Openshift container platform
+6. ESLint for code formatting
 
 ## Code structure
 ```php
@@ -80,23 +97,15 @@ root/
 └── ...
 ```
 
-## Technology stack
+### Backend
+`backend/` folder contains project's backend files. Key things here:
+* `databaseUtils/` contains grouped modules for DB queries. Modules serves backend route files and file names are matched with them.
+* `routes/` contains grouped API routes that process calls from frontend. Usually as new functionality is added and it requires API route, new module in this folder is made.
+* `app.js` as new route is added make sure to add it in this file
 
-1. React Native with Expo
-   * Frontend is built with React Native library since application is used mostly in mobile environment
-   * Easy to make iOS or/and Android app in the future
-2. Node.js with Express
-   * Server-side is implemented with Node using Express library to manage application programming interface
-3. PostgreSQL
-   * Simple and efficient database that is sufficient for our project needs
-   * In dev-env and Github workflow we used free databases from ElephantSQL and Render
-4. Playwright and Jest
-   * Backend tests are implemented using Jest framework
-   * End-to-end tests are implemented with Playwright framework which in our experience is more developer-friendly than it's competitor Robot Framework
-5. Rahti Openshift and Docker
-   * Dev-env containerization with Docker is possible
-   * Staging and production environments are in Rahti which uses Openshift container platform
-6. ESLint for code formatting
+### Frontend
+`App.jsx` is a parent of all project's React components and it assings components to app routes.
+`src/` contains most of the frontend
 
 ## CI/CD pipeline
 * `main` branch contains code that is according to our Definition of Done and is used in production environment
