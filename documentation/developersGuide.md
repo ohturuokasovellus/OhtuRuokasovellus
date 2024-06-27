@@ -88,7 +88,7 @@ root/
    * Frontend is built with React Native library since application is used mostly in mobile environment
    * Easy to make iOS or/and Android app in the future
 2. Node.js with Express
-   * Backend is implemented with Node using Express library to manage application programming interface
+   * Server-side is implemented with Node using Express library to manage application programming interface
 3. PostgreSQL
    * Simple and efficient database that is sufficient for our project needs
    * In dev-env and Github workflow we used free databases from ElephantSQL and Render
