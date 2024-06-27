@@ -189,8 +189,10 @@
         "CONFIRM_SURVEY_LINK_UPDATE": "Confirm survey link update",
         "SURVEY_LINK_UPDATED": "Survey link updated.",
         "SURVEY_LINK_NOT_UPDATED": "Survely link not updated.",
-        "NUTRISCORE_MAY_NOT_BE_CORRECT": "The nutri-scores of meals might be incorrect",
-        "LINK_TO_REPOSITORY": "Link to the repository",
+        "NUTRISCORE_MAY_NOT_BE_CORRECT": "The Nutri-scores of meals might not be entirely correct, as the algorithm might have changed.",
+        "LICENSE_DISCLAIMER": "The application is licensed under the MIT license, and is thus open source. ",
+        "VIEW_SOURCE": "You can view the source code ",
+        "HERE": "here",
         "ABOUT": "About"
     }
 }

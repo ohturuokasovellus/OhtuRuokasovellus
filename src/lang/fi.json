@@ -189,8 +189,10 @@
         "CONFIRM_SURVEY_LINK_UPDATE": "Vahvista kyselylinkin päivitys",
         "SURVEY_LINK_UPDATED": "Päivitys onnistui.",
         "SURVEY_LINK_NOT_UPDATED": "Päivitys epäonnistui.",
-        "NUTRISCORE_MAY_NOT_BE_CORRECT": "Aterioiden nutri-scoret eivät ole välttämättä laskettu oikein.",
-        "LINK_TO_REPOSITORY": "Linkki repositorioon",
+        "NUTRISCORE_MAY_NOT_BE_CORRECT": "Aterioiden Nutri-Scoret eivät välttämättä ole täysin paikkaansa pitäviä, sillä laskenta-algoritmiin on saattanut tulla muutoksia.",
+        "LICENSE_DISCLAIMER": "Sovellus on lisensoitu MIT-lisenssillä, ja lähdekoodi on täten avoin. ",
+        "VIEW_SOURCE": "Voit tutustua lähdekoodiin ",
+        "HERE": "täällä",
         "ABOUT": "Tietoa"
     }
 }
