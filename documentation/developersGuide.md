@@ -19,7 +19,7 @@ To set up the development environment, follow these steps:
 1. Install dependencies with `npm install`
 2. Create a `.env` file in the root and add these environment variables:
 ```.env
-E2ETEST_POSTGRES_URL=YOUR_POSTGRES_URL_FOR_E2E_TESTS> # Ideally your personal DB to prevent concurrency problems with other developers
+E2ETEST_POSTGRES_URL=YOUR_POSTGRES_URL_FOR_E2E_TESTS # Ideally your personal DB to prevent concurrency problems with other developers
 BACKEND_POSTGRES_URL=YOUR_POSTGRES_URL_FOR_DEVELOPMENT # Same as above
 SECRET_KEY=YOUR_KEY # Can be any string, more complex the better
 DATABASE_ENCRYPTION_KEY=YOUR_ENCRYPTION_KEY # Same as above
@@ -61,7 +61,7 @@ root/
 │   ├── routes/        # Modules with API routes   
 │   ├── services/      # Service modules
 │   ├── app.js         # App configuration module
-│   ├── database.js    # Module for DB queries
+│   ├── database.js    # DB configuration file
 │   ├── index.js       # Backend index file
 │
 ├── documentation/     # Documentation files
@@ -80,4 +80,21 @@ root/
 ├── README.md          # Project documentation
 ├── schema.sql         # SQL schema for DB
 └── ...
-```   
+```
+
+## Technology stack
+
+1. React Native with Expo
+   * Frontend is built with React Native library since application is used mostly in mobile environment
+   * Easy to make iOS or/and Android app in the future
+2. Node.js with Express
+   * Backend is implemented with Node using Express library to manage application programming interface
+3. PostgreSQL
+   * Simple and efficient database that is sufficient for our project needs
+   * In dev-env and Github workflow we used free databases from ElephantSQL and Render
+4. Playwright and Jest
+   * Backend tests are implemented using Jest framework
+   * End-to-end tests are implemented with Playwright framework which in our experience is more developer-friendly than it's competitor Robot Framework
+5. Rahti Openshift and Docker
+  * Dev-env containerization with Docker is possible
+  * Staging and production environments are in Rahti which uses Openshift container platform
