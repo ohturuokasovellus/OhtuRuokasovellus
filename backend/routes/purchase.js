@@ -1,7 +1,6 @@
 const express = require('express');
-const { addPurchase } = require('../databaseUtils/purchase.js');
 const { getMealByPurchaseCode } = require('../databaseUtils/meal.js');
-const { getPurchases } = require('../databaseUtils/purchase.js');
+const { addPurchase, getPurchases } = require('../databaseUtils/purchase.js');
 const { verifyToken } = require('../services/authorization');
 
 const router = express.Router();

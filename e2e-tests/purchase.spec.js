@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { sql } from '../backend/database';
-import {  addMealImage } from '../backend/databaseUtils/meal';
+import { addMealImage } from '../backend/databaseUtils/meal';
 import { insertUser } from '../backend/databaseUtils/user';
 import { hash } from '../backend/services/hash';
 
