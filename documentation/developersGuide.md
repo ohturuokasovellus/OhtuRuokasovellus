@@ -6,9 +6,10 @@ Welcome to our project! This guide is intended to help future developers underst
 ## Table of contents
 
 1. Setting Up the Development Environment
-2. Code Structure
-3. Technology stack
-4. CI/CD pipeline
+2. Technology stack
+3. Code structure
+4. Security
+5. CI/CD pipeline
 
 ## Setting up the development environment
 To set up the development environment, follow these steps:
@@ -111,6 +112,14 @@ root/
 * `lang` contains `react-i18next` package configuration file and translation files
 * `styles` application styling is configurated here
 * `utils` contains utilities for React components
+
+## Security
+Application has a few layers of security:
+* *Database encryption*: sensitive data is encrypted in database. [See instructions](databaseEncryption.md)
+* *User session*: session is created after logging in
+* *Token authentication*: JWT token is passed to authenticate user actions
+* Authorization happens in backend where token is broken down and verified
+* *Admin*: admin-status is granted by making SQL query directly into the database. [See instructions](admin.md)
 
 ## CI/CD pipeline
 * `main` branch contains code that is according to our Definition of Done and is used in production environment
