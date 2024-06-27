@@ -1,6 +1,7 @@
 /* eslint-disable @stylistic/js/indent */
-import { sql, insertUser } from '../backend/database';
 import { test, expect } from '@playwright/test';
+import { sql } from '../backend/database';
+import { insertUser } from '../backend/databaseUtils/user';
 import { hash } from '../backend/services/hash';
 
 const initTestDB = async () => {

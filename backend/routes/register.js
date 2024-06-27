@@ -1,15 +1,12 @@
 const express = require('express');
 const {
     isValidUsername, isValidPassword, isValidEmail, isValidBirthYear
-} = require(
-    '../services/validators'
-);
+} = require('../services/validators');
 const { hash } = require('../services/hash');
-const {
-    insertUser, doesUsernameExist, doesEmailExist,
-    doesRestaurantExist, insertRestaurant,
-    updateUserRestaurantByEmail
-} = require('../database');
+const { doesEmailExist, doesUsernameExist, insertUser,
+    updateUserRestaurantByEmail } = require('../databaseUtils/user.js');
+const { doesRestaurantExist, 
+    insertRestaurant } = require('../databaseUtils/restaurant.js');
 
 const router = express.Router();
 
