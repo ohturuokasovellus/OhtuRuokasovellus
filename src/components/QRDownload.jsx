@@ -101,13 +101,15 @@ const QRDownload = () => {
                 {alignItems: 'center', justifyContent: 'center'}
             ]}>
                 <Text style={styles.body}>
-                    {t('QR_CODE_TO_YOUR_MENU')}
+                    {pageText}
                 </Text>
-                <View style={styles.qrContainer} ref={qrViewReference}
-                    id='menu-qr-code'>
+                <View
+                    style={styles.qrContainer}
+                    ref={qrViewReference}
+                    id={QRId}>
                     <QRCode size={500} style={{ height: 'auto',
                         maxWidth: '500px', width: '500px'}}
-                    value={menuQRCode}/>
+                    value={qrCode}/>
                 </View>
                 <Button
                     onPress={getQR}
