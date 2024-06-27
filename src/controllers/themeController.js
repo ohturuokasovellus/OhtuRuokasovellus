@@ -30,15 +30,13 @@ export const ThemeController = ({ children }) => {
     }, []);
 
     const toggleTheme = async () => {
-        await setTheme(async (prevTheme) => {
-            const newTheme = prevTheme === 'light' ? 'dark' : 'light';
-            try {
-                await AsyncStorage.setItem('appTheme', newTheme);
-            } catch (error) {
-                console.log(error);
-            }
-            return newTheme;
-        });
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+        try {
+            await AsyncStorage.setItem('appTheme', newTheme);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const colors = theme === 'light' ? lightTheme : darkTheme;
