@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ScrollView, Modal } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 
 import { useNavigate } from '../Router';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,8 @@ import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
 
 import createStyles from '../styles/styles';
-import { Button, CancelButton, DeleteButton } from './ui/Buttons';
+import { Button, DeleteButton } from './ui/Buttons';
+import { DeletePopUp } from './ui/PopUp';
 
 const MealDeletion = ({ userSession }) => {
     const {t} = useTranslation();
@@ -64,7 +65,7 @@ const MealDeletion = ({ userSession }) => {
 
     const MealListContainer = () => {
         return (
-            <ScrollView style={styles.mealListContainer}>
+            <ScrollView style={styles.scrollViewContainer}>
                 <Text style={styles.h3}>
                     {t('MANAGE_RESTAURANT_MEALS')}
                 </Text>
@@ -72,17 +73,16 @@ const MealDeletion = ({ userSession }) => {
                     meals.map((meal, index) => (
                         <View
                             key={meal.meal_id} 
-                            style={styles.mealContainer}
+                            style={styles.cardContainer}
                         >
-                            <View style={styles.mealContent}>
+                            <View style={styles.flexRowContainer}>
                                 <Text style={styles.body}>
                                     {meal.meal_name}
                                 </Text>
                                 <View 
-                                    style={styles.managementButtons}
+                                    style={styles.flexButtonContainer}
                                 >
                                     <Button
-                                        styles={styles}
                                         onPress={() => handleEditPress(
                                             meal.meal_id
                                         )}
@@ -90,7 +90,6 @@ const MealDeletion = ({ userSession }) => {
                                         id={`edit-button-${index}`}
                                     />
                                     <DeleteButton
-                                        styles={styles}
                                         onPress={() => {
                                             setMealToDelete(meal.meal_id);
                                             setShowModal(true);
@@ -99,7 +98,6 @@ const MealDeletion = ({ userSession }) => {
                                         id={deleteMealButtonId(index)}
                                     />
                                     <Button
-                                        styles={styles}
                                         onPress={() => {
                                             navigate('/meal-qr/'+
                                                 `${meal.purchase_code}`);}}
@@ -121,39 +119,14 @@ const MealDeletion = ({ userSession }) => {
         );
     };
 
-    const DeleteMealPopUp = () => {
-        return (
-            <Modal
-                visible={showModal}
-                transparent={true}
-                animationType="fade"
-                onRequestClose={() => setShowModal(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalText}>
-                            {t('CONFIRM_DELETE')}
-                        </Text>
-                        <View style={styles.modalButtonContainer}>
-                            <CancelButton styles={styles}
-                                onPress={() => setShowModal(false)}
-                                id="cancel-button"
-                            />
-                            <DeleteButton styles={styles}
-                                onPress={confirmMealDeletion}
-                                id="confirm-delete-button"
-                            />
-                        </View>
-                    </View>
-                </View>
-            </Modal>
-        );
-    };
-
     return (
         <View>
             <MealListContainer />
-            <DeleteMealPopUp/>
+            <DeletePopUp
+                showModal={showModal}
+                setShowModal={setShowModal}
+                onDelete={confirmMealDeletion}
+            />
         </View>
     );
 };

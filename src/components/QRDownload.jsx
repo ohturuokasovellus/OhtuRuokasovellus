@@ -96,19 +96,26 @@ const QRDownload = () => {
 
     return (
         <ScrollView style={styles.background}>
-            <View style={styles.container}>
-                <View style={styles.qrPage}>
-                    <Text>{pageText}</Text>
-                    <View style={styles.qrContainer} ref={qrViewReference} 
-                        id={QRId}>
-                        <QRCode size={500} style={{ height: 'auto', 
-                            maxWidth: '500px', width: '500px'}}
-                        value={qrCode}/>
-                    </View>
-                    <Button styles={styles} onPress={getQR} 
-                        text={t('DOWNLOAD')} id={downloadId}>
-                    </Button>
+            <View style={[
+                styles.container,
+                {alignItems: 'center', justifyContent: 'center'}
+            ]}>
+                <Text style={styles.body}>
+                    {pageText}
+                </Text>
+                <View
+                    style={styles.qrContainer}
+                    ref={qrViewReference}
+                    id={QRId}>
+                    <QRCode size={500} style={{ height: 'auto',
+                        maxWidth: '500px', width: '500px'}}
+                    value={qrCode}/>
                 </View>
+                <Button
+                    onPress={getQR}
+                    text={t('DOWNLOAD')}
+                    id={downloadId}
+                />
             </View>
         </ScrollView>
     );

@@ -74,7 +74,6 @@ const LoginForm = ({ updateUser, userSession }) => {
                             {t('LOGIN')}
                         </Text>
                         <Input
-                            styles={styles}
                             onChangeText={handleChange('username')}
                             onBlur={handleBlur('username')}
                             value={values.username}
@@ -87,7 +86,6 @@ const LoginForm = ({ updateUser, userSession }) => {
                             </Text>
                         )}
                         <PasswordInput
-                            styles={styles}
                             onChangeText={handleChange('password')}
                             onBlur={handleBlur('password')}
                             value={values.password}
@@ -103,7 +101,6 @@ const LoginForm = ({ updateUser, userSession }) => {
                             <Text style={styles.error}>{errorMessage}</Text>
                         ) : null}
                         <Button
-                            styles={styles}
                             onPress={handleSubmit}
                             text={t('LOGIN')}
                             id='login-button'

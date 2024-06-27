@@ -86,9 +86,8 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                 ) : (
                     <View>
                         {formik.values.emails.map((email, index) => (
-                            <View key={index} style={styles.flexInputContainer}>
+                            <View key={index} style={styles.flexRowContainer}>
                                 <FlexInput
-                                    styles={styles}
                                     placeholder={t('EMAIL')}
                                     value={email}
                                     onChangeText={text => {
@@ -102,7 +101,6 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                                 />
                                 {formik.values.emails.length > 1 && (
                                     <SmallButton
-                                        styles={styles}
                                         onPress={() => removeEmailInput(index)}
                                         text='–'
                                         id='remove-email-button'
@@ -113,7 +111,6 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                         {
                             formik.values.emails.length < 10 && (
                                 <SmallButton
-                                    styles={styles}
                                     onPress={addEmailInput}
                                     text='+'
                                     id='add-email-button'
@@ -121,13 +118,11 @@ const AddUserForm = ({ onSubmit, onSuccess, onError, results }) => {
                             )
                         }
                         <PasswordInput
-                            styles={styles}
                             placeholder={t('CONFIRM_WITH_PASSWORD')}
                             value={formik.values.password}
                             onChangeText={formik.handleChange('password')}
                         />
                         <Button
-                            styles={styles}
                             onPress={formik.handleSubmit}
                             text={t('ADD_USERS')}
                             id='add-users-button'

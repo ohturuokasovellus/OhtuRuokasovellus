@@ -268,7 +268,6 @@ const CreateMealForm = ({
                 ) : null}
                 
                 <Input
-                    styles={styles}
                     placeholder={t('NAME_OF_THE_MEAL')}
                     value={formik.values.mealName}
                     onChangeText={formik.handleChange('mealName')}
@@ -278,7 +277,6 @@ const CreateMealForm = ({
                 <Text style={styles.error}>{formik.errors.mealName}</Text>
                 }
                 <MultilineInput
-                    styles={styles}
                     placeholder={t('MEAL_DESCRIPTION')}
                     value={formik.values.mealDescription}
                     onChangeText={formik.handleChange('mealDescription')}
@@ -286,9 +284,8 @@ const CreateMealForm = ({
                     rows={5}
                 />
                 {formik.values.ingredients.map((ingredient, index) => (
-                    <View key={index} style={styles.flexInputContainer}>
+                    <View key={index} style={styles.flexRowContainer}>
                         <Dropdown
-                            styles={styles}
                             search={false}
                             placeholder={t('FOOD_GROUP')}
                             setSelected={val => 
@@ -301,7 +298,6 @@ const CreateMealForm = ({
                             save="value"
                         />
                         <Dropdown
-                            styles={styles}
                             search={false}
                             placeholder={t(
                                 isEditing ? ingredient.ingredient :'INGREDIENT'
@@ -327,7 +323,6 @@ const CreateMealForm = ({
                             id={`ingredient-dropdown-${index}`}
                         />
                         <Input
-                            styles={styles}
                             placeholder={t('INGREDIENT_WEIGHT')}
                             value={formik.values.ingredients[index].weight}
                             onChangeText={val => handleWeightChange(val, index)}
@@ -336,7 +331,6 @@ const CreateMealForm = ({
                         />
                         {formik.values.ingredients.length > 1 && (
                             <SmallButton
-                                styles={styles}
                                 onPress={() => removeIngredientInput(index)}
                                 text='–'
                                 id='remove-ingredient-button'
@@ -353,7 +347,6 @@ const CreateMealForm = ({
                 {
                     formik.values.ingredients.length < 20 && (
                         <SmallButton
-                            styles={styles}
                             onPress={() => addIngredientInput()}
                             text='+'
                             id='add-ingredient-button'
@@ -363,7 +356,6 @@ const CreateMealForm = ({
                 <Text style={styles.h2}>{t('COMMON_ALLERGENS')}</Text>
                 {allergens.map((allergen) => (
                     <Checkbox
-                        styles={styles}
                         key={allergen}
                         title={t(`ALLERGEN_GROUP.${allergen.toUpperCase()}`)}
                         checked={formik.values.allergens[allergen]}
@@ -372,7 +364,6 @@ const CreateMealForm = ({
                     />
                 ))}
                 <Input
-                    styles={styles}
                     placeholder={t('PRICE')}
                     value={formik.values.price}
                     onChangeText={value => handlePriceChange(value)}
@@ -405,7 +396,6 @@ const CreateMealForm = ({
                     <Text style={styles.error}>{formError}</Text>
                 ) : null}
                 <Button
-                    styles={styles}
                     onPress={() => openImagePicker()}
                     text={t('SELECT_A_IMAGE_FROM_DEVICE')}
                     id='image-picker-button'
@@ -414,7 +404,6 @@ const CreateMealForm = ({
                 <Text style={styles.error}>{formik.errors.imageUri}</Text>
                 }
                 <Button
-                    styles={styles}
                     onPress={formik.handleSubmit}
                     text={t(isEditing ? 'EDIT_MEAL' : 'CREATE_A_MEAL')}
                     id='create-meal-button'

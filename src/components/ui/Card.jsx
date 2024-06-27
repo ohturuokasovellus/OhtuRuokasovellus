@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import DoughnutChart from './DoughnutChart';
 import { NutriButton } from './Buttons';
-import NutritionalValues from './NutritionalValuesContainer';
+import NutritionalValues from './NutritionalValuesCard';
 import { Nutriscore } from './Nutriscore';
 import { formatPrice } from '../../utils/price';
+import { themeContext } from '../../controllers/themeController';
 
 /** Custom wrapper for cards with images
  * @param {object} styles styles passed from the global stylesheet
@@ -14,7 +15,8 @@ import { formatPrice } from '../../utils/price';
  * @param {string} title
  * @param {string} body
  */
-const Card = ({ styles, imgURI, title, body }) => {
+const Card = ({ imgURI, title, body }) => {
+    const styles = createStyles();
     return (
         <View style={styles.cardContainer}>
             <View style={styles.imageContainer}>
@@ -39,9 +41,10 @@ const Card = ({ styles, imgURI, title, body }) => {
  * @param {array} sliceColor colours of chart slices
  */
 const MealCard = (
-    { styles, meal, onPress, isSelected, sliceColor }
+    { meal, onPress, isSelected, sliceColor }
 )=> {
     const {t} = useTranslation();
+    const styles = createStyles();
     const [expanded, setExpanded] = useState(false);
 
     const formattedPrice = formatPrice(meal.price);
@@ -136,7 +139,6 @@ const MealCard = (
                             <InfoContainer />
                         </View>
                         <NutriButton
-                            styles={styles}
                             text={expanded ?
                                 t('HIDE_NUTR_INFO') :
                                 t('SHOW_NUTR_INFO')
@@ -149,11 +151,9 @@ const MealCard = (
                 {isSelected && expanded && (
                     <View>
                         <NutritionalValues
-                            styles={styles}
                             nutrition={nutrition}
                         />
                         <Nutriscore
-                            styles={styles}
                             nutrition={nutrition}
                         />
                     </View>
@@ -161,6 +161,117 @@ const MealCard = (
             </View>
         </View>
     );
+};
+
+const createStyles = () => {
+    const { colors } = useContext(themeContext);
+    return StyleSheet.create({
+        cardContainer: {
+            maxWidth: 700,
+            width: '100%',
+            padding: 16,
+            backgroundColor: colors.surfaceVariant,
+            borderRadius: 8,
+            marginVertical: 16,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            elevation: 3,
+            alignSelf: 'center',
+        },
+        imageContainer: {
+            backgroundColor: colors.surface,
+            position: 'absolute',
+            top: -16,
+            left: '5%',
+            width: '90%',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            elevation: 1,
+            borderRadius: 8,
+            overflow: 'hidden',
+            zIndex: 100, // this ensures the container can be used as pressable
+        },
+        image: {
+            width: '100%',
+            height: 200,
+            borderRadius: 8,
+        },
+        cardContent: {
+            paddingTop: 168,  // adjust this value based on the image height
+        },
+
+        cardTitle: {
+            fontSize: 24,
+            marginVertical: 8,
+            marginLeft: 8,
+            color: colors.onSurfaceVariant,
+            fontFamily: 'Roboto-Bold',
+        },
+
+        cardText: {
+            fontSize: 16,
+            color: colors.onSurfaceVariant,
+            fontFamily: 'Roboto-Regular',
+            marginBottom: 12,
+        },
+
+        cardTextBold: {
+            fontFamily: 'Roboto-Bold',
+            textTransform: 'uppercase',
+        },
+        co2Container: {
+            alignItems: 'left',
+            marginBottom: 8,
+            marginLeft: 8,
+        },
+        chartDescrContainer: {
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignItems: 'top',
+            justifyContent: 'space-evenly',
+            marginLeft: 8,
+            rowGap: 10,
+        },
+        mealDescrContainer: {
+            flex: 1,
+            marginLeft: 12,
+            marginRight: 8,
+            minWidth: 120,
+        },
+
+        // doughnut chart
+        chartContainer: {
+            alignItems: 'center',
+            flexDirection: 'column',
+            marginBottom: 6,
+            marginHorizontal: 20,
+        },
+        legendContainer: {
+            flexDirection: 'column',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            margin: 8,
+        },
+        legendItem: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            margin: 6,
+        },
+        legendColor: {
+            width: 16,
+            height: 16,
+            marginRight: 8,
+        },
+        legendText: {
+            fontSize: 12,
+            color: colors.onSurfaceVariant,
+            fontFamily: 'Roboto-Regular'
+        },
+    });
 };
 
 export { Card, MealCard };

@@ -144,38 +144,34 @@ const UserDashboard = ({ userSession }) => {
     return (
         <View style={styles.cardContainer} id='user-dashboard'>
             <Text style={styles.h3}>Dashboard</Text>
-            <View style={styles.chartDescrContainer}>
-                <View style={styles.mealDescrContainer} id='avg-co2'>
+            <View style={styles.flexRowContainer}>
+                <View style={styles.chartContainer} id='avg-co2'>
                     <BarChartCustom
                         title={`${t('AVG_CO2')}\n${t('G_PER_MEAL')}`}
                         data={co2Data}
-                        styles={styles}
                         withCustomBarColorFromData={true}
                     />
                 </View>
-                <View style={styles.mealDescrContainer} id='avg-carbs'>
+                <View style={styles.chartContainer} id='avg-carbs'>
                     <BarChartCustom
                         title={`${t('AVG_CARBS')}\n${t('G_PER_MEAL')}`}
                         data={carbsData}
-                        styles={styles}
                         withCustomBarColorFromData={true}
                     />
                 </View>
             </View>
-            <View style={styles.chartDescrContainer}>
-                <View style={styles.mealDescrContainer} id='avg-fat'>
+            <View style={styles.flexRowContainer}>
+                <View style={styles.chartContainer} id='avg-fat'>
                     <BarChartCustom
                         title={`${t('AVG_FAT')}\n${t('G_PER_MEAL')}`}
                         data={fatData}
-                        styles={styles}
                         withCustomBarColorFromData={true}
                     />
                 </View>
-                <View style={styles.mealDescrContainer} id='avg-protein'>
+                <View style={styles.chartContainer} id='avg-protein'>
                     <BarChartCustom
                         title={`${t('AVG_PROTEIN')}\n${t('G_PER_MEAL')}`}
                         data={proteinData}
-                        styles={styles}
                         withCustomBarColorFromData={true}
                     />
                 </View>
@@ -286,7 +282,6 @@ const RestaurantDashboard = ({ userSession }) => {
             <BarChartCustom
                 data={chartData}
                 title={t('CO2_TOTAL')}
-                styles={styles}
                 showValuesOnTopOfBars={true}
             />
         </View>

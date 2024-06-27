@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from '../Router';
-import { Text, View, ScrollView, Modal } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import { 
-    Button, DeleteButton, CancelButton, ButtonVariant
+    Button, DeleteButton, ButtonVariant
 } from './ui/Buttons';
 import { Input } from './ui/InputFields';
 import ResearchData from  './ResearchData';
@@ -13,6 +13,7 @@ import createStyles from '../styles/styles';
 
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
+import { DeletePopUp, ConfirmationPopUp } from './ui/PopUp';
 
 /**
  * Panel for admin users.
@@ -131,45 +132,40 @@ const SurveyLinkEditContainer = ({ headers, styles }) => {
 
     return (
         <View>
-            <View style={styles.mealContainer}>
-                <View style={{ padding: '10px'}}>
-                    <Text style={styles.h4}>
-                        {t('UPDATE_SURVEY_LINK')}
-                    </Text>
-                    <Input
-                        styles={styles}
-                        placeholder={urlPlaceholder}
-                        value={newUrl}
-                        onChangeText={setNewUrl}
-                        id="survey-link-input"
-                    />
-                    <ButtonVariant
-                        styles={styles}
-                        onPress={newUrl ? () => setShowModal(true)
-                            : null
-                        }
-                        text={t('EDIT')}
-                        id="update-survey-link-button"
-                    />
-                    {success ? (
-                        <View>
-                            <Text style={styles.success}>{success}</Text>
-                        </View>
-                    ): null}
-                    {error ? (
-                        <View>
-                            <Text style={styles.error}>{error}</Text>
-                        </View>
-                    ): null}
-                </View>
+            <Text style={styles.h4}>
+                {t('UPDATE_SURVEY_LINK')}
+            </Text>
+            <View style={[styles.cardContainer, {padding: 32}]}>
+                
+                <Input
+                    placeholder={urlPlaceholder}
+                    value={newUrl}
+                    onChangeText={setNewUrl}
+                    id="survey-link-input"
+                />
+                <ButtonVariant
+                    onPress={newUrl ? () => setShowModal(true)
+                        : null
+                    }
+                    text={t('EDIT')}
+                    id="update-survey-link-button"
+                />
+                {success ? (
+                    <View>
+                        <Text style={styles.success}>{success}</Text>
+                    </View>
+                ): null}
+                {error ? (
+                    <View>
+                        <Text style={styles.error}>{error}</Text>
+                    </View>
+                ): null}
             </View>
             <ConfirmationPopUp
-                styles={styles}
                 showModal={showModal}
                 setShowModal={setShowModal}
-                confirmMessage={t('CONFIRM_SURVEY_LINK_UPDATE')}
-                handleConfirmation={changeSurveyUrl}
-                isDelete={false}
+                message='CONFIRM_SURVEY_LINK_UPDATE'
+                onConfirm={changeSurveyUrl}
             />
         </View>
     );
@@ -236,7 +232,7 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
     };
 
     return (
-        <ScrollView style={styles.mealListContainer}>
+        <ScrollView style={styles.scrollViewContainer}>
             <Text style={styles.h3}>
                 {t('MANAGE_RESTAURANTS')}
             </Text>
@@ -244,17 +240,16 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
                 restaurants.map((restaurant, index) => (
                     <View
                         key={restaurant.restaurantId} 
-                        style={styles.mealContainer}
+                        style={styles.cardContainer}
                     >
-                        <View style={styles.mealContent}>
-                            <Text style={styles.body}>
+                        <View style={styles.flexRowContainer}>
+                            <Text style={styles.h6}>
                                 {restaurant.name}
                             </Text>
                             <View 
-                                style={styles.managementButtons}
+                                style={styles.flexButtonContainer}
                             >
                                 <Button
-                                    styles={styles}
                                     onPress={
                                         () => handleEditPress(restaurant)
                                     }
@@ -262,7 +257,6 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
                                     id={`edit-button-${index}`}
                                 />
                                 <DeleteButton
-                                    styles={styles}
                                     onPress={() => {
                                         setRestaurantToDelete([
                                             restaurant.restaurantId,
@@ -282,13 +276,10 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
                     {t('NO_RESTAURANTS')}
                 </Text>
             )}
-            <ConfirmationPopUp
-                styles={styles}
+            <DeletePopUp
                 showModal={showModal}
                 setShowModal={setShowModal}
-                confirmMessage={t('CONFIRM_DELETE')}
-                handleConfirmation={confirmRestaurantDeletion}
-                isDelete={true}
+                onDelete={confirmRestaurantDeletion}
             />
         </ScrollView>
     );
@@ -355,117 +346,57 @@ const RestaurantEditContainer = ({
             <Text style={styles.h3}>
                 {t('MANAGE_RESTAURANT')}{' '}{selectedRestaurant[1]}
             </Text>
-            <View style={styles.mealContainer}>
-                <View style={{ padding: '10px'}}>
-                    <Text style={styles.h5}>
-                        {t('USERS_OF_RESTAURANT')}{':'}
-                    </Text>
-                    {restaurantUsers.length > 0 ? (
-                        restaurantUsers.map((user, index) => (
-                            <View key={index} style={styles.mealContent}>
-                                <Text style={styles.body}>{user.username}</Text>
-                            </View>
-                        ))
-                    ) : (
-                        <Text style={styles.body}>{t('NO_USERS')}</Text>
-                    )}
-                    <View style={{ padding: '10px'}}>
-                        <Text style={styles.h4}>
-                            {t('ADD_USERS_BY_USERNAME')}
-                        </Text>
-                        <Input
-                            styles={styles}
-                            placeholder={t('USERNAME')}
-                            value={userToAdd}
-                            onChangeText={setUserToAdd}
-                            id="username-input"
-                        />
-                        <ButtonVariant
-                            styles={styles}
-                            onPress={userToAdd ? () => setShowModal(true)
-                                : null
-                            }
-                            text={t('ADD_USER')}
-                            id="attach-user-button"
-                        />
-                        {success ? (
-                            <View>
-                                <Text style={styles.success}>{success}</Text>
-                            </View>
-                        ): null}
-                        {error ? (
-                            <View>
-                                <Text style={styles.error}>{error}</Text>
-                            </View>
-                        ): null}
+            <View style={[styles.cardContainer, {paddingHorizontal: 32}]}>
+                <Text style={styles.h5}>
+                    {t('USERS_OF_RESTAURANT')}{':'}
+                </Text>
+                {restaurantUsers.length > 0 ? (
+                    restaurantUsers.map((user, index) => (
+                        <View key={index} style={styles.flexRowContainer}>
+                            <Text style={styles.body}>{user.username}</Text>
+                        </View>
+                    ))
+                ) : (
+                    <Text style={styles.body}>{t('NO_USERS')}</Text>
+                )}
+                <Text style={styles.h5}>
+                    {t('ADD_USERS_BY_USERNAME')}
+                </Text>
+                <Input
+                    placeholder={t('USERNAME')}
+                    value={userToAdd}
+                    onChangeText={setUserToAdd}
+                    id="username-input"
+                />
+                <ButtonVariant
+                    onPress={userToAdd ? () => setShowModal(true)
+                        : null
+                    }
+                    text={t('ADD_USER')}
+                    id="attach-user-button"
+                />
+                {success ? (
+                    <View>
+                        <Text style={styles.success}>{success}</Text>
                     </View>
-                </View>
+                ): null}
+                {error ? (
+                    <View>
+                        <Text style={styles.error}>{error}</Text>
+                    </View>
+                ): null}
             </View>
             <Button
-                styles={styles}
                 onPress={() => setSelectedRestaurant(null)}
                 text={t('GO_BACK')}
             />
             <ConfirmationPopUp
-                styles={styles}
                 showModal={showModal}
                 setShowModal={setShowModal}
-                confirmMessage={t('CONFIRM_USER_ADDITION')}
-                handleConfirmation={addUserToRestaurant}
-                isDelete={false}
+                message='CONFIRM_USER_ADDITION'
+                onConfirm={addUserToRestaurant}
             />
         </View>
-    );
-};
-
-/**
- * Confirmation pop up.
- * @param {Object} styles
- * @param {Boolean} showModal true if activated
- * @param {String} confirmMessage confirmation message
- * @param {Function} handleConfirmation
- * @param {Boolean} isDelete confirmation context
- * @returns {JSX.Element} 
- */
-const ConfirmationPopUp = (
-    { styles, showModal, setShowModal, confirmMessage, handleConfirmation,
-        isDelete }) => {
-    const {t} = useTranslation();
-
-    return (
-        <Modal
-            visible={showModal}
-            transparent={true}
-            animationType="fade"
-            onRequestClose={() => setShowModal(false)}
-        >
-            <View style={styles.modalContainer}>
-                <View style={styles.modalContent}>
-                    <Text style={styles.modalText}>
-                        {confirmMessage}
-                    </Text>
-                    <View style={styles.modalButtonContainer}>
-                        <CancelButton styles={styles}
-                            onPress={() => setShowModal(false)}
-                            id="cancel-button"
-                        />
-                        {isDelete ? (
-                            <DeleteButton styles={styles}
-                                onPress={handleConfirmation}
-                                id="confirm-delete-button"
-                            />
-                        ): (
-                            <Button
-                                styles={styles}
-                                onPress={handleConfirmation}
-                                text={t('CONFIRM')}
-                                id="confirm-button"
-                            />
-                        )}
-                    </View>
-                </View>
-            </View>
-        </Modal>
     );
 };
 

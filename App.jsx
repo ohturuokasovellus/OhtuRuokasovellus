@@ -5,7 +5,8 @@ import { useFonts } from 'expo-font';
 import Router, { Routes, Route } from './src/Router';
 import { getSession } from './src/controllers/sessionController';
 import { ThemeController } from './src/controllers/themeController';
-import NavigationBar from './src/components/NavigationBar';
+
+import NavigationBar from './src/components/ui/NavigationBar';
 import Home from './src/components/Home';
 import Register from './src/components/Register';
 import LoginForm from './src/components/Login';
@@ -18,9 +19,8 @@ import QRDownload from './src/components/QRDownload';
 import Settings from './src/components/Settings';
 import AdminPanel from '/src/components/AdminPanel';
 import About from '/src/components/About';
-import './src/lang/i18n'; // should be inported in index.js, but idk if
-//they mean the backend's index.js or frontend's app.jsx. Works when imported
-// here.
+
+import './src/lang/i18n';
 
 const App = () => {
     const [user, setUser] = useState(null);

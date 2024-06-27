@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 import { themeContext } from '../../controllers/themeController';
 
-const BarChartCustom = ({ title, data, styles, ...props }) => {
+const BarChartCustom = ({ title, data, ...props }) => {
     const { colors } = useContext(themeContext);
+    const styles = createStyles();
     const chartConfig = {
         backgroundGradientFrom: colors.background,
         backgroundGradientFromOpacity: 0,
@@ -23,12 +24,8 @@ const BarChartCustom = ({ title, data, styles, ...props }) => {
     };
 
     return (
-        <View style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            flex: 1
-        }}>
-            <Text style={[styles.h6, { textAlign: 'center' }]}>
+        <View style={styles.barChartContainer}>
+            <Text style={styles.barChartHeader}>
                 {title}
             </Text>
             <BarChart
@@ -44,6 +41,23 @@ const BarChartCustom = ({ title, data, styles, ...props }) => {
             />
         </View>
     );
+};
+
+const createStyles = () => {
+    const { colors } = useContext(themeContext);
+    return StyleSheet.create({
+        barChartContainer: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            flex: 1,
+        },
+        barChartHeader: {
+            fontSize: 18,
+            color: colors.onSurface,
+            fontFamily: 'Roboto-Bold',
+            textAlign: 'center',
+        },
+    });
 };
 
 export { BarChartCustom };

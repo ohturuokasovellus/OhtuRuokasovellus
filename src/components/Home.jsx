@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from '../Router';
 import { Text, View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import ExternalLink, { fetchSurveyUrl } from './Survey';
+import { SurveyLink, fetchSurveyUrl } from './Survey';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
 import createStyles from '../styles/styles';
@@ -59,7 +59,6 @@ const Home = ({ userSession }) => {
                 </Text>
                 {isAdmin ? (
                     <ButtonVariant
-                        styles={styles}
                         onPress={() => navigate('/admin-panel')}
                         text={t('ADMIN_PANEL')}
                         id='admin-panel-button'
@@ -68,17 +67,16 @@ const Home = ({ userSession }) => {
                 ) : null}
                 <UserDashboard userSession={userSession}/>
                 <Button
-                    styles={styles}
                     onPress={() => navigate('/history')}
                     text={t('MEAL_HISTORY')}
                     id='history-button'
                 />
                 {surveyUrl && (
-                    <ExternalLink surveyUrl={surveyUrl} 
+                    <SurveyLink
+                        surveyUrl={surveyUrl}
                         textIdentifier={'SURVEY'}/>
                 )}
                 <Button
-                    styles={styles}
                     onPress={() => navigate('/settings')}
                     text={t('SETTINGS')}
                     id='settings-button'
@@ -89,13 +87,11 @@ const Home = ({ userSession }) => {
                             {t('YOU_ARE_LOGGED_AS_RESTAURANT_USER')}.
                         </Text>
                         <ButtonVariant
-                            styles={styles}
                             onPress={() => navigate('/add-users')}
                             text={t('ADD_USER')}
                             id='add-users-button'
                         />
                         <ButtonVariant
-                            styles={styles}
                             onPress={
                                 () => navigate(
                                     `/restaurant/${userSession.restaurantId}`
@@ -104,7 +100,6 @@ const Home = ({ userSession }) => {
                             id='restaurant-page-button'
                         />
                         <ButtonVariant
-                            styles={styles}
                             onPress={
                                 () => navigate(
                                     `/menu-qr/${userSession.restaurantId}`

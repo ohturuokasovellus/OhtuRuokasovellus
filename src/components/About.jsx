@@ -1,14 +1,33 @@
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView, Linking } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Link } from '../Router';
-import ExternalLink from './Survey';
 import createStyles from '../styles/styles';
 
 const About = (props) => {
     const {t} = useTranslation();
     const styles = createStyles();
-    const repositoryUrl = 'https://github.com/'
+
+    const SourceCodeLink = () => {
+        const repositoryURL = 'https://github.com/'
         + 'ohturuokasovellus/OhtuRuokasovellus/';
+        const openLink = () => {
+            void Linking.openURL(repositoryURL);
+        };
+
+        return (
+            <Text style={styles.body}>
+                {t('LICENSE_DISCLAIMER') + t('VIEW_SOURCE')}
+                <Text
+                    style={styles.link}
+                    onPress={openLink}
+                    id='source-code-link'
+                >
+                    {t('HERE')}
+                </Text>
+                <Text>.</Text>
+            </Text>
+        );
+    };
 
     return (
         <ScrollView style={styles.background}>
@@ -19,8 +38,7 @@ const About = (props) => {
                     <Text style={styles.body}>
                         {t('NUTRISCORE_MAY_NOT_BE_CORRECT')}
                     </Text>
-                    <ExternalLink surveyUrl={repositoryUrl} 
-                        textIdentifier={'LINK_TO_REPOSITORY'}/>
+                    <SourceCodeLink />
                 </View>
                 {!props.userSession &&
                     <Text style={styles.body}>

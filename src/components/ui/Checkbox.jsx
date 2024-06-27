@@ -1,13 +1,13 @@
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useContext } from 'react';
 import { CheckBox } from '@rneui/themed';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { themeContext } from '../../controllers/themeController';
 
 /** Styled wrapper for checkboxes. */
-const Checkbox = ({ styles, ...props}) => {
-    const { colors } = useContext(themeContext);
-    const color = colors.outline;
+const Checkbox = ({ ...props}) => {
+    const styles = createStyles();
+    const color = styles.outline.color;
 
     return (
         <CheckBox
@@ -30,9 +30,9 @@ const Checkbox = ({ styles, ...props}) => {
 /** Checkbox variant without surrounding container. 
  * Only the box itself is pressable, not the title.
 */
-const CheckboxVariant = ({ styles, title, ...props}) => {
-    const { colors } = useContext(themeContext);
-    const color = colors.outline;
+const CheckboxVariant = ({ title, ...props}) => {
+    const styles = createStyles();
+    const color = styles.outline.color;
 
     return (
         <View style={styles.checkboxWrapper}>
@@ -50,9 +50,47 @@ const CheckboxVariant = ({ styles, title, ...props}) => {
                 }
                 {...props}
             />
-            <Text style={styles.body}>{title}</Text>
+            <Text style={styles.checkboxVariantText}>{title}</Text>
         </View>
     );
+};
+
+const createStyles = () => {
+    const { colors } = useContext(themeContext);
+    return StyleSheet.create({
+        checkboxContainer: {
+            backgroundColor: colors.surfaceVariant,
+            borderColor: colors.outlineVariant,
+            borderRadius: 8,
+            borderwidth: 1,
+            padding: 8,
+            marginVertical: 8,
+        },
+        checkboxContainerVariant: {
+            backgroundColor: 'transparent',
+            borderWidth: 0,
+            padding: 0,
+            margin: 0,
+        },
+        checkboxWrapper: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginVertical: 8,
+        },
+        checkboxText: {
+            color: colors.outline,
+            fontFamily: 'Roboto-Regular',
+        },
+        checkboxVariantText: {
+            fontSize: 16,
+            color: colors.onSurface,
+            fontFamily: 'Roboto-Regular',
+            marginVertical: 8,
+        },
+        outline: {
+            color: colors.outline
+        }
+    });
 };
 
 export { Checkbox, CheckboxVariant };

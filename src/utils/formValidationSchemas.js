@@ -83,6 +83,11 @@ const loginValidationSchema = yup.object().shape({
         .required('PASSWORD_IS_REQUIRED'),
 });
 
+/** Validation for required password */
+const passwordValidationSchema = yup.object().shape({
+    password: yup.string().required('PASSWORD_IS_REQUIRED'),
+});
+
 /** Validation schema for meal creation form */
 const mealValidationSchema = yup.object().shape({
     mealName: yup.string()
@@ -108,5 +113,6 @@ const mealValidationSchema = yup.object().shape({
 export {
     registrationValidationSchema,
     loginValidationSchema,
-    mealValidationSchema
+    mealValidationSchema,
+    passwordValidationSchema
 };
