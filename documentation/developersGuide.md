@@ -22,6 +22,7 @@ BACKEND_POSTGRES_URL=YOUR_POSTGRES_URL_FOR_DEVELOPMENT # Same as above
 SECRET_KEY=YOUR_KEY # Can be any string, more complex the better
 DATABASE_ENCRYPTION_KEY=YOUR_ENCRYPTION_KEY # Same as above
 # NOTE: If your team is using the same postgres DB you need to have common database encryption key
+# NOTE2: Needed for assigning admin status to users
 WEBPAGE_URL=YOUR_WEBPAGE_URL
 # This variable is needed to generate correct URLs for QR-codes
 # In development-environment you can use http://localhost:19006
