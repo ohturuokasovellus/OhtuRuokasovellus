@@ -96,5 +96,5 @@ root/
    * Backend tests are implemented using Jest framework
    * End-to-end tests are implemented with Playwright framework which in our experience is more developer-friendly than it's competitor Robot Framework
 5. Rahti Openshift and Docker
-  * Dev-env containerization with Docker is possible
-  * Staging and production environments are in Rahti which uses Openshift container platform
+   * Dev-env containerization with Docker is possible
+   * Staging and production environments are in Rahti which uses Openshift container platform
