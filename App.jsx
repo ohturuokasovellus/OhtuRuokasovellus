@@ -14,8 +14,7 @@ import MealList from './src/components/MealList';
 import CreateMeal from './src/components/CreateMeal';
 import Purchase from './src/components/Purchase';
 import PurchaseHistory from './src/components/PurchaseHistory';
-import MenuQR from './src/components/MenuQR';
-import MealQR from './src/components/MealQR';
+import QRDownload from './src/components/QRDownload';
 import Settings from './src/components/Settings';
 import AdminPanel from '/src/components/AdminPanel';
 import About from '/src/components/About';
@@ -84,9 +83,9 @@ const App = () => {
                     <Route path='/history' element={<PurchaseHistory 
                         userSession={user} />} />
                     <Route path='/menu-qr/:restaurantId'
-                        element={<MenuQR />}/>
+                        element={<QRDownload />}/>
                     <Route path='/meal-qr/:mealPurchaseCode'
-                        element={<MealQR />}/>
+                        element={<QRDownload />}/>
                     <Route path='/settings' element={<Settings 
                         userSession={user} updateUser={updateUser}/>} />
                     <Route path='/admin-panel' element={<AdminPanel 
