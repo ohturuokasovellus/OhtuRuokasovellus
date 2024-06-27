@@ -7,7 +7,7 @@ const createStyles = () => {
     const { colors } = useContext(themeContext);
 
     return StyleSheet.create({
-    // general
+        // general
         background: {
             paddingTop: 60,
             flex: 1,
