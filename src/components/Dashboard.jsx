@@ -147,8 +147,8 @@ const UserDashboard = () => {
     return (
         <View style={styles.cardContainer} id='user-dashboard'>
             <Text style={styles.h3}>Dashboard</Text>
-            <View style={styles.chartDescrContainer}>
-                <View style={styles.mealDescrContainer} id='avg-co2'>
+            <View style={styles.flexRowContainer}>
+                <View style={styles.barChartContainer} id='avg-co2'>
                     <BarChartCustom
                         title={`${t('AVG_CO2')}\n${t('G_PER_MEAL')}`}
                         data={co2Data}
@@ -156,7 +156,7 @@ const UserDashboard = () => {
                         withCustomBarColorFromData={true}
                     />
                 </View>
-                <View style={styles.mealDescrContainer} id='avg-carbs'>
+                <View style={styles.barChartContainer} id='avg-carbs'>
                     <BarChartCustom
                         title={`${t('AVG_CARBS')}\n${t('G_PER_MEAL')}`}
                         data={carbsData}
@@ -165,8 +165,8 @@ const UserDashboard = () => {
                     />
                 </View>
             </View>
-            <View style={styles.chartDescrContainer}>
-                <View style={styles.mealDescrContainer} id='avg-fat'>
+            <View style={styles.flexRowContainer}>
+                <View style={styles.barChartContainer} id='avg-fat'>
                     <BarChartCustom
                         title={`${t('AVG_FAT')}\n${t('G_PER_MEAL')}`}
                         data={fatData}
@@ -174,7 +174,7 @@ const UserDashboard = () => {
                         withCustomBarColorFromData={true}
                     />
                 </View>
-                <View style={styles.mealDescrContainer} id='avg-protein'>
+                <View style={styles.barChartContainer} id='avg-protein'>
                     <BarChartCustom
                         title={`${t('AVG_PROTEIN')}\n${t('G_PER_MEAL')}`}
                         data={proteinData}

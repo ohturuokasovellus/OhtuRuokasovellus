@@ -15,7 +15,7 @@ const About = () => {
     return (
         <ScrollView style={styles.background}>
             <View style={[styles.container, { alignItems: 'center' }]}>
-                <Text style={styles.h1}>{t('HOME')}</Text>
+                <Text style={styles.h1}>{t('ABOUT')}</Text>
                 <View style={styles.cardContainer}>
                     <Text style={styles.body}>{t('APP_DESCRIPTION')}</Text>
                     <Text style={styles.body}>

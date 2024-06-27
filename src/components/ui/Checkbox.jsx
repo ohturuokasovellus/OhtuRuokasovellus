@@ -50,7 +50,7 @@ const CheckboxVariant = ({ title, ...props}) => {
                 }
                 {...props}
             />
-            <Text style={styles.body}>{title}</Text>
+            <Text style={styles.checkboxVariantText}>{title}</Text>
         </View>
     );
 };
@@ -64,7 +64,7 @@ const createStyles = () => {
             borderRadius: 8,
             borderwidth: 1,
             padding: 8,
-            marginBottom: 12,
+            marginVertical: 8,
         },
         checkboxContainerVariant: {
             backgroundColor: 'transparent',
@@ -75,11 +75,17 @@ const createStyles = () => {
         checkboxWrapper: {
             flexDirection: 'row',
             alignItems: 'center',
-            marginBottom: 8,
+            marginVertical: 8,
         },
         checkboxText: {
             color: colors.outline,
             fontFamily: 'Roboto-Regular',
+        },
+        checkboxVariantText: {
+            fontSize: 16,
+            color: colors.onSurface,
+            fontFamily: 'Roboto-Regular',
+            marginVertical: 8,
         },
         outline: {
             color: colors.outline

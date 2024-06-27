@@ -182,8 +182,7 @@ const createStyles = () => {
             backgroundColor: colors.tertiary,
             padding: 8,
             borderRadius: 100,
-            marginBottom: 6,
-            marginHorizontal: 6,
+            margin: 6,
             alignItems: 'center',
         },
         iconButtonText: {
@@ -196,8 +195,7 @@ const createStyles = () => {
             padding: 12,
             borderRadius: 8,
             alignItems: 'center',
-            marginBottom: 12,
-            marginHorizontal: 8,
+            margin: 8,
         },
         nutriButtonText: {
             fontSize: 18,

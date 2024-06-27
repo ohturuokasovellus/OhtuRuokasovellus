@@ -49,7 +49,7 @@ const createStyles = () => {
             borderColor: colors.outlineVariant,
             borderWidth: 1,
             borderRadius: 8,
-            marginBottom: 12,
+            marginVertical: 6,
             paddingLeft: 8,
             color: colors.outline,
             backgroundColor: colors.surfaceVariant,
@@ -63,7 +63,7 @@ const createStyles = () => {
             borderRadius: 8,
             backgroundColor: 'rgba(255,255,255,0.05)',
             marginBottom: 12,
-            marginTop: -6,
+            marginTop: -2,
         },
         dropdownItemStyles: {
             color: colors.outline,
@@ -75,8 +75,7 @@ const createStyles = () => {
         picker: {
             height: 40,
             width: 150,
-            marginRight: 10,
-            marginBottom: 8,
+            margin: 8,
             borderRadius: 8,
             borderColor: colors.outlineVariant,
             borderWidth: 1,
