@@ -126,8 +126,8 @@ const DataRemoval = ({ styles, token, updateUser }) => {
             </View>
             {formik.touched.password && formik.errors.password &&
                 <Text style={styles.error}>{t(formik.errors.password)}</Text>
-                }
-                {formError && <Text style={styles.error}>{formError}</Text>}
+            }
+            {formError && <Text style={styles.error}>{formError}</Text>}
         </View>
     );
 };
