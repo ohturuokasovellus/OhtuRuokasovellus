@@ -105,7 +105,12 @@ root/
 
 ### Frontend
 `App.jsx` is a parent of all project's React components and it assings components to app routes.
-`src/` contains most of the frontend
+`src/` contains most of the frontend code:
+* `components/` contains modules with React components
+* `controllers/` contains controller services
+* `lang` contains `react-i18next` package configuration file and translation files
+* `styles` application styling is configurated here
+* `utils` contains utilities for React components
 
 ## CI/CD pipeline
 * `main` branch contains code that is according to our Definition of Done and is used in production environment
