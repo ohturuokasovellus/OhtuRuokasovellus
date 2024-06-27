@@ -10,7 +10,7 @@ import QRCode from 'react-qr-code';
 import createStyles from '../styles/styles';
 import { getPageURL } from '../utils/getPageUrl';
 
-const MealQR = () => {
+const QRDownload = () => {
     const {t} = useTranslation();
     const { mealPurchaseCode } = useParams();
     const { restaurantId } = useParams();
@@ -114,4 +114,4 @@ const MealQR = () => {
     );
 };
 
-export default MealQR;
+export default QRDownload;
