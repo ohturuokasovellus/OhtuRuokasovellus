@@ -93,7 +93,7 @@ const MealQR = () => {
                 <Button styles={styles} onPress={getMealQR} 
                     text={t('DOWNLOAD')} id='download-meal-qr-code'>
                 </Button>
-                </View>
+            </View>
 
         </ScrollView>
     );

@@ -60,7 +60,7 @@ const LanguageSwitch = () => {
     const toggleLang = async () => {
         const newLanguage = isEnglish ? 'fin' : 'eng';
         setIsEnglish(!isEnglish);
-        i18n.changeLanguage(newLanguage);
+        void i18n.changeLanguage(newLanguage);
         // eslint-disable-next-line no-undef
         void i18n.changeLanguage(newLanguage);
         try {
