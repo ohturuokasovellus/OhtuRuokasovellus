@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 import apiUrl from '../utils/apiUrl';
 
-import createStyles from '../styles/styles';
 import { Button } from './ui/Buttons';
 
 /**
@@ -13,18 +12,15 @@ import { Button } from './ui/Buttons';
  * @param {string} textIdentifier - identifier used in translations;
  * @returns {React.JSX.Element}
  */
-const ExternalLink = ({ surveyUrl, textIdentifier } ) => {
+const SurveyLink = ({ surveyUrl, textIdentifier } ) => {
     const {t} = useTranslation();
 
     const openLink = () => {
         Linking.openURL(surveyUrl);
     };
 
-    const styles = createStyles();
-
     return (
         <Button
-            styles={styles}
             onPress={ openLink }
             text={t(textIdentifier)}
             id='survey-link'
@@ -36,7 +32,7 @@ const ExternalLink = ({ surveyUrl, textIdentifier } ) => {
  * Fetches a survely link from the backend
  * @param {Function} setsSurveyUrl - sets survey url;
  */
-export const fetchSurveyUrl = async (setSurveyUrl) => {
+const fetchSurveyUrl = async (setSurveyUrl) => {
     try {
         const res = await axios.get(
             `${apiUrl}/url/survey`
@@ -47,4 +43,4 @@ export const fetchSurveyUrl = async (setSurveyUrl) => {
     }
 };
 
-export default ExternalLink;
+export { SurveyLink, fetchSurveyUrl };

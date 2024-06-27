@@ -61,8 +61,9 @@ const DataExport = ({ styles, token }) => {
             <Text style={styles.h3}>{t('EXPORT_USER_DATA')}</Text>
             <Text style={styles.body}>{t('EXPORT_USER_DATA_DESCRIPTION')}</Text>
             <Button
-                styles={styles} onPress={getUserData}
-                text={t('DOWNLOAD')} id='export-user-data'
+                onPress={getUserData}
+                text={t('DOWNLOAD')}
+                id='export-user-data'
             />
         </View>
     );
@@ -109,7 +110,6 @@ const DataRemoval = ({ styles, token }) => {
             </Text>
             <View style={[styles.flexRowContainer, {alignItems: 'center'}]}>
                 <FlexInput
-                    styles={styles}
                     placeholder={t('PASSWORD')}
                     value={formik.values.password}
                     secureTextEntry={true}
@@ -123,7 +123,7 @@ const DataRemoval = ({ styles, token }) => {
                 {formError && <Text style={styles.error}>{formError}</Text>}
                 <DeleteButton
                     onPress={formik.handleSubmit}
-                    text={t('DELETE')} styles={styles}
+                    text={t('DELETE')}
                     id='account_removal_button'
                 />
             </View>

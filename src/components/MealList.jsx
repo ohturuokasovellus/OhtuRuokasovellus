@@ -148,7 +148,6 @@ const MealList = () => {
                     keyExtractor={(item) => item.meal_id.toString()}
                     renderItem={({ item }) => (
                         <MealCard
-                            styles={styles}
                             meal={item}
                             onPress={() => handlePress(item)}
                             isSelected={selectedMeals.includes(item)}

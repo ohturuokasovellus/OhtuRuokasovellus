@@ -132,7 +132,7 @@ const NavigationBar = ({ updateUser }) => {
                         id='navigation-logout'
                     />
             }
-            <LanguageSwitch styles={styles}/>
+            <LanguageSwitch />
         </View>
     );
 };

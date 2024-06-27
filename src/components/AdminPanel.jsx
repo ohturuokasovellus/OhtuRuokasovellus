@@ -138,14 +138,12 @@ const SurveyLinkEditContainer = ({ headers, styles }) => {
             <View style={[styles.cardContainer, {padding: 32}]}>
                 
                 <Input
-                    styles={styles}
                     placeholder={urlPlaceholder}
                     value={newUrl}
                     onChangeText={setNewUrl}
                     id="survey-link-input"
                 />
                 <ButtonVariant
-                    styles={styles}
                     onPress={newUrl ? () => setShowModal(true)
                         : null
                     }
@@ -252,7 +250,6 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
                                 style={styles.flexButtonContainer}
                             >
                                 <Button
-                                    styles={styles}
                                     onPress={
                                         () => handleEditPress(restaurant)
                                     }
@@ -260,7 +257,6 @@ const RestaurantListContainer = ({ headers, styles, setSelectedRestaurant
                                     id={`edit-button-${index}`}
                                 />
                                 <DeleteButton
-                                    styles={styles}
                                     onPress={() => {
                                         setRestaurantToDelete([
                                             restaurant.restaurantId,
@@ -391,7 +387,6 @@ const RestaurantEditContainer = ({
                 ): null}
             </View>
             <Button
-                styles={styles}
                 onPress={() => setSelectedRestaurant(null)}
                 text={t('GO_BACK')}
             />

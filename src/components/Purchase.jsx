@@ -83,11 +83,15 @@ const Purchase = () => {
     return (
         <ScrollView style={styles.background}>
             <View style={styles.container}>
-                <Card styles={styles} imgURI={image} title={meal.name}
+                <Card
+                    imgURI={image}
+                    title={meal.name}
                     body={meal.description}
                 />
-                <Button styles={styles} onPress={purchase}
-                    text={t('BUY')} id='purchase_button'
+                <Button
+                    onPress={purchase}
+                    text={t('BUY')}
+                    id='purchase_button'
                 />
             </View>
         </ScrollView>

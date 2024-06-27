@@ -55,8 +55,9 @@ const ResearchData = () => {
                 {t('DOWNLOAD_RESEARCH_DATA')}
             </Text>
             <Button 
-                styles={styles} onPress={getResearchData}
-                text={t('DOWNLOAD')} id='download-research-data-button'
+                onPress={getResearchData}
+                text={t('DOWNLOAD')}
+                id='download-research-data-button'
             />
         </View>
     );

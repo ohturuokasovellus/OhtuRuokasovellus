@@ -85,7 +85,6 @@ const MealDeletion = () => {
                                     style={styles.flexButtonContainer}
                                 >
                                     <Button
-                                        styles={styles}
                                         onPress={() => handleEditPress(
                                             meal.meal_id
                                         )}
@@ -93,7 +92,6 @@ const MealDeletion = () => {
                                         id={`edit-button-${index}`}
                                     />
                                     <DeleteButton
-                                        styles={styles}
                                         onPress={() => {
                                             setMealToDelete(meal.meal_id);
                                             setShowModal(true);
@@ -102,7 +100,6 @@ const MealDeletion = () => {
                                         id={deleteMealButtonId(index)}
                                     />
                                     <Button
-                                        styles={styles}
                                         onPress={() => {
                                             navigate('/meal-qr/'+
                                                 `${meal.purchase_code}`);}}

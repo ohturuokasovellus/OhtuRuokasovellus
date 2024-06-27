@@ -3,7 +3,6 @@ import { useNavigate } from '../Router';
 import { Text, View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import ExternalLink, { fetchSurveyUrl } from './Survey';
-import { getSession } from '../controllers/sessionController';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
 import createStyles from '../styles/styles';
@@ -11,18 +10,12 @@ import { Button, ButtonVariant } from './ui/Buttons';
 import MealDeletion from './MealDeletion';
 import { UserDashboard, RestaurantDashboard } from './Dashboard';
 
-const Home = () => {
+const Home = ({ userSession }) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [surveyUrl, setSurveyUrl] = useState(null);
     const styles = createStyles();
-    const userSession = getSession();
     const [isAdmin, setIsAdmin] = useState(false);
-    
-
-    if (!userSession) {
-        navigate('/login');
-    }
 
     let username, isRestaurantUser;
     if (userSession) {
@@ -46,9 +39,16 @@ const Home = () => {
     };
 
     useEffect(() => {
-        fetchSurveyUrl(setSurveyUrl);
-        setAdminStatus();
-    }, [navigate]);
+        if (!userSession) {
+            navigate('/login');
+            return;
+        }
+
+        void fetchSurveyUrl(setSurveyUrl);
+        void setAdminStatus();
+    }, [userSession]);
+
+    if (!userSession) return null;
 
     return (
         <ScrollView style={styles.background}>
@@ -59,16 +59,14 @@ const Home = () => {
                 </Text>
                 {isAdmin ? (
                     <ButtonVariant
-                        styles={styles}
                         onPress={() => navigate('/admin-panel')}
                         text={t('ADMIN_PANEL')}
                         id='admin-panel-button'
                     />
                         
                 ) : null}
-                <UserDashboard />
+                <UserDashboard userSession={userSession}/>
                 <Button
-                    styles={styles}
                     onPress={() => navigate('/history')}
                     text={t('MEAL_HISTORY')}
                     id='history-button'
@@ -78,7 +76,6 @@ const Home = () => {
                         textIdentifier={'SURVEY'}/>
                 )}
                 <Button
-                    styles={styles}
                     onPress={() => navigate('/settings')}
                     text={t('SETTINGS')}
                     id='settings-button'
@@ -89,13 +86,11 @@ const Home = () => {
                             {t('YOU_ARE_LOGGED_AS_RESTAURANT_USER')}.
                         </Text>
                         <ButtonVariant
-                            styles={styles}
                             onPress={() => navigate('/add-users')}
                             text={t('ADD_USER')}
                             id='add-users-button'
                         />
                         <ButtonVariant
-                            styles={styles}
                             onPress={
                                 () => navigate(
                                     `/restaurant/${userSession.restaurantId}`
@@ -104,7 +99,6 @@ const Home = () => {
                             id='restaurant-page-button'
                         />
                         <ButtonVariant
-                            styles={styles}
                             onPress={
                                 () => navigate(
                                     `/menu-qr/${userSession.restaurantId}`
@@ -112,8 +106,8 @@ const Home = () => {
                             text={t('EXPORT_MENU_QR')}
                             id='restaurant-menu-button'
                         />
-                        <RestaurantDashboard />
-                        <MealDeletion />
+                        <RestaurantDashboard userSession={userSession} />
+                        <MealDeletion userSession={userSession} />
                     </>
                 ) : null}
             </View>

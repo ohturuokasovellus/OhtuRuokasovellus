@@ -286,7 +286,6 @@ const RestaurantDashboard = () => {
             <BarChartCustom
                 data={chartData}
                 title={t('CO2_TOTAL')}
-                styles={styles}
                 showValuesOnTopOfBars={true}
             />
         </View>

@@ -142,7 +142,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     <Text style={styles.error}>{formError}</Text>
                 ) : null}
                 <CheckboxVariant
-                    styles={styles}
                     title={t('REGISTER_RESTAURANT')}
                     checked={formik.values.isRestaurant}
                     onPress={() => {
@@ -154,7 +153,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 />
                 {showRestaurantName && (
                     <Input
-                        styles={styles}
                         placeholder={t('RESTAURANT_NAME')}
                         value={formik.values.restaurantName}
                         onChangeText={formik.handleChange('restaurantName')}
@@ -169,7 +167,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     </Text>
                 )}
                 <Input
-                    styles={styles}
                     placeholder={t('USERNAME')}
                     value={formik.values.username}
                     onChangeText={formik.handleChange('username')}
@@ -182,7 +179,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     </Text>
                 )}
                 <Input
-                    styles={styles}
                     placeholder={t('EMAIL')}
                     value={formik.values.email}
                     onChangeText={formik.handleChange('email')}
@@ -193,7 +189,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     <Text style={styles.error}>{t(formik.errors.email)}</Text>
                 )}
                 <Input
-                    styles={styles}
                     placeholder={t('BIRTH_YEAR')}
                     value={formik.values.birthYear}
                     onChangeText={formik.handleChange('birthYear')}
@@ -206,7 +201,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     </Text>
                 )}
                 <Dropdown
-                    styles={styles}
                     search={false}
                     placeholder={t('GENDER')}
                     data={gender}
@@ -221,7 +215,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     </Text>
                 )}
                 <Dropdown
-                    styles={styles}
                     search={false}
                     placeholder={t('EDUCATION')}
                     data={education}
@@ -236,7 +229,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     </Text>
                 )}
                 <Dropdown
-                    styles={styles}
                     search={false}
                     placeholder={t('INCOME_MO')}
                     data={income}
@@ -251,7 +243,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     </Text>
                 )}
                 <PasswordInput
-                    styles={styles}
                     placeholder={t('PASSWORD')}
                     value={formik.values.password}
                     onChangeText={formik.handleChange('password')}
@@ -264,7 +255,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     </Text>
                 )}
                 <PasswordInput
-                    styles={styles}
                     placeholder={t('CONFIRM_PASSWORD')}
                     value={formik.values.confirmPassword}
                     onChangeText={formik.handleChange('confirmPassword')}
@@ -278,7 +268,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                 </Text>
                 }
                 <CheckboxVariant
-                    styles={styles}
                     title={renderCheckboxTitle(true)}
                     checked={formik.values.terms}
                     onPress={() => formik.setFieldValue(
@@ -292,7 +281,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     </Text>
                 )}
                 <CheckboxVariant
-                    styles={styles}
                     title={renderCheckboxTitle(false)}
                     checked={formik.values.privacy}
                     onPress={() => formik.setFieldValue(
@@ -306,7 +294,6 @@ const RegisterForm = ({ onSubmit, onSuccess, onError }) => {
                     </Text>
                 )}
                 <Button
-                    styles={styles}
                     onPress={formik.handleSubmit}
                     text={t('REGISTER')}
                     id='register-button'

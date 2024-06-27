@@ -14,7 +14,7 @@ import { useNavigate } from '../Router';
  * @param {{ mealId: number, name: string, date: Date }} props.meal
  * @returns 
  */
-const HistoryItem = ({ meal, images, styles }) => {
+const HistoryItem = ({ meal, images }) => {
     const { i18n } = useTranslation();
 
     const isFinnish = i18n.language === 'fin';
@@ -32,8 +32,10 @@ const HistoryItem = ({ meal, images, styles }) => {
     );
 
     return (
-        <Card styles={styles} imgURI={images[meal.mealId]}
-            title={meal.mealName} body={dateString}
+        <Card
+            imgURI={images[meal.mealId]}
+            title={meal.mealName}
+            body={dateString}
         />
     );
 };
@@ -100,7 +102,8 @@ const PurchaseHistory = () => {
                     keyExtractor={item => item.date.toString()}
                     renderItem={({ item }) =>
                         <HistoryItem
-                            meal={item} styles={styles} images={images}
+                            meal={item}
+                            images={images}
                         />
                     }
                 />
