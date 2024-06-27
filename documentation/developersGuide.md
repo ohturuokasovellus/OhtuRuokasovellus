@@ -119,7 +119,7 @@ Application has a few layers of security:
 * *Database encryption*: sensitive data is encrypted in database. [See instructions](databaseEncryption.md)
 * *User session*: session is created after logging in
 * *Token authentication*: JWT token is passed to authenticate user actions
-* Authorization happens in backend where token is broken down and verified
+  * Authorization happens in backend where token is broken down and verified
 * *Admin*: admin-status is granted by making SQL query directly into the database. [See instructions](admin.md)
 
 ## CI/CD pipeline
