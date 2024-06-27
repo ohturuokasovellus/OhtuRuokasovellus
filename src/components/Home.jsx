@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from '../Router';
 import { Text, View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import ExternalLink, { fetchSurveyUrl } from './Survey';
+import { SurveyLink, fetchSurveyUrl } from './Survey';
 import axios from 'axios';
 import apiUrl from '../utils/apiUrl';
 import createStyles from '../styles/styles';
@@ -72,7 +72,8 @@ const Home = ({ userSession }) => {
                     id='history-button'
                 />
                 {surveyUrl && (
-                    <ExternalLink surveyUrl={surveyUrl} 
+                    <SurveyLink
+                        surveyUrl={surveyUrl}
                         textIdentifier={'SURVEY'}/>
                 )}
                 <Button
